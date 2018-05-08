@@ -1,0 +1,30 @@
+PARSING_SCHEME = {
+    'name': 'a',
+    'average_age': 'td[data-stat="average_age"]:first',
+    'games_played': 'td[data-stat="games"]:first',
+    'wins': 'td[data-stat="wins"]:first',
+    'losses': 'td[data-stat="losses"]:first',
+    'overtime_losses': 'td[data-stat="losses_ot"]:first',
+    'points': 'td[data-stat="points"]:first',
+    'points_percentage': 'td[data-stat="points_pct"]:first',
+    'goals_for': 'td[data-stat="goals"]:first',
+    'goals_against': 'td[data-stat="opp_goals"]:first',
+    'simple_rating_system': 'td[data-stat="srs"]:first',
+    'strength_of_schedule': 'td[data-stat="sos"]:first',
+    'total_goals_per_game': 'td[data-stat="total_goals_per_game"]:first',
+    'power_play_goals': 'td[data-stat="goals_pp"]:first',
+    'power_play_opportunities': 'td[data-stat="chances_pp"]:first',
+    'power_play_percentage': 'td[data-stat="power_play_pct"]:first',
+    'power_play_goals_against': 'td[data-stat="opp_goals_pp"]:first',
+    'power_play_opportunities_against': 'td[data-stat="opp_chances_pp"]:first',
+    'penalty_killing_percentage': 'td[data-stat="pen_kill_pct"]:first',
+    'short_handed_goals': 'td[data-stat="goals_sh"]:first',
+    'short_handed_goals_against': 'td[data-stat="opp_goals_sh"]:first',
+    'shots_on_goal': 'td[data-stat="shots"]:first',
+    'shooting_percentage': 'td[data-stat="shot_pct"]:first',
+    'shots_against': 'td[data-stat="shots_against"]:first',
+    'save_percentage': 'td[data-stat="save_pct"]:first',
+    'pdo_at_even_strength': 'td[data-stat="pdo"]:first'
+}
+
+SEASON_PAGE_URL = 'http://www.hockey-reference.com/leagues/NHL_%s.html'
