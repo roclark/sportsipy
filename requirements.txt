@@ -1,0 +1,4 @@
+ndg-httpsclient>=0.3.2
+pyasn1>=0.1.6
+pyopenssl>=0.13
+pyquery
