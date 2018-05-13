@@ -1,4 +1,7 @@
+flexmock>=0.10.2
+mocker>=1.1.1
 ndg-httpsclient>=0.3.2
 pyasn1>=0.1.6
 pyopenssl>=0.13
-pyquery
+pyquery>=1.4.0
+pytest-cov>=2.5.1
