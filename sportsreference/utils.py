@@ -1,5 +1,6 @@
 import re
 from datetime import datetime
+from pyquery import PyQuery as pq
 
 
 SEASON_START_MONTH = {
