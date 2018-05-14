@@ -15,11 +15,8 @@ class Team:
         self._conferene_wins = None
         self._conference_losses = None
         self._conference_win_percentage = None
-        self._games_played = None
         self._points_for_per_game = None
         self._points_against_per_game = None
-        self._points_difference = None
-        self._margin_of_victory = None
         self._strength_of_schedule = None
         self._simple_rating_system = None
         self._pass_completions = None
@@ -45,10 +42,6 @@ class Team:
         self._yards_from_penalties = None
 
         self._parse_team_data(team_data)
-
-    def _parse_abbreviation(self, abbr):
-        abbr = re.sub(r'/[0-9]+.html', '', abbr)
-        return abbr.replace('/teams/', '')
 
     def _parse_team_data(self, team_data):
         for field in self.__dict__:
@@ -98,24 +91,12 @@ class Team:
         return float(self._conference_win_percentage)
 
     @property
-    def games_played(self):
-        return int(self._games_played)
-
-    @property
     def points_for(self):
         return float(self._points_for)
 
     @property
     def points_against(self):
         return float(self._points_against)
-
-    @property
-    def points_difference(self):
-        return float(self._points_difference)
-
-    @property
-    def margin_of_victory(self):
-        return float(self._margin_of_victory)
 
     @property
     def strength_of_schedule(self):

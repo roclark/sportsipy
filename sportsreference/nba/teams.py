@@ -58,10 +58,6 @@ class Team:
 
         self._parse_team_data(team_data)
 
-    def _parse_abbreviation(self, abbr):
-        abbr = re.sub(r'/[0-9]+.html', '', abbr)
-        return abbr.replace('/teams/', '')
-
     def _parse_team_data(self, team_data):
         for field in self.__dict__:
             # The rank attribute is passed directly to the class during
