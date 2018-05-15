@@ -1,7 +1,7 @@
 PARSING_SCHEME = {
     'name': 'a',
     'conference': 'td[data-stat="conf_abbr"] a',
-    'games_played': 'td[data-stat="g"]:first',
+    'games': 'td[data-stat="g"]:first',
     'wins': 'td[data-stat="wins"]:first',
     'losses': 'td[data-stat="losses"]:first',
     'win_percentage': 'td[data-stat="win_loss_pct"]:first',
@@ -34,7 +34,7 @@ PARSING_SCHEME = {
     'rush_first_downs': 'td[data-stat="first_down_rush"]:first',
     'first_downs_from_penalties': 'td[data-stat="first_down_penalty"]:first',
     'first_downs': 'td[data-stat="first_down"]:first',
-    'penalties': 'td[data-stat="penalties"]:first',
+    'penalties': 'td[data-stat="penalty"]:first',
     'yards_from_penalties': 'td[data-stat="penalty_yds"]:first'
 }
 

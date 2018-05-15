@@ -12,10 +12,11 @@ class Team:
         self._games = None
         self._wins = None
         self._losses = None
-        self._conferene_wins = None
+        self._win_percentage = None
+        self._conference_wins = None
         self._conference_losses = None
         self._conference_win_percentage = None
-        self._points_for_per_game = None
+        self._points_per_game = None
         self._points_against_per_game = None
         self._strength_of_schedule = None
         self._simple_rating_system = None
@@ -49,10 +50,6 @@ class Team:
                                       team_data,
                                       str(field)[1:])
             setattr(self, field, value)
-
-    @property
-    def rank(self):
-        return int(self._rank)
 
     @property
     def abbreviation(self):
@@ -91,12 +88,12 @@ class Team:
         return float(self._conference_win_percentage)
 
     @property
-    def points_for(self):
-        return float(self._points_for)
+    def points_per_game(self):
+        return float(self._points_per_game)
 
     @property
-    def points_against(self):
-        return float(self._points_against)
+    def points_against_per_game(self):
+        return float(self._points_against_per_game)
 
     @property
     def strength_of_schedule(self):
