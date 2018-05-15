@@ -203,6 +203,9 @@ class Teams:
                 return team
         raise ValueError('Team abbreviation %s not found' % abbreviation)
 
+    def __call__(self, abbreviation):
+        return self.__getitem__(abbreviation)
+
     def __repr__(self):
         return self._teams
 
