@@ -45,6 +45,10 @@ def parse_field(parsing_scheme, html_data, field, index=0):
         return _parse_abbreviation(html_data)
     scheme = parsing_scheme[field]
     items = [i.text() for i in html_data(scheme).items()]
+    # Stats can be added and removed on a yearly basis. If not stats are found,
+    # return None and have the be the value.
+    if len(items) == 0:
+        return None
     # Default to returning the first element. Optionally return another element
     # if multiple fields have the same tag attribute.
     return items[index]
