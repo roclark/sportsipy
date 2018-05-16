@@ -543,8 +543,23 @@ class Teams:
     def __len__(self):
         return len(self.__repr__())
 
+    def _add_stats_data(self, teams_list, team_data_dict):
+        # Teams are listed in terms of rank with the first team being #1
+        rank = 1
+        for team_data in teams_list:
+            # Skip the league average row
+            if 'class="league_average_table"' in str(team_data):
+                continue
+            abbr = utils.parse_field(PARSING_SCHEME, team_data, 'abbreviation')
+            try:
+                team_data_dict[abbr]['data'] += team_data
+            except KeyError:
+                team_data_dict[abbr] = {'data': team_data, 'rank': rank}
+            rank += 1
+        return team_data_dict
+
     def _retrieve_all_teams(self, year):
-        team_stats_dict = {}
+        team_data_dict = {}
 
         if not year:
             year = utils.find_year_for_season('mlb')
@@ -553,29 +568,9 @@ class Teams:
         doc = pq(TEAM_STATS_URL % year)
         batting_stats = utils.get_stats_table(doc, 'div#all_teams_standard_batting')
         pitching_stats = utils.get_stats_table(doc, 'div#all_teams_standard_pitching')
-        # Teams are listed in terms of rank with the first team being #1
-        rank = 1
-        for team_data in standings:
-            # Skip the leauge average row
-            if 'class="league_average_table"' in str(team_data):
-                continue
-            abbr = utils.parse_field(PARSING_SCHEME, team_data, 'abbreviation')
-            team_stats_dict[abbr] = {'data': team_data,
-                                     'rank': rank}
-            rank += 1
+        for stats_list in [standings, batting_stats, pitching_stats]:
+            team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 
-        for team_data in batting_stats:
-            # Skip the league average row
-            if 'class="league_average_table"' in str(team_data):
-                continue
-            abbr = utils.parse_field(PARSING_SCHEME, team_data, 'abbreviation')
-            team_stats_dict[abbr]['data'] += team_data
-
-        for team_data in pitching_stats:
-            # Skip the league average row
-            if 'class="league_average_table"' in str(team_data):
-                continue
-            abbr = utils.parse_field(PARSING_SCHEME, team_data, 'abbreviation')
-            data = team_stats_dict[abbr]['data'] + team_data
-            team = Team(data, team_stats_dict[abbr]['rank'])
+        for team_data in team_data_dict.values():
+            team = Team(team_data['data'], team_data['rank'])
             self._teams.append(team)
