@@ -37,6 +37,7 @@ PARSING_SCHEME = {
     'runs_batted_in': 'td[data-stat="RBI"]:first',
     'stolen_bases': 'td[data-stat="SB"]:first',
     'times_caught_stealing': 'td[data-stat="CS"]:first',
+    'bases_on_balls': 'td[data-stat="BB"]:first',
     'times_struck_out': 'td[data-stat="SO"]:first',
     'batting_average': 'td[data-stat="batting_avg"]:first',
     'on_base_percentage': 'td[data-stat="onbase_perc"]:first',

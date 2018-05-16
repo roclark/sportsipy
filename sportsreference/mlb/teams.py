@@ -47,6 +47,7 @@ class Team:
         self._runs_batted_in = None
         self._stolen_bases = None
         self._times_caught_stealing = None
+        self._bases_on_balls = None
         self._times_struck_out = None
         self._batting_average = None
         self._on_base_percentage = None
@@ -188,7 +189,7 @@ class Team:
 
     @property
     def home_losses(self):
-        return int(self._home_losses.split('-')[1])
+        return int(self._home_record.split('-')[1])
 
     @property
     def away_record(self):
@@ -196,11 +197,11 @@ class Team:
 
     @property
     def away_wins(self):
-        return int(self._away_wins.split('-')[0])
+        return int(self._away_record.split('-')[0])
 
     @property
     def away_losses(self):
-        return int(self._away_losses.split('-')[1])
+        return int(self._away_record.split('-')[1])
 
     @property
     def extra_inning_record(self):
@@ -208,11 +209,11 @@ class Team:
 
     @property
     def extra_inning_wins(self):
-        return int(self._extra_inning_wins.split('-')[0])
+        return int(self._extra_inning_record.split('-')[0])
 
     @property
     def extra_inning_losses(self):
-        return int(self._extra_inning_losses.split('-')[1])
+        return int(self._extra_inning_record.split('-')[1])
 
     @property
     def single_run_record(self):
@@ -220,11 +221,11 @@ class Team:
 
     @property
     def single_run_wins(self):
-        return int(self._single_run_wins.split('-')[0])
+        return int(self._single_run_record.split('-')[0])
 
     @property
     def single_run_losses(self):
-        return int(self._single_run_losses.split('-')[1])
+        return int(self._single_run_record.split('-')[1])
 
     @property
     def record_vs_right_handed_pitchers(self):
@@ -232,11 +233,11 @@ class Team:
 
     @property
     def wins_vs_right_handed_pitchers(self):
-        return int(self._wins_vs_right_handed_pitchers.split('-')[0])
+        return int(self._record_vs_right_handed_pitchers.split('-')[0])
 
     @property
     def losses_vs_right_handed_pitchers(self):
-        return int(self._losses_vs_right_handed_pitchers.split('-')[1])
+        return int(self._record_vs_right_handed_pitchers.split('-')[1])
 
     @property
     def record_vs_left_handed_pitchers(self):
@@ -244,11 +245,11 @@ class Team:
 
     @property
     def wins_vs_left_handed_pitchers(self):
-        return int(self._wins_vs_left_handed_pitchers.split('-')[0])
+        return int(self._record_vs_left_handed_pitchers.split('-')[0])
 
     @property
     def losses_vs_left_handed_pitchers(self):
-        return int(self._losses_vs_left_handed_pitchers.split('-')[1])
+        return int(self._record_vs_left_handed_pitchers.split('-')[1])
 
     @property
     def record_vs_teams_over_500(self):
@@ -256,11 +257,11 @@ class Team:
 
     @property
     def wins_vs_teams_over_500(self):
-        return int(self._wins_vs_teams_over_500.split('-')[0])
+        return int(self._record_vs_teams_over_500.split('-')[0])
 
     @property
     def losses_vs_teams_over_500(self):
-        return int(self._losses_vs_teams_over_500.split('-')[1])
+        return int(self._record_vs_teams_over_500.split('-')[1])
 
     @property
     def record_vs_teams_under_500(self):
@@ -268,11 +269,11 @@ class Team:
 
     @property
     def wins_vs_teams_under_500(self):
-        return int(self._wins_vs_teams_under_500.split('-')[0])
+        return int(self._record_vs_teams_under_500.split('-')[0])
 
     @property
     def losses_vs_teams_under_500(self):
-        return int(self._losses_vs_teams_under_500.split('-')[1])
+        return int(self._record_vs_teams_under_500.split('-')[1])
 
     @property
     def last_ten_games_record(self):
@@ -280,11 +281,17 @@ class Team:
 
     @property
     def wins_last_ten_games(self):
-        return int(self._wins_last_ten_games.split('-')[0])
+        try:
+            return int(self._last_ten_games_record.split('-')[0])
+        except AttributeError:
+            return None
 
     @property
     def losses_last_ten_games(self):
-        return int(self._losses_last_ten_games.split('-')[1])
+        try:
+            return int(self._last_ten_games_record.split('-')[1])
+        except AttributeError:
+            return None
 
     @property
     def last_twenty_games_record(self):
@@ -292,11 +299,17 @@ class Team:
 
     @property
     def wins_last_twenty_games(self):
-        return int(self._wins_last_twenty_games.split('-')[0])
+        try:
+            return int(self._last_twenty_games_record.split('-')[0])
+        except AttributeError:
+            return None
 
     @property
     def losses_last_twenty_games(self):
-        return int(self._losses_last_twenty_games.split('-')[1])
+        try:
+            return int(self._last_twenty_games_record.split('-')[1])
+        except AttributeError:
+            return None
 
     @property
     def last_thirty_games_record(self):
@@ -304,11 +317,17 @@ class Team:
 
     @property
     def wins_last_thirty_games(self):
-        return int(self._wins_last_thirty_games.split('-')[0])
+        try:
+            return int(self._last_thirty_games_record.split('-')[0])
+        except AttributeError:
+            return None
 
     @property
     def losses_last_thirty_games(self):
-        return int(self._losses_last_thirty_games.split('-')[1])
+        try:
+            return int(self._last_thirty_games_record.split('-')[1])
+        except AttributeError:
+            return None
 
     @property
     def number_players_used(self):
@@ -357,6 +376,10 @@ class Team:
     @property
     def times_caught_stealing(self):
         return int(self._times_caught_stealing)
+
+    @property
+    def bases_on_balls(self):
+        return int(self._bases_on_balls)
 
     @property
     def times_struck_out(self):
