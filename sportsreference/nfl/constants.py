@@ -29,6 +29,7 @@ PARSING_SCHEME = {
     'rush_yards': 'td[data-stat="rush_yds"]:first',
     'rush_touchdowns': 'td[data-stat="rush_td"]:first',
     'rush_yards_per_attempt': 'td[data-stat="rush_yds_per_att"]:first',
+    'rush_first_downs': 'td[data-stat="rush_fd"]:first',
     'penalties': 'td[data-stat="penalties"]:first',
     'yards_from_penalties': 'td[data-stat="penalties_yds"]:first',
     'first_downs_from_penalties': 'td[data-stat="pen_fd"]:first',

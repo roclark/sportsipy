@@ -39,6 +39,7 @@ class Team:
         self._rush_yards = None
         self._rush_touchdowns = None
         self._rush_yards_per_attempt = None
+        self._rush_first_downs = None
         self._penalties = None
         self._yards_from_penalties = None
         self._first_downs_from_penalties = None
@@ -112,12 +113,12 @@ class Team:
         return float(self._simple_rating_system)
 
     @property
-    def offensive_rating_system(self):
-        return float(self._offensive_rating_system)
+    def offensive_simple_rating_system(self):
+        return float(self._offensive_simple_rating_system)
 
     @property
-    def defensive_rating_system(self):
-        return float(self._defensive_rating_system)
+    def defensive_simple_rating_system(self):
+        return float(self._defensive_simple_rating_system)
 
     @property
     def yards(self):
@@ -186,6 +187,10 @@ class Team:
     @property
     def rush_yards_per_attempt(self):
         return float(self._rush_yards_per_attempt)
+
+    @property
+    def rush_first_downs(self):
+        return int(self._rush_first_downs)
 
     @property
     def penalties(self):
