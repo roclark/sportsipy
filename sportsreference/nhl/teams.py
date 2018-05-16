@@ -183,6 +183,9 @@ class Teams:
     def __iter__(self):
         return iter(self.__repr__())
 
+    def __len__(self):
+        return len(self.__repr__())
+
     def _retrieve_all_teams(self, year):
         if not year:
             year = utils.find_year_for_season('nhl')

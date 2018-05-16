@@ -283,6 +283,9 @@ class Teams:
     def __iter__(self):
         return iter(self.__repr__())
 
+    def __len__(self):
+        return len(self.__repr__())
+
     def _retrieve_all_teams(self, year):
         team_data_dict = {}
 

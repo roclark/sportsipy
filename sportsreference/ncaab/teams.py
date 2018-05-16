@@ -418,6 +418,9 @@ class Teams:
     def __iter__(self):
         return iter(self.__repr__())
 
+    def __len__(self):
+        return len(self.__repr__())
+
     def _add_stats_data(self, teams_list, team_data_dict):
         for team_data in teams_list:
             if 'class="over_header thead"' in str(team_data) or\
