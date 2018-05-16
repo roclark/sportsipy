@@ -40,13 +40,14 @@ def _parse_abbreviation(uri_link):
     return abbr.upper()
 
 
-def parse_field(parsing_scheme, html_data, field):
+def parse_field(parsing_scheme, html_data, field, index=0):
     if field == 'abbreviation':
         return _parse_abbreviation(html_data)
     scheme = parsing_scheme[field]
     items = [i.text() for i in html_data(scheme).items()]
-    # Return the first item. All others are duplicates.
-    return items[0]
+    # Default to returning the first element. Optionally return another element
+    # if multiple fields have the same tag attribute.
+    return items[index]
 
 
 # Some pages embed the HTML contents in comments. Since the HTML contents are
