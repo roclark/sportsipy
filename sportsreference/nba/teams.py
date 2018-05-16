@@ -33,7 +33,6 @@ class Team:
         self._turnovers = None
         self._personal_fouls = None
         self._points = None
-        self._opp_minutes_played = None
         self._opp_field_goals = None
         self._opp_field_goal_attempts = None
         self._opp_field_goal_percentage = None
@@ -172,10 +171,6 @@ class Team:
     @property
     def points(self):
         return int(self._points)
-
-    @property
-    def opp_minutes_played(self):
-        return int(self._opp_minutes_played)
 
     @property
     def opp_field_goals(self):

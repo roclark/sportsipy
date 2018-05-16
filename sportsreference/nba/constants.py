@@ -1,5 +1,6 @@
 PARSING_SCHEME = {
     'name': 'a',
+    'games_played': 'td[data-stat="g"]:first',
     'minutes_played': 'td[data-stat="mp"]:first',
     'field_goals': 'td[data-stat="fg"]:first',
     'field_goal_attempts': 'td[data-stat="fga"]:first',
@@ -22,7 +23,7 @@ PARSING_SCHEME = {
     'turnovers': 'td[data-stat="tov"]:first',
     'personal_fouls': 'td[data-stat="pf"]:first',
     'points': 'td[data-stat="pts"]:first',
-    'opp_minutes_played': 'td[data-stat="opp_mp"]:first',
+    'opp_minutes_played': 'td[data-stat="mp"]:first',
     'opp_field_goals': 'td[data-stat="opp_fg"]:first',
     'opp_field_goal_attempts': 'td[data-stat="opp_fga"]:first',
     'opp_field_goal_percentage': 'td[data-stat="opp_fg_pct"]:first',
