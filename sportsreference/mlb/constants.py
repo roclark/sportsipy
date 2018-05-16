@@ -80,5 +80,14 @@ PARSING_SCHEME = {
     'opposing_runners_left_on_base': 'td[data-stat="LOB"]:first'
 }
 
+ELEMENT_INDEX = {
+    'total_runs': 1,
+    'bases_on_walks_given': 1,
+    'hits_allowed': 1,
+    'strikeouts': 1,
+    'home_runs_against': 1,
+    'opposing_runners_left_on_base': 1
+}
+
 STANDINGS_URL = 'https://www.baseball-reference.com/leagues/MLB/%s-standings.shtml'
 TEAM_STATS_URL = 'https://www.baseball-reference.com/leagues/MLB/%s.shtml'

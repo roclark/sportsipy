@@ -1,6 +1,9 @@
 import re
 import urllib2
-from constants import PARSING_SCHEME, STANDINGS_URL, TEAM_STATS_URL
+from constants import (ELEMENT_INDEX,
+                       PARSING_SCHEME,
+                       STANDINGS_URL,
+                       TEAM_STATS_URL)
 from pyquery import PyQuery as pq
 from .. import utils
 
@@ -99,6 +102,8 @@ class Team:
 
     def _parse_team_data(self, team_data):
         for field in self.__dict__:
+            # The short field truncates the leading '_' in the attribute name.
+            short_field = str(field)[1:]
             # The rank attribute is passed directly to the class during
             # instantiation.
             if field == '_rank':
@@ -106,9 +111,17 @@ class Team:
             elif field == '_name':
                 self._parse_name(team_data)
                 continue
+            # Default to returning the first element returned unless a
+            # subsequent element is desired. For example, total runs and
+            # runs per game are two different fields, but they both share
+            # the same attribute of 'R' in the HTML tables.
+            index = 0
+            if short_field in ELEMENT_INDEX.keys():
+                index = ELEMENT_INDEX[short_field]
             value = utils.parse_field(PARSING_SCHEME,
                                       team_data,
-                                      str(field)[1:])
+                                      short_field,
+                                      index)
             setattr(self, field, value)
 
     @property
