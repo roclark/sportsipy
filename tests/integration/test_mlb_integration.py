@@ -1,7 +1,6 @@
+import mock
 import os
 from flexmock import flexmock
-from mocker import Mocker, MockerTestCase
-from pyquery import PyQuery
 from sportsreference import utils
 from sportsreference.mlb.constants import STANDINGS_URL, TEAM_STATS_URL
 from sportsreference.mlb.teams import Teams
@@ -16,17 +15,28 @@ def read_file(filename):
     return open('%s' % filepath, 'r').read()
 
 
-class MockPQ:
-    def __init__(self, html_contents):
-        self.html_contents = html_contents
+def mock_pyquery(url):
+    class MockPQ:
+        def __init__(self, html_contents):
+            self.status_code = 200
+            self.html_contents = html_contents
+            self.text = html_contents
 
-    def __call__(self, div):
-        if div == 'div#all_teams_standard_batting':
-            return read_file('%s_batting.html' % YEAR)
-        elif div == 'div#all_teams_standard_pitching':
-            return read_file('%s_pitching.html' % YEAR)
-        else:
-            return read_file('%s_overall.html' % YEAR)
+        def __call__(self, div):
+            if div == 'div#all_teams_standard_batting':
+                return read_file('%s_batting.html' % YEAR)
+            elif div == 'div#all_teams_standard_pitching':
+                return read_file('%s_pitching.html' % YEAR)
+            else:
+                return read_file('%s_overall.html' % YEAR)
+
+    html_contents = read_file('%s-standings.html' % YEAR)
+    team_stats = read_file('%s.html' % YEAR)
+
+    if url == STANDINGS_URL % YEAR:
+        return MockPQ(html_contents)
+    elif url == TEAM_STATS_URL % YEAR:
+        return MockPQ(team_stats)
 
 
 class MockDateTime:
@@ -35,8 +45,9 @@ class MockDateTime:
         self.month = month
 
 
-class TestMLBIntegration(MockerTestCase):
-    def setUp(self):
+class TestMLBIntegration:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def setup_method(self, *args, **kwargs):
         self.results = {
             'rank': 3,
             'abbreviation': 'HOU',
@@ -148,19 +159,10 @@ class TestMLBIntegration(MockerTestCase):
             'OAK', 'MIN', 'DET', 'TBR', 'LAD', 'TEX', 'SDP', 'MIA', 'CIN',
             'KCR', 'BAL', 'CHW'
         ]
-        html_contents = read_file('%s-standings.html' % YEAR)
-        team_stats = read_file('%s.html' % YEAR)
 
         flexmock(utils) \
             .should_receive('_todays_date') \
             .and_return(MockDateTime(YEAR, MONTH))
-
-        mock_pyquery = self.mocker.replace(PyQuery)
-        mock_pyquery(STANDINGS_URL % YEAR)
-        self.mocker.result(MockPQ(html_contents))
-        mock_pyquery(TEAM_STATS_URL % YEAR)
-        self.mocker.result(MockPQ(team_stats))
-        self.mocker.replay()
 
         self.teams = Teams()
 

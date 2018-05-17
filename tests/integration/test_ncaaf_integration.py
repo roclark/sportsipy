@@ -1,7 +1,6 @@
+import mock
 import os
 from flexmock import flexmock
-from mocker import Mocker, MockerTestCase
-from pyquery import PyQuery
 from sportsreference import utils
 from sportsreference.ncaaf.constants import (OFFENSIVE_STATS_URL,
                                              SEASON_PAGE_URL)
@@ -17,15 +16,25 @@ def read_file(filename):
     return open('%s' % filepath, 'r').read()
 
 
-class MockPQ:
-    def __init__(self, html_contents):
-        self.html_contents = html_contents
+def mock_pyquery(url):
+    class MockPQ:
+        def __init__(self, html_contents):
+            self.status_code = 200
+            self.html_contents = html_contents
+            self.text = html_contents
 
-    def __call__(self, div):
-        if div == 'table#offense':
-            return read_file('%s-team-offense_offense.html' % YEAR)
-        else:
-            return read_file('%s-standings_standings.html' % YEAR)
+        def __call__(self, div):
+            if div == 'table#offense':
+                return read_file('%s-team-offense_offense.html' % YEAR)
+            else:
+                return read_file('%s-standings_standings.html' % YEAR)
+
+    offensive_contents = read_file('%s-team-offense.html' % YEAR)
+    standings_contents = read_file('%s-standings.html' % YEAR)
+    if url == OFFENSIVE_STATS_URL % YEAR:
+        return MockPQ(offensive_contents)
+    elif url == SEASON_PAGE_URL % YEAR:
+        return MockPQ(standings_contents)
 
 
 class MockDateTime:
@@ -34,8 +43,9 @@ class MockDateTime:
         self.month = month
 
 
-class TestNCAAFIntegration(MockerTestCase):
-    def setUp(self):
+class TestNCAAFIntegration:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def setup_method(self, *args, **kwargs):
         self.results = {
             'abbreviation': 'PURDUE',
             'name': 'Purdue',
@@ -108,19 +118,9 @@ class TestNCAAFIntegration(MockerTestCase):
             'Rice', 'San Jose State', 'Illinois', 'Charlotte',
             'Kent State', 'UTEP'
         ]
-        offensive_contents = read_file('%s-team-offense.html' % YEAR)
-        standings_contents = read_file('%s-standings.html' % YEAR)
-
         flexmock(utils) \
             .should_receive('_todays_date') \
             .and_return(MockDateTime(YEAR, MONTH))
-
-        mock_pyquery = self.mocker.replace(PyQuery)
-        mock_pyquery(OFFENSIVE_STATS_URL % YEAR)
-        self.mocker.result(MockPQ(offensive_contents))
-        mock_pyquery(SEASON_PAGE_URL % YEAR)
-        self.mocker.result(MockPQ(standings_contents))
-        self.mocker.replay()
 
         self.teams = Teams()
 

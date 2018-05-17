@@ -1,7 +1,6 @@
+import mock
 import os
 from flexmock import flexmock
-from mocker import Mocker, MockerTestCase
-from pyquery import PyQuery
 from sportsreference import utils
 from sportsreference.nba.constants import SEASON_PAGE_URL
 from sportsreference.nba.teams import Teams
@@ -16,15 +15,21 @@ def read_file(filename):
     return open('%s' % filepath, 'r').read()
 
 
-class MockPQ:
-    def __init__(self, html_contents):
-        self.html_contents = html_contents
+def mock_pyquery(url):
+    class MockPQ:
+        def __init__(self, html_contents):
+            self.status_code = 200
+            self.html_contents = html_contents
+            self.text = html_contents
 
-    def __call__(self, div):
-        if div == 'div#all_team-stats-base':
-            return read_file('%s_team.html' % YEAR)
-        else:
-            return read_file('%s_opponent.html' % YEAR)
+        def __call__(self, div):
+            if div == 'div#all_team-stats-base':
+                return read_file('%s_team.html' % YEAR)
+            else:
+                return read_file('%s_opponent.html' % YEAR)
+
+    html_contents = read_file('NBA_%s.html' % YEAR)
+    return MockPQ(html_contents)
 
 
 class MockDateTime:
@@ -33,8 +38,9 @@ class MockDateTime:
         self.month = month
 
 
-class TestNBAIntegration(MockerTestCase):
-    def setUp(self):
+class TestNBAIntegration:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def setup_method(self, *args, **kwargs):
         self.results = {
             'rank': 26,
             'abbreviation': 'DET',
@@ -90,16 +96,9 @@ class TestNBAIntegration(MockerTestCase):
             'LAC', 'UTA', 'OKC', 'MEM', 'POR', 'DEN', 'NOP', 'DAL', 'SAC',
             'MIN', 'LAL', 'PHO'
         ]
-        html_contents = read_file('NBA_%s.html' % YEAR)
-
         flexmock(utils) \
             .should_receive('_todays_date') \
             .and_return(MockDateTime(YEAR, MONTH))
-
-        mock_pyquery = self.mocker.replace(PyQuery)
-        mock_pyquery(SEASON_PAGE_URL % YEAR)
-        self.mocker.result(MockPQ(html_contents))
-        self.mocker.replay()
 
         self.teams = Teams()
 

@@ -1,9 +1,8 @@
 import re
-import urllib2
-from constants import (ELEMENT_INDEX,
-                       PARSING_SCHEME,
-                       STANDINGS_URL,
-                       TEAM_STATS_URL)
+from .constants import (ELEMENT_INDEX,
+                        PARSING_SCHEME,
+                        STANDINGS_URL,
+                        TEAM_STATS_URL)
 from pyquery import PyQuery as pq
 from .. import utils
 

@@ -1,7 +1,6 @@
+import mock
 import os
 from flexmock import flexmock
-from mocker import Mocker, MockerTestCase
-from pyquery import PyQuery
 from sportsreference import utils
 from sportsreference.nfl.constants import SEASON_PAGE_URL
 from sportsreference.nfl.teams import Teams
@@ -16,17 +15,23 @@ def read_file(filename):
     return open('%s' % filepath, 'r').read()
 
 
-class MockPQ:
-    def __init__(self, html_contents):
-        self.html_contents = html_contents
+def mock_pyquery(url):
+    class MockPQ:
+        def __init__(self, html_contents):
+            self.status_code = 200
+            self.html_contents = html_contents
+            self.text = html_contents
 
-    def __call__(self, div):
-        if div == 'div#all_team_stats':
-            return read_file('%s_all_team_stats.html' % YEAR)
-        elif div == 'table#AFC':
-            return read_file('%s_afc.html' % YEAR)
-        else:
-            return read_file('%s_nfc.html' % YEAR)
+        def __call__(self, div):
+            if div == 'div#all_team_stats':
+                return read_file('%s_all_team_stats.html' % YEAR)
+            elif div == 'table#AFC':
+                return read_file('%s_afc.html' % YEAR)
+            else:
+                return read_file('%s_nfc.html' % YEAR)
+
+    html_contents = read_file('%s.html' % YEAR)
+    return MockPQ(html_contents)
 
 
 class MockDateTime:
@@ -35,8 +40,9 @@ class MockDateTime:
         self.month = month
 
 
-class TestNFLIntegration(MockerTestCase):
-    def setUp(self):
+class TestNFLIntegration:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def setup_method(self, *args, **kwargs):
         self.results = {
             'rank': 6,
             'abbreviation': 'KAN',
@@ -84,16 +90,9 @@ class TestNFLIntegration(MockerTestCase):
             'OTI', 'SFO', 'GNB', 'BUF', 'RAI', 'NYJ', 'CRD', 'CIN', 'DEN',
             'MIA', 'CHI', 'CLT', 'NYG', 'CLE'
         ]
-        html_contents = read_file('%s.html' % YEAR)
-
         flexmock(utils) \
             .should_receive('_todays_date') \
             .and_return(MockDateTime(YEAR, MONTH))
-
-        mock_pyquery = self.mocker.replace(PyQuery)
-        mock_pyquery(SEASON_PAGE_URL % YEAR)
-        self.mocker.result(MockPQ(html_contents))
-        self.mocker.replay()
 
         self.teams = Teams()
 

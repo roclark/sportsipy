@@ -1,6 +1,5 @@
 import re
-import urllib2
-from constants import PARSING_SCHEME, SEASON_PAGE_URL
+from .constants import PARSING_SCHEME, SEASON_PAGE_URL
 from pyquery import PyQuery as pq
 from .. import utils
 

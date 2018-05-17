@@ -1,7 +1,6 @@
+import mock
 import os
 from flexmock import flexmock
-from mocker import Mocker, MockerTestCase
-from pyquery import PyQuery
 from sportsreference import utils
 from sportsreference.ncaab.constants import (ADVANCED_OPPONENT_STATS_URL,
                                              ADVANCED_STATS_URL,
@@ -19,19 +18,35 @@ def read_file(filename):
     return open('%s' % filepath, 'r').read()
 
 
-class MockPQ:
-    def __init__(self, html_contents):
-        self.html_contents = html_contents
+def mock_pyquery(url):
+    class MockPQ:
+        def __init__(self, html_contents):
+            self.status_code = 200
+            self.html_contents = html_contents
+            self.text = html_contents
 
-    def __call__(self, div):
-        if div == 'table#basic_school_stats':
-            return read_file('%s-school-stats-table.html' % YEAR)
-        elif div == 'table#basic_opp_stats':
-            return read_file('%s-opponent-stats-table.html' % YEAR)
-        elif div == 'table#adv_school_stats':
-            return read_file('%s-advanced-school-stats-table.html' % YEAR)
-        else:
-            return read_file('%s-advanced-opponent-stats-table.html' % YEAR)
+        def __call__(self, div):
+            if div == 'table#basic_school_stats':
+                return read_file('%s-school-stats-table.html' % YEAR)
+            elif div == 'table#basic_opp_stats':
+                return read_file('%s-opponent-stats-table.html' % YEAR)
+            elif div == 'table#adv_school_stats':
+                return read_file('%s-advanced-school-stats-table.html' % YEAR)
+            else:
+                return read_file('%s-advanced-opponent-stats-table.html' % YEAR)
+
+    basic_contents = read_file('%s-school-stats.html' % YEAR)
+    opp_contents = read_file('%s-opponent-stats.html' % YEAR)
+    adv_contents = read_file('%s-advanced-school-stats.html' % YEAR)
+    adv_opp_contents = read_file('%s-advanced-opponent-stats.html' % YEAR)
+    if url == BASIC_STATS_URL % YEAR:
+        return MockPQ(basic_contents)
+    elif url == BASIC_OPPONENT_STATS_URL % YEAR:
+        return MockPQ(opp_contents)
+    elif url == ADVANCED_STATS_URL % YEAR:
+        return MockPQ(adv_contents)
+    elif url == ADVANCED_OPPONENT_STATS_URL % YEAR:
+        return MockPQ(adv_opp_contents)
 
 
 class MockDateTime:
@@ -40,8 +55,9 @@ class MockDateTime:
         self.month = month
 
 
-class TestNCAABIntegration(MockerTestCase):
-    def setUp(self):
+class TestNCAABIntegration:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def setup_method(self, *args, **kwargs):
         self.results = {
             'abbreviation': 'PURDUE',
             'name': 'Purdue',
@@ -213,25 +229,10 @@ class TestNCAABIntegration(MockerTestCase):
             'WISCONSIN', 'WOFFORD', 'WRIGHT-STATE', 'WYOMING', 'XAVIER',
             'YALE', 'YOUNGSTOWN-STATE'
         ]
-        basic_contents = read_file('%s-school-stats.html' % YEAR)
-        opp_contents = read_file('%s-opponent-stats.html' % YEAR)
-        adv_contents = read_file('%s-advanced-school-stats.html' % YEAR)
-        adv_opp_contents = read_file('%s-advanced-opponent-stats.html' % YEAR)
 
         flexmock(utils) \
             .should_receive('_todays_date') \
             .and_return(MockDateTime(YEAR, MONTH))
-
-        mock_pyquery = self.mocker.replace(PyQuery)
-        mock_pyquery(BASIC_STATS_URL % YEAR)
-        self.mocker.result(MockPQ(basic_contents))
-        mock_pyquery(BASIC_OPPONENT_STATS_URL % YEAR)
-        self.mocker.result(MockPQ(opp_contents))
-        mock_pyquery(ADVANCED_STATS_URL % YEAR)
-        self.mocker.result(MockPQ(adv_contents))
-        mock_pyquery(ADVANCED_OPPONENT_STATS_URL % YEAR)
-        self.mocker.result(MockPQ(adv_opp_contents))
-        self.mocker.replay()
 
         self.teams = Teams()
 
