@@ -97,10 +97,6 @@ class Team:
             setattr(self, field, value)
 
     @property
-    def rank(self):
-        return int(self._rank)
-
-    @property
     def abbreviation(self):
         return self._abbreviation
 
