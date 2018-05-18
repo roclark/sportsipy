@@ -162,7 +162,7 @@ class Team:
 
 
 class Teams:
-    def __init__(self, year=None, short=False):
+    def __init__(self, year=None):
         self._teams = []
 
         self._retrieve_all_teams(year)
