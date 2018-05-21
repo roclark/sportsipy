@@ -201,7 +201,7 @@ class TestUtils:
         parsing_scheme = {'batters_used': 'td[data-stat="batters_used"]:first'}
         html_string = '''<td class="right " data-stat="batters_used">32</td>
 <td class="right " data-stat="age_bat">29.1</td>
-<td class="right " data-stat="runs_per_game">4.10</td>''' 
+<td class="right " data-stat="runs_per_game">4.10</td>'''
         expected = '32'
 
         result = utils.parse_field(parsing_scheme,
