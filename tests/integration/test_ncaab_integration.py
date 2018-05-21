@@ -33,7 +33,8 @@ def mock_pyquery(url):
             elif div == 'table#adv_school_stats':
                 return read_file('%s-advanced-school-stats-table.html' % YEAR)
             else:
-                return read_file('%s-advanced-opponent-stats-table.html' % YEAR)
+                return read_file('%s-advanced-opponent-stats-table.html'
+                                 % YEAR)
 
     basic_contents = read_file('%s-school-stats.html' % YEAR)
     opp_contents = read_file('%s-opponent-stats.html' % YEAR)

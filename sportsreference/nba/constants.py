@@ -29,7 +29,8 @@ PARSING_SCHEME = {
     'opp_field_goal_percentage': 'td[data-stat="opp_fg_pct"]:first',
     'opp_three_point_field_goals': 'td[data-stat="opp_fg3"]:first',
     'opp_three_point_field_goal_attempts': 'td[data-stat="opp_fg3a"]:first',
-    'opp_three_point_field_goal_percentage': 'td[data-stat="opp_fg3_pct"]:first',
+    'opp_three_point_field_goal_percentage':
+    'td[data-stat="opp_fg3_pct"]:first',
     'opp_two_point_field_goals': 'td[data-stat="opp_fg2"]:first',
     'opp_two_point_field_goal_attempts': 'td[data-stat="opp_fg2a"]:first',
     'opp_two_point_field_goal_percentage': 'td[data-stat="opp_fg2_pct"]:first',

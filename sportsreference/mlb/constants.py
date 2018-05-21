@@ -42,8 +42,10 @@ PARSING_SCHEME = {
     'batting_average': 'td[data-stat="batting_avg"]:first',
     'on_base_percentage': 'td[data-stat="onbase_perc"]:first',
     'slugging_percentage': 'td[data-stat="slugging_perc"]:first',
-    'on_base_plus_slugging_percentage': 'td[data-stat="onbase_plus_slugging"]:first',
-    'on_base_plus_slugging_percentage_plus': 'td[data-stat="onbase_plus_slugging_plus"]:first',
+    'on_base_plus_slugging_percentage':
+    'td[data-stat="onbase_plus_slugging"]:first',
+    'on_base_plus_slugging_percentage_plus':
+    'td[data-stat="onbase_plus_slugging_plus"]:first',
     'total_bases': 'td[data-stat="TB"]:first',
     'grounded_into_double_plays': 'td[data-stat="GIDP"]:first',
     'times_hit_by_pitch': 'td[data-stat="HBP"]:first',
@@ -74,9 +76,11 @@ PARSING_SCHEME = {
     'whip': 'td[data-stat="whip"]:first',
     'hits_per_nine_innings': 'td[data-stat="hits_per_nine"]:first',
     'home_runs_per_nine_innings': 'td[data-stat="home_runs_per_nine"]:first',
-    'bases_on_walks_given_per_nine_innings': 'td[data-stat="bases_on_balls_per_nine"]:first',
+    'bases_on_walks_given_per_nine_innings':
+    'td[data-stat="bases_on_balls_per_nine"]:first',
     'strikeouts_per_nine_innings': 'td[data-stat="strikeouts_per_nine"]:first',
-    'strikeouts_per_base_on_balls': 'td[data-stat="strikeouts_per_base_on_balls"]:first',
+    'strikeouts_per_base_on_balls':
+    'td[data-stat="strikeouts_per_base_on_balls"]:first',
     'opposing_runners_left_on_base': 'td[data-stat="LOB"]:first'
 }
 
@@ -89,5 +93,6 @@ ELEMENT_INDEX = {
     'opposing_runners_left_on_base': 1
 }
 
-STANDINGS_URL = 'https://www.baseball-reference.com/leagues/MLB/%s-standings.shtml'
+STANDINGS_URL = ('https://www.baseball-reference.com/leagues/MLB/'
+                 '%s-standings.shtml')
 TEAM_STATS_URL = 'https://www.baseball-reference.com/leagues/MLB/%s.shtml'

@@ -222,8 +222,10 @@ class TestUtils:
         </tbody>
     </table>
 </div>'''
-        expected = ['<tr data-row="0">\n<td class="right " data-stat="column1">1</td>\n</tr>',
-                    '<tr data-row="1">\n<td class="right " data-stat="column2">2</td>\n</tr>']
+        expected = ['<tr data-row="0">\n<td class="right " '
+                    'data-stat="column1">1</td>\n</tr>',
+                    '<tr data-row="1">\n<td class="right " '
+                    'data-stat="column2">2</td>\n</tr>']
         div = 'table#all_stats'
         flexmock(utils) \
             .should_receive('_remove_html_comment_tags') \

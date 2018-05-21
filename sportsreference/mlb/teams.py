@@ -1137,10 +1137,12 @@ class Teams:
         if not year:
             year = utils.find_year_for_season('mlb')
         doc = pq(STANDINGS_URL % year)
-        standings = utils.get_stats_table(doc, 'div#all_expanded_standings_overall')
+        div_prefix = 'div#all_expanded_standings_overall'
+        standings = utils.get_stats_table(doc, div_prefix)
         doc = pq(TEAM_STATS_URL % year)
-        batting_stats = utils.get_stats_table(doc, 'div#all_teams_standard_batting')
-        pitching_stats = utils.get_stats_table(doc, 'div#all_teams_standard_pitching')
+        div_prefix = 'div#all_teams_standard_%s'
+        batting_stats = utils.get_stats_table(doc, div_prefix % 'batting')
+        pitching_stats = utils.get_stats_table(doc, div_prefix % 'pitching')
         for stats_list in [standings, batting_stats, pitching_stats]:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 

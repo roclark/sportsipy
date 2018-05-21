@@ -40,4 +40,5 @@ PARSING_SCHEME = {
 
 SEASON_PAGE_URL = 'http://www.sports-reference.com/cfb/years/%s-standings.html'
 
-OFFENSIVE_STATS_URL = 'https://www.sports-reference.com/cfb/years/%s-team-offense.html'
+OFFENSIVE_STATS_URL = ('https://www.sports-reference.com/cfb/years/'
+                       '%s-team-offense.html')
