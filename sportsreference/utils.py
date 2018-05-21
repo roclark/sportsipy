@@ -83,7 +83,7 @@ def find_year_for_season(league):
         return today.year + 1
     elif not wrap and start == 1 and today.month == 12:
         return today.year + 1
-    elif not wrap and not start -1 <= today.month <= 12:
+    elif not wrap and not start - 1 <= today.month <= 12:
         return today.year - 1
     else:
         return today.year
