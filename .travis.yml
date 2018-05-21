@@ -11,3 +11,4 @@ install:
     - pip install -r requirements.txt
 script:
     - py.test --cov=sportsreference --cov-report term-missing tests/
+    - pep8 sportsreference/ tests/
