@@ -88,6 +88,25 @@ PARSING_SCHEME = {
     'td[data-stat="opp_ft_rate"]:first'
 }
 
+SCHEDULE_SCHEME = {
+    'game': 'th[data-stat="g"]:first',
+    'date': 'td[data-stat="date_game"]:first',
+    'time': 'td[data-stat="time_game"]:first',
+    'type': 'td[data-stat="game_type"]:first',
+    'location': 'td[data-stat="game_location"]:first',
+    'opponent_abbr': 'td[data-stat="opp_name"]:first',
+    'opponent_name': 'td[data-stat="opp_name"]:first',
+    'opponent_conference': 'td[data-stat="conf_abbr"]:first',
+    'result': 'td[data-stat="game_result"]:first',
+    'points_for': 'td[data-stat="pts"]:first',
+    'points_against': 'td[data-stat="opp_pts"]:first',
+    'overtimes': 'td[data-stat="overtimes"]:first',
+    'season_wins': 'td[data-stat="wins"]:first',
+    'season_losses': 'td[data-stat="losses"]:first',
+    'streak': 'td[data-stat="game_streak"]:first',
+    'arena': 'td[data-stat="arena"]:first'
+}
+
 BASIC_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'
                    '%s-school-stats.html')
 BASIC_OPPONENT_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'
@@ -96,3 +115,10 @@ ADVANCED_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'
                       '%s-advanced-school-stats.html')
 ADVANCED_OPPONENT_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'
                                '%s-advanced-opponent-stats.html')
+
+SCHEDULE_URL = ('http://www.sports-reference.com/cbb/schools/%s/'
+                '%s-schedule.html')
+
+NCAA_TOURNAMENT = 'NCAA'
+NIT_TOURNAMENT = 'NIT'
+CBI_TOURNAMENT = 'CBI'
