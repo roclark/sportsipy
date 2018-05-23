@@ -84,6 +84,27 @@ PARSING_SCHEME = {
     'opposing_runners_left_on_base': 'td[data-stat="LOB"]:first'
 }
 
+SCHEDULE_SCHEME = {
+    'game': 'th[data-stat="team_game"]:first',
+    'date': 'td[data-stat="date_game"]:first',
+    'location': 'td[data-stat="homeORvis"]:first',
+    'opponent_abbr': 'td[data-stat="opp_ID"]:first',
+    'result': 'td[data-stat="win_loss_result"]:first',
+    'runs_scored': 'td[data-stat="R"]:first',
+    'runs_allowed': 'td[data-stat="RA"]:first',
+    'innings': 'td[data-stat="extra_innings"]:first',
+    'record': 'td[data-stat="win_loss_record"]:first',
+    'rank': 'td[data-stat="rank"]:first',
+    'games_behind': 'td[data-stat="games_back"]:first',
+    'winner': 'td[data-stat="winning_pitcher"]:first',
+    'loser': 'td[data-stat="losing_pitcher"]:first',
+    'save': 'td[data-stat="saving_pitcher"]:first',
+    'game_duration': 'td[data-stat="time_of_game"]:first',
+    'day_or_night': 'td[data-stat="day_or_night"]:first',
+    'attendance': 'td[data-stat="attendance"]:first',
+    'streak': 'td[data-stat="win_loss_streak"]:first'
+}
+
 ELEMENT_INDEX = {
     'total_runs': 1,
     'bases_on_walks_given': 1,
@@ -96,3 +117,9 @@ ELEMENT_INDEX = {
 STANDINGS_URL = ('https://www.baseball-reference.com/leagues/MLB/'
                  '%s-standings.shtml')
 TEAM_STATS_URL = 'https://www.baseball-reference.com/leagues/MLB/%s.shtml'
+
+SCHEDULE_URL = ('https://www.baseball-reference.com/teams/%s/'
+                '%s-schedule-scores.shtml')
+
+NIGHT = 'Night'
+DAY = 'Day'
