@@ -1,5 +1,5 @@
 flexmock>=0.10.2
-mocker>=1.1.1
+mock>=2.0.0
 pep8>=1.4.6
 pyquery>=1.4.0
 pytest-cov>=2.5.1
