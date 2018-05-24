@@ -48,4 +48,22 @@ PARSING_SCHEME = {
     'opp_points': 'td[data-stat="opp_pts"]:first'
 }
 
+SCHEDULE_SCHEME = {
+    'game': 'th[data-stat="g"]:first',
+    'date': 'td[data-stat="date_game"]:first',
+    'time': 'td[data-stat="game_start_time"]:first',
+    'location': 'td[data-stat="game_location"]:first',
+    'opponent_abbr': 'td[data-stat="opp_name"]:first',
+    'opponent_name': 'td[data-stat="opp_name"]:first',
+    'result': 'td[data-stat="game_result"]:first',
+    'overtime': 'td[data-stat="overtimes"]:first',
+    'points_scored': 'td[data-stat="pts"]:first',
+    'points_allowed': 'td[data-stat="opp_pts"]:first',
+    'wins': 'td[data-stat="wins"]:first',
+    'losses': 'td[data-stat="losses"]:first',
+    'streak': 'td[data-stat="game_streak"]:first'
+}
+
 SEASON_PAGE_URL = 'http://www.basketball-reference.com/leagues/NBA_%s.html'
+
+SCHEDULE_URL = 'http://www.basketball-reference.com/teams/%s/%s_games.html'
