@@ -38,7 +38,29 @@ PARSING_SCHEME = {
     'yards_from_penalties': 'td[data-stat="penalty_yds"]:first'
 }
 
+SCHEDULE_SCHEME = {
+    'game': 'th[data-stat="g"]:first',
+    'date': 'td[data-stat="date_game"]:first',
+    'time': 'td[data-stat="time_game"]:first',
+    'day_of_week': 'td[data-stat="day_name"]:first',
+    'location': 'td[data-stat="game_location"]:first',
+    'rank': 'td[data-stat="school_name"]:first',
+    'opponent_rank': 'td[data-stat="opp_name"]:first',
+    'opponent_name': 'td[data-stat="opp_name"]:first',
+    'opponent_abbr': 'td[data-stat="opp_name"]:first',
+    'opponent_conference': 'td[data-stat="conf_abbr"]:first',
+    'result': 'td[data-stat="game_result"]:first',
+    'points_for': 'td[data-stat="points"]:first',
+    'points_against': 'td[data-stat="opp_points"]:first',
+    'wins': 'td[data-stat="wins"]:first',
+    'losses': 'td[data-stat="losses"]:first',
+    'streak': 'td[data-stat="game_streak"]:first'
+}
+
 SEASON_PAGE_URL = 'http://www.sports-reference.com/cfb/years/%s-standings.html'
 
 OFFENSIVE_STATS_URL = ('https://www.sports-reference.com/cfb/years/'
                        '%s-team-offense.html')
+
+SCHEDULE_URL = ('https://www.sports-reference.com/cfb/schools/%s/'
+                '%s-schedule.html')
