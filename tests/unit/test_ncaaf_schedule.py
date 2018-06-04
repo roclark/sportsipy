@@ -13,105 +13,69 @@ from sportsreference.ncaaf.schedule import Game
 
 
 class TestNCAAFSchedule:
-    def test_away_game_returns_away_location(self):
+    def setup_method(self, *args, **kwargs):
         flexmock(Game) \
             .should_receive('_parse_game_data') \
             .and_return(None)
 
-        game = Game(None)
-        fake_location = PropertyMock(return_value='@')
-        type(game)._location = fake_location
+        self.game = Game(None)
 
-        assert game.location == AWAY
+    def test_away_game_returns_away_location(self):
+        fake_location = PropertyMock(return_value='@')
+        type(self.game)._location = fake_location
+
+        assert self.game.location == AWAY
 
     def test_home_game_returns_home_location(self):
-        flexmock(Game) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-
-        game = Game(None)
         fake_location = PropertyMock(return_value='')
-        type(game)._location = fake_location
+        type(self.game)._location = fake_location
 
-        assert game.location == HOME
+        assert self.game.location == HOME
 
     def test_neutral_game_returns_neutral_location(self):
-        flexmock(Game) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-
-        game = Game(None)
         fake_location = PropertyMock(return_value='N')
-        type(game)._location = fake_location
+        type(self.game)._location = fake_location
 
-        assert game.location == NEUTRAL
+        assert self.game.location == NEUTRAL
 
     def test_winning_result_returns_win(self):
-        flexmock(Game) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-
-        game = Game(None)
         fake_result = PropertyMock(return_value='W')
-        type(game)._result = fake_result
+        type(self.game)._result = fake_result
 
-        assert game.result == WIN
+        assert self.game.result == WIN
 
     def test_losing_result_returns_loss(self):
-        flexmock(Game) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-
-        game = Game(None)
         fake_result = PropertyMock(return_value='L')
-        type(game)._result = fake_result
+        type(self.game)._result = fake_result
 
-        assert game.result == LOSS
+        assert self.game.result == LOSS
 
     def test_team_with_rank_returns_rank(self):
-        flexmock(Game) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-
-        game = Game(None)
         fake_name = PropertyMock(return_value='(1) Alabama')
-        type(game)._rank = fake_name
+        type(self.game)._rank = fake_name
 
-        assert game.rank == 1
+        assert self.game.rank == 1
 
     def test_team_with_no_rank_returns_none(self):
-        flexmock(Game) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-
-        game = Game(None)
         fake_name = PropertyMock(return_value='Missouri')
-        type(game)._rank = fake_name
+        type(self.game)._rank = fake_name
 
-        assert game.rank is None
+        assert self.game.rank is None
 
     def test_opponent_with_rank_returns_rank(self):
-        flexmock(Game) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-
-        game = Game(None)
         fake_name = PropertyMock(return_value='(1) Alabama')
-        type(game)._opponent_name = fake_name
+        type(self.game)._opponent_name = fake_name
 
-        assert game.opponent_rank == 1
+        assert self.game.opponent_rank == 1
 
     def test_opponent_with_no_rank_returns_none(self):
-        flexmock(Game) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-
-        game = Game(None)
         fake_name = PropertyMock(return_value='Missouri')
-        type(game)._opponent_name = fake_name
+        type(self.game)._opponent_name = fake_name
 
-        assert game.opponent_rank is None
+        assert self.game.opponent_rank is None
 
+
+class TestNCAAFScheduleNames:
     def test_non_major_school_returns_name_for_abbreviation(self):
         text = '<td class="left " data-stat="opp_name">Citadel</td>'
         game_data = pq(text)
