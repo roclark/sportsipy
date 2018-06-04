@@ -300,5 +300,8 @@ SCHEDULE_URL = ('https://www.baseball-reference.com/teams/%s/'
 
 BOXSCORE_URL = 'https://www.baseball-reference.com/boxes/%s.shtml'
 
+BOXSCORES_URL = ('https://www.baseball-reference.com/boxes/'
+                 '?year=%s&month=%s&day=%s')
+
 NIGHT = 'Night'
 DAY = 'Day'

@@ -5,8 +5,8 @@ from datetime import datetime
 from flexmock import flexmock
 from sportsreference import utils
 from sportsreference.constants import AWAY
-from sportsreference.mlb.constants import BOXSCORE_URL, NIGHT
-from sportsreference.mlb.boxscore import Boxscore
+from sportsreference.mlb.constants import BOXSCORE_URL, BOXSCORES_URL, NIGHT
+from sportsreference.mlb.boxscore import Boxscore, Boxscores
 
 
 MONTH = 10
@@ -27,6 +27,8 @@ def mock_pyquery(url):
             self.html_contents = html_contents
             self.text = html_contents
 
+    if url == BOXSCORES_URL % (YEAR, 7, 17):
+        return MockPQ(read_file('boxscore.html'))
     path = '%s.shtml' % BOXSCORE
     boxscore = read_file(path.replace('BOS/', ''))
     return MockPQ(boxscore)
@@ -161,3 +163,81 @@ class TestMLBBoxscore:
         df1 = pd.concat(frames).drop_duplicates(keep=False)
 
         assert df1.empty
+
+
+class TestMLBBoxscores:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_boxscores_search(self, *args, **kwargs):
+        expected = {
+            'boxscores': [
+                {'home_name': 'Atlanta Braves',
+                 'home_abbr': 'ATL',
+                 'boxscore': 'ATL/ATL201707170',
+                 'away_name': 'Chicago Cubs',
+                 'away_abbr': 'CHC'},
+                {'home_name': 'Baltimore Orioles',
+                 'home_abbr': 'BAL',
+                 'boxscore': 'BAL/BAL201707170',
+                 'away_name': 'Texas Rangers',
+                 'away_abbr': 'TEX'},
+                {'home_name': 'Boston Red Sox',
+                 'home_abbr': 'BOS',
+                 'boxscore': 'BOS/BOS201707170',
+                 'away_name': 'Toronto Blue Jays',
+                 'away_abbr': 'TOR'},
+                {'home_name': 'Cincinnati Reds',
+                 'home_abbr': 'CIN',
+                 'boxscore': 'CIN/CIN201707170',
+                 'away_name': 'Washington Nationals',
+                 'away_abbr': 'WSN'},
+                {'home_name': 'Colorado Rockies',
+                 'home_abbr': 'COL',
+                 'boxscore': 'COL/COL201707170',
+                 'away_name': 'San Diego Padres',
+                 'away_abbr': 'SDP'},
+                {'home_name': 'Houston Astros',
+                 'home_abbr': 'HOU',
+                 'boxscore': 'HOU/HOU201707170',
+                 'away_name': 'Seattle Mariners',
+                 'away_abbr': 'SEA'},
+                {'home_name': 'Kansas City Royals',
+                 'home_abbr': 'KCR',
+                 'boxscore': 'KCA/KCA201707170',
+                 'away_name': 'Detroit Tigers',
+                 'away_abbr': 'DET'},
+                {'home_name': 'Miami Marlins',
+                 'home_abbr': 'MIA',
+                 'boxscore': 'MIA/MIA201707170',
+                 'away_name': 'Philadelphia Phillies',
+                 'away_abbr': 'PHI'},
+                {'home_name': 'Minnesota Twins',
+                 'home_abbr': 'MIN',
+                 'boxscore': 'MIN/MIN201707170',
+                 'away_name': 'New York Yankees',
+                 'away_abbr': 'NYY'},
+                {'home_name': 'New York Mets',
+                 'home_abbr': 'NYM',
+                 'boxscore': 'NYN/NYN201707170',
+                 'away_name': 'St. Louis Cardinals',
+                 'away_abbr': 'STL'},
+                {'home_name': 'Oakland Athletics',
+                 'home_abbr': 'OAK',
+                 'boxscore': 'OAK/OAK201707170',
+                 'away_name': 'Tampa Bay Rays',
+                 'away_abbr': 'TBR'},
+                {'home_name': 'Pittsburgh Pirates',
+                 'home_abbr': 'PIT',
+                 'boxscore': 'PIT/PIT201707170',
+                 'away_name': 'Milwaukee Brewers',
+                 'away_abbr': 'MIL'},
+                {'home_name': 'San Francisco Giants',
+                 'home_abbr': 'SFG',
+                 'boxscore': 'SFN/SFN201707170',
+                 'away_name': 'Cleveland Indians',
+                 'away_abbr': 'CLE'}
+            ]
+        }
+
+        result = Boxscores(datetime(2017, 7, 17)).games()
+
+        assert result == expected

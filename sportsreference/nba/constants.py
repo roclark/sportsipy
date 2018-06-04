@@ -221,3 +221,6 @@ SEASON_PAGE_URL = 'http://www.basketball-reference.com/leagues/NBA_%s.html'
 SCHEDULE_URL = 'http://www.basketball-reference.com/teams/%s/%s/gamelog/'
 
 BOXSCORE_URL = 'https://www.basketball-reference.com/boxscores/%s.html'
+
+BOXSCORES_URL = ('https://www.basketball-reference.com/boxscores/'
+                 '?month=%s&day=%s&year=%s')

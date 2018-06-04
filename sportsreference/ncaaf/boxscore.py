@@ -2,7 +2,10 @@ import pandas as pd
 import re
 from pyquery import PyQuery as pq
 from .. import utils
-from .constants import BOXSCORE_ELEMENT_INDEX, BOXSCORE_SCHEME, BOXSCORE_URL
+from .constants import (BOXSCORE_ELEMENT_INDEX,
+                        BOXSCORE_SCHEME,
+                        BOXSCORE_URL,
+                        BOXSCORES_URL)
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
 
@@ -641,3 +644,269 @@ class Boxscore(object):
         penalties_info = self._home_yards_from_penalties.replace('--', '-')
         penalties_info = penalties_info.split('-')
         return int(penalties_info[1])
+
+
+class Boxscores:
+    """
+    Search for NCAAF games taking place on a particular day.
+
+    Retrieve a dictionary which contains a list of all games being played on a
+    particular day. Output includes a link to the boxscore, a boolean value
+    which indicates if the game is between two Division-I teams or not, and the
+    names and abbreviations for both the home teams. If no games are played on
+    a particular day, the list will be empty.
+    """
+    def __init__(self, date):
+        """
+        Search for any NCAAF games scheduled for the requested date.
+
+        Parameters
+        ----------
+        date : datetime object
+            The date to search for any matches. The month, day, and year are
+            required for the search, but time is not factored into the search.
+        """
+        self._boxscores = {'boxscores': []}
+
+        self._find_games(date)
+
+    def games(self):
+        """
+        Retrieve a list of all games played on a given day.
+
+        Returns a dictionary object containing all of the games that are
+        scheduled on the requested day.
+
+        Returns
+        -------
+            Returns a dictionary object representing the games played on the
+            requested day. Dictionary is in the following format:
+            {'boxscores' : [
+                {'home_name': <Name of the home team, such as 'Purdue
+                               Boilermakers'>,
+                 'home_abbr': <Abbreviation for the home team, such as
+                               'PURDUE'>,
+                 'away_name': <Name of the away team, such as 'Indiana
+                               Hoosiers'>,
+                 'away_abbr': <Abbreviation for the away team, such as
+                               'INDIANA'>,
+                 'boxscore': <String representing the boxscore URI, such as
+                              '2017-09-09-michigan'>,
+                 'non_di': <Boolean value which evaluates to True when at least
+                            one of the teams does not compete in NCAA
+                            Division-I football>},
+                { ... },
+                ...
+                ]
+            }
+
+            If no games were played during the requested day, the list for
+            ['boxscores'] will be empty.
+        """
+        return self._boxscores
+
+    def _create_url(self, date):
+        """
+        Build the URL based on the passed datetime object.
+
+        In order to get the proper boxscore page, the URL needs to include the
+        requested month, day, and year.
+
+        Parameters
+        ----------
+        date : datetime object
+            The date to search for any matches. The month, day, and year are
+            required for the search, but time is not factored into the search.
+
+        Returns
+        -------
+        string
+            Returns a string of the boxscore URL including the requested date.
+        """
+        return BOXSCORES_URL % (date.month, date.day, date.year)
+
+    def _get_requested_page(self, url):
+        """
+        Get the requested page.
+
+        Download the requested page given the created URL and return a PyQuery
+        object.
+
+        Parameters
+        ----------
+        url : string
+            The URL containing the boxscores to find.
+
+        Returns
+        -------
+        PyQuery object
+            A PyQuery object containing the HTML contents of the requested
+            page.
+        """
+        return pq(url)
+
+    def _get_boxscore_uri(self, url):
+        """
+        Find the boxscore URI.
+
+        Given the boxscore tag for a game, parse the embedded URI for the
+        boxscore.
+
+        Parameters
+        ----------
+        url : PyQuery object
+            A PyQuery object containing the game's boxscore tag which has the
+            boxscore URI embedded within it.
+
+        Returns
+        -------
+        string
+            Returns a string containing the link to the game's boxscore page.
+        """
+        uri = re.sub(r'.*cfb/boxscores/', '', str(url))
+        uri = re.sub(r'\.html.*', '', uri).strip()
+        return uri
+
+    def _parse_abbreviation(self, abbr):
+        """
+        Parse a team's abbreviation.
+
+        Given the team's HTML name tag, parse their abbreviation.
+
+        Parameters
+        ----------
+        abbr : string
+            A string of a team's HTML name tag.
+
+        Returns
+        -------
+        string
+            Returns a string of the team's abbreviation.
+        """
+        if 'cfb/schools' not in str(abbr):
+            return None
+        abbr = re.sub(r'.*/schools/', '', str(abbr))
+        abbr = re.sub(r'/.*', '', abbr)
+        return abbr
+
+    def _get_name(self, name):
+        """
+        Find a team's name and abbreviation.
+
+        Given the team's HTML name tag, determine their name, abbreviation, and
+        whether or not they compete in Division-I.
+
+        Parameters
+        ----------
+        name : PyQuery object
+            A PyQuery object of a team's HTML name tag in the boxscore.
+
+        Returns
+        -------
+        tuple
+            Returns a tuple containing the name, abbreviation, and whether or
+            not the team participates in Division-I. Tuple is in the following
+            order: Team Name, Team Abbreviation, boolean which evaluates to
+            True if the team does not participate in Division-I.
+        """
+        team_name = name.text()
+        abbr = self._parse_abbreviation(name)
+        non_di = False
+        if not abbr:
+            abbr = team_name
+            non_di = True
+        return team_name, abbr, non_di
+
+    def _get_team_names(self, game):
+        """
+        Find the names and abbreviations for both teams in a game.
+
+        Using the HTML contents in a boxscore, find the name and abbreviation
+        for both teams and determine wether or not this is a matchup between
+        two Division-I teams.
+
+        Parameters
+        ----------
+        game : PyQuery object
+            A PyQuery object of a single boxscore containing information about
+            both teams.
+
+        Returns
+        -------
+        tuple
+            Returns a tuple containing the names and abbreviations of both
+            teams in the following order: Away Name, Away Abbreviation, Home
+            Name, Home Abbreviation, and a boolean which evaluates to True if
+            either team does not participate in Division-I athletics.
+        """
+        links = [i for i in game('td a').items()]
+        # The away team is the first link in the boxscore
+        away = links[0]
+        # The home team is the last (3rd) link in the boxscore
+        home = links[-1]
+        non_di = False
+        away_name, away_abbr, away_non_di = self._get_name(away)
+        home_name, home_abbr, home_non_di = self._get_name(home)
+        non_di = away_non_di or home_non_di
+        return away_name, away_abbr, home_name, home_abbr, non_di
+
+    def _extract_game_info(self, games):
+        """
+        Parse game information from all boxscores.
+
+        Find the major game information for all boxscores listed on a
+        particular boxscores webpage and return the results in a list.
+
+        Parameters
+        ----------
+        games : generator
+            A generator where each element points to a boxscore on the parsed
+            boxscores webpage.
+
+        Returns
+        -------
+        list
+            Returns a list of dictionaries where each dictionary contains the
+            name and abbreviations for both the home and away teams, a boolean
+            value indicating whether or not both teams compete in Division-I,
+            and a link to the boxscore.
+        """
+        all_boxscores = []
+
+        for game in games:
+            names = self._get_team_names(game)
+            away_name, away_abbr, home_name, home_abbr, non_di = names
+            boxscore_url = game('td[class="right gamelink"] a')
+            boxscore_uri = self._get_boxscore_uri(boxscore_url)
+            game_info = {
+                'boxscore': boxscore_uri,
+                'away_name': away_name,
+                'away_abbr': away_abbr,
+                'home_name': home_name,
+                'home_abbr': home_abbr,
+                'non_di': non_di
+            }
+            all_boxscores.append(game_info)
+        return all_boxscores
+
+    def _find_games(self, date):
+        """
+        Retrieve all major games played on a given day.
+
+        Builds a URL based on the requested date and downloads the HTML
+        contents before parsing any and all games played during that day. Any
+        games that are found are added to the boxscores dictionary with
+        high-level game information such as the home and away team names and a
+        link to the boxscore page.
+
+        Parameters
+        ----------
+        date : datetime object
+            The date to search for any matches. The month, day, and year are
+            required for the search, but time is not factored into the search.
+        """
+        url = self._create_url(date)
+        page = self._get_requested_page(url)
+        games = page('table[class="teams"]').items()
+        boxscores = self._extract_game_info(games)
+        self._boxscores = {'boxscores': boxscores}

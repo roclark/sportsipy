@@ -5,8 +5,8 @@ from datetime import datetime
 from flexmock import flexmock
 from sportsreference import utils
 from sportsreference.constants import AWAY
-from sportsreference.nfl.constants import BOXSCORE_URL
-from sportsreference.nfl.boxscore import Boxscore
+from sportsreference.nfl.constants import BOXSCORE_URL, BOXSCORES_URL
+from sportsreference.nfl.boxscore import Boxscore, Boxscores
 
 
 MONTH = 10
@@ -27,6 +27,8 @@ def mock_pyquery(url):
             self.html_contents = html_contents
             self.text = html_contents
 
+    if url == BOXSCORES_URL % (YEAR, 7):
+        return MockPQ(read_file('boxscores.html'))
     boxscore = read_file('%s.html' % BOXSCORE)
     return MockPQ(boxscore)
 
@@ -135,3 +137,91 @@ class TestNFLBoxscore:
         df1 = pd.concat(frames).drop_duplicates(keep=False)
 
         assert df1.empty
+
+
+class TestNFLBoxscores:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_boxscores_search(self, *args, **kwargs):
+        expected = {
+            'boxscores': [
+                {'home_name': 'Oakland Raiders',
+                 'home_abbr': 'rai',
+                 'boxscore': '201710190rai',
+                 'away_name': 'Kansas City Chiefs',
+                 'away_abbr': 'kan'},
+                {'home_name': 'Chicago Bears',
+                 'home_abbr': 'chi',
+                 'boxscore': '201710220chi',
+                 'away_name': 'Carolina Panthers',
+                 'away_abbr': 'car'},
+                {'home_name': 'Buffalo Bills',
+                 'home_abbr': 'buf',
+                 'boxscore': '201710220buf',
+                 'away_name': 'Tampa Bay Buccaneers',
+                 'away_abbr': 'tam'},
+                {'home_name': 'Los Angeles Rams',
+                 'home_abbr': 'ram',
+                 'boxscore': '201710220ram',
+                 'away_name': 'Arizona Cardinals',
+                 'away_abbr': 'crd'},
+                {'home_name': 'Minnesota Vikings',
+                 'home_abbr': 'min',
+                 'boxscore': '201710220min',
+                 'away_name': 'Baltimore Ravens',
+                 'away_abbr': 'rav'},
+                {'home_name': 'Miami Dolphins',
+                 'home_abbr': 'mia',
+                 'boxscore': '201710220mia',
+                 'away_name': 'New York Jets',
+                 'away_abbr': 'nyj'},
+                {'home_name': 'Green Bay Packers',
+                 'home_abbr': 'gnb',
+                 'boxscore': '201710220gnb',
+                 'away_name': 'New Orleans Saints',
+                 'away_abbr': 'nor'},
+                {'home_name': 'Indianapolis Colts',
+                 'home_abbr': 'clt',
+                 'boxscore': '201710220clt',
+                 'away_name': 'Jacksonville Jaguars',
+                 'away_abbr': 'jax'},
+                {'home_name': 'Cleveland Browns',
+                 'home_abbr': 'cle',
+                 'boxscore': '201710220cle',
+                 'away_name': 'Tennessee Titans',
+                 'away_abbr': 'oti'},
+                {'home_name': 'San Francisco 49ers',
+                 'home_abbr': 'sfo',
+                 'boxscore': '201710220sfo',
+                 'away_name': 'Dallas Cowboys',
+                 'away_abbr': 'dal'},
+                {'home_name': 'Los Angeles Chargers',
+                 'home_abbr': 'sdg',
+                 'boxscore': '201710220sdg',
+                 'away_name': 'Denver Broncos',
+                 'away_abbr': 'den'},
+                {'home_name': 'Pittsburgh Steelers',
+                 'home_abbr': 'pit',
+                 'boxscore': '201710220pit',
+                 'away_name': 'Cincinnati Bengals',
+                 'away_abbr': 'cin'},
+                {'home_name': 'New York Giants',
+                 'home_abbr': 'nyg',
+                 'boxscore': '201710220nyg',
+                 'away_name': 'Seattle Seahawks',
+                 'away_abbr': 'sea'},
+                {'home_name': 'New England Patriots',
+                 'home_abbr': 'nwe',
+                 'boxscore': '201710220nwe',
+                 'away_name': 'Atlanta Falcons',
+                 'away_abbr': 'atl'},
+                {'home_name': 'Philadelphia Eagles',
+                 'home_abbr': 'phi',
+                 'boxscore': '201710230phi',
+                 'away_name': 'Washington Redskins',
+                 'away_abbr': 'was'},
+            ]
+        }
+
+        result = Boxscores(7, 2017).games()
+
+        assert result == expected

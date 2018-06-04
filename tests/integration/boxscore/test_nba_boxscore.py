@@ -5,8 +5,8 @@ from datetime import datetime
 from flexmock import flexmock
 from sportsreference import utils
 from sportsreference.constants import HOME
-from sportsreference.nba.constants import BOXSCORE_URL
-from sportsreference.nba.boxscore import Boxscore
+from sportsreference.nba.constants import BOXSCORE_URL, BOXSCORES_URL
+from sportsreference.nba.boxscore import Boxscore, Boxscores
 
 
 MONTH = 10
@@ -27,6 +27,8 @@ def mock_pyquery(url):
             self.html_contents = html_contents
             self.text = html_contents
 
+    if url == BOXSCORES_URL % (2, 4, YEAR):
+        return MockPQ(read_file('boxscores.html'))
     boxscore = read_file('%s.html' % BOXSCORE)
     return MockPQ(boxscore)
 
@@ -159,3 +161,66 @@ class TestNBABoxscore:
         df1 = pd.concat(frames).drop_duplicates(keep=False)
 
         assert df1.empty
+
+
+class TestNBABoxscores:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_boxscores_search(self, *args, **kwargs):
+        expected = {
+            'boxscores': [
+                {'home_name': 'Atlanta',
+                 'home_abbr': 'ATL',
+                 'boxscore': '201702040ATL',
+                 'away_name': 'Orlando',
+                 'away_abbr': 'ORL'},
+                {'home_name': 'Indiana',
+                 'home_abbr': 'IND',
+                 'boxscore': '201702040IND',
+                 'away_name': 'Detroit',
+                 'away_abbr': 'DET'},
+                {'home_name': 'Miami',
+                 'home_abbr': 'MIA',
+                 'boxscore': '201702040MIA',
+                 'away_name': 'Philadelphia',
+                 'away_abbr': 'PHI'},
+                {'home_name': 'Minnesota',
+                 'home_abbr': 'MIN',
+                 'boxscore': '201702040MIN',
+                 'away_name': 'Memphis',
+                 'away_abbr': 'MEM'},
+                {'home_name': 'New York',
+                 'home_abbr': 'NYK',
+                 'boxscore': '201702040NYK',
+                 'away_name': 'Cleveland',
+                 'away_abbr': 'CLE'},
+                {'home_name': 'Phoenix',
+                 'home_abbr': 'PHO',
+                 'boxscore': '201702040PHO',
+                 'away_name': 'Milwaukee',
+                 'away_abbr': 'MIL'},
+                {'home_name': 'Sacramento',
+                 'home_abbr': 'SAC',
+                 'boxscore': '201702040SAC',
+                 'away_name': 'Golden State',
+                 'away_abbr': 'GSW'},
+                {'home_name': 'San Antonio',
+                 'home_abbr': 'SAS',
+                 'boxscore': '201702040SAS',
+                 'away_name': 'Denver',
+                 'away_abbr': 'DEN'},
+                {'home_name': 'Utah',
+                 'home_abbr': 'UTA',
+                 'boxscore': '201702040UTA',
+                 'away_name': 'Charlotte',
+                 'away_abbr': 'CHO'},
+                {'home_name': 'Washington',
+                 'home_abbr': 'WAS',
+                 'boxscore': '201702040WAS',
+                 'away_name': 'New Orleans',
+                 'away_abbr': 'NOP'},
+            ]
+        }
+
+        result = Boxscores(datetime(2017, 2, 4)).games()
+
+        assert result == expected

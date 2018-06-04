@@ -5,8 +5,8 @@ from datetime import datetime
 from flexmock import flexmock
 from sportsreference import utils
 from sportsreference.constants import AWAY
-from sportsreference.nhl.constants import BOXSCORE_URL
-from sportsreference.nhl.boxscore import Boxscore
+from sportsreference.nhl.constants import BOXSCORE_URL, BOXSCORES_URL
+from sportsreference.nhl.boxscore import Boxscore, Boxscores
 
 
 MONTH = 10
@@ -27,6 +27,8 @@ def mock_pyquery(url):
             self.html_contents = html_contents
             self.text = html_contents
 
+    if url == BOXSCORES_URL % (2, 4, YEAR):
+        return MockPQ(read_file('boxscores.html'))
     boxscore = read_file('%s.html' % BOXSCORE)
     return MockPQ(boxscore)
 
@@ -120,3 +122,81 @@ class TestNHLBoxscore:
         df1 = pd.concat(frames).drop_duplicates(keep=False)
 
         assert df1.empty
+
+
+class TestNHLBoxscores:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_boxscores_search(self, *args, **kwargs):
+        expected = {
+            'boxscores': [
+                {'home_name': 'Boston Bruins',
+                 'home_abbr': 'BOS',
+                 'boxscore': '201702040BOS',
+                 'away_name': 'Toronto Maple Leafs',
+                 'away_abbr': 'TOR'},
+                {'home_name': 'Buffalo Sabres',
+                 'home_abbr': 'BUF',
+                 'boxscore': '201702040BUF',
+                 'away_name': 'Ottawa Senators',
+                 'away_abbr': 'OTT'},
+                {'home_name': 'Columbus Blue Jackets',
+                 'home_abbr': 'CBJ',
+                 'boxscore': '201702040CBJ',
+                 'away_name': 'New Jersey Devils',
+                 'away_abbr': 'NJD'},
+                {'home_name': 'Colorado Avalanche',
+                 'home_abbr': 'COL',
+                 'boxscore': '201702040COL',
+                 'away_name': 'Winnipeg Jets',
+                 'away_abbr': 'WPG'},
+                {'home_name': 'Dallas Stars',
+                 'home_abbr': 'DAL',
+                 'boxscore': '201702040DAL',
+                 'away_name': 'Chicago Blackhawks',
+                 'away_abbr': 'CHI'},
+                {'home_name': 'Montreal Canadiens',
+                 'home_abbr': 'MTL',
+                 'boxscore': '201702040MTL',
+                 'away_name': 'Washington Capitals',
+                 'away_abbr': 'WSH'},
+                {'home_name': 'Nashville Predators',
+                 'home_abbr': 'NSH',
+                 'boxscore': '201702040NSH',
+                 'away_name': 'Detroit Red Wings',
+                 'away_abbr': 'DET'},
+                {'home_name': 'New York Islanders',
+                 'home_abbr': 'NYI',
+                 'boxscore': '201702040NYI',
+                 'away_name': 'Carolina Hurricanes',
+                 'away_abbr': 'CAR'},
+                {'home_name': 'Philadelphia Flyers',
+                 'home_abbr': 'PHI',
+                 'boxscore': '201702040PHI',
+                 'away_name': 'Los Angeles Kings',
+                 'away_abbr': 'LAK'},
+                {'home_name': 'San Jose Sharks',
+                 'home_abbr': 'SJS',
+                 'boxscore': '201702040SJS',
+                 'away_name': 'Arizona Coyotes',
+                 'away_abbr': 'ARI'},
+                {'home_name': 'St. Louis Blues',
+                 'home_abbr': 'STL',
+                 'boxscore': '201702040STL',
+                 'away_name': 'Pittsburgh Penguins',
+                 'away_abbr': 'PIT'},
+                {'home_name': 'Tampa Bay Lightning',
+                 'home_abbr': 'TBL',
+                 'boxscore': '201702040TBL',
+                 'away_name': 'Anaheim Ducks',
+                 'away_abbr': 'ANA'},
+                {'home_name': 'Vancouver Canucks',
+                 'home_abbr': 'VAN',
+                 'boxscore': '201702040VAN',
+                 'away_name': 'Minnesota Wild',
+                 'away_abbr': 'MIN'},
+            ]
+        }
+
+        result = Boxscores(datetime(2017, 2, 4)).games()
+
+        assert result == expected

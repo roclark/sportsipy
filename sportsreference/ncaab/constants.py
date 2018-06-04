@@ -244,6 +244,8 @@ ADVANCED_OPPONENT_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'
 SCHEDULE_URL = ('http://www.sports-reference.com/cbb/schools/%s/'
                 '%s-schedule.html')
 BOXSCORE_URL = 'http://www.sports-reference.com/cbb/boxscores/%s.html'
+BOXSCORES_URL = ('https://www.sports-reference.com/cbb/boxscores/index.cgi?'
+                 'month=%s&day=%s&year=%s')
 
 NCAA_TOURNAMENT = 'NCAA'
 NIT_TOURNAMENT = 'NIT'

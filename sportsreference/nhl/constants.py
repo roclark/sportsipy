@@ -131,5 +131,8 @@ SCHEDULE_URL = 'https://www.hockey-reference.com/teams/%s/%s_gamelog.html'
 
 BOXSCORE_URL = 'https://www.hockey-reference.com/boxscores/%s.html'
 
+BOXSCORES_URL = ('https://www.hockey-reference.com/boxscores/index.fcgi?'
+                 'month=%s&day=%s&year=%s')
+
 SHOOTOUT = -1
 OVERTIME_LOSS = 'OTL'

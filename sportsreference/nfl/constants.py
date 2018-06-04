@@ -195,6 +195,8 @@ SCHEDULE_URL = 'https://www.pro-football-reference.com/teams/%s/%s/gamelog/'
 
 BOXSCORE_URL = 'https://www.pro-football-reference.com/boxscores/%s.htm'
 
+BOXSCORES_URL = 'https://www.pro-football-reference.com/years/%s/week_%s.htm'
+
 WILD_CARD = 100
 DIVISION = 101
 CONF_CHAMPIONSHIP = 102
