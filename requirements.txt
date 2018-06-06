@@ -4,3 +4,4 @@ pep8>=1.4.6
 pyquery>=1.4.0
 pytest-cov>=2.5.1
 requests>=2.18.4
+sphinx>=1.7.5

@@ -1,0 +1,30 @@
+sportsreference.mlb package
+===========================
+
+Submodules
+----------
+
+sportsreference.mlb.schedule module
+-----------------------------------
+
+.. automodule:: sportsreference.mlb.schedule
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+sportsreference.mlb.teams module
+--------------------------------
+
+.. automodule:: sportsreference.mlb.teams
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sportsreference.mlb
+    :members:
+    :undoc-members:
+    :show-inheritance:

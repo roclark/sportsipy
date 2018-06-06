@@ -1,0 +1,30 @@
+sportsreference.ncaaf package
+=============================
+
+Submodules
+----------
+
+sportsreference.ncaaf.schedule module
+-------------------------------------
+
+.. automodule:: sportsreference.ncaaf.schedule
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+sportsreference.ncaaf.teams module
+----------------------------------
+
+.. automodule:: sportsreference.ncaaf.teams
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: sportsreference.ncaaf
+    :members:
+    :undoc-members:
+    :show-inheritance:
