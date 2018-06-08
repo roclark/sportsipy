@@ -4,6 +4,14 @@ sportsreference.ncaaf package
 Submodules
 ----------
 
+sportsreference.ncaaf.boxscore module
+-------------------------------------
+
+.. automodule:: sportsreference.ncaaf.boxscore
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 sportsreference.ncaaf.schedule module
 -------------------------------------
 
