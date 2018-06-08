@@ -4,6 +4,14 @@ sportsreference.nfl package
 Submodules
 ----------
 
+sportsreference.nfl.boxscore module
+-----------------------------------
+
+.. automodule:: sportsreference.nfl.boxscore
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 sportsreference.nfl.schedule module
 -----------------------------------
 
