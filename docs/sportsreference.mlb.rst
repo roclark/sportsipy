@@ -4,6 +4,14 @@ sportsreference.mlb package
 Submodules
 ----------
 
+sportsreference.mlb.boxscore module
+-----------------------------------
+
+.. automodule:: sportsreference.mlb.boxscore
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 sportsreference.mlb.schedule module
 -----------------------------------
 
