@@ -4,6 +4,14 @@ sportsreference.nhl package
 Submodules
 ----------
 
+sportsreference.nhl.boxscore module
+-----------------------------------
+
+.. automodule:: sportsreference.nhl.boxscore
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 sportsreference.nhl.schedule module
 -----------------------------------
 

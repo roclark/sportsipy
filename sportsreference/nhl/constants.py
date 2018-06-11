@@ -51,9 +51,74 @@ SCHEDULE_SCHEME = {
     'length_of_game': 'td[data-stat="game_duration"]:first'
 }
 
+BOXSCORE_SCHEME = {
+    'date': 'div[class="scorebox_meta"]',
+    'time': 'div[class="scorebox_meta"]',
+    'arena': 'div[class="scorebox_meta"]',
+    'attendance': 'div[class="scorebox_meta"]',
+    'duration': 'div[class="scorebox_meta"]',
+    'away_name': 'a[itemprop="name"]:first',
+    'home_name': 'a[itemprop="name"]:last',
+    'away_skaters': 'table[class="sortable stats_table"]:first tbody tr',
+    'away_goals': 'tfoot td[data-stat="goals"]',
+    'away_assists': 'tfoot td[data-stat="assists"]',
+    'away_points': 'tfoot td[data-stat="points"]',
+    'away_penalties_in_minutes': 'tfoot td[data-stat="pen_min"]',
+    'away_even_strength_goals': 'tfoot td[data-stat="goals_ev"]',
+    'away_power_play_goals': 'tfoot td[data-stat="goals_pp"]',
+    'away_short_handed_goals': 'tfoot td[data-stat="goals_sh"]',
+    'away_game_winning_goals': 'td[data-stat="goals_gw"]',
+    'away_even_strength_assists': 'td[data-stat="assists_ev"]',
+    'away_power_play_assists': 'td[data-stat="assists_pp"]',
+    'away_short_handed_assists': 'td[data-stat="assists_sh"]',
+    'away_shots_on_goal': 'tfoot td[data-stat="shots"]',
+    'away_shooting_percentage': 'tfoot td[data-stat="shot_pct"]',
+    'away_saves': 'td[data-stat="saves"]',
+    'away_save_percentage': 'td[data-stat="save_pct"]',
+    'away_shutout': 'td[data-stat="shutouts"]',
+    'home_goals': 'tfoot td[data-stat="goals"]',
+    'home_assists': 'tfoot td[data-stat="assists"]',
+    'home_points': 'tfoot td[data-stat="points"]',
+    'home_penalties_in_minutes': 'tfoot td[data-stat="pen_min"]',
+    'home_even_strength_goals': 'tfoot td[data-stat="goals_ev"]',
+    'home_power_play_goals': 'tfoot td[data-stat="goals_pp"]',
+    'home_short_handed_goals': 'tfoot td[data-stat="goals_sh"]',
+    'home_game_winning_goals': 'td[data-stat="goals_gw"]',
+    'home_even_strength_assists': 'td[data-stat="assists_ev"]',
+    'home_power_play_assists': 'td[data-stat="assists_pp"]',
+    'home_short_handed_assists': 'td[data-stat="assists_sh"]',
+    'home_shots_on_goal': 'tfoot td[data-stat="shots"]',
+    'home_shooting_percentage': 'tfoot td[data-stat="shot_pct"]',
+    'home_saves': 'td[data-stat="saves"]',
+    'home_save_percentage': 'td[data-stat="save_pct"]',
+    'home_shutout': 'td[data-stat="shutouts"]'
+}
+
+BOXSCORE_ELEMENT_INDEX = {
+    'date': 0,
+    'time': 0,
+    'attendance': 2,
+    'arena': 3,
+    'duration': 4,
+    'home_goals': 1,
+    'home_assists': 1,
+    'home_points': 1,
+    'home_penalties_in_minutes': 1,
+    'home_even_strength_goals': 1,
+    'home_power_play_goals': 1,
+    'home_short_handed_goals': 1,
+    'home_shots_on_goal': 1,
+    'home_shooting_percentage': 1,
+    'home_saves': 1,
+    'home_save_percentage': 1,
+    'home_shutout': 1,
+}
+
 SEASON_PAGE_URL = 'http://www.hockey-reference.com/leagues/NHL_%s.html'
 
 SCHEDULE_URL = 'https://www.hockey-reference.com/teams/%s/%s_games.html'
+
+BOXSCORE_URL = 'https://www.hockey-reference.com/boxscores/%s.html'
 
 SHOOTOUT = -1
 OVERTIME_LOSS = 'OTL'
