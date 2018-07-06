@@ -12,6 +12,7 @@ from sportsreference.constants import (WIN,
                                        POST_SEASON,
                                        REGULAR_SEASON,
                                        CONFERENCE_TOURNAMENT)
+from sportsreference.nfl.boxscore import Boxscore
 
 
 class Game(object):
@@ -44,6 +45,7 @@ class Game(object):
         self._day = None
         self._date = None
         self._time = None
+        self._boxscore = None
         self._type = game_type
         self._datetime = None
         self._result = None
@@ -82,6 +84,17 @@ class Game(object):
         name = re.sub('/.*', '', name).upper()
         setattr(self, '_opponent_abbr', name)
 
+    def _parse_boxscore(self, game_data):
+        """
+        Parses the boxscore URI for the game.
+
+        The boxscore is embedded within the HTML tag and needs a special
+        parsing scheme in order to be extracted.
+        """
+        boxscore = game_data('td[data-stat="box_score_text"]:first')
+        boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
+        setattr(self, '_boxscore', boxscore)
+
     def _parse_game_data(self, game_data):
         """
         Parses a value for every attribute.
@@ -110,6 +123,9 @@ class Game(object):
                 continue
             if short_name == 'opponent_abbr':
                 self._parse_abbreviation(game_data)
+                continue
+            elif short_name == 'boxscore':
+                self._parse_boxscore(game_data)
                 continue
             value = utils.parse_field(SCHEDULE_SCHEME, game_data, short_name)
             setattr(self, field, value)
@@ -154,6 +170,14 @@ class Game(object):
         Returns a string of the time the game was played, such as '8:30PM ET'.
         """
         return self._time
+
+    @property
+    def boxscore(self):
+        """
+        Returns an instance of the Boxscore class containing more detailed
+        stats on the game.
+        """
+        return Boxscore(self._boxscore)
 
     @property
     def type(self):

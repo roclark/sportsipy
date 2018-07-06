@@ -13,6 +13,7 @@ from sportsreference.constants import (WIN,
                                        NEUTRAL,
                                        REGULAR_SEASON,
                                        CONFERENCE_TOURNAMENT)
+from sportsreference.mlb.boxscore import Boxscore
 
 
 class Game(object):
@@ -36,6 +37,7 @@ class Game(object):
         self._game = None
         self._date = None
         self._datetime = None
+        self._boxscore = None
         self._location = None
         self._opponent_abbr = None
         self._result = None
@@ -55,6 +57,17 @@ class Game(object):
         self._year = year
 
         self._parse_game_data(game_data)
+
+    def _parse_boxscore(self, game_data):
+        """
+        Parses the boxscore URI for the game.
+
+        The boxscore is embedded within the HTML tag and needs a special
+        parsing scheme in order to be extracted.
+        """
+        boxscore = game_data('td[data-stat="box_score_text"]:first')
+        boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
+        setattr(self, '_boxscore', boxscore)
 
     def _parse_game_data(self, game_data):
         """
@@ -79,6 +92,9 @@ class Game(object):
             short_name = str(field)[1:]
             if short_name == 'datetime' or \
                short_name == 'year':
+                continue
+            elif short_name == 'boxscore':
+                self._parse_boxscore(game_data)
                 continue
             value = utils.parse_field(SCHEDULE_SCHEME, game_data, short_name)
             setattr(self, field, value)
@@ -106,6 +122,14 @@ class Game(object):
         """
         date_string = '%s %s' % (self._date, self._year)
         return datetime.strptime(date_string, '%A, %b %d %Y')
+
+    @property
+    def boxscore(self):
+        """
+        Returns an instance of the Boxscore class containing more detailed
+        stats on the game.
+        """
+        return Boxscore(self._boxscore)
 
     @property
     def location(self):

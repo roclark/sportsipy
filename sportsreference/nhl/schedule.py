@@ -11,6 +11,7 @@ from sportsreference.constants import (WIN,
                                        NEUTRAL,
                                        REGULAR_SEASON,
                                        CONFERENCE_TOURNAMENT)
+from sportsreference.nhl.boxscore import Boxscore
 from sportsreference.nhl.constants import OVERTIME_LOSS, SHOOTOUT
 
 
@@ -35,6 +36,7 @@ class Game(object):
         self._game = None
         self._date = None
         self._time = None
+        self._boxscore = None
         self._location = None
         self._opponent_abbr = None
         self._opponent_name = None
@@ -68,6 +70,17 @@ class Game(object):
         name = re.sub('/.*', '', name)
         setattr(self, '_opponent_abbr', name)
 
+    def _parse_boxscore(self, game_data):
+        """
+        Parses the boxscore URI for the game.
+
+        The boxscore is embedded within the HTML tag and needs a special
+        parsing scheme in order to be extracted.
+        """
+        boxscore = game_data('td[data-stat="box_score_text"]:first')
+        boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
+        setattr(self, '_boxscore', boxscore)
+
     def _parse_game_data(self, game_data):
         """
         Parses a value for every attribute.
@@ -91,6 +104,9 @@ class Game(object):
             short_name = str(field)[1:]
             if short_name == 'opponent_abbr':
                 self._parse_abbreviation(game_data)
+                continue
+            elif short_name == 'boxscore':
+                self._parse_boxscore(game_data)
                 continue
             value = utils.parse_field(SCHEDULE_SCHEME, game_data, short_name)
             setattr(self, field, value)
@@ -125,6 +141,14 @@ class Game(object):
         """
         date_string = '%s %s' % (self._date, self._time)
         return datetime.strptime(date_string, '%Y-%m-%d %I:%M %p')
+
+    @property
+    def boxscore(self):
+        """
+        Returns an instance of the Boxscore class containing more detailed
+        stats on the game.
+        """
+        return Boxscore(self._boxscore)
 
     @property
     def location(self):
