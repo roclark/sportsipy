@@ -5,6 +5,7 @@ from .constants import (ELEMENT_INDEX,
                         TEAM_STATS_URL)
 from pyquery import PyQuery as pq
 from .. import utils
+from .schedule import Schedule
 
 
 class Team:
@@ -196,6 +197,14 @@ class Team:
         Houston Astros.
         """
         return self._abbreviation
+
+    @property
+    def schedule(self):
+        """
+        Returns an instance of the Schedule class containing the team's
+        complete schedule for the season.
+        """
+        return Schedule(self._abbreviation)
 
     @property
     def name(self):

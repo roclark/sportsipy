@@ -2,6 +2,7 @@ import re
 from .constants import PARSING_SCHEME, OFFENSIVE_STATS_URL, SEASON_PAGE_URL
 from pyquery import PyQuery as pq
 from .. import utils
+from .schedule import Schedule
 
 
 class Team:
@@ -96,6 +97,14 @@ class Team:
         Purdue Boilermakers.
         """
         return self._abbreviation
+
+    @property
+    def schedule(self):
+        """
+        Returns an instance of the Schedule class containing the team's
+        complete schedule for the season.
+        """
+        return Schedule(self._abbreviation)
 
     @property
     def name(self):
