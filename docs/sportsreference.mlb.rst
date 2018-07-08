@@ -27,12 +27,3 @@ sportsreference.mlb.teams module
     :members:
     :undoc-members:
     :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: sportsreference.mlb
-    :members:
-    :undoc-members:
-    :show-inheritance:

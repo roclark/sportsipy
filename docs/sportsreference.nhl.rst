@@ -27,12 +27,3 @@ sportsreference.nhl.teams module
     :members:
     :undoc-members:
     :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: sportsreference.nhl
-    :members:
-    :undoc-members:
-    :show-inheritance:

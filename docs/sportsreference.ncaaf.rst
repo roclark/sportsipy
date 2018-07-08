@@ -27,12 +27,3 @@ sportsreference.ncaaf.teams module
     :members:
     :undoc-members:
     :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: sportsreference.ncaaf
-    :members:
-    :undoc-members:
-    :show-inheritance:

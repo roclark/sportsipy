@@ -27,12 +27,3 @@ sportsreference.nba.teams module
     :members:
     :undoc-members:
     :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: sportsreference.nba
-    :members:
-    :undoc-members:
-    :show-inheritance:
