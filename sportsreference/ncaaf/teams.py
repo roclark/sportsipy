@@ -85,9 +85,9 @@ class Team:
             multiple rows in a single string.
         """
         for field in self.__dict__:
-            value = utils.parse_field(PARSING_SCHEME,
-                                      team_data,
-                                      str(field)[1:])
+            value = utils._parse_field(PARSING_SCHEME,
+                                       team_data,
+                                       str(field)[1:])
             setattr(self, field, value)
 
     @property
@@ -477,7 +477,9 @@ class Teams:
             if 'class="over_header thead"' in str(team_data) or \
                'class="thead"' in str(team_data):
                 continue
-            abbr = utils.parse_field(PARSING_SCHEME, team_data, 'abbreviation')
+            abbr = utils._parse_field(PARSING_SCHEME,
+                                      team_data,
+                                      'abbreviation')
             try:
                 team_data_dict[abbr]['data'] += team_data
             except KeyError:
@@ -505,11 +507,11 @@ class Teams:
         team_data_dict = {}
 
         if not year:
-            year = utils.find_year_for_season('ncaaf')
+            year = utils._find_year_for_season('ncaaf')
         doc = pq(SEASON_PAGE_URL % year)
-        teams_list = utils.get_stats_table(doc, 'div#div_standings')
+        teams_list = utils._get_stats_table(doc, 'div#div_standings')
         offense_doc = pq(OFFENSIVE_STATS_URL % year)
-        offense_list = utils.get_stats_table(offense_doc, 'table#offense')
+        offense_list = utils._get_stats_table(offense_doc, 'table#offense')
         for stats_list in [teams_list, offense_list]:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 

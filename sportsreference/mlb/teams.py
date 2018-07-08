@@ -177,10 +177,10 @@ class Team:
             index = 0
             if short_field in ELEMENT_INDEX.keys():
                 index = ELEMENT_INDEX[short_field]
-            value = utils.parse_field(PARSING_SCHEME,
-                                      team_data,
-                                      short_field,
-                                      index)
+            value = utils._parse_field(PARSING_SCHEME,
+                                       team_data,
+                                       short_field,
+                                       index)
             setattr(self, field, value)
 
     @property
@@ -1115,7 +1115,9 @@ class Teams:
             # Skip the league average row
             if 'class="league_average_table"' in str(team_data):
                 continue
-            abbr = utils.parse_field(PARSING_SCHEME, team_data, 'abbreviation')
+            abbr = utils._parse_field(PARSING_SCHEME,
+                                      team_data,
+                                      'abbreviation')
             try:
                 team_data_dict[abbr]['data'] += team_data
             except KeyError:
@@ -1144,14 +1146,14 @@ class Teams:
         team_data_dict = {}
 
         if not year:
-            year = utils.find_year_for_season('mlb')
+            year = utils._find_year_for_season('mlb')
         doc = pq(STANDINGS_URL % year)
         div_prefix = 'div#all_expanded_standings_overall'
-        standings = utils.get_stats_table(doc, div_prefix)
+        standings = utils._get_stats_table(doc, div_prefix)
         doc = pq(TEAM_STATS_URL % year)
         div_prefix = 'div#all_teams_standard_%s'
-        batting_stats = utils.get_stats_table(doc, div_prefix % 'batting')
-        pitching_stats = utils.get_stats_table(doc, div_prefix % 'pitching')
+        batting_stats = utils._get_stats_table(doc, div_prefix % 'batting')
+        pitching_stats = utils._get_stats_table(doc, div_prefix % 'pitching')
         for stats_list in [standings, batting_stats, pitching_stats]:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 

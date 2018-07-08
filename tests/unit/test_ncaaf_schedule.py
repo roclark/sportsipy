@@ -81,7 +81,7 @@ class TestNCAAFScheduleNames:
         game_data = pq(text)
 
         flexmock(utils) \
-            .should_receive('parse_field') \
+            .should_receive('_parse_field') \
             .and_return(None)
 
         game = Game(game_data)

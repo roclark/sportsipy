@@ -37,7 +37,7 @@ def _todays_date():
     return datetime.now()
 
 
-def find_year_for_season(league):
+def _find_year_for_season(league):
     """
     Return the necessary seaons's year based on the current date.
 
@@ -116,7 +116,7 @@ def _parse_abbreviation(uri_link):
     return abbr.upper()
 
 
-def parse_field(parsing_scheme, html_data, field, index=0):
+def _parse_field(parsing_scheme, html_data, field, index=0):
     """
     Parse an HTML table to find the requested field's value.
 
@@ -187,7 +187,7 @@ def _remove_html_comment_tags(html):
     return str(html).replace('<!--', '').replace('-->', '')
 
 
-def get_stats_table(html_page, div):
+def _get_stats_table(html_page, div):
     """
     Returns a generator of all rows in a requested table.
 

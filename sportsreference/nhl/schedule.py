@@ -108,7 +108,7 @@ class Game(object):
             elif short_name == 'boxscore':
                 self._parse_boxscore(game_data)
                 continue
-            value = utils.parse_field(SCHEDULE_SCHEME, game_data, short_name)
+            value = utils._parse_field(SCHEDULE_SCHEME, game_data, short_name)
             setattr(self, field, value)
 
     @property
@@ -400,9 +400,9 @@ class Schedule:
             The requested year to pull stats from.
         """
         if not year:
-            year = utils.find_year_for_season('nhl')
+            year = utils._find_year_for_season('nhl')
         doc = pq(SCHEDULE_URL % (year, abbreviation))
-        schedule = utils.get_stats_table(doc, 'table#games')
+        schedule = utils._get_stats_table(doc, 'table#games')
 
         for item in schedule:
             if 'class="thead"' in str(item):

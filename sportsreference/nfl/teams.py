@@ -97,9 +97,9 @@ class Team:
             # instantiation.
             if field == '_rank':
                 continue
-            value = utils.parse_field(PARSING_SCHEME,
-                                      team_data,
-                                      str(field)[1:])
+            value = utils._parse_field(PARSING_SCHEME,
+                                       team_data,
+                                       str(field)[1:])
             setattr(self, field, value)
 
     @property
@@ -529,7 +529,9 @@ class Teams:
         for team_data in teams_list:
             if 'class="thead onecell"' in str(team_data):
                 continue
-            abbr = utils.parse_field(PARSING_SCHEME, team_data, 'abbreviation')
+            abbr = utils._parse_field(PARSING_SCHEME,
+                                      team_data,
+                                      'abbreviation')
             try:
                 team_data_dict[abbr]['data'] += team_data
             except KeyError:
@@ -558,11 +560,11 @@ class Teams:
         team_data_dict = {}
 
         if not year:
-            year = utils.find_year_for_season('nfl')
+            year = utils._find_year_for_season('nfl')
         doc = pq(SEASON_PAGE_URL % year)
-        teams_list = utils.get_stats_table(doc, 'div#all_team_stats')
-        afc_list = utils.get_stats_table(doc, 'table#AFC')
-        nfc_list = utils.get_stats_table(doc, 'table#NFC')
+        teams_list = utils._get_stats_table(doc, 'div#all_team_stats')
+        afc_list = utils._get_stats_table(doc, 'table#AFC')
+        nfc_list = utils._get_stats_table(doc, 'table#NFC')
         for stats_list in [teams_list, afc_list, nfc_list]:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 

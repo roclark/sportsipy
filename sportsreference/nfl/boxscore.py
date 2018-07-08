@@ -207,10 +207,10 @@ class Boxscore(object):
             index = 0
             if short_field in BOXSCORE_ELEMENT_INDEX.keys():
                 index = BOXSCORE_ELEMENT_INDEX[short_field]
-            value = utils.parse_field(BOXSCORE_SCHEME,
-                                      boxscore,
-                                      short_field,
-                                      index)
+            value = utils._parse_field(BOXSCORE_SCHEME,
+                                       boxscore,
+                                       short_field,
+                                       index)
             setattr(self, field, value)
 
     @property

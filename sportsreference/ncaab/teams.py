@@ -129,10 +129,10 @@ class Team:
             multiple rows in a single string.
         """
         for field in self.__dict__:
-            value = utils.parse_field(PARSING_SCHEME,
-                                      team_data,
-                                      # Remove the '_' from the name
-                                      str(field)[1:])
+            value = utils._parse_field(PARSING_SCHEME,
+                                       team_data,
+                                       # Remove the '_' from the name
+                                       str(field)[1:])
             setattr(self, field, value)
 
     @property
@@ -846,7 +846,9 @@ class Teams:
             if 'class="over_header thead"' in str(team_data) or\
                'class="thead"' in str(team_data):
                 continue
-            abbr = utils.parse_field(PARSING_SCHEME, team_data, 'abbreviation')
+            abbr = utils._parse_field(PARSING_SCHEME,
+                                      team_data,
+                                      'abbreviation')
             try:
                 team_data_dict[abbr]['data'] += team_data
             except KeyError:
@@ -874,15 +876,15 @@ class Teams:
         team_data_dict = {}
 
         if not year:
-            year = utils.find_year_for_season('ncaab')
+            year = utils._find_year_for_season('ncaab')
         doc = pq(BASIC_STATS_URL % year)
-        teams_list = utils.get_stats_table(doc, 'table#basic_school_stats')
+        teams_list = utils._get_stats_table(doc, 'table#basic_school_stats')
         doc = pq(BASIC_OPPONENT_STATS_URL % year)
-        opp_list = utils.get_stats_table(doc, 'table#basic_opp_stats')
+        opp_list = utils._get_stats_table(doc, 'table#basic_opp_stats')
         doc = pq(ADVANCED_STATS_URL % year)
-        adv_teams_list = utils.get_stats_table(doc, 'table#adv_school_stats')
+        adv_teams_list = utils._get_stats_table(doc, 'table#adv_school_stats')
         doc = pq(ADVANCED_OPPONENT_STATS_URL % year)
-        adv_opp_list = utils.get_stats_table(doc, 'table#adv_opp_stats')
+        adv_opp_list = utils._get_stats_table(doc, 'table#adv_opp_stats')
 
         for stats_list in [teams_list, opp_list, adv_teams_list, adv_opp_list]:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)

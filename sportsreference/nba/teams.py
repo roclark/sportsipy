@@ -105,9 +105,9 @@ class Team:
             # instantiation.
             if field == '_rank':
                 continue
-            value = utils.parse_field(PARSING_SCHEME,
-                                      team_data,
-                                      str(field)[1:])
+            value = utils._parse_field(PARSING_SCHEME,
+                                       team_data,
+                                       str(field)[1:])
             setattr(self, field, value)
 
     @property
@@ -603,7 +603,9 @@ class Teams:
         # Teams are listed in terms of rank with the first team being #1
         rank = 1
         for team_data in teams_list:
-            abbr = utils.parse_field(PARSING_SCHEME, team_data, 'abbreviation')
+            abbr = utils._parse_field(PARSING_SCHEME,
+                                      team_data,
+                                      'abbreviation')
             try:
                 team_data_dict[abbr]['data'] += team_data
             except KeyError:
@@ -632,11 +634,11 @@ class Teams:
         team_data_dict = {}
 
         if not year:
-            year = utils.find_year_for_season('nba')
+            year = utils._find_year_for_season('nba')
         doc = pq(SEASON_PAGE_URL % year)
-        teams_list = utils.get_stats_table(doc, 'div#all_team-stats-base')
-        opp_teams_list = utils.get_stats_table(doc,
-                                               'div#all_opponent-stats-base')
+        teams_list = utils._get_stats_table(doc, 'div#all_team-stats-base')
+        opp_teams_list = utils._get_stats_table(doc,
+                                                'div#all_opponent-stats-base')
         for stats_list in [teams_list, opp_teams_list]:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 

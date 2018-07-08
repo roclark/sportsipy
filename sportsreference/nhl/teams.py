@@ -86,9 +86,9 @@ class Team:
             # instantiation.
             if field == '_rank':
                 continue
-            value = utils.parse_field(PARSING_SCHEME,
-                                      team_data,
-                                      str(field)[1:])
+            value = utils._parse_field(PARSING_SCHEME,
+                                       team_data,
+                                       str(field)[1:])
             setattr(self, field, value)
 
     @property
@@ -428,9 +428,9 @@ class Teams:
             The requested year to pull stats from.
         """
         if not year:
-            year = utils.find_year_for_season('nhl')
+            year = utils._find_year_for_season('nhl')
         doc = pq(SEASON_PAGE_URL % year)
-        teams_list = utils.get_stats_table(doc, 'div#all_stats')
+        teams_list = utils._get_stats_table(doc, 'div#all_stats')
         # Teams are listed in terms of rank with the first team being #1
         rank = 1
         for team_data in teams_list:

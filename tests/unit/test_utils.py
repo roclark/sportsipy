@@ -48,7 +48,7 @@ class MockHtml:
 
 
 class TestUtils:
-    def test_find_year_for_season_returns_correct_year(self):
+    def test__find_year_for_season_returns_correct_year(self):
         season_start_matrix = [
             # MLB Months
             SeasonStarts('mlb', 1, 2017),
@@ -136,7 +136,7 @@ class TestUtils:
                 .should_receive('_todays_date')\
                 .and_return(mock_datetime)
 
-            result = utils.find_year_for_season(month.league)
+            result = utils._find_year_for_season(month.league)
             assert result == month.expected_year
 
     def test_remove_html_comment_tags_removes_comments(self):
@@ -184,7 +184,7 @@ class TestUtils:
             result = utils._parse_abbreviation(mock_html)
             assert result == abbreviation
 
-    def test_parse_field_returns_abbreviation(self):
+    def test__parse_field_returns_abbreviation(self):
         parsing_scheme = {'abbreviation': 'a'}
         input_abbreviation = '/teams/ARI/2018.shtml'
         expected = 'ARI'
@@ -193,24 +193,24 @@ class TestUtils:
             .and_return('ARI') \
             .once()
 
-        result = utils.parse_field(parsing_scheme,
-                                   MockHtml(input_abbreviation, None),
-                                   'abbreviation')
+        result = utils._parse_field(parsing_scheme,
+                                    MockHtml(input_abbreviation, None),
+                                    'abbreviation')
         assert result == expected
 
-    def test_parse_field_returns_value_for_non_abbreviation(self):
+    def test__parse_field_returns_value_for_non_abbreviation(self):
         parsing_scheme = {'batters_used': 'td[data-stat="batters_used"]:first'}
         html_string = '''<td class="right " data-stat="batters_used">32</td>
 <td class="right " data-stat="age_bat">29.1</td>
 <td class="right " data-stat="runs_per_game">4.10</td>'''
         expected = '32'
 
-        result = utils.parse_field(parsing_scheme,
-                                   MockHtml(html_string, [expected]),
-                                   'batters_used')
+        result = utils._parse_field(parsing_scheme,
+                                    MockHtml(html_string, [expected]),
+                                    'batters_used')
         assert result == expected
 
-    def test_get_stats_table_returns_correct_table(self):
+    def test__get_stats_table_returns_correct_table(self):
         html_string = '''<div>
     <table class="stats_table" id="all_stats">
         <tbody>
@@ -233,7 +233,7 @@ class TestUtils:
             .and_return(html_string) \
             .once()
 
-        result = utils.get_stats_table(MockHtml(html_string, expected), div)
+        result = utils._get_stats_table(MockHtml(html_string, expected), div)
 
         i = 0
         for element in result:
