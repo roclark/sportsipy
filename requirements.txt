@@ -5,5 +5,7 @@ pep8>=1.4.6
 pyquery>=1.4.0
 pytest-cov>=2.5.1
 requests>=2.18.4
+setuptools>=38.2.3
 sphinx>=1.7.5
 sphinx_rtd_theme>=0.4.0
+twine>=1.11.0

@@ -1,3 +1,11 @@
+# Python specific
 *.pyc
+
+# Test files
 *cache*
 *coverage*
+
+# Building files
+build*
+dist*
+sportsreference.egg-info*
