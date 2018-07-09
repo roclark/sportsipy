@@ -1,12 +1,28 @@
 language: python
-python:
-    - "2.7"
-    - "3.3"
-    - "3.4"
-    - "3.5"
-    - "3.5-dev"
-    - "3.6"
-    - "3.6-dev"
+matrix:
+    include:
+        - dist: trusty
+          python: 2.7
+        - dist: trusty
+          python: 3.3
+        - dist: trusty
+          python: 3.4
+        - dist: trusty
+          python: 3.5
+        - dist: trusty
+          python: 3.5-dev
+        - dist: trusty
+          python: 3.6
+        - dist: trusty
+          python: 3.6-dev
+        - dist: xenial
+          python: 3.7
+          sudo: true
+        - dist: xenial
+          python: 3.7-dev
+        - dist: xenial
+          python: 3.8-dev
+          sudo: true
 install:
     - pip install -r requirements.txt
 script:
