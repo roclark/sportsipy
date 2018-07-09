@@ -1,3 +1,4 @@
+import pandas as pd
 import re
 from .constants import PARSING_SCHEME, SEASON_PAGE_URL
 from pyquery import PyQuery as pq
@@ -113,6 +114,72 @@ class Team:
                                        team_data,
                                        str(field)[1:])
             setattr(self, field, value)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame containing all other class properties and
+        values. The index for the DataFrame is the string abbreviation of the
+        team, such as 'DET'.
+        """
+        fields_to_include = {
+            'abbreviation': self.abbreviation,
+            'assists': self.assists,
+            'blocks': self.blocks,
+            'defensive_rebounds': self.defensive_rebounds,
+            'field_goal_attempts': self.field_goal_attempts,
+            'field_goal_percentage': self.field_goal_percentage,
+            'field_goals': self.field_goals,
+            'free_throw_attempts': self.free_throw_attempts,
+            'free_throw_percentage': self.free_throw_percentage,
+            'free_throws': self.free_throws,
+            'games_played': self.games_played,
+            'minutes_played': self.minutes_played,
+            'name': self.name,
+            'offensive_rebounds': self.offensive_rebounds,
+            'opp_assists': self.opp_assists,
+            'opp_blocks': self.opp_blocks,
+            'opp_defensive_rebounds': self.opp_defensive_rebounds,
+            'opp_field_goal_attempts': self.opp_field_goal_attempts,
+            'opp_field_goal_percentage': self.opp_field_goal_percentage,
+            'opp_field_goals': self.opp_field_goals,
+            'opp_free_throw_attempts': self.opp_free_throw_attempts,
+            'opp_free_throw_percentage': self.opp_free_throw_percentage,
+            'opp_free_throws': self.opp_free_throws,
+            'opp_offensive_rebounds': self.opp_offensive_rebounds,
+            'opp_personal_fouls': self.opp_personal_fouls,
+            'opp_points': self.opp_points,
+            'opp_steals': self.opp_steals,
+            'opp_three_point_field_goal_attempts':
+            self.opp_three_point_field_goal_attempts,
+            'opp_three_point_field_goal_percentage':
+            self.opp_three_point_field_goal_percentage,
+            'opp_three_point_field_goals': self.opp_three_point_field_goals,
+            'opp_total_rebounds': self.opp_total_rebounds,
+            'opp_turnovers': self.opp_turnovers,
+            'opp_two_point_field_goal_attempts':
+            self.opp_two_point_field_goal_attempts,
+            'opp_two_point_field_goal_percentage':
+            self.opp_two_point_field_goal_percentage,
+            'opp_two_point_field_goals': self.opp_two_point_field_goals,
+            'personal_fouls': self.personal_fouls,
+            'points': self.points,
+            'rank': self.rank,
+            'steals': self.steals,
+            'three_point_field_goal_attempts':
+            self.three_point_field_goal_attempts,
+            'three_point_field_goal_percentage':
+            self.three_point_field_goal_percentage,
+            'three_point_field_goals': self.three_point_field_goals,
+            'total_rebounds': self.total_rebounds,
+            'turnovers': self.turnovers,
+            'two_point_field_goal_attempts':
+            self.two_point_field_goal_attempts,
+            'two_point_field_goal_percentage':
+            self.two_point_field_goal_percentage,
+            'two_point_field_goals': self.two_point_field_goals
+        }
+        return pd.DataFrame([fields_to_include], index=[self._abbreviation])
 
     @property
     def rank(self):
@@ -649,3 +716,14 @@ class Teams:
         for team_data in team_data_dict.values():
             team = Team(team_data['data'], team_data['rank'], year)
             self._teams.append(team)
+
+    @property
+    def dataframes(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Team class. Rows are indexed by the team abbreviation.
+        """
+        frames = []
+        for team in self.__iter__():
+            frames.append(team.dataframe)
+        return pd.concat(frames)

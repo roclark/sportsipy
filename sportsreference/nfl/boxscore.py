@@ -1,3 +1,4 @@
+import pandas as pd
 import re
 from pyquery import PyQuery as pq
 from .. import utils
@@ -24,6 +25,7 @@ class Boxscore(object):
             The relative link to the boxscore HTML page, such as
             '201802040nwe'.
         """
+        self._uri = uri
         self._date = None
         self._time = None
         self._stadium = None
@@ -200,7 +202,8 @@ class Boxscore(object):
                short_field == 'winning_name' or \
                short_field == 'winning_abbr' or \
                short_field == 'losing_name' or \
-               short_field == 'losing_abbr':
+               short_field == 'losing_abbr' or \
+               short_field == 'uri':
                 continue
             if short_field == 'date' or \
                short_field == 'time' or \
@@ -224,6 +227,77 @@ class Boxscore(object):
                                        short_field,
                                        index)
             setattr(self, field, value)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame containing all other class properties and
+        values. The index for the DataFrame is the string URI that is used to
+        instantiate the class, such as '201802040nwe'.
+        """
+        if self._away_points is None and self._home_points is None:
+            return None
+        fields_to_include = {
+            'attendance': self.attendance,
+            'away_first_downs': self.away_first_downs,
+            'away_fourth_down_attempts': self.away_fourth_down_attempts,
+            'away_fourth_down_conversions': self.away_fourth_down_conversions,
+            'away_fumbles': self.away_fumbles,
+            'away_fumbles_lost': self.away_fumbles_lost,
+            'away_interceptions': self.away_interceptions,
+            'away_net_pass_yards': self.away_net_pass_yards,
+            'away_pass_attempts': self.away_pass_attempts,
+            'away_pass_completions': self.away_pass_completions,
+            'away_pass_touchdowns': self.away_pass_touchdowns,
+            'away_pass_yards': self.away_pass_yards,
+            'away_penalties': self.away_penalties,
+            'away_points': self.away_points,
+            'away_rush_attempts': self.away_rush_attempts,
+            'away_rush_touchdowns': self.away_rush_touchdowns,
+            'away_rush_yards': self.away_rush_yards,
+            'away_third_down_attempts': self.away_third_down_attempts,
+            'away_third_down_conversions': self.away_third_down_conversions,
+            'away_time_of_possession': self.away_time_of_possession,
+            'away_times_sacked': self.away_times_sacked,
+            'away_total_yards': self.away_total_yards,
+            'away_turnovers': self.away_turnovers,
+            'away_yards_from_penalties': self.away_yards_from_penalties,
+            'away_yards_lost_from_sacks': self.away_yards_lost_from_sacks,
+            'date': self.date,
+            'duration': self.duration,
+            'home_first_downs': self.home_first_downs,
+            'home_fourth_down_attempts': self.home_fourth_down_attempts,
+            'home_fourth_down_conversions': self.home_fourth_down_conversions,
+            'home_fumbles': self.home_fumbles,
+            'home_fumbles_lost': self.home_fumbles_lost,
+            'home_interceptions': self.home_interceptions,
+            'home_net_pass_yards': self.home_net_pass_yards,
+            'home_pass_attempts': self.home_pass_attempts,
+            'home_pass_completions': self.home_pass_completions,
+            'home_pass_touchdowns': self.home_pass_touchdowns,
+            'home_pass_yards': self.home_pass_yards,
+            'home_penalties': self.home_penalties,
+            'home_points': self.home_points,
+            'home_rush_attempts': self.home_rush_attempts,
+            'home_rush_touchdowns': self.home_rush_touchdowns,
+            'home_rush_yards': self.home_rush_yards,
+            'home_third_down_attempts': self.home_third_down_attempts,
+            'home_third_down_conversions': self.home_third_down_conversions,
+            'home_time_of_possession': self.home_time_of_possession,
+            'home_times_sacked': self.home_times_sacked,
+            'home_total_yards': self.home_total_yards,
+            'home_turnovers': self.home_turnovers,
+            'home_yards_from_penalties': self.home_yards_from_penalties,
+            'home_yards_lost_from_sacks': self.home_yards_lost_from_sacks,
+            'losing_abbr': self.losing_abbr,
+            'losing_name': self.losing_name,
+            'stadium': self.stadium,
+            'time': self.time,
+            'winner': self.winner,
+            'winning_abbr': self.winning_abbr,
+            'winning_name': self.winning_name
+        }
+        return pd.DataFrame([fields_to_include], index=[self._uri])
 
     @property
     def date(self):

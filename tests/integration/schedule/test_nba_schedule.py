@@ -1,9 +1,11 @@
 import mock
 import os
+import pandas as pd
 from datetime import datetime
 from flexmock import flexmock
 from sportsreference import utils
 from sportsreference.constants import AWAY, WIN
+from sportsreference.nba.boxscore import Boxscore
 from sportsreference.nba.constants import SCHEDULE_URL
 from sportsreference.nba.schedule import Schedule
 
@@ -86,11 +88,14 @@ class TestNBASchedule:
             'opp_turnovers': 13,
             'opp_personal_fouls': 24
         }
+        flexmock(Boxscore) \
+            .should_receive('_parse_game_data') \
+            .and_return(None)
         flexmock(utils) \
             .should_receive('_todays_date') \
             .and_return(MockDateTime(YEAR, MONTH))
 
-        self.schedule = Schedule('PHO')
+        self.schedule = Schedule('GSW')
 
     def test_nba_schedule_returns_correct_number_of_games(self):
         assert len(self.schedule) == NUM_GAMES_IN_SCHEDULE
@@ -106,3 +111,50 @@ class TestNBASchedule:
 
         for attribute, value in self.results.items():
             assert getattr(match_two, attribute) == value
+
+    def test_nba_schedule_dataframe_returns_dataframe(self):
+        df = pd.DataFrame([self.results], index=['PHO'])
+
+        match_two = self.schedule[1]
+        # Pandas doesn't natively allow comparisons of DataFrames.
+        # Concatenating the two DataFrames (the one generated during the test
+        # and the expected one above) and dropping duplicate rows leaves only
+        # the rows that are unique between the two frames. This allows a quick
+        # check of the DataFrame to see if it is empty - if so, all rows are
+        # duplicates, and they are equal.
+        frames = [df, match_two.dataframe]
+        df1 = pd.concat(frames).drop_duplicates(keep=False)
+
+        assert df1.empty
+
+    def test_nba_schedule_dataframe_extended_returns_dataframe(self):
+        df = pd.DataFrame([{'key': 'value'}])
+
+        flexmock(Boxscore) \
+            .should_receive('dataframe') \
+            .and_return(pd.DataFrame([{'key': 'value'}]))
+
+        result = self.schedule[1].dataframe_extended
+
+        frames = [df, result]
+        df1 = pd.concat(frames).drop_duplicates(keep=False)
+
+        assert df1.empty
+
+    def test_nba_schedule_all_dataframe_returns_dataframe(self):
+        flexmock(Boxscore) \
+            .should_receive('dataframe') \
+            .and_return(pd.DataFrame([{'key': 'value'}]))
+        result = self.schedule.dataframe.drop_duplicates(keep=False)
+
+        assert len(result) == NUM_GAMES_IN_SCHEDULE
+        assert set(result.columns.values) == set(self.results.keys())
+
+    def test_nba_schedule_all_dataframe_extended_returns_dataframe(self):
+        flexmock(Boxscore) \
+            .should_receive('dataframe') \
+            .and_return(pd.DataFrame([{'key': 'value'}]))
+
+        result = self.schedule.dataframe_extended
+
+        assert len(result) == NUM_GAMES_IN_SCHEDULE

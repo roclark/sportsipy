@@ -1,3 +1,4 @@
+import pandas as pd
 import re
 from .constants import (SCHEDULE_SCHEME,
                         SCHEDULE_URL)
@@ -142,6 +143,65 @@ class Game(object):
                 continue
             value = utils._parse_field(SCHEDULE_SCHEME, game_data, short_name)
             setattr(self, field, value)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame containing all other class properties and
+        values. The index for the DataFrame is the boxscore string.
+        """
+        if self._points_scored is None and self._points_allowed is None:
+            return None
+        fields_to_include = {
+            'date': self.date,
+            'datetime': self.datetime,
+            'day': self.day,
+            'extra_points_attempted': self.extra_points_attempted,
+            'extra_points_made': self.extra_points_made,
+            'field_goals_attempted': self.field_goals_attempted,
+            'field_goals_made': self.field_goals_made,
+            'fourth_down_attempts': self.fourth_down_attempts,
+            'fourth_down_conversions': self.fourth_down_conversions,
+            'interceptions': self.interceptions,
+            'location': self.location,
+            'opponent_abbr': self.opponent_abbr,
+            'opponent_name': self.opponent_name,
+            'overtime': self.overtime,
+            'pass_attempts': self.pass_attempts,
+            'pass_completion_rate': self.pass_completion_rate,
+            'pass_completions': self.pass_completions,
+            'pass_touchdowns': self.pass_touchdowns,
+            'pass_yards': self.pass_yards,
+            'pass_yards_per_attempt': self.pass_yards_per_attempt,
+            'points_allowed': self.points_allowed,
+            'points_scored': self.points_scored,
+            'punt_yards': self.punt_yards,
+            'punts': self.punts,
+            'quarterback_rating': self.quarterback_rating,
+            'result': self.result,
+            'rush_attempts': self.rush_attempts,
+            'rush_touchdowns': self.rush_touchdowns,
+            'rush_yards': self.rush_yards,
+            'rush_yards_per_attempt': self.rush_yards_per_attempt,
+            'third_down_attempts': self.third_down_attempts,
+            'third_down_conversions': self.third_down_conversions,
+            'time_of_possession': self.time_of_possession,
+            'times_sacked': self.times_sacked,
+            'type': self.type,
+            'week': self.week,
+            'yards_lost_from_sacks': self.yards_lost_from_sacks
+        }
+        return pd.DataFrame([fields_to_include], index=[self._boxscore])
+
+    @property
+    def dataframe_extended(self):
+        """
+        Returns a pandas DataFrame representing the Boxscore class for the
+        game. This property provides much richer context for the selected game,
+        but takes longer to process compared to the lighter 'dataframe'
+        property. The index for the DataFrame is the boxscore string.
+        """
+        return self.boxscore.dataframe
 
     @property
     def week(self):
@@ -574,3 +634,28 @@ class Schedule:
             playoffs = utils._get_stats_table(doc,
                                               'table#playoff_gamelog%s' % year)
             self._add_games_to_schedule(playoffs, POST_SEASON, year)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Game class. Rows are indexed by the boxscore string.
+        """
+        frames = []
+        for game in self.__iter__():
+            frames.append(game.dataframe)
+        return pd.concat(frames)
+
+    @property
+    def dataframe_extended(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Boxscore class for every game in the schedule. Rows are indexed by the
+        boxscore string. This property provides much richer context for the
+        selected game, but takes longer to process compared to the lighter
+        'dataframe' property.
+        """
+        frames = []
+        for game in self.__iter__():
+            frames.append(game.dataframe_extended)
+        return pd.concat(frames)

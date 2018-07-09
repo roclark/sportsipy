@@ -1,5 +1,6 @@
 import mock
 import os
+import pandas as pd
 from datetime import datetime
 from flexmock import flexmock
 from sportsreference import utils
@@ -144,4 +145,20 @@ class TestNCAABBoxscore:
         boxscore = Boxscore(BOXSCORE)
 
         for key, value in boxscore.__dict__.items():
+            if key == '_uri':
+                continue
             assert value is None
+
+    def test_ncaab_boxscore_dataframe_returns_dataframe_of_all_values(self):
+        df = pd.DataFrame([self.results], index=[BOXSCORE])
+
+        # Pandas doesn't natively allow comparisons of DataFrames.
+        # Concatenating the two DataFrames (the one generated during the test
+        # and the expected one above) and dropping duplicate rows leaves only
+        # the rows that are unique between the two frames. This allows a quick
+        # check of the DataFrame to see if it is empty - if so, all rows are
+        # duplicates, and they are equal.
+        frames = [df, self.boxscore.dataframe]
+        df1 = pd.concat(frames).drop_duplicates(keep=False)
+
+        assert df1.empty

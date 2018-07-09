@@ -1,3 +1,4 @@
+import pandas as pd
 import re
 from pyquery import PyQuery as pq
 from .. import utils
@@ -24,6 +25,7 @@ class Boxscore(object):
             The relative link to the boxscore HTML page, such as
             '201710310LAL'.
         """
+        self._uri = uri
         self._date = None
         self._location = None
         self._home_name = None
@@ -208,7 +210,8 @@ class Boxscore(object):
         for field in self.__dict__:
             # Remove the '_' from the name
             short_field = str(field)[1:]
-            if short_field == 'winner':
+            if short_field == 'winner' or \
+               short_field == 'uri':
                 continue
             if short_field == 'location' or \
                short_field == 'date':
@@ -229,6 +232,122 @@ class Boxscore(object):
                                        short_field,
                                        index)
             setattr(self, field, value)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame containing all other class properties and
+        values. The index for the DataFrame is the string URI that is used to
+        instantiate the class, such as '201710310LAL'.
+        """
+        if self._away_points is None and self._home_points is None:
+            return None
+        fields_to_include = {
+            'away_assist_percentage': self.away_assist_percentage,
+            'away_assists': self.away_assists,
+            'away_block_percentage': self.away_block_percentage,
+            'away_blocks': self.away_blocks,
+            'away_defensive_rating': self.away_defensive_rating,
+            'away_defensive_rebound_percentage':
+            self.away_defensive_rebound_percentage,
+            'away_defensive_rebounds': self.away_defensive_rebounds,
+            'away_effective_field_goal_percentage':
+            self.away_effective_field_goal_percentage,
+            'away_field_goal_attempts': self.away_field_goal_attempts,
+            'away_field_goal_percentage': self.away_field_goal_percentage,
+            'away_field_goals': self.away_field_goals,
+            'away_free_throw_attempt_rate': self.away_free_throw_attempt_rate,
+            'away_free_throw_attempts': self.away_free_throw_attempts,
+            'away_free_throw_percentage': self.away_free_throw_percentage,
+            'away_free_throws': self.away_free_throws,
+            'away_losses': self.away_losses,
+            'away_minutes_played': self.away_minutes_played,
+            'away_offensive_rating': self.away_offensive_rating,
+            'away_offensive_rebound_percentage':
+            self.away_offensive_rebound_percentage,
+            'away_offensive_rebounds': self.away_offensive_rebounds,
+            'away_personal_fouls': self.away_personal_fouls,
+            'away_points': self.away_points,
+            'away_steal_percentage': self.away_steal_percentage,
+            'away_steals': self.away_steals,
+            'away_three_point_attempt_rate':
+            self.away_three_point_attempt_rate,
+            'away_three_point_field_goal_attempts':
+            self.away_three_point_field_goal_attempts,
+            'away_three_point_field_goal_percentage':
+            self.away_three_point_field_goal_percentage,
+            'away_three_point_field_goals': self.away_three_point_field_goals,
+            'away_total_rebound_percentage':
+            self.away_total_rebound_percentage,
+            'away_total_rebounds': self.away_total_rebounds,
+            'away_true_shooting_percentage':
+            self.away_true_shooting_percentage,
+            'away_turnover_percentage': self.away_turnover_percentage,
+            'away_turnovers': self.away_turnovers,
+            'away_two_point_field_goal_attempts':
+            self.away_two_point_field_goal_attempts,
+            'away_two_point_field_goal_percentage':
+            self.away_two_point_field_goal_percentage,
+            'away_two_point_field_goals': self.away_two_point_field_goals,
+            'away_wins': self.away_wins,
+            'date': self.date,
+            'home_assist_percentage': self.home_assist_percentage,
+            'home_assists': self.home_assists,
+            'home_block_percentage': self.home_block_percentage,
+            'home_blocks': self.home_blocks,
+            'home_defensive_rating': self.home_defensive_rating,
+            'home_defensive_rebound_percentage':
+            self.home_defensive_rebound_percentage,
+            'home_defensive_rebounds': self.home_defensive_rebounds,
+            'home_effective_field_goal_percentage':
+            self.home_effective_field_goal_percentage,
+            'home_field_goal_attempts': self.home_field_goal_attempts,
+            'home_field_goal_percentage': self.home_field_goal_percentage,
+            'home_field_goals': self.home_field_goals,
+            'home_free_throw_attempt_rate': self.home_free_throw_attempt_rate,
+            'home_free_throw_attempts': self.home_free_throw_attempts,
+            'home_free_throw_percentage': self.home_free_throw_percentage,
+            'home_free_throws': self.home_free_throws,
+            'home_losses': self.home_losses,
+            'home_minutes_played': self.home_minutes_played,
+            'home_offensive_rating': self.home_offensive_rating,
+            'home_offensive_rebound_percentage':
+            self.home_offensive_rebound_percentage,
+            'home_offensive_rebounds': self.home_offensive_rebounds,
+            'home_personal_fouls': self.home_personal_fouls,
+            'home_points': self.home_points,
+            'home_steal_percentage': self.home_steal_percentage,
+            'home_steals': self.home_steals,
+            'home_three_point_attempt_rate':
+            self.home_three_point_attempt_rate,
+            'home_three_point_field_goal_attempts':
+            self.home_three_point_field_goal_attempts,
+            'home_three_point_field_goal_percentage':
+            self.home_three_point_field_goal_percentage,
+            'home_three_point_field_goals': self.home_three_point_field_goals,
+            'home_total_rebound_percentage':
+            self.home_total_rebound_percentage,
+            'home_total_rebounds':
+            self.home_total_rebounds,
+            'home_true_shooting_percentage':
+            self.home_true_shooting_percentage,
+            'home_turnover_percentage': self.home_turnover_percentage,
+            'home_turnovers': self.home_turnovers,
+            'home_two_point_field_goal_attempts':
+            self.home_two_point_field_goal_attempts,
+            'home_two_point_field_goal_percentage':
+            self.home_two_point_field_goal_percentage,
+            'home_two_point_field_goals': self.home_two_point_field_goals,
+            'home_wins': self.home_wins,
+            'location': self.location,
+            'losing_abbr': self.losing_abbr,
+            'losing_name': self.losing_name,
+            'pace': self.pace,
+            'winner': self.winner,
+            'winning_abbr': self.winning_abbr,
+            'winning_name': self.winning_name
+        }
+        return pd.DataFrame([fields_to_include], index=[self._uri])
 
     @property
     def date(self):

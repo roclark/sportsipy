@@ -1,3 +1,4 @@
+import pandas as pd
 import re
 from pyquery import PyQuery as pq
 from .. import utils
@@ -26,6 +27,7 @@ class Boxscore(object):
             The relative link to the boxscore HTML page, such as
             '201806070VEG'.
         """
+        self._uri = uri
         self._date = None
         self._time = None
         self._arena = None
@@ -214,7 +216,8 @@ class Boxscore(object):
                short_field == 'winning_name' or \
                short_field == 'winning_abbr' or \
                short_field == 'losing_name' or \
-               short_field == 'losing_abbr':
+               short_field == 'losing_abbr' or \
+               short_field == 'uri':
                 continue
             if short_field == 'date' or \
                short_field == 'time' or \
@@ -250,6 +253,61 @@ class Boxscore(object):
         # Skip the first element as it is dedicated to skaters and not goalies.
         next(num_away_goalies)
         self._away_goalies = len(next(num_away_goalies)('tbody tr'))
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame containing all other class properties and
+        values. The index for the DataFrame is the string URI that is used to
+        instantiate the class, such as '201806070VEG'.
+        """
+        if self._away_goals is None and self._home_goals is None:
+            return None
+        fields_to_include = {
+            'arena': self.arena,
+            'attendance': self.attendance,
+            'away_assists': self.away_assists,
+            'away_even_strength_assists': self.away_even_strength_assists,
+            'away_even_strength_goals': self.away_even_strength_goals,
+            'away_game_winning_goals': self.away_game_winning_goals,
+            'away_goals': self.away_goals,
+            'away_penalties_in_minutes': self.away_penalties_in_minutes,
+            'away_points': self.away_points,
+            'away_power_play_assists': self.away_power_play_assists,
+            'away_power_play_goals': self.away_power_play_goals,
+            'away_save_percentage': self.away_save_percentage,
+            'away_saves': self.away_saves,
+            'away_shooting_percentage': self.away_shooting_percentage,
+            'away_short_handed_assists': self.away_short_handed_assists,
+            'away_short_handed_goals': self.away_short_handed_goals,
+            'away_shots_on_goal': self.away_shots_on_goal,
+            'away_shutout': self.away_shutout,
+            'date': self.date,
+            'duration': self.duration,
+            'home_assists': self.home_assists,
+            'home_even_strength_assists': self.home_even_strength_assists,
+            'home_even_strength_goals': self.home_even_strength_goals,
+            'home_game_winning_goals': self.home_game_winning_goals,
+            'home_goals': self.home_goals,
+            'home_penalties_in_minutes': self.home_penalties_in_minutes,
+            'home_points': self.home_points,
+            'home_power_play_assists': self.home_power_play_assists,
+            'home_power_play_goals': self.home_power_play_goals,
+            'home_save_percentage': self.home_save_percentage,
+            'home_saves': self.home_saves,
+            'home_shooting_percentage': self.home_shooting_percentage,
+            'home_short_handed_assists': self.home_short_handed_assists,
+            'home_short_handed_goals': self.home_short_handed_goals,
+            'home_shots_on_goal': self.home_shots_on_goal,
+            'home_shutout': self.home_shutout,
+            'losing_abbr': self.losing_abbr,
+            'losing_name': self.losing_name,
+            'time': self.time,
+            'winner': self.winner,
+            'winning_abbr': self.winning_abbr,
+            'winning_name': self.winning_name
+        }
+        return pd.DataFrame([fields_to_include], index=[self._uri])
 
     @property
     def date(self):

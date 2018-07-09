@@ -1,5 +1,6 @@
 import mock
 import os
+import pandas as pd
 from flexmock import flexmock
 from sportsreference import utils
 from sportsreference.nba.constants import SEASON_PAGE_URL
@@ -114,3 +115,24 @@ class TestNBAIntegration:
     def test_nba_integration_returns_correct_team_abbreviations(self):
         for team in self.teams:
             assert team.abbreviation in self.abbreviations
+
+    def test_nba_integration_dataframe_returns_dataframe(self):
+        df = pd.DataFrame([self.results], index=['DET'])
+
+        detroit = self.teams('DET')
+        # Pandas doesn't natively allow comparisons of DataFrames.
+        # Concatenating the two DataFrames (the one generated during the test
+        # and the expected one above) and dropping duplicate rows leaves only
+        # the rows that are unique between the two frames. This allows a quick
+        # check of the DataFrame to see if it is empty - if so, all rows are
+        # duplicates, and they are equal.
+        frames = [df, detroit.dataframe]
+        df1 = pd.concat(frames).drop_duplicates(keep=False)
+
+        assert df1.empty
+
+    def test_nba_integration_all_teams_dataframe_returns_dataframe(self):
+        result = self.teams.dataframes.drop_duplicates(keep=False)
+
+        assert len(result) == len(self.abbreviations)
+        assert set(result.columns.values) == set(self.results.keys())

@@ -1,3 +1,4 @@
+import pandas as pd
 import re
 from .constants import (DAY,
                         NIGHT,
@@ -99,6 +100,54 @@ class Game(object):
                 continue
             value = utils._parse_field(SCHEDULE_SCHEME, game_data, short_name)
             setattr(self, field, value)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame containing all other class properties and
+        values. The index for the DataFrame is the boxscore string.
+        """
+        # If both the runs scored and allowed are None, the game hasn't been
+        # played yet, and the DataFrame should be None.
+        if self._runs_allowed is None and self._runs_scored is None:
+            return None
+        fields_to_include = {
+            'attendance': self.attendance,
+            'date': self.date,
+            'datetime': self.datetime,
+            'game_number_for_day': self.game_number_for_day,
+            'day_or_night': self.day_or_night,
+            'game': self.game,
+            'game_duration': self.game_duration,
+            'games_behind': self.games_behind,
+            'innings': self.innings,
+            'location': self.location,
+            'loser': self.loser,
+            'opponent_abbr': self.opponent_abbr,
+            'rank': self.rank,
+            'record': self.record,
+            'result': self.result,
+            'runs_allowed': self.runs_allowed,
+            'runs_scored': self.runs_scored,
+            'save': self.save,
+            'streak': self.streak,
+            'winner': self.winner
+        }
+        return pd.DataFrame([fields_to_include], index=[self._boxscore])
+
+    @property
+    def dataframe_extended(self):
+        """
+        Returns a pandas DataFrame representing the Boxscore class for the
+        game. This property provides much richer context for the selected game,
+        but takes longer to process compared to the lighter 'dataframe'
+        property. The index for the DataFrame is the boxscore string.
+        """
+        # If both the runs scored and allowed are None, the game hasn't been
+        # played yet, and the DataFrame should be None.
+        if self._runs_allowed is None and self._runs_scored is None:
+            return None
+        return self.boxscore.dataframe
 
     @property
     def game(self):
@@ -399,3 +448,33 @@ class Schedule:
                 continue
             game = Game(item, year)
             self._games.append(game)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Game class. Rows are indexed by the boxscore string.
+        """
+        frames = []
+        for game in self.__iter__():
+            # If both the runs scored and allowed are None, the game hasn't
+            # been played yet, and the data should not be included in the
+            # DataFrame.
+            if game._runs_scored is None and game._runs_allowed is None:
+                continue
+            frames.append(game.dataframe)
+        return pd.concat(frames)
+
+    @property
+    def dataframe_extended(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Boxscore class for every game in the schedule. Rows are indexed by the
+        boxscore string. This property provides much richer context for the
+        selected game, but takes longer to process compared to the lighter
+        'dataframe' property.
+        """
+        frames = []
+        for game in self.__iter__():
+            frames.append(game.dataframe_extended)
+        return pd.concat(frames)

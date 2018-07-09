@@ -1,3 +1,4 @@
+import pandas as pd
 import re
 from pyquery import PyQuery as pq
 from .. import utils
@@ -28,6 +29,7 @@ class Boxscore(object):
             The relative link to the boxscore HTML page, such as
             'BOS/BOS201806070'.
         """
+        self._uri = uri
         self._date = None
         self._time = None
         self._attendance = None
@@ -248,7 +250,8 @@ class Boxscore(object):
                short_field == 'winning_name' or \
                short_field == 'winning_abbr' or \
                short_field == 'losing_name' or \
-               short_field == 'losing_abbr':
+               short_field == 'losing_abbr' or \
+               short_field == 'uri':
                 continue
             if short_field == 'date' or \
                short_field == 'time' or \
@@ -273,6 +276,106 @@ class Boxscore(object):
                                        short_field,
                                        index)
             setattr(self, field, value)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame containing all other class properties and
+        values. The index for the DataFrame is the string URI that is used to
+        instantiate the class, such as 'BOS201806070'.
+        """
+        if self._away_runs is None and self._home_runs is None:
+            return None
+        fields_to_include = {
+            'date': self.date,
+            'time': self.time,
+            'venue': self.venue,
+            'attendance': self.attendance,
+            'duration': self.duration,
+            'time_of_day': self.time_of_day,
+            'winner': self.winner,
+            'winning_name': self.winning_name,
+            'winning_abbr': self.winning_abbr,
+            'losing_name': self.losing_name,
+            'losing_abbr': self.losing_abbr,
+            'away_at_bats': self.away_at_bats,
+            'away_runs': self.away_runs,
+            'away_hits': self.away_hits,
+            'away_rbi': self.away_rbi,
+            'away_earned_runs': self.away_earned_runs,
+            'away_bases_on_balls': self.away_bases_on_balls,
+            'away_strikeouts': self.away_strikeouts,
+            'away_plate_appearances': self.away_plate_appearances,
+            'away_batting_average': self.away_batting_average,
+            'away_on_base_percentage': self.away_on_base_percentage,
+            'away_slugging_percentage': self.away_slugging_percentage,
+            'away_on_base_plus': self.away_on_base_plus,
+            'away_pitches': self.away_pitches,
+            'away_strikes': self.away_strikes,
+            'away_win_probability_for_offensive_player':
+            self.away_win_probability_for_offensive_player,
+            'away_average_leverage_index': self.away_average_leverage_index,
+            'away_win_probability_added': self.away_win_probability_added,
+            'away_win_probability_subtracted':
+            self.away_win_probability_subtracted,
+            'away_base_out_runs_added': self.away_base_out_runs_added,
+            'away_putouts': self.away_putouts,
+            'away_assists': self.away_assists,
+            'away_innings_pitched': self.away_innings_pitched,
+            'away_home_runs': self.away_home_runs,
+            'away_strikes_by_contact': self.away_strikes_by_contact,
+            'away_strikes_swinging': self.away_strikes_swinging,
+            'away_strikes_looking': self.away_strikes_looking,
+            'away_grounded_balls': self.away_grounded_balls,
+            'away_fly_balls': self.away_fly_balls,
+            'away_line_drives': self.away_line_drives,
+            'away_unknown_bat_type': self.away_unknown_bat_type,
+            'away_game_score': self.away_game_score,
+            'away_inherited_runners': self.away_inherited_runners,
+            'away_inherited_score': self.away_inherited_score,
+            'away_win_probability_by_pitcher':
+            self.away_win_probability_by_pitcher,
+            'away_base_out_runs_saved': self.away_base_out_runs_saved,
+            'home_at_bats': self.home_at_bats,
+            'home_runs': self.home_runs,
+            'home_hits': self.home_hits,
+            'home_rbi': self.home_rbi,
+            'home_earned_runs': self.home_earned_runs,
+            'home_bases_on_balls': self.home_bases_on_balls,
+            'home_strikeouts': self.home_strikeouts,
+            'home_plate_appearances': self.home_plate_appearances,
+            'home_batting_average': self.home_batting_average,
+            'home_on_base_percentage': self.home_on_base_percentage,
+            'home_slugging_percentage': self.home_slugging_percentage,
+            'home_on_base_plus': self.home_on_base_plus,
+            'home_pitches': self.home_pitches,
+            'home_strikes': self.home_strikes,
+            'home_win_probability_for_offensive_player':
+            self.home_win_probability_for_offensive_player,
+            'home_average_leverage_index': self.home_average_leverage_index,
+            'home_win_probability_added': self.home_win_probability_added,
+            'home_win_probability_subtracted':
+            self.home_win_probability_subtracted,
+            'home_base_out_runs_added': self.home_base_out_runs_added,
+            'home_putouts': self.home_putouts,
+            'home_assists': self.home_assists,
+            'home_innings_pitched': self.home_innings_pitched,
+            'home_home_runs': self.home_home_runs,
+            'home_strikes_by_contact': self.home_strikes_by_contact,
+            'home_strikes_swinging': self.home_strikes_swinging,
+            'home_strikes_looking': self.home_strikes_looking,
+            'home_grounded_balls': self.home_grounded_balls,
+            'home_fly_balls': self.home_fly_balls,
+            'home_line_drives': self.home_line_drives,
+            'home_unknown_bat_type': self.home_unknown_bat_type,
+            'home_game_score': self.home_game_score,
+            'home_inherited_runners': self.home_inherited_runners,
+            'home_inherited_score': self.home_inherited_score,
+            'home_win_probability_by_pitcher':
+            self.home_win_probability_by_pitcher,
+            'home_base_out_runs_saved': self.home_base_out_runs_saved
+        }
+        return pd.DataFrame([fields_to_include], index=[self._uri])
 
     @property
     def date(self):

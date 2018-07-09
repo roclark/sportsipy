@@ -1,3 +1,4 @@
+import pandas as pd
 import re
 from .constants import (SCHEDULE_SCHEME,
                         SCHEDULE_URL)
@@ -120,6 +121,60 @@ class Game(object):
                 continue
             value = utils._parse_field(SCHEDULE_SCHEME, game_data, short_name)
             setattr(self, field, value)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame containing all other class properties and
+        values. The index for the DataFrame is the boxscore string.
+        """
+        if self._goals_scored is None and self._goals_allowed is None:
+            return None
+        fields_to_include = {
+            'date': self.date,
+            'datetime': self.datetime,
+            'game': self.game,
+            'goals_allowed': self.goals_allowed,
+            'goals_scored': self.goals_scored,
+            'location': self.location,
+            'opponent_abbr': self.opponent_abbr,
+            'opponent_name': self.opponent_name,
+            'overtime': self.overtime,
+            'penalties_in_minutes': self.penalties_in_minutes,
+            'power_play_goals': self.power_play_goals,
+            'power_play_opportunities': self.power_play_opportunities,
+            'result': self.result,
+            'short_handed_goals': self.short_handed_goals,
+            'shots_on_goal': self.shots_on_goal,
+            'opp_shots_on_goal': self.opp_shots_on_goal,
+            'opp_penalties_in_minutes': self.opp_penalties_in_minutes,
+            'opp_power_play_goals': self.opp_power_play_goals,
+            'opp_power_play_opportunities': self.opp_power_play_opportunities,
+            'opp_short_handed_goals': self.opp_short_handed_goals,
+            'corsi_for': self.corsi_for,
+            'corsi_against': self.corsi_against,
+            'corsi_for_percentage': self.corsi_for_percentage,
+            'fenwick_for': self.fenwick_for,
+            'fenwick_against': self.fenwick_against,
+            'fenwick_for_percentage': self.fenwick_for_percentage,
+            'faceoff_wins': self.faceoff_wins,
+            'faceoff_losses': self.faceoff_losses,
+            'faceoff_win_percentage': self.faceoff_win_percentage,
+            'offensive_zone_start_percentage':
+            self.offensive_zone_start_percentage,
+            'pdo': self.pdo
+        }
+        return pd.DataFrame([fields_to_include], index=[self._boxscore])
+
+    @property
+    def dataframe_extended(self):
+        """
+        Returns a pandas DataFrame representing the Boxscore class for the
+        game. This property provides much richer context for the selected game,
+        but takes longer to process compared to the lighter 'dataframe'
+        property. The index for the DataFrame is the boxscore string.
+        """
+        return self.boxscore.dataframe
 
     @property
     def game(self):
@@ -560,3 +615,28 @@ class Schedule:
                 continue
             game = Game(item, year)
             self._games.append(game)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Game class. Rows are indexed by the boxscore string.
+        """
+        frames = []
+        for game in self.__iter__():
+            frames.append(game.dataframe)
+        return pd.concat(frames)
+
+    @property
+    def dataframe_extended(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Boxscore class for every game in the schedule. Rows are indexed by the
+        boxscore string. This property provides much richer context for the
+        selected game, but takes longer to process compared to the lighter
+        'dataframe' property.
+        """
+        frames = []
+        for game in self.__iter__():
+            frames.append(game.dataframe_extended)
+        return pd.concat(frames)

@@ -1,3 +1,4 @@
+import pandas as pd
 import re
 from .constants import (SCHEDULE_SCHEME,
                         SCHEDULE_URL)
@@ -114,6 +115,72 @@ class Game(object):
                 continue
             value = utils._parse_field(SCHEDULE_SCHEME, game_data, short_name)
             setattr(self, field, value)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame containing all other class properties and
+        values. The index for the DataFrame is the boxscore string.
+        """
+        if self._points_allowed is None and self._points_scored is None:
+            return None
+        fields_to_include = {
+            'assists': self.assists,
+            'blocks': self.blocks,
+            'date': self.date,
+            'datetime': self.datetime,
+            'field_goal_attempts': self.field_goal_attempts,
+            'field_goal_percentage': self.field_goal_percentage,
+            'field_goals': self.field_goals,
+            'free_throw_attempts': self.free_throw_attempts,
+            'free_throw_percentage': self.free_throw_percentage,
+            'free_throws': self.free_throws,
+            'game': self.game,
+            'location': self.location,
+            'offensive_rebounds': self.offensive_rebounds,
+            'opp_assists': self.opp_assists,
+            'opp_blocks': self.opp_blocks,
+            'opp_field_goal_attempts': self.opp_field_goal_attempts,
+            'opp_field_goal_percentage': self.opp_field_goal_percentage,
+            'opp_field_goals': self.opp_field_goals,
+            'opp_free_throw_attempts': self.opp_free_throw_attempts,
+            'opp_free_throw_percentage': self.opp_free_throw_percentage,
+            'opp_free_throws': self.opp_free_throws,
+            'opp_offensive_rebounds': self.opp_offensive_rebounds,
+            'opp_personal_fouls': self.opp_personal_fouls,
+            'opp_steals': self.opp_steals,
+            'opp_three_point_field_goal_attempts':
+            self.opp_three_point_field_goal_attempts,
+            'opp_three_point_field_goal_percentage':
+            self.opp_three_point_field_goal_percentage,
+            'opp_three_point_field_goals': self.opp_three_point_field_goals,
+            'opp_total_rebounds': self.opp_total_rebounds,
+            'opp_turnovers': self.opp_turnovers,
+            'opponent_abbr': self.opponent_abbr,
+            'personal_fouls': self.personal_fouls,
+            'points_allowed': self.points_allowed,
+            'points_scored': self.points_scored,
+            'result': self.result,
+            'steals': self.steals,
+            'three_point_field_goal_attempts':
+            self.three_point_field_goal_attempts,
+            'three_point_field_goal_percentage':
+            self.three_point_field_goal_percentage,
+            'three_point_field_goals': self.three_point_field_goals,
+            'total_rebounds': self.total_rebounds,
+            'turnovers': self.turnovers
+        }
+        return pd.DataFrame([fields_to_include], index=[self._boxscore])
+
+    @property
+    def dataframe_extended(self):
+        """
+        Returns a pandas DataFrame representing the Boxscore class for the
+        game. This property provides much richer context for the selected game,
+        but takes longer to process compared to the lighter 'dataframe'
+        property. The index for the DataFrame is the boxscore string.
+        """
+        return self.boxscore.dataframe
 
     @property
     def game(self):
@@ -556,3 +623,28 @@ class Schedule:
             playoffs = utils._get_stats_table(doc,
                                               'div#all_tgl_basic_playoffs')
             self._add_games_to_schedule(playoffs)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Game class. Rows are indexed by the boxscore string.
+        """
+        frames = []
+        for game in self.__iter__():
+            frames.append(game.dataframe)
+        return pd.concat(frames)
+
+    @property
+    def dataframe_extended(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Boxscore class for every game in the schedule. Rows are indexed by the
+        boxscore string. This property provides much richer context for the
+        selected game, but takes longer to process compared to the lighter
+        'dataframe' property.
+        """
+        frames = []
+        for game in self.__iter__():
+            frames.append(game.dataframe_extended)
+        return pd.concat(frames)

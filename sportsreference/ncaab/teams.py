@@ -1,3 +1,4 @@
+import pandas as pd
 import re
 from .constants import (ADVANCED_OPPONENT_STATS_URL,
                         ADVANCED_STATS_URL,
@@ -139,6 +140,100 @@ class Team:
                                        # Remove the '_' from the name
                                        str(field)[1:])
             setattr(self, field, value)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame containing all other class properties and
+        values. The index for the DataFrame is the string abbreviation of the
+        team, such as 'PURDUE'.
+        """
+        fields_to_include = {
+            'abbreviation': self.abbreviation,
+            'assist_percentage': self.assist_percentage,
+            'assists': self.assists,
+            'away_losses': self.away_losses,
+            'away_wins': self.away_wins,
+            'block_percentage': self.block_percentage,
+            'blocks': self.blocks,
+            'conference_losses': self.conference_losses,
+            'conference_wins': self.conference_wins,
+            'effective_field_goal_percentage':
+            self.effective_field_goal_percentage,
+            'field_goal_attempts': self.field_goal_attempts,
+            'field_goal_percentage': self.field_goal_percentage,
+            'field_goals': self.field_goals,
+            'free_throw_attempt_rate': self.free_throw_attempt_rate,
+            'free_throw_attempts': self.free_throw_attempts,
+            'free_throw_percentage': self.free_throw_percentage,
+            'free_throws': self.free_throws,
+            'free_throws_per_field_goal_attempt':
+            self.free_throws_per_field_goal_attempt,
+            'games_played': self.games_played,
+            'home_losses': self.home_losses,
+            'home_wins': self.home_wins,
+            'losses': self.losses,
+            'minutes_played': self.minutes_played,
+            'name': self.name,
+            'offensive_rating': self.offensive_rating,
+            'offensive_rebound_percentage': self.offensive_rebound_percentage,
+            'offensive_rebounds': self.offensive_rebounds,
+            'opp_assist_percentage': self.opp_assist_percentage,
+            'opp_assists': self.opp_assists,
+            'opp_block_percentage': self.opp_block_percentage,
+            'opp_blocks': self.opp_blocks,
+            'opp_effective_field_goal_percentage':
+            self.opp_effective_field_goal_percentage,
+            'opp_field_goal_attempts': self.opp_field_goal_attempts,
+            'opp_field_goal_percentage': self.opp_field_goal_percentage,
+            'opp_field_goals': self.opp_field_goals,
+            'opp_free_throw_attempt_rate': self.opp_free_throw_attempt_rate,
+            'opp_free_throw_attempts': self.opp_free_throw_attempts,
+            'opp_free_throw_percentage': self.opp_free_throw_percentage,
+            'opp_free_throws': self.opp_free_throws,
+            'opp_free_throws_per_field_goal_attempt':
+            self.opp_free_throws_per_field_goal_attempt,
+            'opp_offensive_rating': self.opp_offensive_rating,
+            'opp_offensive_rebound_percentage':
+            self.opp_offensive_rebound_percentage,
+            'opp_offensive_rebounds': self.opp_offensive_rebounds,
+            'opp_personal_fouls': self.opp_personal_fouls,
+            'opp_points': self.opp_points,
+            'opp_steal_percentage': self.opp_steal_percentage,
+            'opp_steals': self.opp_steals,
+            'opp_three_point_attempt_rate': self.opp_three_point_attempt_rate,
+            'opp_three_point_field_goal_attempts':
+            self.opp_three_point_field_goal_attempts,
+            'opp_three_point_field_goal_percentage':
+            self.opp_three_point_field_goal_percentage,
+            'opp_three_point_field_goals': self.opp_three_point_field_goals,
+            'opp_total_rebound_percentage': self.opp_total_rebound_percentage,
+            'opp_total_rebounds': self.opp_total_rebounds,
+            'opp_true_shooting_percentage': self.opp_true_shooting_percentage,
+            'opp_turnover_percentage': self.opp_turnover_percentage,
+            'opp_turnovers': self.opp_turnovers,
+            'pace': self.pace,
+            'personal_fouls': self.personal_fouls,
+            'points': self.points,
+            'simple_rating_system': self.simple_rating_system,
+            'steal_percentage': self.steal_percentage,
+            'steals': self.steals,
+            'strength_of_schedule': self.strength_of_schedule,
+            'three_point_attempt_rate': self.three_point_attempt_rate,
+            'three_point_field_goal_attempts':
+            self.three_point_field_goal_attempts,
+            'three_point_field_goal_percentage':
+            self.three_point_field_goal_percentage,
+            'three_point_field_goals': self.three_point_field_goals,
+            'total_rebound_percentage': self.total_rebound_percentage,
+            'total_rebounds': self.total_rebounds,
+            'true_shooting_percentage': self.true_shooting_percentage,
+            'turnover_percentage': self.turnover_percentage,
+            'turnovers': self.turnovers,
+            'win_percentage': self.win_percentage,
+            'wins': self.wins
+        }
+        return pd.DataFrame([fields_to_include], index=[self._abbreviation])
 
     @property
     def abbreviation(self):
@@ -897,3 +992,14 @@ class Teams:
         for team_data in team_data_dict.values():
             team = Team(team_data['data'], year)
             self._teams.append(team)
+
+    @property
+    def dataframes(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Team class. Rows are indexed by the team abbreviation.
+        """
+        frames = []
+        for team in self.__iter__():
+            frames.append(team.dataframe)
+        return pd.concat(frames)

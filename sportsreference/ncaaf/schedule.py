@@ -1,3 +1,4 @@
+import pandas as pd
 import re
 from .constants import (SCHEDULE_SCHEME,
                         SCHEDULE_URL)
@@ -110,6 +111,45 @@ class Game(object):
                 continue
             value = utils._parse_field(SCHEDULE_SCHEME, game_data, short_name)
             setattr(self, field, value)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame containing all other class properties and
+        values. The index for the DataFrame is the boxscore string.
+        """
+        if self._points_for is None and self._points_against is None:
+            return None
+        fields_to_include = {
+            'date': self.date,
+            'datetime': self.datetime,
+            'day_of_week': self.day_of_week,
+            'game': self.game,
+            'location': self.location,
+            'losses': self.losses,
+            'opponent_abbr': self.opponent_abbr,
+            'opponent_conference': self.opponent_conference,
+            'opponent_name': self.opponent_name,
+            'opponent_rank': self.opponent_rank,
+            'points_against': self.points_against,
+            'points_for': self.points_for,
+            'rank': self.rank,
+            'result': self.result,
+            'streak': self.streak,
+            'time': self.time,
+            'wins': self.wins
+        }
+        return pd.DataFrame([fields_to_include], index=[self._boxscore])
+
+    @property
+    def dataframe_extended(self):
+        """
+        Returns a pandas DataFrame representing the Boxscore class for the
+        game. This property provides much richer context for the selected game,
+        but takes longer to process compared to the lighter 'dataframe'
+        property. The index for the DataFrame is the boxscore string.
+        """
+        return self.boxscore.dataframe
 
     @property
     def game(self):
@@ -377,3 +417,28 @@ class Schedule:
         for item in schedule:
             game = Game(item)
             self._games.append(game)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Game class. Rows are indexed by the boxscore string.
+        """
+        frames = []
+        for game in self.__iter__():
+            frames.append(game.dataframe)
+        return pd.concat(frames)
+
+    @property
+    def dataframe_extended(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Boxscore class for every game in the schedule. Rows are indexed by the
+        boxscore string. This property provides much richer context for the
+        selected game, but takes longer to process compared to the lighter
+        'dataframe' property.
+        """
+        frames = []
+        for game in self.__iter__():
+            frames.append(game.dataframe_extended)
+        return pd.concat(frames)

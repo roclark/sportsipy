@@ -1,3 +1,4 @@
+import pandas as pd
 import re
 from .constants import PARSING_SCHEME, OFFENSIVE_STATS_URL, SEASON_PAGE_URL
 from pyquery import PyQuery as pq
@@ -94,6 +95,51 @@ class Team(object):
                                        team_data,
                                        str(field)[1:])
             setattr(self, field, value)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame containing all other class properties and
+        values. The index for the DataFrame is the string abbreviation of the
+        team, such as 'PURDUE'.
+        """
+        fields_to_include = {
+            'abbreviation': self.abbreviation,
+            'conference_losses': self.conference_losses,
+            'conference_win_percentage': self.conference_win_percentage,
+            'conference_wins': self.conference_wins,
+            'first_downs': self.first_downs,
+            'first_downs_from_penalties': self.first_downs_from_penalties,
+            'fumbles_lost': self.fumbles_lost,
+            'games': self.games,
+            'interceptions': self.interceptions,
+            'losses': self.losses,
+            'name': self.name,
+            'pass_attempts': self.pass_attempts,
+            'pass_completion_percentage': self.pass_completion_percentage,
+            'pass_completions': self.pass_completions,
+            'pass_first_downs': self.pass_first_downs,
+            'pass_touchdowns': self.pass_touchdowns,
+            'pass_yards': self.pass_yards,
+            'penalties': self.penalties,
+            'plays': self.plays,
+            'points_against_per_game': self.points_against_per_game,
+            'points_per_game': self.points_per_game,
+            'rush_attempts': self.rush_attempts,
+            'rush_first_downs': self.rush_first_downs,
+            'rush_touchdowns': self.rush_touchdowns,
+            'rush_yards': self.rush_yards,
+            'rush_yards_per_attempt': self.rush_yards_per_attempt,
+            'simple_rating_system': self.simple_rating_system,
+            'strength_of_schedule': self.strength_of_schedule,
+            'turnovers': self.turnovers,
+            'win_percentage': self.win_percentage,
+            'wins': self.wins,
+            'yards': self.yards,
+            'yards_from_penalties': self.yards_from_penalties,
+            'yards_per_play': self.yards_per_play
+        }
+        return pd.DataFrame([fields_to_include], index=[self._abbreviation])
 
     @property
     def abbreviation(self):
@@ -532,3 +578,14 @@ class Teams:
         for team_data in team_data_dict.values():
             team = Team(team_data['data'], year)
             self._teams.append(team)
+
+    @property
+    def dataframes(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Team class. Rows are indexed by the team abbreviation.
+        """
+        frames = []
+        for team in self.__iter__():
+            frames.append(team.dataframe)
+        return pd.concat(frames)

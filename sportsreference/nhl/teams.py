@@ -1,3 +1,4 @@
+import pandas as pd
 import re
 from .constants import PARSING_SCHEME, SEASON_PAGE_URL
 from pyquery import PyQuery as pq
@@ -94,6 +95,46 @@ class Team:
                                        team_data,
                                        str(field)[1:])
             setattr(self, field, value)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a pandas DataFrame containing all other class properties and
+        values. The index for the DataFrame is the string abbreviation of the
+        team, such as 'DET'.
+        """
+        fields_to_include = {
+            'abbreviation': self.abbreviation,
+            'average_age': self.average_age,
+            'games_played': self.games_played,
+            'goals_against': self.goals_against,
+            'goals_for': self.goals_for,
+            'losses': self.losses,
+            'name': self.name,
+            'overtime_losses': self.overtime_losses,
+            'pdo_at_even_strength': self.pdo_at_even_strength,
+            'penalty_killing_percentage': self.penalty_killing_percentage,
+            'points': self.points,
+            'points_percentage': self.points_percentage,
+            'power_play_goals': self.power_play_goals,
+            'power_play_goals_against': self.power_play_goals_against,
+            'power_play_opportunities': self.power_play_opportunities,
+            'power_play_opportunities_against':
+            self.power_play_opportunities_against,
+            'power_play_percentage': self.power_play_percentage,
+            'rank': self.rank,
+            'save_percentage': self.save_percentage,
+            'shooting_percentage': self.shooting_percentage,
+            'short_handed_goals': self.short_handed_goals,
+            'short_handed_goals_against': self.short_handed_goals_against,
+            'shots_against': self.shots_against,
+            'shots_on_goal': self.shots_on_goal,
+            'simple_rating_system': self.simple_rating_system,
+            'strength_of_schedule': self.strength_of_schedule,
+            'total_goals_per_game': self.total_goals_per_game,
+            'wins': self.wins
+        }
+        return pd.DataFrame([fields_to_include], index=[self._abbreviation])
 
     @property
     def rank(self):
@@ -441,3 +482,14 @@ class Teams:
             team = Team(team_data, rank, year)
             self._teams.append(team)
             rank += 1
+
+    @property
+    def dataframes(self):
+        """
+        Returns a pandas DataFrame where each row is a representation of the
+        Team class. Rows are indexed by the team abbreviation.
+        """
+        frames = []
+        for team in self.__iter__():
+            frames.append(team.dataframe)
+        return pd.concat(frames)
