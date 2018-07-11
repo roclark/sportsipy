@@ -366,7 +366,7 @@ class Schedule:
         """
         if not year:
             year = utils._find_year_for_season('mlb')
-        doc = pq(SCHEDULE_URL % (year, abbreviation))
+        doc = pq(SCHEDULE_URL % (abbreviation, year))
         schedule = utils._get_stats_table(doc, 'table#team_schedule')
 
         for item in schedule:
