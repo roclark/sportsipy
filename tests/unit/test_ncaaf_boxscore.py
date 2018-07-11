@@ -1,5 +1,5 @@
 from flexmock import flexmock
-from mock import PropertyMock
+from mock import patch, PropertyMock
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
 from sportsreference.ncaaf.boxscore import Boxscore
@@ -13,7 +13,19 @@ class MockName:
         return self._name
 
 
+def mock_pyquery(url):
+    class MockPQ:
+        def __init__(self, html_contents):
+            self.status_code = 404
+            self.html_contents = html_contents
+            self.text = html_contents
+
+    boxscore = read_file('%s.html' % BOXSCORE)
+    return MockPQ(boxscore)
+
+
 class TestNCAAFBoxscore:
+    @patch('requests.get', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         flexmock(Boxscore) \
             .should_receive('_parse_game_data') \
@@ -132,3 +144,8 @@ class TestNCAAFBoxscore:
         type(self.boxscore)._away_abbr = fake_away_abbr
 
         assert self.boxscore.losing_abbr == expected_name
+
+    def test_invalid_url_returns_none(self):
+        result = Boxscore(None)._retrieve_html_page('')
+
+        assert result is None

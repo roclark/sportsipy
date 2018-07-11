@@ -109,6 +109,10 @@ class Boxscore(object):
         """
         url = BOXSCORE_URL % uri
         url_data = pq(url)
+        # For NFL, a 404 page doesn't actually raise a 404 error, so it needs
+        # to be manually checked.
+        if '404 error' in str(url_data):
+            return None
         return pq(utils._remove_html_comment_tags(url_data))
 
     def _parse_game_date_and_location(self, field, boxscore):
@@ -180,6 +184,11 @@ class Boxscore(object):
             '201802040nwe'.
         """
         boxscore = self._retrieve_html_page(uri)
+        # If the boxscore is None, the game likely hasn't been played yet and
+        # no information can be gathered. As there is nothing to grab, the
+        # class instance should just be empty.
+        if not boxscore:
+            return
 
         for field in self.__dict__:
             # Remove the '_' from the name

@@ -135,3 +135,13 @@ class TestNCAABBoxscore:
     def test_ncaab_boxscore_returns_requested_boxscore(self):
         for attribute, value in self.results.items():
             assert getattr(self.boxscore, attribute) == value
+
+    def test_invalid_url_yields_empty_class(self):
+        flexmock(Boxscore) \
+            .should_receive('_retrieve_html_page') \
+            .and_return(None)
+
+        boxscore = Boxscore(BOXSCORE)
+
+        for key, value in boxscore.__dict__.items():
+            assert value is None

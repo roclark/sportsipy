@@ -1,5 +1,5 @@
 from flexmock import flexmock
-from mock import PropertyMock
+from mock import patch, PropertyMock
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
 from sportsreference.nhl.boxscore import Boxscore
@@ -13,7 +13,19 @@ class MockName:
         return self._name
 
 
+def mock_pyquery(url):
+    class MockPQ:
+        def __init__(self, html_contents):
+            self.status_code = 404
+            self.html_contents = html_contents
+            self.text = html_contents
+
+    boxscore = read_file('%s.html' % BOXSCORE)
+    return MockPQ(boxscore)
+
+
 class TestNHLBoxscore:
+    @patch('requests.get', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         flexmock(Boxscore) \
             .should_receive('_parse_game_data') \
@@ -202,3 +214,8 @@ class TestNHLBoxscore:
         type(self.boxscore)._away_skaters = fake_num_skaters
 
         assert self.boxscore.home_short_handed_assists == 1
+
+    def test_invalid_url_returns_none(self):
+        result = Boxscore(None)._retrieve_html_page('')
+
+        assert result is None

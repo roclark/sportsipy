@@ -5,6 +5,10 @@ from .constants import BOXSCORE_ELEMENT_INDEX, BOXSCORE_SCHEME, BOXSCORE_URL
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
 from sportsreference.mlb.constants import DAY, NIGHT
+try:
+    from urllib2 import HTTPError
+except ImportError:
+    from urllib.error import HTTPError
 
 
 class Boxscore(object):
@@ -133,7 +137,10 @@ class Boxscore(object):
             the comment tags removed.
         """
         url = BOXSCORE_URL % uri
-        url_data = pq(url)
+        try:
+            url_data = pq(url)
+        except HTTPError:
+            return None
         return pq(utils._remove_html_comment_tags(url_data))
 
     def _parse_game_date_and_location(self, field, boxscore):
@@ -205,6 +212,11 @@ class Boxscore(object):
             'BOS201806070'.
         """
         boxscore = self._retrieve_html_page(uri)
+        # If the boxscore is None, the game likely hasn't been played yet and
+        # no information can be gathered. As there is nothing to grab, the
+        # class instance should just be empty.
+        if not boxscore:
+            return
 
         for field in self.__dict__:
             # Remove the '_' from the name
