@@ -11,7 +11,7 @@ from sportsreference.mlb.boxscore import Boxscore
 MONTH = 10
 YEAR = 2017
 
-BOXSCORE = 'BOS201806070'
+BOXSCORE = 'BOS/BOS201806070'
 
 
 def read_file(filename):
@@ -26,7 +26,8 @@ def mock_pyquery(url):
             self.html_contents = html_contents
             self.text = html_contents
 
-    boxscore = read_file('%s.shtml' % BOXSCORE)
+    path = '%s.shtml' % BOXSCORE
+    boxscore = read_file(path.replace('BOS/', ''))
     return MockPQ(boxscore)
 
 

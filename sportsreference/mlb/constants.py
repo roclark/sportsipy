@@ -291,7 +291,7 @@ TEAM_STATS_URL = 'https://www.baseball-reference.com/leagues/MLB/%s.shtml'
 SCHEDULE_URL = ('https://www.baseball-reference.com/teams/%s/'
                 '%s-schedule-scores.shtml')
 
-BOXSCORE_URL = 'https://www.baseball-reference.com/boxes/BOS/%s.shtml'
+BOXSCORE_URL = 'https://www.baseball-reference.com/boxes/%s.shtml'
 
 NIGHT = 'Night'
 DAY = 'Day'

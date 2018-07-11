@@ -27,7 +27,7 @@ class Boxscore(object):
         ----------
         uri : string
             The relative link to the boxscore HTML page, such as
-            'BOS201806070'.
+            'BOS/BOS201806070'.
         """
         self._date = None
         self._time = None
@@ -128,7 +128,7 @@ class Boxscore(object):
         ----------
         uri : string
             The relative link to the boxscore HTML page, such as
-            'BOS201806070'.
+            'BOS/BOS201806070'.
 
         Returns
         -------
@@ -209,7 +209,7 @@ class Boxscore(object):
         ----------
         uri : string
             The relative link to the boxscore HTML page, such as
-            'BOS201806070'.
+            'BOS/BOS201806070'.
         """
         boxscore = self._retrieve_html_page(uri)
         # If the boxscore is None, the game likely hasn't been played yet and
