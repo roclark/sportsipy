@@ -46,6 +46,7 @@ class TestMLBSchedule:
             'game': 2,
             'date': 'Tuesday, Apr 4',
             'datetime': datetime(2017, 4, 4),
+            'game_number_for_day': 1,
             'location': AWAY,
             'opponent_abbr': 'TBR',
             'result': WIN,

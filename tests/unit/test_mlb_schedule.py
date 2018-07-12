@@ -1,3 +1,4 @@
+from datetime import datetime
 from flexmock import flexmock
 from mock import PropertyMock
 from sportsreference.constants import (AWAY,
@@ -15,6 +16,15 @@ class TestMLBSchedule:
             .and_return(None)
 
         self.game = Game(None, None)
+
+    def test_double_header_returns_second_game(self):
+        fake_date = PropertyMock(return_value='Sunday, May 14 (2)')
+        fake_year = PropertyMock(return_value='2017')
+        type(self.game)._date = fake_date
+        type(self.game)._year = fake_year
+
+        assert self.game.datetime == datetime(2017, 5, 14)
+        assert self.game.game_number_for_day == 2
 
     def test_away_game_returns_away_location(self):
         fake_location = PropertyMock(return_value='@')

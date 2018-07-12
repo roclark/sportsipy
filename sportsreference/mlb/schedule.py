@@ -122,7 +122,23 @@ class Game(object):
         was played.
         """
         date_string = '%s %s' % (self._date, self._year)
+        date_string = re.sub(' \(\d+\)', '', date_string)
         return datetime.strptime(date_string, '%A, %b %d %Y')
+
+    @property
+    def game_number_for_day(self):
+        """
+        Returns an int denoting which game is played for the team during the
+        given day. Default value is 1 where a team plays only one game during
+        the day, but can be higher for double headers, etc. For example, if a
+        team has a double header one day, the first game of the day will return
+        1 while the second game will return 2.
+        """
+        game_number = re.findall('\(\d+\)', self._date)
+        if len(game_number) == 0:
+            return 1
+        game_number = re.findall('\d+', game_number[0])
+        return int(game_number[0])
 
     @property
     def boxscore(self):
