@@ -7,6 +7,10 @@ from sportsreference.constants import (AWAY,
                                        POST_SEASON,
                                        REGULAR_SEASON,
                                        WIN)
+from sportsreference.nfl.constants import (CONF_CHAMPIONSHIP,
+                                           DIVISION,
+                                           SUPER_BOWL,
+                                           WILD_CARD)
 from sportsreference.nfl.schedule import Game
 
 
@@ -106,3 +110,27 @@ class TestNFLSchedule:
         game = Game(None, POST_SEASON, YEAR)
 
         assert game.type == POST_SEASON
+
+    def test_wild_card_game_returns_wild_card(self):
+        fake_week = PropertyMock(return_value='Wild Card')
+        type(self.game)._week = fake_week
+
+        assert self.game.week == WILD_CARD
+
+    def test_division_playoff_game_returns_division(self):
+        fake_week = PropertyMock(return_value='Division')
+        type(self.game)._week = fake_week
+
+        assert self.game.week == DIVISION
+
+    def test_conference_championship_returns_division(self):
+        fake_week = PropertyMock(return_value='Conf. Champ.')
+        type(self.game)._week = fake_week
+
+        assert self.game.week == CONF_CHAMPIONSHIP
+
+    def test_super_bowl_returns_super_bowl(self):
+        fake_week = PropertyMock(return_value='SuperBowl')
+        type(self.game)._week = fake_week
+
+        assert self.game.week == SUPER_BOWL

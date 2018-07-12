@@ -13,6 +13,10 @@ from sportsreference.constants import (WIN,
                                        REGULAR_SEASON,
                                        CONFERENCE_TOURNAMENT)
 from sportsreference.nfl.boxscore import Boxscore
+from sportsreference.nfl.constants import (CONF_CHAMPIONSHIP,
+                                           DIVISION,
+                                           SUPER_BOWL,
+                                           WILD_CARD)
 
 
 class Game(object):
@@ -136,6 +140,14 @@ class Game(object):
         Returns an int of the week number in the season, such as 1 for the
         first week of the regular season.
         """
+        if self._week.lower() == 'wild card':
+            return WILD_CARD
+        if self._week.lower() == 'division':
+            return DIVISION
+        if self._week.lower() == 'conf. champ.':
+            return CONF_CHAMPIONSHIP
+        if self._week.lower() == 'superbowl':
+            return SUPER_BOWL
         return int(self._week)
 
     @property

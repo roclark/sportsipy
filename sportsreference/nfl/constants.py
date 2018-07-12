@@ -184,3 +184,8 @@ SEASON_PAGE_URL = 'http://www.pro-football-reference.com/years/%s.html'
 SCHEDULE_URL = 'https://www.pro-football-reference.com/teams/%s/%s_games.htm'
 
 BOXSCORE_URL = 'https://www.pro-football-reference.com/boxscores/%s.htm'
+
+WILD_CARD = 100
+DIVISION = 101
+CONF_CHAMPIONSHIP = 102
+SUPER_BOWL = 103
