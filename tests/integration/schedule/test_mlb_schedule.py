@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from flexmock import flexmock
 from sportsreference import utils
-from sportsreference.constants import AWAY, WIN
+from sportsreference.constants import AWAY, HOME, LOSS, WIN
 from sportsreference.mlb.constants import DAY, NIGHT, SCHEDULE_URL
 from sportsreference.mlb.schedule import Schedule
 
@@ -83,4 +83,32 @@ class TestMLBSchedule:
         match_two = self.schedule(datetime(2017, 4, 4))
 
         for attribute, value in self.results.items():
+            assert getattr(match_two, attribute) == value
+
+    def test_mlb_schedule_returns_second_game_in_double_header(self):
+        match_two = self.schedule(datetime(2017, 5, 14), 2)
+        results = {
+            'game': 35,
+            'date': 'Sunday, May 14 (2)',
+            'datetime': datetime(2017, 5, 14),
+            'game_number_for_day': 2,
+            'location': HOME,
+            'opponent_abbr': 'HOU',
+            'result': LOSS,
+            'runs_scored': 7,
+            'runs_allowed': 10,
+            'innings': 9,
+            'record': '22-13',
+            'rank': 1,
+            'games_behind': -0.5,
+            'winner': 'Morton',
+            'loser': 'Tanaka',
+            'save': None,
+            'game_duration': '3:49',
+            'day_or_night': NIGHT,
+            'attendance': 47883,
+            'streak': '-'
+        }
+
+        for attribute, value in results.items():
             assert getattr(match_two, attribute) == value

@@ -326,7 +326,7 @@ class Schedule:
         """
         return self._games[index]
 
-    def __call__(self, date):
+    def __call__(self, date, game_number=1):
         """
         Return a specified game.
 
@@ -339,6 +339,10 @@ class Schedule:
         date : datetime
             A datetime object of the month, day, and year to identify a
             particular game that was played.
+        game_number : int (optional)
+            Denotes which game is played for the team during the given day.
+            For example, to query the second game of a double header, use 2.
+            Default value is 1.
 
         Returns
         -------
@@ -354,7 +358,8 @@ class Schedule:
         for game in self._games:
             if game.datetime.year == date.year and \
                game.datetime.month == date.month and \
-               game.datetime.day == date.day:
+               game.datetime.day == date.day and \
+               game.game_number_for_day == game_number:
                 return game
         raise ValueError('No games found for requested date')
 
