@@ -588,7 +588,10 @@ class Boxscore(object):
         Returns an int of the number of runners a pitcher inherited when he
         entered the game.
         """
-        return int(self._away_inherited_runners)
+        try:
+            return int(self._away_inherited_runners)
+        except ValueError:
+            return 0
 
     @property
     def away_inherited_score(self):
@@ -596,7 +599,10 @@ class Boxscore(object):
         Returns an int of the number of scorers a pitcher inherited when he
         entered the game.
         """
-        return int(self._away_inherited_score)
+        try:
+            return int(self._away_inherited_score)
+        except ValueError:
+            return 0
 
     @property
     def away_win_probability_by_pitcher(self):
@@ -857,7 +863,10 @@ class Boxscore(object):
         Returns an int of the number of runners a pitcher inherited when he
         entered the game.
         """
-        return int(self._home_inherited_runners)
+        try:
+            return int(self._home_inherited_runners)
+        except ValueError:
+            return 0
 
     @property
     def home_inherited_score(self):
@@ -865,7 +874,10 @@ class Boxscore(object):
         Returns an int of the number of scorers a pitcher inherited when he
         entered the game.
         """
-        return int(self._home_inherited_score)
+        try:
+            return int(self._home_inherited_score)
+        except ValueError:
+            return 0
 
     @property
     def home_win_probability_by_pitcher(self):

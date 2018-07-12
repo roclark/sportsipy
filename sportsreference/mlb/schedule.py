@@ -274,7 +274,10 @@ class Game(object):
         """
         Returns an int of the total listed attendance for the game.
         """
-        return int(self._attendance.replace(',', ''))
+        try:
+            return int(self._attendance.replace(',', ''))
+        except ValueError:
+            return 0
 
     @property
     def streak(self):
