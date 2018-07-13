@@ -5,7 +5,7 @@ from .. import utils
 from .schedule import Schedule
 
 
-class Team:
+class Team(object):
     """
     An object containing all of a team's season information.
 
@@ -152,7 +152,10 @@ class Team:
         Returns an int of the total number of conference games the team won
         during the season.
         """
-        return int(self._conference_wins)
+        try:
+            return int(self._conference_wins)
+        except ValueError:
+            return 0
 
     @property
     def conference_losses(self):
@@ -160,7 +163,10 @@ class Team:
         Returns an int of the total number of conference games the team lost
         during the season.
         """
-        return int(self._conference_losses)
+        try:
+            return int(self._conference_losses)
+        except ValueError:
+            return 0
 
     @property
     def conference_win_percentage(self):
@@ -169,7 +175,10 @@ class Team:
         number of conference games played during the season. Percentage ranges
         from 0-1.
         """
-        return float(self._conference_win_percentage)
+        try:
+            return float(self._conference_win_percentage)
+        except ValueError:
+            return 0
 
     @property
     def points_per_game(self):
