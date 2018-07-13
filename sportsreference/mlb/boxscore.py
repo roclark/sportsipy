@@ -539,9 +539,9 @@ class Boxscore(object):
     @property
     def away_innings_pitched(self):
         """
-        Returns an int of the number of innings the away team pitched.
+        Returns a float of the number of innings the away team pitched.
         """
-        return int(self._away_innings_pitched)
+        return float(self._away_innings_pitched)
 
     @property
     def away_home_runs(self):
@@ -814,9 +814,9 @@ class Boxscore(object):
     @property
     def home_innings_pitched(self):
         """
-        Returns an int of the number of innings the home team pitched.
+        Returns a float of the number of innings the home team pitched.
         """
-        return int(self._home_innings_pitched)
+        return float(self._home_innings_pitched)
 
     @property
     def home_home_runs(self):
