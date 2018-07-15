@@ -284,20 +284,11 @@ BOXSCORE_ELEMENT_INDEX = {
     'home_base_out_runs_saved': 1
 }
 
-FIRST_GAME_DOUBLE_HEADER_INDEX = {
-    'date': 0,
-    'time': 1,
-    'venue': 2,
-    'duration': 3,
-    'time_of_day': 4
-}
-
-SECOND_GAME_DOUBLE_HEADER_INDEX = {
-    'date': 0,
-    'attendance': 1,
-    'venue': 2,
-    'duration': 3,
-    'time_of_day': 4
+DOUBLE_HEADER_INDICES = {
+    'time': 'start time',
+    'attendance': 'attendance',
+    'venue': 'venue',
+    'duration': 'game duration'
 }
 
 STANDINGS_URL = ('https://www.baseball-reference.com/leagues/MLB/'

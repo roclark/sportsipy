@@ -4,8 +4,7 @@ from .. import utils
 from .constants import (BOXSCORE_ELEMENT_INDEX,
                         BOXSCORE_SCHEME,
                         BOXSCORE_URL,
-                        FIRST_GAME_DOUBLE_HEADER_INDEX,
-                        SECOND_GAME_DOUBLE_HEADER_INDEX)
+                        DOUBLE_HEADER_INDICES)
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
 from sportsreference.mlb.constants import DAY, NIGHT
@@ -172,20 +171,30 @@ class Boxscore(object):
         scheme = BOXSCORE_SCHEME[field]
         items = [i.text() for i in boxscore(scheme).items()]
         index = BOXSCORE_ELEMENT_INDEX[field]
-        for item in items:
-            if 'first game of doubleheader' in item.lower():
-                try:
-                    index = FIRST_GAME_DOUBLE_HEADER_INDEX[field]
-                except KeyError:
-                    return 0
-                break
-            elif 'second game of doubleheader' in item.lower():
-                try:
-                    index = SECOND_GAME_DOUBLE_HEADER_INDEX[field]
-                except KeyError:
-                    return 0
-                break
         game_info = items[0].split('\n')
+        double_header = False
+        for item in items:
+            if 'first game of doubleheader' in item.lower() or \
+               'second game of doubleheader' in item.lower():
+                double_header = True
+                if field == 'date':
+                    return game_info[0]
+                for element in game_info:
+                    if field == 'time_of_day':
+                        if 'night game' in element.lower() or \
+                           'day game' in element.lower():
+                            return element
+                        continue
+                    matcher = DOUBLE_HEADER_INDICES[field]
+                    if matcher in element.lower():
+                        return element
+        # Triggered for double headers when a specific field is not included
+        # in the game information summary. For double headers, random fields
+        # are omitted for no apparent reason and should be parsed differently.
+        # If the field can't be found, it should return a default value of an
+        # empty string.
+        if double_header:
+            return ''
         return game_info[index]
 
     def _parse_name(self, field, boxscore):
@@ -296,7 +305,10 @@ class Boxscore(object):
         Returns an int of the game's listed attendance.
         """
         attendance = self._attendance.replace('Attendance: ', '')
-        return int(attendance.replace(',', ''))
+        try:
+            return int(attendance.replace(',', ''))
+        except ValueError:
+            return 0
 
     @property
     def duration(self):

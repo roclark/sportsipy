@@ -182,44 +182,63 @@ class TestMLBBoxscore:
 
         assert result is None
 
-    def test_mlb_first_game_double_header_info(self):
-        fields = ['date', 'time', 'venue', 'duration', 'time_of_day']
+    def test_attendance_with_empty_string(self):
+        fake_attendance = PropertyMock(return_value='')
+        type(self.boxscore)._attendance = fake_attendance
 
-        mock_field = """date
-time
-venue
-duration
-time_of_day
+        assert self.boxscore.attendance == 0
+
+    def test_mlb_first_game_double_header_info(self):
+        fields = {
+            'date': 'Monday, July 9, 2018',
+            'time': 'Start Time: 4:05 p.m. ET',
+            'venue': 'Venue: Oriole Park at Camden Yards',
+            'duration': 'Game Duration: 2:55',
+            'time_of_day': 'Night Game, on grass'
+        }
+
+        mock_field = """Monday, July 9, 2018
+Start Time: 4:05 p.m. ET
+Venue: Oriole Park at Camden Yards
+Game Duration: 2:55
+Night Game, on grass
 First game of doubleheader
 """
 
         m = MockBoxscoreData(MockField(mock_field))
 
-        for field in fields:
+        for field, value in fields.items():
             result = self.boxscore._parse_game_date_and_location(field, m)
-            assert result == field
+            assert result == value
 
         result = self.boxscore._parse_game_date_and_location('attendance', m)
 
-        assert result == 0
+        assert result == ''
 
     def test_mlb_second_game_double_header_info(self):
         fields = ['date', 'attendance', 'venue', 'duration', 'time_of_day']
+        fields = {
+            'date': 'Monday, July 9, 2018',
+            'attendance': 'Attendance: 26,340',
+            'venue': 'Venue: Oriole Park at Camden Yards',
+            'duration': 'Game Duration: 3:13',
+            'time_of_day': 'Night Game, on grass'
+        }
 
-        mock_field = """date
-attendance
-venue
-duration
-time_of_day
+        mock_field = """Monday, July 9, 2018
+Attendance: 26,340
+Venue: Oriole Park at Camden Yards
+Game Duration: 3:13
+Night Game, on grass
 Second game of doubleheader
 """
 
         m = MockBoxscoreData(MockField(mock_field))
 
-        for field in fields:
+        for field, value in fields.items():
             result = self.boxscore._parse_game_date_and_location(field, m)
-            assert result == field
+            assert result == value
 
         result = self.boxscore._parse_game_date_and_location('time', m)
 
-        assert result == 0
+        assert result == ''
