@@ -14,6 +14,25 @@ class MockName:
         return self._name
 
 
+class MockField:
+    def __init__(self, field):
+        self._field = field
+
+    def text(self):
+        return self._field
+
+
+class MockBoxscoreData:
+    def __init__(self, fields):
+        self._fields = fields
+
+    def __call__(self, field):
+        return self
+
+    def items(self):
+        return [self._fields]
+
+
 def mock_pyquery(url):
     class MockPQ:
         def __init__(self, html_contents):
@@ -162,3 +181,45 @@ class TestMLBBoxscore:
         result = Boxscore(None)._retrieve_html_page('')
 
         assert result is None
+
+    def test_mlb_first_game_double_header_info(self):
+        fields = ['date', 'time', 'venue', 'duration', 'time_of_day']
+
+        mock_field = """date
+time
+venue
+duration
+time_of_day
+First game of doubleheader
+"""
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field in fields:
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert result == field
+
+        result = self.boxscore._parse_game_date_and_location('attendance', m)
+
+        assert result == 0
+
+    def test_mlb_second_game_double_header_info(self):
+        fields = ['date', 'attendance', 'venue', 'duration', 'time_of_day']
+
+        mock_field = """date
+attendance
+venue
+duration
+time_of_day
+Second game of doubleheader
+"""
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field in fields:
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert result == field
+
+        result = self.boxscore._parse_game_date_and_location('time', m)
+
+        assert result == 0

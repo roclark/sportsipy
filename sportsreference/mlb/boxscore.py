@@ -1,7 +1,11 @@
 import re
 from pyquery import PyQuery as pq
 from .. import utils
-from .constants import BOXSCORE_ELEMENT_INDEX, BOXSCORE_SCHEME, BOXSCORE_URL
+from .constants import (BOXSCORE_ELEMENT_INDEX,
+                        BOXSCORE_SCHEME,
+                        BOXSCORE_URL,
+                        FIRST_GAME_DOUBLE_HEADER_INDEX,
+                        SECOND_GAME_DOUBLE_HEADER_INDEX)
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
 from sportsreference.mlb.constants import DAY, NIGHT
@@ -167,8 +171,22 @@ class Boxscore(object):
         """
         scheme = BOXSCORE_SCHEME[field]
         items = [i.text() for i in boxscore(scheme).items()]
+        index = BOXSCORE_ELEMENT_INDEX[field]
+        for item in items:
+            if 'first game of doubleheader' in item.lower():
+                try:
+                    index = FIRST_GAME_DOUBLE_HEADER_INDEX[field]
+                except KeyError:
+                    return 0
+                break
+            elif 'second game of doubleheader' in item.lower():
+                try:
+                    index = SECOND_GAME_DOUBLE_HEADER_INDEX[field]
+                except KeyError:
+                    return 0
+                break
         game_info = items[0].split('\n')
-        return game_info[BOXSCORE_ELEMENT_INDEX[field]]
+        return game_info[index]
 
     def _parse_name(self, field, boxscore):
         """
