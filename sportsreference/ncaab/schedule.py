@@ -141,7 +141,13 @@ class Game(object):
         """
         date_string = '%s %s' % (self._date, self._time.upper())
         date_string = re.sub(r'/.*', '', date_string)
-        return datetime.strptime(date_string, '%a, %b %d, %Y %I:%M %p')
+        date_string = re.sub(r' ET', '', date_string)
+        date_string += 'M'
+        date_string = re.sub(r'PMM', 'PM', date_string, flags=re.IGNORECASE)
+        date_string = re.sub(r'AMM', 'AM', date_string, flags=re.IGNORECASE)
+        date_string = re.sub(r' PM', 'PM', date_string, flags=re.IGNORECASE)
+        date_string = re.sub(r' AM', 'AM', date_string, flags=re.IGNORECASE)
+        return datetime.strptime(date_string, '%a, %b %d, %Y %I:%M%p')
 
     @property
     def time(self):
