@@ -188,7 +188,11 @@ class Boxscore(object):
             The complete text for the requested tag.
         """
         scheme = BOXSCORE_SCHEME[field]
-        return boxscore(scheme)
+        name = boxscore(scheme)
+        if 'cbb/schools' not in str(name):
+            name = re.sub(r'.*name">', '', str(name))
+            name = re.sub(r'<.*', '', str(name))
+        return name
 
     def _parse_game_data(self, uri):
         """
@@ -270,7 +274,11 @@ class Boxscore(object):
         Boilermakers'.
         """
         if self.winner == HOME:
+            if 'cbb/schools' not in str(self._home_name):
+                return str(self._home_name)
             return self._home_name.text()
+        if 'cbb/schools' not in str(self._away_name):
+            return str(self._away_name)
         return self._away_name.text()
 
     @property
@@ -280,7 +288,11 @@ class Boxscore(object):
         for the Purdue Boilermakers.
         """
         if self.winner == HOME:
+            if 'cbb/schools' not in str(self._home_name):
+                return str(self._home_name)
             return utils._parse_abbreviation(self._home_name)
+        if 'cbb/schools' not in str(self._away_name):
+            return str(self._away_name)
         return utils._parse_abbreviation(self._away_name)
 
     @property
@@ -289,7 +301,11 @@ class Boxscore(object):
         Returns a string of the losing team's name, such as 'Indiana Hoosiers'.
         """
         if self.winner == HOME:
+            if 'cbb/schools' not in str(self._away_name):
+                return str(self._away_name)
             return self._away_name.text()
+        if 'cbb/schools' not in str(self._home_name):
+            return str(self._home_name)
         return self._home_name.text()
 
     @property
@@ -299,7 +315,11 @@ class Boxscore(object):
         for the Indiana Hoosiers.
         """
         if self.winner == HOME:
+            if 'cbb/schools' not in str(self._away_name):
+                return str(self._away_name)
             return utils._parse_abbreviation(self._away_name)
+        if 'cbb/schools' not in str(self._home_name):
+            return str(self._home_name)
         return utils._parse_abbreviation(self._home_name)
 
     @property
