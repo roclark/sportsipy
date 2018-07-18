@@ -82,6 +82,10 @@ class Game(object):
         parsing scheme in order to be extracted.
         """
         boxscore = game_data('td[data-stat="date_game"]:first')
+        # Happens if the game hasn't been played yet as there is no boxscore
+        # to display.
+        if boxscore('a').text() == '':
+            return
         boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
         boxscore = re.sub(r'\.html.*', '', str(boxscore))
         setattr(self, '_boxscore', boxscore)
