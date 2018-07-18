@@ -459,7 +459,10 @@ class Boxscore(object):
         Returns a float of the number of free throws made divided by the number
         of free throw attempts  by the away team.
         """
-        return float(self._away_free_throw_percentage)
+        try:
+            return float(self._away_free_throw_percentage)
+        except ValueError:
+            return 0.0
 
     @property
     def away_offensive_rebounds(self):
@@ -760,7 +763,10 @@ class Boxscore(object):
         Returns a float of the number of free throws made divided by the number
         of free throw attempts  by the home team.
         """
-        return float(self._home_free_throw_percentage)
+        try:
+            return float(self._home_free_throw_percentage)
+        except ValueError:
+            return 0.0
 
     @property
     def home_offensive_rebounds(self):

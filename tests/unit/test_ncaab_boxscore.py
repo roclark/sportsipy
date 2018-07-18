@@ -304,3 +304,15 @@ class TestNCAABBoxscore:
         result = self.boxscore._parse_name('away_name', boxscore)
 
         assert result == name
+
+    def test_no_home_free_throw_percentage_returns_default(self):
+        fake_percentage = PropertyMock(return_value='')
+        type(self.boxscore)._home_free_throw_percentage = fake_percentage
+
+        assert self.boxscore.home_free_throw_percentage == 0.0
+
+    def test_no_away_free_throw_percentage_returns_default(self):
+        fake_percentage = PropertyMock(return_value='')
+        type(self.boxscore)._away_free_throw_percentage = fake_percentage
+
+        assert self.boxscore.away_free_throw_percentage == 0.0
