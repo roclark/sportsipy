@@ -108,7 +108,10 @@ class Boxscore(object):
             the comment tags removed.
         """
         url = BOXSCORE_URL % uri
-        url_data = pq(url)
+        try:
+            url_data = pq(url)
+        except:
+            return None
         # For NFL, a 404 page doesn't actually raise a 404 error, so it needs
         # to be manually checked.
         if '404 error' in str(url_data):
