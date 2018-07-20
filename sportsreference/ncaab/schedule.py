@@ -3,7 +3,8 @@ from .constants import (SCHEDULE_SCHEME,
                         SCHEDULE_URL,
                         NCAA_TOURNAMENT,
                         NIT_TOURNAMENT,
-                        CBI_TOURNAMENT)
+                        CBI_TOURNAMENT,
+                        CIT_TOURNAMENT)
 from datetime import datetime
 from pyquery import PyQuery as pq
 from sportsreference import utils
@@ -186,6 +187,8 @@ class Game(object):
             return NIT_TOURNAMENT
         if self._type.lower() == 'cbi':
             return CBI_TOURNAMENT
+        if self._type.lower() == 'cit':
+            return CIT_TOURNAMENT
 
     @property
     def location(self):

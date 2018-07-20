@@ -11,6 +11,7 @@ from sportsreference.constants import (AWAY,
                                        REGULAR_SEASON,
                                        WIN)
 from sportsreference.ncaab.constants import (CBI_TOURNAMENT,
+                                             CIT_TOURNAMENT,
                                              NCAA_TOURNAMENT,
                                              NIT_TOURNAMENT)
 from sportsreference.ncaab.schedule import Game
@@ -83,6 +84,12 @@ class TestNCAABSchedule:
         type(self.game)._type = fake_type
 
         assert self.game.type == CBI_TOURNAMENT
+
+    def test_cit_tournament_game_type(self):
+        fake_type = PropertyMock(return_value='CIT')
+        type(self.game)._type = fake_type
+
+        assert self.game.type == CIT_TOURNAMENT
 
     def test_team_with_rank_returns_rank(self):
         fake_name = PropertyMock(return_value='Purdue (3)')
