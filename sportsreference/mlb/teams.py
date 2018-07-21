@@ -16,7 +16,7 @@ class Team:
     name, and abbreviation, and sets them as properties which can be directly
     read from for easy reference.
     """
-    def __init__(self, team_data, rank):
+    def __init__(self, team_data, rank, year=None):
         """
         Parse all of the attributes located in the HTML data.
 
@@ -33,7 +33,10 @@ class Team:
         rank : int
             A team's position in the league based on the number of points they
             obtained during the season.
+        year : string (optional)
+            The requested year to pull stats from.
         """
+        self._year = year
         self._rank = rank
         self._abbreviation = None
         self._name = None
@@ -165,7 +168,8 @@ class Team:
             short_field = str(field)[1:]
             # The rank attribute is passed directly to the class during
             # instantiation.
-            if field == '_rank':
+            if field == '_rank' or \
+               field == '_year':
                 continue
             elif field == '_name':
                 self._parse_name(team_data)
@@ -204,7 +208,7 @@ class Team:
         Returns an instance of the Schedule class containing the team's
         complete schedule for the season.
         """
-        return Schedule(self._abbreviation)
+        return Schedule(self._abbreviation, self._year)
 
     @property
     def name(self):
@@ -1158,5 +1162,5 @@ class Teams:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 
         for team_data in team_data_dict.values():
-            team = Team(team_data['data'], team_data['rank'])
+            team = Team(team_data['data'], team_data['rank'], year)
             self._teams.append(team)

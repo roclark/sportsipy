@@ -13,7 +13,7 @@ class Team(object):
     and short names, and sets them as properties which can be directly read
     from for easy reference.
     """
-    def __init__(self, team_data):
+    def __init__(self, team_data, year=None):
         """
         Parse all of the attributes located in the HTML data.
 
@@ -27,7 +27,10 @@ class Team(object):
             A string containing all of the rows of stats for a given team. If
             multiple tables are being referenced, this will be comprised of
             multiple rows in a single string.
+        year : string (optional)
+            The requested year to pull stats from.
         """
+        self._year = None
         self._abbreviation = None
         self._name = None
         self._games = None
@@ -85,6 +88,8 @@ class Team(object):
             multiple rows in a single string.
         """
         for field in self.__dict__:
+            if field == '_year':
+                continue
             value = utils._parse_field(PARSING_SCHEME,
                                        team_data,
                                        str(field)[1:])
@@ -104,7 +109,7 @@ class Team(object):
         Returns an instance of the Schedule class containing the team's
         complete schedule for the season.
         """
-        return Schedule(self._abbreviation)
+        return Schedule(self._abbreviation, self._year)
 
     @property
     def name(self):
@@ -525,5 +530,5 @@ class Teams:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 
         for team_data in team_data_dict.values():
-            team = Team(team_data['data'])
+            team = Team(team_data['data'], year)
             self._teams.append(team)
