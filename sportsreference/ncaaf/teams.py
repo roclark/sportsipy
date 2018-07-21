@@ -30,7 +30,7 @@ class Team(object):
         year : string (optional)
             The requested year to pull stats from.
         """
-        self._year = None
+        self._year = year
         self._abbreviation = None
         self._name = None
         self._games = None
