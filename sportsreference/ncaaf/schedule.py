@@ -367,7 +367,7 @@ class Schedule:
         """
         if not year:
             year = utils._find_year_for_season('ncaaf')
-        doc = pq(SCHEDULE_URL % (abbreviation, year))
+        doc = pq(SCHEDULE_URL % (abbreviation.lower(), year))
         schedule = utils._get_stats_table(doc, 'table#schedule')
 
         for item in schedule:
