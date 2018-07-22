@@ -1,3 +1,4 @@
+from datetime import datetime
 from flexmock import flexmock
 from mock import PropertyMock
 from pyquery import PyQuery as pq
@@ -73,6 +74,14 @@ class TestNCAAFSchedule:
         type(self.game)._opponent_name = fake_name
 
         assert self.game.opponent_rank is None
+
+    def test_datetime_with_no_time(self):
+        fake_date = PropertyMock(return_value='Aug 31, 2017')
+        fake_time = PropertyMock(return_value='')
+        type(self.game)._date = fake_date
+        type(self.game)._time = fake_time
+
+        assert self.game.datetime == datetime(2017, 8, 31)
 
 
 class TestNCAAFScheduleNames:
