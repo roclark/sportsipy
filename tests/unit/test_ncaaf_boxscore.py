@@ -5,6 +5,25 @@ from sportsreference.constants import AWAY, HOME
 from sportsreference.ncaaf.boxscore import Boxscore
 
 
+class MockField:
+    def __init__(self, field):
+        self._field = field
+
+    def text(self):
+        return self._field
+
+
+class MockBoxscoreData:
+    def __init__(self, fields):
+        self._fields = fields
+
+    def __call__(self, field):
+        return self
+
+    def items(self):
+        return [self._fields]
+
+
 class MockName:
     def __init__(self, name):
         self._name = name
@@ -149,3 +168,42 @@ class TestNCAAFBoxscore:
         result = Boxscore(None)._retrieve_html_page('')
 
         assert result is None
+
+    def test_game_information_regular_game(self):
+        fields = ['date', 'time', 'stadium']
+        fields = {
+            'date': 'Saturday Nov 25, 2017',
+            'time': '12:00 PM ET',
+            'stadium': 'Ross-Ade Stadium - West Lafayette, Indiana'
+        }
+
+        mock_field = """Saturday Nov 25, 2017
+12:00 PM ET
+Ross-Ade Stadium - West Lafayette, Indiana
+Logos via Sports Logos.net / About logos
+"""
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field, value in fields.items():
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert result == value
+
+    def test_game_information_championship_game(self):
+        fields = ['date', 'time', 'stadium']
+        fields = {
+            'date': 'Saturday Dec 2, 2017',
+            'time': '8:00 PM ET',
+            'stadium': 'Lucas Oil Stadium - Indianapolis, Indiana'
+        }
+
+        mock_field = """Big Ten Conference Championship
+Saturday Dec 2, 2017
+8:00 PM ET
+Lucas Oil Stadium - Indianapolis, Indiana
+Logos via Sports Logos.net / About logos
+"""
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field, value in fields.items():
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert result == value

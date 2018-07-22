@@ -121,7 +121,20 @@ class Boxscore(object):
         scheme = BOXSCORE_SCHEME[field]
         items = [i.text() for i in boxscore(scheme).items()]
         game_info = items[0].split('\n')
-        return game_info[BOXSCORE_ELEMENT_INDEX[field]]
+        index = BOXSCORE_ELEMENT_INDEX[field]
+        # If the game is a bowl game or a championship game, it will have a
+        # different layout for the game information where the specific game
+        # title, such as the name of the bowl game, will be the first line of
+        # text. All other matchers should have the index matcher increased by
+        # 1.
+        for day in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday',
+                    'saturday', 'sunday']:
+            # The day info is generally the first line in text for non-special
+            # games.
+            if day in game_info[0].lower():
+                return game_info[index]
+        index += 1
+        return game_info[index]
 
     def _parse_name(self, field, boxscore):
         """
