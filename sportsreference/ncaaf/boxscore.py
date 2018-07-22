@@ -260,7 +260,11 @@ class Boxscore(object):
         for the Alabama Crimson Tide.
         """
         if self.winner == HOME:
+            if 'cfb/schools' not in str(self._home_name):
+                return self._home_name.text()
             return utils._parse_abbreviation(self._home_name)
+        if 'cfb/schools' not in str(self._away_name):
+            return self._away_name.text()
         return utils._parse_abbreviation(self._away_name)
 
     @property
@@ -279,7 +283,11 @@ class Boxscore(object):
         for the Georgia Bulldogs.
         """
         if self.winner == HOME:
+            if 'cfb/schools' not in str(self._away_name):
+                return self._away_name.text()
             return utils._parse_abbreviation(self._away_name)
+        if 'cfb/schools' not in str(self._home_name):
+            return self._home_name.text()
         return utils._parse_abbreviation(self._home_name)
 
     @property
