@@ -310,7 +310,7 @@ class Boxscore(object):
         Returns an int of the number of rushing plays the away team made.
         """
         # Rush info is in the format 'Rush-Yds-TDs'
-        rush_info = self._away_rush_attempts.split('-')
+        rush_info = self._away_rush_attempts.replace('--', '-').split('-')
         return int(rush_info[0])
 
     @property
@@ -319,7 +319,7 @@ class Boxscore(object):
         Returns an int of the number of rushing yards the away team gained.
         """
         # Rush info is in the format 'Rush-Yds-TDs'
-        rush_info = self._away_rush_yards.split('-')
+        rush_info = self._away_rush_yards.replace('--', '-').split('-')
         return int(rush_info[1])
 
     @property
@@ -329,7 +329,7 @@ class Boxscore(object):
         scored.
         """
         # Rush info is in the format 'Rush-Yds-TDs'
-        rush_info = self._away_rush_touchdowns.split('-')
+        rush_info = self._away_rush_touchdowns.replace('--', '-').split('-')
         return int(rush_info[2])
 
     @property
@@ -338,7 +338,7 @@ class Boxscore(object):
         Returns an int of the number of completed passes the away team made.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._away_pass_completions.split('-')
+        pass_info = self._away_pass_completions.replace('--', '-').split('-')
         return int(pass_info[0])
 
     @property
@@ -348,7 +348,7 @@ class Boxscore(object):
         team.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._away_pass_attempts.split('-')
+        pass_info = self._away_pass_attempts.replace('--', '-').split('-')
         return int(pass_info[1])
 
     @property
@@ -357,7 +357,7 @@ class Boxscore(object):
         Returns an int of the number of passing yards the away team gained.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._away_pass_yards.split('-')
+        pass_info = self._away_pass_yards.replace('--', '-').split('-')
         return int(pass_info[2])
 
     @property
@@ -367,7 +367,7 @@ class Boxscore(object):
         scored.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._away_pass_touchdowns.split('-')
+        pass_info = self._away_pass_touchdowns.replace('--', '-').split('-')
         return int(pass_info[3])
 
     @property
@@ -376,7 +376,7 @@ class Boxscore(object):
         Returns an int of the number of interceptions the away team threw.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._away_interceptions.split('-')
+        pass_info = self._away_interceptions.replace('--', '-').split('-')
         return int(pass_info[4])
 
     @property
@@ -392,7 +392,7 @@ class Boxscore(object):
         Returns an int of the number of times the away team fumbled the ball.
         """
         # Fumble info is in the format 'Fumbles-Lost'
-        fumble_info = self._away_fumbles.split('-')
+        fumble_info = self._away_fumbles.replace('--', '-').split('-')
         return int(fumble_info[0])
 
     @property
@@ -402,7 +402,7 @@ class Boxscore(object):
         over as the result of a fumble.
         """
         # Fumble info is in the format 'Fumbles-Lost'
-        fumble_info = self._away_fumbles.split('-')
+        fumble_info = self._away_fumbles.replace('--', '-').split('-')
         return int(fumble_info[1])
 
     @property
@@ -419,7 +419,7 @@ class Boxscore(object):
         Returns an int of the number of penalties called on the away team.
         """
         # Penalties info is in the format 'Penalties-Yards'
-        penalties_info = self._away_penalties.split('-')
+        penalties_info = self._away_penalties.replace('--', '-').split('-')
         return int(penalties_info[0])
 
     @property
@@ -429,7 +429,8 @@ class Boxscore(object):
         called on the away team.
         """
         # Penalties info is in the format 'Penalties-Yards'
-        penalties_info = self._away_yards_from_penalties.split('-')
+        penalties_info = self._away_yards_from_penalties.replace('--', '-')
+        penalties_info = penalties_info.split('-')
         return int(penalties_info[1])
 
     @property
@@ -452,7 +453,7 @@ class Boxscore(object):
         Returns an int of the number of rushing plays the home team made.
         """
         # Rush info is in the format 'Rush-Yds-TDs'
-        rush_info = self._home_rush_attempts.split('-')
+        rush_info = self._home_rush_attempts.replace('--', '-').split('-')
         return int(rush_info[0])
 
     @property
@@ -461,7 +462,7 @@ class Boxscore(object):
         Returns an int of the number of rushing yards the home team gained.
         """
         # Rush info is in the format 'Rush-Yds-TDs'
-        rush_info = self._home_rush_yards.split('-')
+        rush_info = self._home_rush_yards.replace('--', '-').split('-')
         return int(rush_info[1])
 
     @property
@@ -471,7 +472,7 @@ class Boxscore(object):
         scored.
         """
         # Rush info is in the format 'Rush-Yds-TDs'
-        rush_info = self._home_rush_touchdowns.split('-')
+        rush_info = self._home_rush_touchdowns.replace('--', '-').split('-')
         return int(rush_info[2])
 
     @property
@@ -480,7 +481,7 @@ class Boxscore(object):
         Returns an int of the number of completed passes the home team made.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._home_pass_completions.split('-')
+        pass_info = self._home_pass_completions.replace('--', '-').split('-')
         return int(pass_info[0])
 
     @property
@@ -490,7 +491,7 @@ class Boxscore(object):
         team.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._home_pass_attempts.split('-')
+        pass_info = self._home_pass_attempts.replace('--', '-').split('-')
         return int(pass_info[1])
 
     @property
@@ -499,7 +500,7 @@ class Boxscore(object):
         Returns an int of the number of passing yards the home team gained.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._home_pass_yards.split('-')
+        pass_info = self._home_pass_yards.replace('--', '-').split('-')
         return int(pass_info[2])
 
     @property
@@ -509,7 +510,7 @@ class Boxscore(object):
         scored.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._home_pass_touchdowns.split('-')
+        pass_info = self._home_pass_touchdowns.replace('--', '-').split('-')
         return int(pass_info[3])
 
     @property
@@ -518,7 +519,7 @@ class Boxscore(object):
         Returns an int of the number of interceptions the home team threw.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._home_pass_touchdowns.split('-')
+        pass_info = self._home_pass_touchdowns.replace('--', '-').split('-')
         return int(pass_info[4])
 
     @property
@@ -534,7 +535,7 @@ class Boxscore(object):
         Returns an int of the number of times the home team fumbled the ball.
         """
         # Fumble info is in the format 'Fumbles-Lost'
-        fumble_info = self._home_fumbles.split('-')
+        fumble_info = self._home_fumbles.replace('--', '-').split('-')
         return int(fumble_info[0])
 
     @property
@@ -544,7 +545,7 @@ class Boxscore(object):
         over as the result of a fumble.
         """
         # Fumble info is in the format 'Fumbles-Lost'
-        fumble_info = self._home_fumbles_lost.split('-')
+        fumble_info = self._home_fumbles_lost.replace('--', '-').split('-')
         return int(fumble_info[1])
 
     @property
@@ -561,7 +562,7 @@ class Boxscore(object):
         Returns an int of the number of penalties called on the home team.
         """
         # Penalties info is in the format 'Penalties-Yards'
-        penalties_info = self._home_penalties.split('-')
+        penalties_info = self._home_penalties.replace('--', '-').split('-')
         return int(penalties_info[0])
 
     @property
@@ -571,5 +572,6 @@ class Boxscore(object):
         called on the home team.
         """
         # Penalties info is in the format 'Penalties-Yards'
-        penalties_info = self._home_yards_from_penalties.split('-')
+        penalties_info = self._home_yards_from_penalties.replace('--', '-')
+        penalties_info = penalties_info.split('-')
         return int(penalties_info[1])
