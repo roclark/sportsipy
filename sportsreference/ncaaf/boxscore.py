@@ -132,8 +132,18 @@ class Boxscore(object):
             # The day info is generally the first line in text for non-special
             # games.
             if day in game_info[0].lower():
+                if index >= len(game_info):
+                    return ''
+                if 'sports logos.net' in game_info[index].lower() or \
+                   game_info[index] == '':
+                    return ''
                 return game_info[index]
         index += 1
+        if index >= len(game_info):
+            return ''
+        if 'sports logos.net' in game_info[index].lower() or \
+           game_info[index] == '':
+            return ''
         return game_info[index]
 
     def _parse_name(self, field, boxscore):

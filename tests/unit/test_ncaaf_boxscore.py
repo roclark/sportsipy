@@ -320,3 +320,70 @@ Logos via Sports Logos.net / About logos
         for field, value in fields.items():
             result = self.boxscore._parse_game_date_and_location(field, m)
             assert result == value
+
+    def test_somewhat_limited_game_information(self):
+        fields = ['date', 'time', 'stadium']
+        fields = {
+            'date': 'Friday Nov 24, 2017',
+            'time': '',
+            'stadium': ''
+        }
+
+        mock_field = """Friday Nov 24, 2017
+Logos via Sports Logos.net / About logos
+"""
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field, value in fields.items():
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert result == value
+
+    def test_limited_game_information(self):
+        fields = ['date', 'time', 'stadium']
+        fields = {
+            'date': 'Friday Nov 24, 2017',
+            'time': '',
+            'stadium': ''
+        }
+
+        mock_field = 'Friday Nov 24, 2017'
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field, value in fields.items():
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert result == value
+
+    def test_limited_game_information_championship(self):
+        fields = ['date', 'time', 'stadium']
+        fields = {
+            'date': 'Saturday Dec 2, 2017',
+            'time': '',
+            'stadium': ''
+        }
+
+        mock_field = """Big Ten Conference Championship
+Saturday Dec 2, 2017
+Logos via Sports Logos.net / About logos
+"""
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field, value in fields.items():
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert result == value
+
+    def test_no_game_information_championship(self):
+        fields = ['date', 'time', 'stadium']
+        fields = {
+            'date': '',
+            'time': '',
+            'stadium': ''
+        }
+
+        mock_field = """Big Ten Conference Championship
+Logos via Sports Logos.net / About logos
+"""
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field, value in fields.items():
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert result == value
