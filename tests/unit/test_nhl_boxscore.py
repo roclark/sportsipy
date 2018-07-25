@@ -5,6 +5,25 @@ from sportsreference.constants import AWAY, HOME
 from sportsreference.nhl.boxscore import Boxscore
 
 
+class MockField:
+    def __init__(self, field):
+        self._field = field
+
+    def text(self):
+        return self._field
+
+
+class MockBoxscoreData:
+    def __init__(self, fields):
+        self._fields = fields
+
+    def __call__(self, field):
+        return self
+
+    def items(self):
+        return [self._fields]
+
+
 class MockName:
     def __init__(self, name):
         self._name = name
@@ -219,3 +238,48 @@ class TestNHLBoxscore:
         result = Boxscore(None)._retrieve_html_page('')
 
         assert result is None
+
+    def test_regular_season_information(self):
+        fields = {
+            'date': 'October 5, 2017, 7:00 PM',
+            'time': 'October 5, 2017, 7:00 PM',
+            'attendance': 'Attendance: 17,565',
+            'arena': 'Arena: TD Garden',
+            'duration': 'Game Duration: 2:39'
+        }
+
+        mock_field = """October 5, 2017, 7:00 PM
+Attendance: 17,565
+Arena: TD Garden
+Game Duration: 2:39
+Logos via Sports Logos.net / About logos
+"""
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field, value in fields.items():
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert result == value
+
+    def test_playoffs_information(self):
+        fields = {
+            'date': 'June 7, 2018, 8:00 PM',
+            'time': 'June 7, 2018, 8:00 PM',
+            'attendance': 'Attendance: 18,529',
+            'arena': 'Arena: T-Mobile Arena',
+            'duration': 'Game Duration: 2:45'
+        }
+
+        mock_field = """June 7, 2018, 8:00 PM
+Stanley Cup Final
+Attendance: 18,529
+Arena: T-Mobile Arena
+Game Duration: 2:45
+Logos via Sports Logos.net / About logos
+"""
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field, value in fields.items():
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert result == value

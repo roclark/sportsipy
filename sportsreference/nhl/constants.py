@@ -97,9 +97,9 @@ BOXSCORE_SCHEME = {
 BOXSCORE_ELEMENT_INDEX = {
     'date': 0,
     'time': 0,
-    'attendance': 2,
-    'arena': 3,
-    'duration': 4,
+    'attendance': 1,
+    'arena': 2,
+    'duration': 3,
     'home_goals': 1,
     'home_assists': 1,
     'home_points': 1,

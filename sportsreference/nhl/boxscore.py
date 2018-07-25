@@ -125,7 +125,22 @@ class Boxscore(object):
         scheme = BOXSCORE_SCHEME[field]
         items = [i.text() for i in boxscore(scheme).items()]
         game_info = items[0].split('\n')
-        return game_info[BOXSCORE_ELEMENT_INDEX[field]]
+        index = BOXSCORE_ELEMENT_INDEX[field]
+        # For playoff games, the second line (index 1) in the information block
+        # of the boxscore contains the name of the round. If found, the index
+        # will need to be updated by 1 to match the information.
+        if 'eastern first round' in game_info[1].lower() or \
+           'western first round' in game_info[1].lower() or \
+           'eastern second round' in game_info[1].lower() or \
+           'western second round' in game_info[1].lower() or \
+           'eastern conference finals' in game_info[1].lower() or \
+           'western conference finals' in game_info[1].lower() or \
+           'stanley cup final' in game_info[1].lower():
+            # The date and time fields will always be the first line of
+            # information and should retain their original index.
+            if field != 'date' and field != 'time':
+                index += 1
+        return game_info[index]
 
     def _parse_name(self, field, boxscore):
         """
