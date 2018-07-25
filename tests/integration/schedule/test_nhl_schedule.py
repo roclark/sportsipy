@@ -45,8 +45,7 @@ class TestNHLSchedule:
         self.results = {
             'game': 2,
             'date': '2016-10-15',
-            'time': '8:00 PM',
-            'datetime': datetime(2016, 10, 15, 20, 0),
+            'datetime': datetime(2016, 10, 15),
             'location': AWAY,
             'opponent_abbr': 'STL',
             'opponent_name': 'St. Louis Blues',
@@ -54,17 +53,11 @@ class TestNHLSchedule:
             'goals_allowed': 3,
             'result': LOSS,
             'overtime': 0,
-            'wins': 1,
-            'losses': 1,
-            'overtime_losses': 0,
-            'streak': 'L 1',
             'shots_on_goal': 35,
             'penalties_in_minutes': 8,
             'power_play_goals': 0,
             'power_play_opportunities': 2,
             'short_handed_goals': 0,
-            'attendance': 19197,
-            'length_of_game': '2:24'
         }
         flexmock(utils) \
             .should_receive('_todays_date') \

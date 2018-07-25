@@ -35,7 +35,6 @@ class Game(object):
         """
         self._game = None
         self._date = None
-        self._time = None
         self._boxscore = None
         self._location = None
         self._opponent_abbr = None
@@ -44,17 +43,11 @@ class Game(object):
         self._goals_allowed = None
         self._result = None
         self._overtime = None
-        self._wins = None
-        self._losses = None
-        self._overtime_losses = None
-        self._streak = None
         self._shots_on_goal = None
         self._penalties_in_minutes = None
         self._power_play_goals = None
         self._power_play_opportunities = None
         self._short_handed_goals = None
-        self._attendance = None
-        self._length_of_game = None
 
         self._parse_game_data(game_data)
 
@@ -127,20 +120,12 @@ class Game(object):
         return self._date
 
     @property
-    def time(self):
-        """
-        Returns a string of the time the game started, such as '7:00 PM'.
-        """
-        return self._time
-
-    @property
     def datetime(self):
         """
-        Returns a datetime object to indicate the month, day, year, and time
-        the game was played at.
+        Returns a datetime object to indicate the month, day, and year the game
+        was played at.
         """
-        date_string = '%s %s' % (self._date, self._time)
-        return datetime.strptime(date_string, '%Y-%m-%d %I:%M %p')
+        return datetime.strptime(self._date, '%Y-%m-%d')
 
     @property
     def boxscore(self):
@@ -220,39 +205,6 @@ class Game(object):
         return 0
 
     @property
-    def wins(self):
-        """
-        Returns an int of the number of games the team has won during the
-        season after the conclusion of the requested game.
-        """
-        return int(self._wins)
-
-    @property
-    def losses(self):
-        """
-        Returns an int of the number of games the team has lost in regulation
-        during the season after the conclusion of the requested game.
-        """
-        return int(self._losses)
-
-    @property
-    def overtime_losses(self):
-        """
-        Returns an int of the number of games the team has lost in overtime
-        during the season after the conclusion of the requested game.
-        """
-        return int(self._overtime_losses)
-
-    @property
-    def streak(self):
-        """
-        Returns a string of the team's winning streak at the conclusion of the
-        requested game. Streaks are listed in the format '[W|L] #' (ie. 'W 3'
-        for a 3-game winning streak and 'L 2' for a 2-game losing streak).
-        """
-        return self._streak
-
-    @property
     def shots_on_goal(self):
         """
         Returns an int of the total number of shots on goal the team
@@ -288,21 +240,6 @@ class Game(object):
         Returns an int of the number of shorthanded goals the team scored.
         """
         return int(self._short_handed_goals)
-
-    @property
-    def attendance(self):
-        """
-        Returns an int of the listed attendance for the game.
-        """
-        attendance = self._attendance.replace(',', '')
-        return int(attendance)
-
-    @property
-    def length_of_game(self):
-        """
-        Returns a string of the duration of the game in the format 'H:MM'.
-        """
-        return self._length_of_game
 
 
 class Schedule:
