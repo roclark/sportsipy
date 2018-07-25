@@ -402,7 +402,7 @@ class Schedule:
         if not year:
             year = utils._find_year_for_season('nhl')
         doc = pq(SCHEDULE_URL % (abbreviation, year))
-        schedule = utils._get_stats_table(doc, 'table#games')
+        schedule = utils._get_stats_table(doc, 'table#tm_gamelog_rs')
 
         for item in schedule:
             if 'class="thead"' in str(item):
