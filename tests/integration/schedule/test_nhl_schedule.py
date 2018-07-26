@@ -58,6 +58,22 @@ class TestNHLSchedule:
             'power_play_goals': 0,
             'power_play_opportunities': 2,
             'short_handed_goals': 0,
+            'opp_shots_on_goal': 18,
+            'opp_penalties_in_minutes': 4,
+            'opp_power_play_goals': 1,
+            'opp_power_play_opportunities': 5,
+            'opp_short_handed_goals': 0,
+            'corsi_for': 54,
+            'corsi_against': 23,
+            'corsi_for_percentage': 70.1,
+            'fenwick_for': 41,
+            'fenwick_against': 18,
+            'fenwick_for_percentage': 69.5,
+            'faceoff_wins': 29,
+            'faceoff_losses': 18,
+            'faceoff_win_percentage': 61.7,
+            'offensive_zone_start_percentage': 55.2,
+            'pdo': 92.4
         }
         flexmock(utils) \
             .should_receive('_todays_date') \

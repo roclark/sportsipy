@@ -48,6 +48,22 @@ class Game(object):
         self._power_play_goals = None
         self._power_play_opportunities = None
         self._short_handed_goals = None
+        self._opp_shots_on_goal = None
+        self._opp_penalties_in_minutes = None
+        self._opp_power_play_goals = None
+        self._opp_power_play_opportunities = None
+        self._opp_short_handed_goals = None
+        self._corsi_for = None
+        self._corsi_against = None
+        self._corsi_for_percentage = None
+        self._fenwick_for = None
+        self._fenwick_against = None
+        self._fenwick_for_percentage = None
+        self._faceoff_wins = None
+        self._faceoff_losses = None
+        self._faceoff_win_percentage = None
+        self._offensive_zone_start_percentage = None
+        self._pdo = None
 
         self._parse_game_data(game_data)
 
@@ -241,6 +257,140 @@ class Game(object):
         Returns an int of the number of shorthanded goals the team scored.
         """
         return int(self._short_handed_goals)
+
+    @property
+    def opp_shots_on_goal(self):
+        """
+        Returns an int of the total number of shots on goal the opponent
+        registered.
+        """
+        return int(self._opp_shots_on_goal)
+
+    @property
+    def opp_penalties_in_minutes(self):
+        """
+        Returns an int of the total number of minutes the opponent served for
+        penalties.
+        """
+        return int(self._opp_penalties_in_minutes)
+
+    @property
+    def opp_power_play_goals(self):
+        """
+        Returns an int of the number of power play goals the opponent scored.
+        """
+        return int(self._opp_power_play_goals)
+
+    @property
+    def opp_power_play_opportunities(self):
+        """
+        Returns an int of the number of power play opportunities the opponent
+        had.
+        """
+        return int(self._opp_power_play_opportunities)
+
+    @property
+    def opp_short_handed_goals(self):
+        """
+        Returns an int of the number of shorthanded goals the opponent scored.
+        """
+        return int(self._opp_short_handed_goals)
+
+    @property
+    def corsi_for(self):
+        """
+        Returns an int of the Corsi For at Even Strength metric which equals
+        the number of shots + blocks + misses.
+        """
+        return int(self._corsi_for)
+
+    @property
+    def corsi_against(self):
+        """
+        Returns an int of the Corsi Against at Even Strength metric which
+        equals the number of shots + blocks + misses by the opponent.
+        """
+        return int(self._corsi_against)
+
+    @property
+    def corsi_for_percentage(self):
+        """
+        Returns a float of the percentage of control a team had of the puck
+        which is calculated by the corsi_for value divided by the sum of
+        corsi_for and corsi_against. Values greater than 50.0 indicate the team
+        had more control of the puck than their opponent. Percentage ranges
+        from 0-100.
+        """
+        return float(self._corsi_for_percentage)
+
+    @property
+    def fenwick_for(self):
+        """
+        Returns an int of the Fenwick For at Even Strength metric which equals
+        the number of shots + misses.
+        """
+        return int(self._fenwick_for)
+
+    @property
+    def fenwick_against(self):
+        """
+        Returns an int of the Fenwick Against at Even Strength metric which
+        equals the number of shots + misses by the opponent.
+        """
+        return int(self._fenwick_against)
+
+    @property
+    def fenwick_for_percentage(self):
+        """
+        Returns a float of the percentage of control a team had of the puck
+        which is calculated by the fenwick_for value divided by the sum of
+        fenwick_for and fenwick_against. Values greater than 50.0 indicate the
+        team had more control of the puck than their opponent. Percentage
+        ranges from 0-100.
+        """
+        return float(self._fenwick_for_percentage)
+
+    @property
+    def faceoff_wins(self):
+        """
+        Returns an int of the number of faceoffs the team won at even strength.
+        """
+        return int(self._faceoff_wins)
+
+    @property
+    def faceoff_losses(self):
+        """
+        Returns an int of the number of faceoffs the team lost at even
+        strength.
+        """
+        return int(self._faceoff_losses)
+
+    @property
+    def faceoff_win_percentage(self):
+        """
+        Returns a float of percentage of faceoffs the team won while at even
+        strength. Percentage ranges from 0-100.
+        """
+        return float(self._faceoff_win_percentage)
+
+    @property
+    def offensive_zone_start_percentage(self):
+        """
+        Returns a float of the percentage of stats that took place in the
+        offensive half. Value is calculated by the number of offensive zone
+        starts divided by the sum of offensive zone starts and defensive zone
+        starts. Percentage ranges from 0-100.
+        """
+        return float(self._offensive_zone_start_percentage)
+
+    @property
+    def pdo(self):
+        """
+        Returns a float of the team's PDO at Even Strength metric which is
+        calculated by the sum of the shooting percentage and save percentage.
+        Percentage ranges from 0-100.
+        """
+        return float(self._pdo)
 
 
 class Schedule:
