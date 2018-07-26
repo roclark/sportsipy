@@ -195,10 +195,16 @@ class Boxscore(object):
             'away_power_play_assists',
             'away_short_handed_assists',
             'away_game_winning_goals',
+            'away_saves',
+            'away_save_percentage',
+            'away_shutout',
             'home_even_strength_assists',
             'home_power_play_assists',
             'home_short_handed_assists',
-            'home_game_winning_goals'
+            'home_game_winning_goals',
+            'home_saves',
+            'home_save_percentage',
+            'home_shutout'
         ]
 
         for field in self.__dict__:
@@ -240,6 +246,10 @@ class Boxscore(object):
             setattr(self, field, value)
 
         self._away_skaters = len(boxscore(BOXSCORE_SCHEME['away_skaters']))
+        num_away_goalies = boxscore(BOXSCORE_SCHEME['away_goalies']).items()
+        # Skip the first element as it is dedicated to skaters and not goalies.
+        next(num_away_goalies)
+        self._away_goalies = len(next(num_away_goalies)('tbody tr'))
 
     @property
     def date(self):
@@ -466,7 +476,14 @@ class Boxscore(object):
         """
         Returns an int of the number of saves the away team made.
         """
-        return int(self._away_saves)
+        saves = self._away_saves[:self._away_goalies]
+        num = 0
+        for x in saves:
+            try:
+                num += int(x)
+            except ValueError:
+                continue
+        return num
 
     @property
     def away_save_percentage(self):
@@ -474,7 +491,11 @@ class Boxscore(object):
         Returns a float of the percentage of shots the away team saved.
         Percentage ranges from 0-1.
         """
-        return float(self._away_save_percentage)
+        try:
+            save_pct = float(self.away_saves) / float(self.home_shots_on_goal)
+            return round(save_pct, 3)
+        except ZeroDivisionError:
+            return 0.0
 
     @property
     def away_shutout(self):
@@ -482,7 +503,15 @@ class Boxscore(object):
         Returns an int denoting whether or not the away team shutout the home
         team.
         """
-        return int(self._away_shutout)
+        shutout = self._away_shutout[:self._away_goalies]
+        for x in shutout:
+            try:
+                y = int(x)
+            except ValueError:
+                continue
+            if y == 1:
+                return 1
+        return 0
 
     @property
     def home_goals(self):
@@ -617,7 +646,14 @@ class Boxscore(object):
         """
         Returns an int of the number of saves the home team made.
         """
-        return int(self._home_saves)
+        saves = self._home_saves[self._away_goalies:]
+        num = 0
+        for x in saves:
+            try:
+                num += int(x)
+            except ValueError:
+                continue
+        return num
 
     @property
     def home_save_percentage(self):
@@ -625,7 +661,11 @@ class Boxscore(object):
         Returns a float of the percentage of shots the home team saved.
         Percentage ranges from 0-1.
         """
-        return float(self._home_save_percentage)
+        try:
+            save_pct = float(self.home_saves) / float(self.away_shots_on_goal)
+            return round(save_pct, 3)
+        except ZeroDivisionError:
+            return 0.0
 
     @property
     def home_shutout(self):
@@ -633,4 +673,12 @@ class Boxscore(object):
         Returns an int denoting whether or not the home team shutout the home
         team.
         """
-        return int(self._home_shutout)
+        shutout = self._home_shutout[self._away_goalies:]
+        for x in shutout:
+            try:
+                y = int(x)
+            except ValueError:
+                continue
+            if y == 1:
+                return 1
+        return 0

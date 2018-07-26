@@ -70,6 +70,7 @@ BOXSCORE_SCHEME = {
     'away_name': 'a[itemprop="name"]:first',
     'home_name': 'a[itemprop="name"]:last',
     'away_skaters': 'table[class="sortable stats_table"]:first tbody tr',
+    'away_goalies': 'table[class="sortable stats_table"]',
     'away_goals': 'tfoot td[data-stat="goals"]',
     'away_assists': 'tfoot td[data-stat="assists"]',
     'away_points': 'tfoot td[data-stat="points"]',

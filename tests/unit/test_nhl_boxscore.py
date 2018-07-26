@@ -283,3 +283,155 @@ Logos via Sports Logos.net / About logos
         for field, value in fields.items():
             result = self.boxscore._parse_game_date_and_location(field, m)
             assert result == value
+
+    def test_away_shutout_single_goalies(self):
+        shutout = ['1', '0']
+
+        fake_shutout = PropertyMock(return_value=shutout)
+        fake_num_goalies = PropertyMock(return_value=1)
+        type(self.boxscore)._away_shutout = fake_shutout
+        type(self.boxscore)._away_goalies = fake_num_goalies
+
+        assert self.boxscore.away_shutout == 1
+
+    def test_away_shutout_multiple_goalies(self):
+        shutout = ['0', '1', '0']
+
+        fake_shutout = PropertyMock(return_value=shutout)
+        fake_num_goalies = PropertyMock(return_value=2)
+        type(self.boxscore)._away_shutout = fake_shutout
+        type(self.boxscore)._away_goalies = fake_num_goalies
+
+        assert self.boxscore.away_shutout == 1
+
+    def test_away_shutout_multiple_goalies_empty_field(self):
+        shutout = ['', '1', '0']
+
+        fake_shutout = PropertyMock(return_value=shutout)
+        fake_num_goalies = PropertyMock(return_value=2)
+        type(self.boxscore)._away_shutout = fake_shutout
+        type(self.boxscore)._away_goalies = fake_num_goalies
+
+        assert self.boxscore.away_shutout == 1
+
+    def test_home_shutout_single_goalies(self):
+        shutout = ['0', '1']
+
+        fake_shutout = PropertyMock(return_value=shutout)
+        fake_num_goalies = PropertyMock(return_value=1)
+        type(self.boxscore)._home_shutout = fake_shutout
+        type(self.boxscore)._away_goalies = fake_num_goalies
+
+        assert self.boxscore.home_shutout == 1
+
+    def test_home_shutout_multiple_goalies(self):
+        shutout = ['0', '0', '1']
+
+        fake_shutout = PropertyMock(return_value=shutout)
+        fake_num_goalies = PropertyMock(return_value=1)
+        type(self.boxscore)._home_shutout = fake_shutout
+        type(self.boxscore)._away_goalies = fake_num_goalies
+
+        assert self.boxscore.home_shutout == 1
+
+    def test_home_shutout_multiple_goalies_empty_field(self):
+        shutout = ['0', '', '1']
+
+        fake_shutout = PropertyMock(return_value=shutout)
+        fake_num_goalies = PropertyMock(return_value=1)
+        type(self.boxscore)._home_shutout = fake_shutout
+        type(self.boxscore)._away_goalies = fake_num_goalies
+
+        assert self.boxscore.home_shutout == 1
+
+    def test_away_saves_single_goalies(self):
+        saves = ['29', '30']
+
+        fake_saves = PropertyMock(return_value=saves)
+        fake_num_goalies = PropertyMock(return_value=1)
+        type(self.boxscore)._away_saves = fake_saves
+        type(self.boxscore)._away_goalies = fake_num_goalies
+
+        assert self.boxscore.away_saves == 29
+
+    def test_away_saves_multiple_goalies_empty_field(self):
+        saves = ['29', '3', '30']
+
+        fake_saves = PropertyMock(return_value=saves)
+        fake_num_goalies = PropertyMock(return_value=2)
+        type(self.boxscore)._away_saves = fake_saves
+        type(self.boxscore)._away_goalies = fake_num_goalies
+
+        assert self.boxscore.away_saves == 32
+
+    def test_away_saves_multiple_goalies_empty_field(self):
+        saves = ['29', '', '30']
+
+        fake_saves = PropertyMock(return_value=saves)
+        fake_num_goalies = PropertyMock(return_value=2)
+        type(self.boxscore)._away_saves = fake_saves
+        type(self.boxscore)._away_goalies = fake_num_goalies
+
+        assert self.boxscore.away_saves == 29
+
+    def test_home_saves_single_goalies(self):
+        saves = ['29', '30']
+
+        fake_saves = PropertyMock(return_value=saves)
+        fake_num_goalies = PropertyMock(return_value=1)
+        type(self.boxscore)._home_saves = fake_saves
+        type(self.boxscore)._away_goalies = fake_num_goalies
+
+        assert self.boxscore.home_saves == 30
+
+    def test_home_saves_multiple_goalies_empty_field(self):
+        saves = ['29', '3', '30']
+
+        fake_saves = PropertyMock(return_value=saves)
+        fake_num_goalies = PropertyMock(return_value=1)
+        type(self.boxscore)._home_saves = fake_saves
+        type(self.boxscore)._away_goalies = fake_num_goalies
+
+        assert self.boxscore.home_saves == 33
+
+    def test_home_saves_multiple_goalies_empty_field(self):
+        saves = ['29', '30', '']
+
+        fake_saves = PropertyMock(return_value=saves)
+        fake_num_goalies = PropertyMock(return_value=1)
+        type(self.boxscore)._home_saves = fake_saves
+        type(self.boxscore)._away_goalies = fake_num_goalies
+
+        assert self.boxscore.home_saves == 30
+
+    def test_away_save_percentage(self):
+        fake_saves = PropertyMock(return_value=30)
+        fake_shots_on_goal = PropertyMock(return_value=33)
+        type(self.boxscore).away_saves = fake_saves
+        type(self.boxscore).home_shots_on_goal = fake_shots_on_goal
+
+        assert self.boxscore.away_save_percentage == 0.909
+
+    def test_away_save_percentage_zero_shots(self):
+        fake_saves = PropertyMock(return_value=0)
+        fake_shots_on_goal = PropertyMock(return_value=0)
+        type(self.boxscore).away_saves = fake_saves
+        type(self.boxscore).home_shots_on_goal = fake_shots_on_goal
+
+        assert self.boxscore.away_save_percentage == 0.0
+
+    def test_home_save_percentage(self):
+        fake_saves = PropertyMock(return_value=30)
+        fake_shots_on_goal = PropertyMock(return_value=33)
+        type(self.boxscore).home_saves = fake_saves
+        type(self.boxscore).away_shots_on_goal = fake_shots_on_goal
+
+        assert self.boxscore.home_save_percentage == 0.909
+
+    def test_home_save_percentage_zero_shots(self):
+        fake_saves = PropertyMock(return_value=0)
+        fake_shots_on_goal = PropertyMock(return_value=0)
+        type(self.boxscore).home_saves = fake_saves
+        type(self.boxscore).away_shots_on_goal = fake_shots_on_goal
+
+        assert self.boxscore.home_save_percentage == 0.0
