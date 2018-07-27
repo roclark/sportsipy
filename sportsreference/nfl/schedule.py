@@ -469,6 +469,22 @@ class Schedule:
         """Returns the number of scheduled games for the given team."""
         return len(self.__repr__())
 
+    def _add_games_to_schedule(self, schedule, game_type, year):
+        """
+        Parameters
+        ----------
+        schedule : PyQuery object
+            A PyQuery object pertaining to a team's schedule table.
+        game_type : string
+            A string constant denoting whether the game is being played as part
+            of the regular season or the playoffs.
+        year : string
+            The requested year to pull stats from.
+        """
+        for item in schedule:
+            game = Game(item, game_type, year)
+            self._games.append(game)
+
     def _pull_schedule(self, abbreviation, year):
         """
         Parameters
@@ -482,13 +498,8 @@ class Schedule:
             year = utils._find_year_for_season('nfl')
         doc = pq(SCHEDULE_URL % (abbreviation.lower(), year))
         schedule = utils._get_stats_table(doc, 'table#gamelog%s' % year)
-        game_type = REGULAR_SEASON
-
-        for item in schedule:
-            game = Game(item, game_type, year)
-            # Sportsreference indicates the playoffs as the 'Date' field in a
-            # row but doesn't contain any actual data.
-            if game.date == 'Playoffs':
-                game_type = POST_SEASON
-                continue
-            self._games.append(game)
+        self._add_games_to_schedule(schedule, REGULAR_SEASON, year)
+        if 'playoff_gamelog%s' % year in str(doc):
+            playoffs = utils._get_stats_table(doc,
+                                              'table#playoff_gamelog%s' % year)
+            self._add_games_to_schedule(playoffs, POST_SEASON, year)

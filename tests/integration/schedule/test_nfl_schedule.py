@@ -27,7 +27,9 @@ def mock_pyquery(url):
             self.text = html_contents
 
         def __call__(self, div):
-            return read_file('table.html' % YEAR)
+            if 'playoff' in div.lower():
+                return read_file('playoff_table.html')
+            return read_file('table.html')
 
     schedule = read_file('gamelog')
     return MockPQ(schedule)
