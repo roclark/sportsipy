@@ -11,7 +11,7 @@ from sportsreference.nfl.schedule import Schedule
 MONTH = 9
 YEAR = 2017
 
-NUM_WEEKS_IN_SCHEDULE = 20
+NUM_GAMES_IN_SCHEDULE = 19
 
 
 def read_file(filename):
@@ -46,33 +46,17 @@ class TestNFLSchedule:
     def setup_method(self, *args, **kwargs):
         self.results = {
             'week': 2,
-            'bye': False,
             'day': 'Sun',
             'date': 'September 17',
-            'time': '1:00PM ET',
             'type': REGULAR_SEASON,
-            'datetime': datetime(2017, 9, 17, 13, 0),
+            'datetime': datetime(2017, 9, 17, 0, 0),
             'result': WIN,
             'overtime': 0,
-            'record': '1-1',
             'location': AWAY,
             'opponent_abbr': 'NOR',
             'opponent_name': 'New Orleans Saints',
             'points_scored': 36,
-            'points_allowed': 20,
-            'first_downs_gained': 29,
-            'yards_gained': 555,
-            'pass_yards': 436,
-            'rush_yards': 119,
-            'turnovers': 0,
-            'first_downs_allowed': 20,
-            'yards_allowed': 429,
-            'pass_yards_allowed': 348,
-            'rush_yards_allowed': 81,
-            'turnovers_forced': 0,
-            'expected_offensive_points': 27.58,
-            'expected_defensive_points': -12.16,
-            'expected_special_teams_points': -2.32
+            'points_allowed': 20
         }
         flexmock(utils) \
             .should_receive('_todays_date') \
@@ -81,7 +65,7 @@ class TestNFLSchedule:
         self.schedule = Schedule('NWE')
 
     def test_nfl_schedule_returns_correct_number_of_games(self):
-        assert len(self.schedule) == NUM_WEEKS_IN_SCHEDULE
+        assert len(self.schedule) == NUM_GAMES_IN_SCHEDULE
 
     def test_nfl_schedule_returns_requested_match_from_index(self):
         match_two = self.schedule[1]

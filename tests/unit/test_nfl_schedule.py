@@ -67,42 +67,6 @@ class TestNFLSchedule:
 
         assert not self.game.overtime
 
-    def test_bye_week_returns_true(self):
-        fake_name = PropertyMock(return_value='Bye Week')
-        type(self.game)._opponent_name = fake_name
-
-        assert self.game.bye
-
-    def test_non_bye_week_returns_false(self):
-        fake_name = PropertyMock(return_value='Jacksonville Jaguars')
-        type(self.game)._opponent_name = fake_name
-
-        assert not self.game.bye
-
-    def test_no_turnovers_returns_zero(self):
-        fake_turnovers = PropertyMock(return_value='')
-        type(self.game)._turnovers = fake_turnovers
-
-        assert self.game.turnovers == 0
-
-    def test_nonzero_turnover_returns_nonzero_number(self):
-        fake_turnovers = PropertyMock(return_value='1')
-        type(self.game)._turnovers = fake_turnovers
-
-        assert self.game.turnovers == 1
-
-    def test_no_turnovers_forced_returns_zero(self):
-        fake_turnovers = PropertyMock(return_value='')
-        type(self.game)._turnovers_forced = fake_turnovers
-
-        assert self.game.turnovers_forced == 0
-
-    def test_nonzero_turnovers_forced_returns_nonzero_number(self):
-        fake_turnovers = PropertyMock(return_value='1')
-        type(self.game)._turnovers_forced = fake_turnovers
-
-        assert self.game.turnovers_forced == 1
-
     def test_regular_season_type(self):
         assert self.game.type == REGULAR_SEASON
 

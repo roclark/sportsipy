@@ -45,34 +45,18 @@ class Game(object):
         """
         self._year = year
         self._week = None
-        self._bye = None
         self._day = None
         self._date = None
-        self._time = None
         self._boxscore = None
         self._type = game_type
         self._datetime = None
         self._result = None
         self._overtime = None
-        self._record = None
         self._location = None
         self._opponent_abbr = None
         self._opponent_name = None
         self._points_scored = None
         self._points_allowed = None
-        self._first_downs_gained = None
-        self._yards_gained = None
-        self._pass_yards = None
-        self._rush_yards = None
-        self._turnovers = None
-        self._first_downs_allowed = None
-        self._yards_allowed = None
-        self._pass_yards_allowed = None
-        self._rush_yards_allowed = None
-        self._turnovers_forced = None
-        self._expected_offensive_points = None
-        self._expected_defensive_points = None
-        self._expected_special_teams_points = None
 
         self._parse_game_data(game_data)
 
@@ -122,7 +106,6 @@ class Game(object):
             short_name = str(field)[1:]
             if short_name == 'datetime' or \
                short_name == 'type' or \
-               short_name == 'bye' or \
                short_name == 'year':
                 continue
             if short_name == 'opponent_abbr':
@@ -151,16 +134,6 @@ class Game(object):
         return int(self._week)
 
     @property
-    def bye(self):
-        """
-        Returns a boolean value that evaluates to True if the team had a week
-        off during the requested week and False if they played.
-        """
-        if self._opponent_name == 'Bye Week':
-            return True
-        return False
-
-    @property
     def day(self):
         """
         Returns a string of the day of the week the game was played as a
@@ -175,13 +148,6 @@ class Game(object):
         'September 7'.
         """
         return self._date
-
-    @property
-    def time(self):
-        """
-        Returns a string of the time the game was played, such as '8:30PM ET'.
-        """
-        return self._time
 
     @property
     def boxscore(self):
@@ -202,15 +168,12 @@ class Game(object):
     @property
     def datetime(self):
         """
-        Returns a datetime object representing the date and time the game was
-        played.
+        Returns a datetime object representing the date the game was played.
         """
-        time = re.sub(r' .*', '', self._time)
-        date_string = '%s %s %s %s' % (self._day,
-                                       self._date,
-                                       self._year,
-                                       time)
-        return datetime.strptime(date_string, '%a %B %d %Y %I:%M%p')
+        date_string = '%s %s %s' % (self._day,
+                                    self._date,
+                                    self._year)
+        return datetime.strptime(date_string, '%a %B %d %Y')
 
     @property
     def result(self):
@@ -231,14 +194,6 @@ class Game(object):
         if self._overtime != '':
             return True
         return False
-
-    @property
-    def record(self):
-        """
-        Returns a string of the team's record after the conclusion of the
-        requested game. Record is in the format 'W-L'.
-        """
-        return self._record
 
     @property
     def location(self):
@@ -281,107 +236,6 @@ class Game(object):
         Returns an int of the number of points allowed by the team.
         """
         return int(self._points_allowed)
-
-    @property
-    def first_downs_gained(self):
-        """
-        Returns an int of the number of first downs the team gained.
-        """
-        return int(self._first_downs_gained)
-
-    @property
-    def yards_gained(self):
-        """
-        Returns an int of the total number of yards the team gained.
-        """
-        return int(self._yards_gained)
-
-    @property
-    def pass_yards(self):
-        """
-        Returns an int of the number of yards from passing the team gained.
-        """
-        return int(self._pass_yards)
-
-    @property
-    def rush_yards(self):
-        """
-        Returns an int of the number of yards from rushing the team gained.
-        """
-        return int(self._rush_yards)
-
-    @property
-    def turnovers(self):
-        """
-        Returns an int of the number of times the team turned the ball over.
-        """
-        if self._turnovers == '':
-            return 0
-        return int(self._turnovers)
-
-    @property
-    def first_downs_allowed(self):
-        """
-        Returns an int of the total number of first downs the defense allowed.
-        """
-        return int(self._first_downs_allowed)
-
-    @property
-    def yards_allowed(self):
-        """
-        Returns an int of the total number of yards the defense allowed.
-        """
-        return int(self._yards_allowed)
-
-    @property
-    def pass_yards_allowed(self):
-        """
-        Returns an int of the total number of passing yards the defense
-        allowed.
-        """
-        return int(self._pass_yards_allowed)
-
-    @property
-    def rush_yards_allowed(self):
-        """
-        Returns an int of the total number of rushing yards the defense
-        allowed.
-        """
-        return int(self._rush_yards_allowed)
-
-    @property
-    def turnovers_forced(self):
-        """
-        Returns an int of the total number of turnovers the defense forced upon
-        the opposing team.
-        """
-        if self._turnovers_forced == '':
-            return 0
-        return int(self._turnovers_forced)
-
-    @property
-    def expected_offensive_points(self):
-        """
-        Returns a float of the number of points the offense was expected to
-        contribute to the score.
-        """
-        return float(self._expected_offensive_points)
-
-    @property
-    def expected_defensive_points(self):
-        """
-        Returns a float of the number of points the defense was expected to
-        contribute to the score.
-        """
-        return float(self._expected_defensive_points)
-
-    @property
-    def expected_special_teams_points(self):
-        """
-        Returns a float of the number of points the special teams unit was
-        expected to contribute to the score.
-        """
-        return float(self._expected_special_teams_points)
 
 
 class Schedule:
