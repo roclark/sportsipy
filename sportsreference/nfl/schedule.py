@@ -481,7 +481,7 @@ class Schedule:
         if not year:
             year = utils._find_year_for_season('nfl')
         doc = pq(SCHEDULE_URL % (abbreviation.lower(), year))
-        schedule = utils._get_stats_table(doc, 'table#games')
+        schedule = utils._get_stats_table(doc, 'table#gamelog%s' % year)
         game_type = REGULAR_SEASON
 
         for item in schedule:

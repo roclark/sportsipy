@@ -29,7 +29,7 @@ def mock_pyquery(url):
         def __call__(self, div):
             return read_file('table.html' % YEAR)
 
-    schedule = read_file('%s_games.html' % YEAR)
+    schedule = read_file('gamelog')
     return MockPQ(schedule)
 
 
