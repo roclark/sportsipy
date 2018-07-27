@@ -181,7 +181,7 @@ BOXSCORE_ELEMENT_INDEX = {
 
 SEASON_PAGE_URL = 'http://www.pro-football-reference.com/years/%s.html'
 
-SCHEDULE_URL = 'https://www.pro-football-reference.com/teams/%s/%s_games.htm'
+SCHEDULE_URL = 'https://www.pro-football-reference.com/teams/%s/%s/gamelog/'
 
 BOXSCORE_URL = 'https://www.pro-football-reference.com/boxscores/%s.htm'
 
