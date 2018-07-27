@@ -57,6 +57,31 @@ class Game(object):
         self._opponent_name = None
         self._points_scored = None
         self._points_allowed = None
+        self._pass_completions = None
+        self._pass_attempts = None
+        self._pass_yards = None
+        self._pass_touchdowns = None
+        self._interceptions = None
+        self._times_sacked = None
+        self._yards_lost_from_sacks = None
+        self._pass_yards_per_attempt = None
+        self._pass_completion_rate = None
+        self._quarterback_rating = None
+        self._rush_attempts = None
+        self._rush_yards = None
+        self._rush_yards_per_attempt = None
+        self._rush_touchdowns = None
+        self._field_goals_made = None
+        self._field_goals_attempted = None
+        self._extra_points_made = None
+        self._extra_points_attempted = None
+        self._punts = None
+        self._punt_yards = None
+        self._third_down_conversions = None
+        self._third_down_attempts = None
+        self._fourth_down_conversions = None
+        self._fourth_down_attempts = None
+        self._time_of_possession = None
 
         self._parse_game_data(game_data)
 
@@ -236,6 +261,197 @@ class Game(object):
         Returns an int of the number of points allowed by the team.
         """
         return int(self._points_allowed)
+
+    @property
+    def pass_completions(self):
+        """
+        Returns an int of the number of completed passed by the team.
+        """
+        return int(self._pass_completions)
+
+    @property
+    def pass_attempts(self):
+        """
+        Returns an int of the number of passes the team attempted during the
+        game.
+        """
+        return int(self._pass_attempts)
+
+    @property
+    def pass_yards(self):
+        """
+        Returns an int of the number of yards the team gained as a result of
+        passing plays.
+        """
+        return int(self._pass_yards)
+
+    @property
+    def pass_touchdowns(self):
+        """
+        Returns an int of the number of touchdowns the team scored as a result
+        of passing plays.
+        """
+        return int(self._pass_touchdowns)
+
+    @property
+    def interceptions(self):
+        """
+        Returns an int of the number of interceptions the team threw.
+        """
+        return int(self._interceptions)
+
+    @property
+    def times_sacked(self):
+        """
+        Returns an int of the number of times the quarterback was sacked by the
+        opponent.
+        """
+        return int(self._times_sacked)
+
+    @property
+    def yards_lost_from_sacks(self):
+        """
+        Returns an int of the total number of yards lost as a result of a sack.
+        """
+        return int(self._yards_lost_from_sacks)
+
+    @property
+    def pass_yards_per_attempt(self):
+        """
+        Returns a float of the average number of yards gained per passing play.
+        """
+        return float(self._pass_yards_per_attempt)
+
+    @property
+    def pass_completion_rate(self):
+        """
+        Returns a float of the percentage of passes that were completed by the
+        team. Percentage ranges from 0-100.
+        """
+        return float(self._pass_completion_rate)
+
+    @property
+    def quarterback_rating(self):
+        """
+        Returns a float of the quarterback's rating for the game.
+        """
+        return float(self._quarterback_rating)
+
+    @property
+    def rush_attempts(self):
+        """
+        Returns an int of the total number of times the team attempted a
+        rushing play.
+        """
+        return int(self._rush_attempts)
+
+    @property
+    def rush_yards(self):
+        """
+        Returns an int of the total number of yards the team gain as a result
+        of rushing plays.
+        """
+        return int(self._rush_yards)
+
+    @property
+    def rush_yards_per_attempt(self):
+        """
+        Returns a float of the average number of yards gained per rushing play.
+        """
+        return float(self._rush_yards_per_attempt)
+
+    @property
+    def rush_touchdowns(self):
+        """
+        Returns an int of the number of touchdowns the team scored as a result
+        of rushing plays.
+        """
+        return int(self._rush_touchdowns)
+
+    @property
+    def field_goals_made(self):
+        """
+        Returns an int of the total number of field goals the team scored.
+        """
+        return int(self._field_goals_made)
+
+    @property
+    def field_goals_attempted(self):
+        """
+        Returns an int of the total number of times the team attempted a field
+        goal.
+        """
+        return int(self._field_goals_attempted)
+
+    @property
+    def extra_points_made(self):
+        """
+        Returns an int of the number of extra points the team successfully
+        converted after scoring a touchdown.
+        """
+        return int(self._extra_points_made)
+
+    @property
+    def extra_points_attempted(self):
+        """
+        Returns an int of the number of times the team attempted to convert
+        an extra point after scoring a touchdown.
+        """
+        return int(self._extra_points_attempted)
+
+    @property
+    def punts(self):
+        """
+        Returns an int of the number of times the team punted the ball.
+        """
+        return int(self._punts)
+
+    @property
+    def punt_yards(self):
+        """
+        Returns an int of the total number of yards the team punted the ball.
+        """
+        return int(self._punt_yards)
+
+    @property
+    def third_down_conversions(self):
+        """
+        Returns an int of the number of third downs the team successfully
+        converted.
+        """
+        return int(self._third_down_conversions)
+
+    @property
+    def third_down_attempts(self):
+        """
+        Returns an int of the total number of third downs the team attempted
+        to convert.
+        """
+        return int(self._third_down_attempts)
+
+    @property
+    def fourth_down_conversions(self):
+        """
+        Returns an int of the number of fourth downs the team successfully
+        converted.
+        """
+        return int(self._fourth_down_conversions)
+
+    @property
+    def fourth_down_attempts(self):
+        """
+        Returns an int of the total number of fourth downs the team attempted
+        to convert.
+        """
+        return int(self._fourth_down_attempts)
+
+    @property
+    def time_of_possession(self):
+        """
+        Returns a string of the total time the team spent with the ball. Time
+        is in the format 'MM:SS'.
+        """
+        return self._time_of_possession
 
 
 class Schedule:

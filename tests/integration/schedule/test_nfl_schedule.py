@@ -56,7 +56,32 @@ class TestNFLSchedule:
             'opponent_abbr': 'NOR',
             'opponent_name': 'New Orleans Saints',
             'points_scored': 36,
-            'points_allowed': 20
+            'points_allowed': 20,
+            'pass_completions': 30,
+            'pass_attempts': 39,
+            'pass_yards': 436,
+            'pass_touchdowns': 3,
+            'interceptions': 0,
+            'times_sacked': 2,
+            'yards_lost_from_sacks': 11,
+            'pass_yards_per_attempt': 11.2,
+            'pass_completion_rate': 76.9,
+            'quarterback_rating': 138.4,
+            'rush_attempts': 31,
+            'rush_yards': 119,
+            'rush_yards_per_attempt': 3.8,
+            'rush_touchdowns': 1,
+            'field_goals_made': 3,
+            'field_goals_attempted': 3,
+            'extra_points_made': 3,
+            'extra_points_attempted': 4,
+            'punts': 3,
+            'punt_yards': 111,
+            'third_down_conversions': 6,
+            'third_down_attempts': 12,
+            'fourth_down_conversions': 0,
+            'fourth_down_attempts': 0,
+            'time_of_possession': '35:06'
         }
         flexmock(utils) \
             .should_receive('_todays_date') \
