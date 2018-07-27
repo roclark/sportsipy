@@ -227,7 +227,10 @@ class Game(object):
         Returns an int of the total number of shots on goal the team
         registered.
         """
-        return int(self._shots_on_goal)
+        try:
+            return int(self._shots_on_goal)
+        except ValueError:
+            return 0
 
     @property
     def penalties_in_minutes(self):
@@ -235,28 +238,40 @@ class Game(object):
         Returns an int of the total number of minutes the team served for
         penalties.
         """
-        return int(self._penalties_in_minutes)
+        try:
+            return int(self._penalties_in_minutes)
+        except ValueError:
+            return 0
 
     @property
     def power_play_goals(self):
         """
         Returns an int of the number of power play goals the team scored.
         """
-        return int(self._power_play_goals)
+        try:
+            return int(self._power_play_goals)
+        except ValueError:
+            return 0
 
     @property
     def power_play_opportunities(self):
         """
         Returns an int of the number of power play opportunities the team had.
         """
-        return int(self._power_play_opportunities)
+        try:
+            return int(self._power_play_opportunities)
+        except ValueError:
+            return 0
 
     @property
     def short_handed_goals(self):
         """
         Returns an int of the number of shorthanded goals the team scored.
         """
-        return int(self._short_handed_goals)
+        try:
+            return int(self._short_handed_goals)
+        except ValueError:
+            return 0
 
     @property
     def opp_shots_on_goal(self):
@@ -264,7 +279,10 @@ class Game(object):
         Returns an int of the total number of shots on goal the opponent
         registered.
         """
-        return int(self._opp_shots_on_goal)
+        try:
+            return int(self._opp_shots_on_goal)
+        except ValueError:
+            return 0
 
     @property
     def opp_penalties_in_minutes(self):
@@ -272,14 +290,20 @@ class Game(object):
         Returns an int of the total number of minutes the opponent served for
         penalties.
         """
-        return int(self._opp_penalties_in_minutes)
+        try:
+            return int(self._opp_penalties_in_minutes)
+        except ValueError:
+            return 0
 
     @property
     def opp_power_play_goals(self):
         """
         Returns an int of the number of power play goals the opponent scored.
         """
-        return int(self._opp_power_play_goals)
+        try:
+            return int(self._opp_power_play_goals)
+        except ValueError:
+            return 0
 
     @property
     def opp_power_play_opportunities(self):
@@ -287,14 +311,20 @@ class Game(object):
         Returns an int of the number of power play opportunities the opponent
         had.
         """
-        return int(self._opp_power_play_opportunities)
+        try:
+            return int(self._opp_power_play_opportunities)
+        except ValueError:
+            return 0
 
     @property
     def opp_short_handed_goals(self):
         """
         Returns an int of the number of shorthanded goals the opponent scored.
         """
-        return int(self._opp_short_handed_goals)
+        try:
+            return int(self._opp_short_handed_goals)
+        except ValueError:
+            return 0
 
     @property
     def corsi_for(self):
@@ -302,7 +332,10 @@ class Game(object):
         Returns an int of the Corsi For at Even Strength metric which equals
         the number of shots + blocks + misses.
         """
-        return int(self._corsi_for)
+        try:
+            return int(self._corsi_for)
+        except ValueError:
+            return 0
 
     @property
     def corsi_against(self):
@@ -310,7 +343,10 @@ class Game(object):
         Returns an int of the Corsi Against at Even Strength metric which
         equals the number of shots + blocks + misses by the opponent.
         """
-        return int(self._corsi_against)
+        try:
+            return int(self._corsi_against)
+        except ValueError:
+            return 0
 
     @property
     def corsi_for_percentage(self):
@@ -321,7 +357,10 @@ class Game(object):
         had more control of the puck than their opponent. Percentage ranges
         from 0-100.
         """
-        return float(self._corsi_for_percentage)
+        try:
+            return float(self._corsi_for_percentage)
+        except ValueError:
+            return 0.0
 
     @property
     def fenwick_for(self):
@@ -329,7 +368,10 @@ class Game(object):
         Returns an int of the Fenwick For at Even Strength metric which equals
         the number of shots + misses.
         """
-        return int(self._fenwick_for)
+        try:
+            return int(self._fenwick_for)
+        except ValueError:
+            return 0
 
     @property
     def fenwick_against(self):
@@ -337,7 +379,10 @@ class Game(object):
         Returns an int of the Fenwick Against at Even Strength metric which
         equals the number of shots + misses by the opponent.
         """
-        return int(self._fenwick_against)
+        try:
+            return int(self._fenwick_against)
+        except ValueError:
+            return 0
 
     @property
     def fenwick_for_percentage(self):
@@ -348,14 +393,20 @@ class Game(object):
         team had more control of the puck than their opponent. Percentage
         ranges from 0-100.
         """
-        return float(self._fenwick_for_percentage)
+        try:
+            return float(self._fenwick_for_percentage)
+        except ValueError:
+            return 0.0
 
     @property
     def faceoff_wins(self):
         """
         Returns an int of the number of faceoffs the team won at even strength.
         """
-        return int(self._faceoff_wins)
+        try:
+            return int(self._faceoff_wins)
+        except ValueError:
+            return 0
 
     @property
     def faceoff_losses(self):
@@ -363,7 +414,10 @@ class Game(object):
         Returns an int of the number of faceoffs the team lost at even
         strength.
         """
-        return int(self._faceoff_losses)
+        try:
+            return int(self._faceoff_losses)
+        except ValueError:
+            return 0
 
     @property
     def faceoff_win_percentage(self):
@@ -371,7 +425,10 @@ class Game(object):
         Returns a float of percentage of faceoffs the team won while at even
         strength. Percentage ranges from 0-100.
         """
-        return float(self._faceoff_win_percentage)
+        try:
+            return float(self._faceoff_win_percentage)
+        except ValueError:
+            return 0.0
 
     @property
     def offensive_zone_start_percentage(self):
@@ -381,7 +438,10 @@ class Game(object):
         starts divided by the sum of offensive zone starts and defensive zone
         starts. Percentage ranges from 0-100.
         """
-        return float(self._offensive_zone_start_percentage)
+        try:
+            return float(self._offensive_zone_start_percentage)
+        except ValueError:
+            return 0.0
 
     @property
     def pdo(self):
@@ -390,7 +450,10 @@ class Game(object):
         calculated by the sum of the shooting percentage and save percentage.
         Percentage ranges from 0-100.
         """
-        return float(self._pdo)
+        try:
+            return float(self._pdo)
+        except ValueError:
+            return 0.0
 
 
 class Schedule:
