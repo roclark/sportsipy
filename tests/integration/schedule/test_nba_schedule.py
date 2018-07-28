@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from flexmock import flexmock
 from sportsreference import utils
-from sportsreference.constants import AWAY, LOSS
+from sportsreference.constants import AWAY, WIN
 from sportsreference.nba.constants import SCHEDULE_URL
 from sportsreference.nba.schedule import Schedule
 
@@ -11,7 +11,7 @@ from sportsreference.nba.schedule import Schedule
 MONTH = 1
 YEAR = 2017
 
-NUM_GAMES_IN_SCHEDULE = 82
+NUM_GAMES_IN_SCHEDULE = 99
 
 
 def read_file(filename):
@@ -27,9 +27,11 @@ def mock_pyquery(url):
             self.text = html_contents
 
         def __call__(self, div):
+            if 'playoff' in div:
+                return read_file('playoff.html')
             return read_file('table.html')
 
-    schedule = read_file('%s_games.html' % YEAR)
+    schedule = read_file('gamelog')
     return MockPQ(schedule)
 
 
@@ -44,19 +46,45 @@ class TestNBASchedule:
     def setup_method(self, *args, **kwargs):
         self.results = {
             'game': 2,
-            'date': 'Fri, Oct 28, 2016',
-            'time': '8:00p ET',
-            'datetime': datetime(2016, 10, 28, 20, 0),
+            'date': '2016-10-28',
+            'datetime': datetime(2016, 10, 28),
             'location': AWAY,
-            'opponent_abbr': 'OKC',
-            'opponent_name': 'Oklahoma City Thunder',
-            'result': LOSS,
-            'overtime': 1,
-            'points_scored': 110,
-            'points_allowed': 113,
-            'wins': 0,
-            'losses': 2,
-            'streak': 'L 2'
+            'opponent_abbr': 'NOP',
+            'result': WIN,
+            'points_scored': 122,
+            'points_allowed': 114,
+            'field_goals': 44,
+            'field_goal_attempts': 91,
+            'field_goal_percentage': .484,
+            'three_point_field_goals': 9,
+            'three_point_field_goal_attempts': 28,
+            'three_point_field_goal_percentage': .321,
+            'free_throws': 25,
+            'free_throw_attempts': 28,
+            'free_throw_percentage': .893,
+            'offensive_rebounds': 9,
+            'total_rebounds': 49,
+            'assists': 32,
+            'steals': 8,
+            'blocks': 2,
+            'turnovers': 14,
+            'personal_fouls': 22,
+            'opp_field_goals': 47,
+            'opp_field_goal_attempts': 100,
+            'opp_field_goal_percentage': .470,
+            'opp_three_point_field_goals': 5,
+            'opp_three_point_field_goal_attempts': 22,
+            'opp_three_point_field_goal_percentage': .227,
+            'opp_free_throws': 15,
+            'opp_free_throw_attempts': 23,
+            'opp_free_throw_percentage': .652,
+            'opp_offensive_rebounds': 12,
+            'opp_total_rebounds': 49,
+            'opp_assists': 29,
+            'opp_steals': 8,
+            'opp_blocks': 5,
+            'opp_turnovers': 13,
+            'opp_personal_fouls': 24
         }
         flexmock(utils) \
             .should_receive('_todays_date') \

@@ -49,19 +49,46 @@ PARSING_SCHEME = {
 }
 
 SCHEDULE_SCHEME = {
-    'game': 'th[data-stat="g"]:first',
+    'game': 'th[data-stat="ranker"]:first',
     'date': 'td[data-stat="date_game"]:first',
-    'time': 'td[data-stat="game_start_time"]:first',
     'location': 'td[data-stat="game_location"]:first',
-    'opponent_abbr': 'td[data-stat="opp_name"]:first',
-    'opponent_name': 'td[data-stat="opp_name"]:first',
+    'opponent_abbr': 'td[data-stat="opp_id"]:first',
     'result': 'td[data-stat="game_result"]:first',
-    'overtime': 'td[data-stat="overtimes"]:first',
     'points_scored': 'td[data-stat="pts"]:first',
     'points_allowed': 'td[data-stat="opp_pts"]:first',
-    'wins': 'td[data-stat="wins"]:first',
-    'losses': 'td[data-stat="losses"]:first',
-    'streak': 'td[data-stat="game_streak"]:first'
+    'field_goals': 'td[data-stat="fg"]:first',
+    'field_goal_attempts': 'td[data-stat="fga"]:first',
+    'field_goal_percentage': 'td[data-stat="fg_pct"]:first',
+    'three_point_field_goals': 'td[data-stat="fg3"]:first',
+    'three_point_field_goal_attempts': 'td[data-stat="fg3a"]:first',
+    'three_point_field_goal_percentage': 'td[data-stat="fg3_pct"]:first',
+    'free_throws': 'td[data-stat="ft"]:first',
+    'free_throw_attempts': 'td[data-stat="fta"]:first',
+    'free_throw_percentage': 'td[data-stat="ft_pct"]:first',
+    'offensive_rebounds': 'td[data-stat="orb"]:first',
+    'total_rebounds': 'td[data-stat="trb"]:first',
+    'assists': 'td[data-stat="ast"]:first',
+    'steals': 'td[data-stat="stl"]:first',
+    'blocks': 'td[data-stat="blk"]:first',
+    'turnovers': 'td[data-stat="tov"]:first',
+    'personal_fouls': 'td[data-stat="pf"]:first',
+    'opp_field_goals': 'td[data-stat="opp_fg"]:first',
+    'opp_field_goal_attempts': 'td[data-stat="opp_fga"]:first',
+    'opp_field_goal_percentage': 'td[data-stat="opp_fg_pct"]:first',
+    'opp_three_point_field_goals': 'td[data-stat="opp_fg3"]:first',
+    'opp_three_point_field_goal_attempts': 'td[data-stat="opp_fg3a"]:first',
+    'opp_three_point_field_goal_percentage':
+    'td[data-stat="opp_fg3_pct"]:first',
+    'opp_free_throws': 'td[data-stat="opp_ft"]:first',
+    'opp_free_throw_attempts': 'td[data-stat="opp_fta"]:first',
+    'opp_free_throw_percentage': 'td[data-stat="opp_ft_pct"]:first',
+    'opp_offensive_rebounds': 'td[data-stat="opp_orb"]:first',
+    'opp_total_rebounds': 'td[data-stat="opp_trb"]:first',
+    'opp_assists': 'td[data-stat="opp_ast"]:first',
+    'opp_steals': 'td[data-stat="opp_stl"]:first',
+    'opp_blocks': 'td[data-stat="opp_blk"]:first',
+    'opp_turnovers': 'td[data-stat="opp_tov"]:first',
+    'opp_personal_fouls': 'td[data-stat="opp_pf"]:first'
 }
 
 BOXSCORE_SCHEME = {
@@ -191,6 +218,6 @@ BOXSCORE_ELEMENT_INDEX = {
 
 SEASON_PAGE_URL = 'http://www.basketball-reference.com/leagues/NBA_%s.html'
 
-SCHEDULE_URL = 'http://www.basketball-reference.com/teams/%s/%s_games.html'
+SCHEDULE_URL = 'http://www.basketball-reference.com/teams/%s/%s/gamelog/'
 
 BOXSCORE_URL = 'https://www.basketball-reference.com/boxscores/%s.html'

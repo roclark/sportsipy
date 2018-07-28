@@ -38,15 +38,3 @@ class TestNBASchedule:
         type(self.game)._result = fake_result
 
         assert self.game.result == LOSS
-
-    def test_overtime_returns_overtime(self):
-        fake_overtime = PropertyMock(return_value='OT')
-        type(self.game)._overtime = fake_overtime
-
-        assert self.game.overtime == 1
-
-    def test_no_overtime_returns_none(self):
-        fake_overtime = PropertyMock(return_value='')
-        type(self.game)._overtime = fake_overtime
-
-        assert self.game.overtime is None
