@@ -81,7 +81,7 @@ class Game(object):
         The boxscore is embedded within the HTML tag and needs a special
         parsing scheme in order to be extracted.
         """
-        boxscore = game_data('td[data-stat="box_score_text"]:first')
+        boxscore = game_data('td[data-stat="date_game"]:first')
         boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
         boxscore = re.sub('\.html.*', '', boxscore)
         setattr(self, '_boxscore', boxscore)
