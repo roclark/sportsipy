@@ -81,6 +81,11 @@ class Game(object):
 
         The boxscore is embedded within the HTML tag and needs a special
         parsing scheme in order to be extracted.
+
+        Parameters
+        ----------
+        game_data : PyQuery object
+            A PyQuery object containing the information specific to a game.
         """
         boxscore = game_data('td[data-stat="date_game"]:first')
         boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
@@ -185,16 +190,16 @@ class Game(object):
     @property
     def game(self):
         """
-        Returns an int to indicate which game in the season was requested. The
-        first game of the season returns 1.
+        Returns an ``int`` to indicate which game in the season was requested.
+        The first game of the season returns 1.
         """
         return int(self._game)
 
     @property
     def date(self):
         """
-        Returns a string of the date the game took place at, such as 'Wed, Oct
-        18, 2017'.
+        Returns a ``string`` of the date the game took place at, such as 'Wed,
+        Oct 18, 2017'.
         """
         return self._date
 
@@ -217,8 +222,8 @@ class Game(object):
     @property
     def location(self):
         """
-        Returns a string constant to indicate whether the game was played in
-        the team's home arena or on the road.
+        Returns a ``string`` constant to indicate whether the game was played
+        in the team's home arena or on the road.
         """
         if self._location.lower() == '@':
             return AWAY
@@ -227,16 +232,16 @@ class Game(object):
     @property
     def opponent_abbr(self):
         """
-        Returns a string of the opponent's 3-letter abbreviation, such as 'CHI'
-        for the Chicago Bulls.
+        Returns a ``string`` of the opponent's 3-letter abbreviation, such as
+        'CHI' for the Chicago Bulls.
         """
         return self._opponent_abbr
 
     @property
     def result(self):
         """
-        Returns a string constant to indicate whether the team won or lost the
-        game.
+        Returns a ``string`` constant to indicate whether the team won or lost
+        the game.
         """
         if self._result.lower() == 'l':
             return LOSS
@@ -245,14 +250,15 @@ class Game(object):
     @property
     def points_scored(self):
         """
-        Returns an int of the number of points the team scored during the game.
+        Returns an ``int`` of the number of points the team scored during the
+        game.
         """
         return int(self._points_scored)
 
     @property
     def points_allowed(self):
         """
-        Returns an int of the number of points the team allowed during the
+        Returns an ``int`` of the number of points the team allowed during the
         game.
         """
         return int(self._points_allowed)
@@ -260,22 +266,23 @@ class Game(object):
     @property
     def field_goals(self):
         """
-        Returns an int of the total number of field goals made by the team.
+        Returns an ``int`` of the total number of field goals made by the team.
         """
         return int(self._field_goals)
 
     @property
     def field_goal_attempts(self):
         """
-        Returns an int of the total number of field goal attempts by the team.
+        Returns an ``int`` of the total number of field goal attempts by the
+        team.
         """
         return int(self._field_goal_attempts)
 
     @property
     def field_goal_percentage(self):
         """
-        Returns a float of the number of field goals made divided by the total
-        number of field goal attempts by the team. Percentage ranges from
+        Returns a ``float`` of the number of field goals made divided by the
+        total number of field goal attempts by the team. Percentage ranges from
         0-1.
         """
         return float(self._field_goal_percentage)
@@ -283,7 +290,7 @@ class Game(object):
     @property
     def three_point_field_goals(self):
         """
-        Returns an int of the total number of three point field goals made
+        Returns an ``int`` of the total number of three point field goals made
         by the team.
         """
         return int(self._three_point_field_goals)
@@ -291,16 +298,16 @@ class Game(object):
     @property
     def three_point_field_goal_attempts(self):
         """
-        Returns an int of the total number of three point field goal attempts
-        by the team.
+        Returns an ``int`` of the total number of three point field goal
+        attempts by the team.
         """
         return int(self._three_point_field_goal_attempts)
 
     @property
     def three_point_field_goal_percentage(self):
         """
-        Returns a float of the number of three point field goals made divided
-        by the number of three point field goal attempts by the team.
+        Returns a ``float`` of the number of three point field goals made
+        divided by the number of three point field goal attempts by the team.
         Percentage ranges from 0-1.
         """
         return float(self._three_point_field_goal_percentage)
@@ -308,85 +315,88 @@ class Game(object):
     @property
     def free_throws(self):
         """
-        Returns an int of the total number of free throws made by the team.
+        Returns an ``int`` of the total number of free throws made by the team.
         """
         return int(self._free_throws)
 
     @property
     def free_throw_attempts(self):
         """
-        Returns an int of the total number of free throw attempts by the team.
+        Returns an ``int`` of the total number of free throw attempts by the
+        team.
         """
         return int(self._free_throw_attempts)
 
     @property
     def free_throw_percentage(self):
         """
-        Returns a float of the number of free throws made divided by the number
-        of free throw attempts by the team.
+        Returns a ``float`` of the number of free throws made divided by the
+        number of free throw attempts by the team.
         """
         return float(self._free_throw_percentage)
 
     @property
     def offensive_rebounds(self):
         """
-        Returns an int of the total number of offensive rebounds by the team.
+        Returns an ``int`` of the total number of offensive rebounds by the
+        team.
         """
         return int(self._offensive_rebounds)
 
     @property
     def total_rebounds(self):
         """
-        Returns an int of the total number of rebounds by the team.
+        Returns an ``int`` of the total number of rebounds by the team.
         """
         return int(self._total_rebounds)
 
     @property
     def assists(self):
         """
-        Returns an int of the total number of assists by the team.
+        Returns an ``int`` of the total number of assists by the team.
         """
         return int(self._assists)
 
     @property
     def steals(self):
         """
-        Returns an int of the total number of steals by the team.
+        Returns an ``int`` of the total number of steals by the team.
         """
         return int(self._steals)
 
     @property
     def blocks(self):
         """
-        Returns an int of the total number of blocks by the team.
+        Returns an ``int`` of the total number of blocks by the team.
         """
         return int(self._blocks)
 
     @property
     def turnovers(self):
         """
-        Returns an int of the total number of turnovers by the team.
+        Returns an ``int`` of the total number of turnovers by the team.
         """
         return int(self._turnovers)
 
     @property
     def personal_fouls(self):
         """
-        Returns an int of the total number of personal fouls by the team.
+        Returns an ``int`` of the total number of personal fouls by the team.
         """
         return int(self._personal_fouls)
 
     @property
     def opp_field_goals(self):
         """
-        Returns an int of the total number of field goals made by the opponent.
+        Returns an ``int`` of the total number of field goals made by the
+        opponent.
         """
         return int(self._opp_field_goals)
 
     @property
     def opp_field_goal_attempts(self):
         """
-        Returns an int of the total number of field goal attempts by the
+        Returns an ``int`` of the total number of field goal attempts by the
         opponent.
         """
         return int(self._opp_field_goal_attempts)
@@ -394,16 +404,16 @@ class Game(object):
     @property
     def opp_field_goal_percentage(self):
         """
-        Returns a float of the number of field goals made divided by the total
-        number of field goal attempts by the opponent. Percentage ranges from
-        0-1.
+        Returns a ``float`` of the number of field goals made divided by the
+        total number of field goal attempts by the opponent. Percentage ranges
+        from 0-1.
         """
         return float(self._opp_field_goal_percentage)
 
     @property
     def opp_three_point_field_goals(self):
         """
-        Returns an int of the total number of three point field goals made
+        Returns an ``int`` of the total number of three point field goals made
         by the opponent.
         """
         return int(self._opp_three_point_field_goals)
@@ -411,31 +421,32 @@ class Game(object):
     @property
     def opp_three_point_field_goal_attempts(self):
         """
-        Returns an int of the total number of three point field goal attempts
-        by the opponent.
+        Returns an ``int`` of the total number of three point field goal
+        attempts by the opponent.
         """
         return int(self._opp_three_point_field_goal_attempts)
 
     @property
     def opp_three_point_field_goal_percentage(self):
         """
-        Returns a float of the number of three point field goals made divided
-        by the number of three point field goal attempts by the opponent.
-        Percentage ranges from 0-1.
+        Returns a ``float`` of the number of three point field goals made
+        divided by the number of three point field goal attempts by the
+        opponent. Percentage ranges from 0-1.
         """
         return float(self._opp_three_point_field_goal_percentage)
 
     @property
     def opp_free_throws(self):
         """
-        Returns an int of the total number of free throws made by the opponent.
+        Returns an ``int`` of the total number of free throws made by the
+        opponent.
         """
         return int(self._opp_free_throws)
 
     @property
     def opp_free_throw_attempts(self):
         """
-        Returns an int of the total number of free throw attempts by the
+        Returns an ``int`` of the total number of free throw attempts by the
         opponent.
         """
         return int(self._opp_free_throw_attempts)
@@ -443,15 +454,15 @@ class Game(object):
     @property
     def opp_free_throw_percentage(self):
         """
-        Returns a float of the number of free throws made divided by the number
-        of free throw attempts by the opponent.
+        Returns a ``float`` of the number of free throws made divided by the
+        number of free throw attempts by the opponent.
         """
         return float(self._opp_free_throw_percentage)
 
     @property
     def opp_offensive_rebounds(self):
         """
-        Returns an int of the total number of offensive rebounds by the
+        Returns an ``int`` of the total number of offensive rebounds by the
         opponent.
         """
         return int(self._opp_offensive_rebounds)
@@ -459,42 +470,43 @@ class Game(object):
     @property
     def opp_total_rebounds(self):
         """
-        Returns an int of the total number of rebounds by the opponent.
+        Returns an ``int`` of the total number of rebounds by the opponent.
         """
         return int(self._opp_total_rebounds)
 
     @property
     def opp_assists(self):
         """
-        Returns an int of the total number of assists by the opponent.
+        Returns an ``int`` of the total number of assists by the opponent.
         """
         return int(self._opp_assists)
 
     @property
     def opp_steals(self):
         """
-        Returns an int of the total number of steals by the opponent.
+        Returns an ``int`` of the total number of steals by the opponent.
         """
         return int(self._opp_steals)
 
     @property
     def opp_blocks(self):
         """
-        Returns an int of the total number of blocks by the opponent.
+        Returns an ``int`` of the total number of blocks by the opponent.
         """
         return int(self._opp_blocks)
 
     @property
     def opp_turnovers(self):
         """
-        Returns an int of the total number of turnovers by the opponent.
+        Returns an ``int`` of the total number of turnovers by the opponent.
         """
         return int(self._opp_turnovers)
 
     @property
     def opp_personal_fouls(self):
         """
-        Returns an int of the total number of personal fouls by the opponent.
+        Returns an ``int`` of the total number of personal fouls by the
+        opponent.
         """
         return int(self._opp_personal_fouls)
 
@@ -508,6 +520,8 @@ class Schedule:
     """
     def __init__(self, abbreviation, year=None):
         """
+        Pull the teams schedule and analyze the games.
+
         Parameters
         ----------
         abbreviation : string
@@ -571,7 +585,7 @@ class Schedule:
         raise ValueError('No games found for requested date')
 
     def __repr__(self):
-        """Returns a list of all games scheduled for the given team."""
+        """Returns a ``list`` of all games scheduled for the given team."""
         return self._games
 
     def __iter__(self):
@@ -607,6 +621,13 @@ class Schedule:
 
     def _pull_schedule(self, abbreviation, year):
         """
+        Download and create objects for the team's schedule.
+
+        Given a team abbreviation and season, first download the team's
+        schedule page and convert to a PyQuery object, then create a Game
+        instance for every game in the team's schedule and append it to the
+        '_games' property.
+
         Parameters
         ----------
         abbreviation : string

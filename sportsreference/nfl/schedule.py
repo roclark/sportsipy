@@ -92,6 +92,11 @@ class Game(object):
 
         The opponent's abbreviation is embedded within the HTML tag and needs
         a special parsing scheme in order to be extracted.
+
+        Parameters
+        ----------
+        game_data : PyQuery object
+            A PyQuery object containing the information specific to a game.
         """
         name = game_data('td[data-stat="opp"]:first')
         name = re.sub(r'.*/teams/', '', str(name))
@@ -104,6 +109,11 @@ class Game(object):
 
         The boxscore is embedded within the HTML tag and needs a special
         parsing scheme in order to be extracted.
+
+        Parameters
+        ----------
+        game_data : PyQuery object
+            A PyQuery object containing the information specific to a game.
         """
         boxscore = game_data('td[data-stat="boxscore_word"]:first')
         boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
@@ -206,7 +216,7 @@ class Game(object):
     @property
     def week(self):
         """
-        Returns an int of the week number in the season, such as 1 for the
+        Returns an ``int`` of the week number in the season, such as 1 for the
         first week of the regular season.
         """
         if self._week.lower() == 'wild card':
@@ -222,7 +232,7 @@ class Game(object):
     @property
     def day(self):
         """
-        Returns a string of the day of the week the game was played as a
+        Returns a ``string`` of the day of the week the game was played as a
         3-letter abbreviation, such as 'Sun' for Sunday.
         """
         return self._day
@@ -230,7 +240,7 @@ class Game(object):
     @property
     def date(self):
         """
-        Returns a string of the month and day the game was played, such as
+        Returns a ``string`` of the month and day the game was played, such as
         'September 7'.
         """
         return self._date
@@ -246,7 +256,7 @@ class Game(object):
     @property
     def type(self):
         """
-        Returns a string constant indicating whether the game is a regular
+        Returns a ``string`` constant indicating whether the game is a regular
         season or playoff matchup.
         """
         return self._type
@@ -264,8 +274,8 @@ class Game(object):
     @property
     def result(self):
         """
-        Returns a string constant indicating whether the team won or lost the
-        game.
+        Returns a ``string`` constant indicating whether the team won or lost
+        the game.
         """
         if self._result.lower() == 'l':
             return LOSS
@@ -284,7 +294,7 @@ class Game(object):
     @property
     def location(self):
         """
-        Returns a string constant indicating whether the game was played at
+        Returns a ``string`` constant indicating whether the game was played at
         home, away, or a neutral site, such as the Super Bowl.
         """
         if self._location.lower() == '@':
@@ -296,112 +306,114 @@ class Game(object):
     @property
     def opponent_abbr(self):
         """
-        Returns a string of the opponent's 3-letter abbreviation, such as 'NWE'
-        for the New England Patriots.
+        Returns a ``string`` of the opponent's 3-letter abbreviation, such as
+        'NWE' for the New England Patriots.
         """
         return self._opponent_abbr
 
     @property
     def opponent_name(self):
         """
-        Returns a string of the opponent's full name, such as the 'New England
-        Patriots'.
+        Returns a ``string`` of the opponent's full name, such as the 'New
+        England Patriots'.
         """
         return self._opponent_name
 
     @property
     def points_scored(self):
         """
-        Returns an int of the number of points scored by the team.
+        Returns an ``int`` of the number of points scored by the team.
         """
         return int(self._points_scored)
 
     @property
     def points_allowed(self):
         """
-        Returns an int of the number of points allowed by the team.
+        Returns an ``int`` of the number of points allowed by the team.
         """
         return int(self._points_allowed)
 
     @property
     def pass_completions(self):
         """
-        Returns an int of the number of completed passed by the team.
+        Returns an ``int`` of the number of completed passed by the team.
         """
         return int(self._pass_completions)
 
     @property
     def pass_attempts(self):
         """
-        Returns an int of the number of passes the team attempted during the
-        game.
+        Returns an ``int`` of the number of passes the team attempted during
+        the game.
         """
         return int(self._pass_attempts)
 
     @property
     def pass_yards(self):
         """
-        Returns an int of the number of yards the team gained as a result of
-        passing plays.
+        Returns an ``int`` of the number of yards the team gained as a result
+        of passing plays.
         """
         return int(self._pass_yards)
 
     @property
     def pass_touchdowns(self):
         """
-        Returns an int of the number of touchdowns the team scored as a result
-        of passing plays.
+        Returns an ``int`` of the number of touchdowns the team scored as a
+        result of passing plays.
         """
         return int(self._pass_touchdowns)
 
     @property
     def interceptions(self):
         """
-        Returns an int of the number of interceptions the team threw.
+        Returns an ``int`` of the number of interceptions the team threw.
         """
         return int(self._interceptions)
 
     @property
     def times_sacked(self):
         """
-        Returns an int of the number of times the quarterback was sacked by the
-        opponent.
+        Returns an ``int`` of the number of times the quarterback was sacked by
+        the opponent.
         """
         return int(self._times_sacked)
 
     @property
     def yards_lost_from_sacks(self):
         """
-        Returns an int of the total number of yards lost as a result of a sack.
+        Returns an ``int`` of the total number of yards lost as a result of a
+        sack.
         """
         return int(self._yards_lost_from_sacks)
 
     @property
     def pass_yards_per_attempt(self):
         """
-        Returns a float of the average number of yards gained per passing play.
+        Returns a ``float`` of the average number of yards gained per passing
+        play.
         """
         return float(self._pass_yards_per_attempt)
 
     @property
     def pass_completion_rate(self):
         """
-        Returns a float of the percentage of passes that were completed by the
-        team. Percentage ranges from 0-100.
+        Returns a ``float`` of the percentage of passes that were completed by
+        the team. Percentage ranges from 0-100.
         """
         return float(self._pass_completion_rate)
 
     @property
     def quarterback_rating(self):
         """
-        Returns a float of the quarterback's rating for the game.
+        Returns a ``float`` of the quarterback's rating for the game.
         """
         return float(self._quarterback_rating)
 
     @property
     def rush_attempts(self):
         """
-        Returns an int of the total number of times the team attempted a
+        Returns an ``int`` of the total number of times the team attempted a
         rushing play.
         """
         return int(self._rush_attempts)
@@ -409,45 +421,46 @@ class Game(object):
     @property
     def rush_yards(self):
         """
-        Returns an int of the total number of yards the team gain as a result
-        of rushing plays.
+        Returns an ``int`` of the total number of yards the team gain as a
+        result of rushing plays.
         """
         return int(self._rush_yards)
 
     @property
     def rush_yards_per_attempt(self):
         """
-        Returns a float of the average number of yards gained per rushing play.
+        Returns a ``float`` of the average number of yards gained per rushing
+        play.
         """
         return float(self._rush_yards_per_attempt)
 
     @property
     def rush_touchdowns(self):
         """
-        Returns an int of the number of touchdowns the team scored as a result
-        of rushing plays.
+        Returns an ``int`` of the number of touchdowns the team scored as a
+        result of rushing plays.
         """
         return int(self._rush_touchdowns)
 
     @property
     def field_goals_made(self):
         """
-        Returns an int of the total number of field goals the team scored.
+        Returns an ``int`` of the total number of field goals the team scored.
         """
         return int(self._field_goals_made)
 
     @property
     def field_goals_attempted(self):
         """
-        Returns an int of the total number of times the team attempted a field
-        goal.
+        Returns an ``int`` of the total number of times the team attempted a
+        field goal.
         """
         return int(self._field_goals_attempted)
 
     @property
     def extra_points_made(self):
         """
-        Returns an int of the number of extra points the team successfully
+        Returns an ``int`` of the number of extra points the team successfully
         converted after scoring a touchdown.
         """
         return int(self._extra_points_made)
@@ -455,7 +468,7 @@ class Game(object):
     @property
     def extra_points_attempted(self):
         """
-        Returns an int of the number of times the team attempted to convert
+        Returns an ``int`` of the number of times the team attempted to convert
         an extra point after scoring a touchdown.
         """
         return int(self._extra_points_attempted)
@@ -463,21 +476,22 @@ class Game(object):
     @property
     def punts(self):
         """
-        Returns an int of the number of times the team punted the ball.
+        Returns an ``int`` of the number of times the team punted the ball.
         """
         return int(self._punts)
 
     @property
     def punt_yards(self):
         """
-        Returns an int of the total number of yards the team punted the ball.
+        Returns an ``int`` of the total number of yards the team punted the
+        ball.
         """
         return int(self._punt_yards)
 
     @property
     def third_down_conversions(self):
         """
-        Returns an int of the number of third downs the team successfully
+        Returns an ``int`` of the number of third downs the team successfully
         converted.
         """
         return int(self._third_down_conversions)
@@ -485,15 +499,15 @@ class Game(object):
     @property
     def third_down_attempts(self):
         """
-        Returns an int of the total number of third downs the team attempted
-        to convert.
+        Returns an ``int`` of the total number of third downs the team
+        attempted to convert.
         """
         return int(self._third_down_attempts)
 
     @property
     def fourth_down_conversions(self):
         """
-        Returns an int of the number of fourth downs the team successfully
+        Returns an ``int`` of the number of fourth downs the team successfully
         converted.
         """
         return int(self._fourth_down_conversions)
@@ -501,16 +515,16 @@ class Game(object):
     @property
     def fourth_down_attempts(self):
         """
-        Returns an int of the total number of fourth downs the team attempted
-        to convert.
+        Returns an ``int`` of the total number of fourth downs the team
+        attempted to convert.
         """
         return int(self._fourth_down_attempts)
 
     @property
     def time_of_possession(self):
         """
-        Returns a string of the total time the team spent with the ball. Time
-        is in the format 'MM:SS'.
+        Returns a ``string`` of the total time the team spent with the ball.
+        Time is in the format 'MM:SS'.
         """
         return self._time_of_possession
 
@@ -524,6 +538,8 @@ class Schedule:
     """
     def __init__(self, abbreviation, year=None):
         """
+        Pull the teams schedule and analyze the games.
+
         Parameters
         ----------
         abbreviation : string
@@ -587,7 +603,7 @@ class Schedule:
         raise ValueError('No games found for requested date')
 
     def __repr__(self):
-        """Returns a list of all games scheduled for the given team."""
+        """Returns a ``list`` of all games scheduled for the given team."""
         return self._games
 
     def __iter__(self):
@@ -602,6 +618,11 @@ class Schedule:
 
     def _add_games_to_schedule(self, schedule, game_type, year):
         """
+        Add games instances to schedule.
+
+        Create a Game instance for every applicable game in the season and
+        append the instance to the '_game' property.
+
         Parameters
         ----------
         schedule : PyQuery object
@@ -618,6 +639,13 @@ class Schedule:
 
     def _pull_schedule(self, abbreviation, year):
         """
+        Download and create objects for the team's schedule.
+
+        Given a team abbreviation and season, first download the team's
+        schedule page and convert to a PyQuery object, then create a Game
+        instance for every game in the team's schedule and append it to the
+        '_games' property.
+
         Parameters
         ----------
         abbreviation : string

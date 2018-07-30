@@ -139,15 +139,15 @@ class Team:
     @property
     def rank(self):
         """
-        Returns an int of the team's rank based on the number of points they
-        obtained in the season.
+        Returns an ``int`` of the team's rank based on the number of points
+        they obtained in the season.
         """
         return int(self._rank)
 
     @property
     def abbreviation(self):
         """
-        Returns a string of the team's abbreviation, such as 'DET' for the
+        Returns a ``string`` of the team's abbreviation, such as 'DET' for the
         Detroit Red Wings.
         """
         return self._abbreviation
@@ -163,37 +163,39 @@ class Team:
     @property
     def name(self):
         """
-        Returns a string of the team's full name, such as 'Detroit Red Wings'.
+        Returns a ``string`` of the team's full name, such as 'Detroit Red
+        Wings'.
         """
         return self._name
 
     @property
     def average_age(self):
         """
-        Returns a float of the average age of all players on the team, weighted
-        by their time on ice.
+        Returns a ``float`` of the average age of all players on the team,
+        weighted by their time on ice.
         """
         return float(self._average_age)
 
     @property
     def games_played(self):
         """
-        Returns an int of the total number of games the team has played in the
-        season.
+        Returns an ``int`` of the total number of games the team has played in
+        the season.
         """
         return int(self._games_played)
 
     @property
     def wins(self):
         """
-        Returns an int of the total number of wins the team had in the season.
+        Returns an ``int`` of the total number of wins the team had in the
+        season.
         """
         return int(self._wins)
 
     @property
     def losses(self):
         """
-        Returns an int of the total number of losses the team had in the
+        Returns an ``int`` of the total number of losses the team had in the
         season.
         """
         return int(self._losses)
@@ -201,15 +203,15 @@ class Team:
     @property
     def overtime_losses(self):
         """
-        Returns an int of the total number of overtime losses the team had in
-        the season.
+        Returns an ``int`` of the total number of overtime losses the team had
+        in the season.
         """
         return int(self._overtime_losses)
 
     @property
     def points(self):
         """
-        Returns an int of the total number of points the team gained in the
+        Returns an ``int`` of the total number of points the team gained in the
         season.
         """
         return int(self._points)
@@ -217,73 +219,73 @@ class Team:
     @property
     def points_percentage(self):
         """
-        Returns a float denoting the percentage of points gained divided by the
-        maximum possible points available during the season. Percentage ranges
-        from 0-1.
+        Returns a ``float`` denoting the percentage of points gained divided by
+        the maximum possible points available during the season. Percentage
+        ranges from 0-1.
         """
         return float(self._points_percentage)
 
     @property
     def goals_for(self):
         """
-        Returns an int of the total number of goals a team scored during the
-        season.
+        Returns an ``int`` of the total number of goals a team scored during
+        the season.
         """
         return int(self._goals_for)
 
     @property
     def goals_against(self):
         """
-        Returns an int of the total number of goals opponents scored against
-        the team during the season.
+        Returns an ``int`` of the total number of goals opponents scored
+        against the team during the season.
         """
         return int(self._goals_against)
 
     @property
     def simple_rating_system(self):
         """
-        Returns a float which takes into account the average goal differential
-        vs a team's strength of schedule. The league average evaluates to 0.0.
-        Teams which have a positive score are comparatively stronger than
-        average while teams with a negative score are weaker.
+        Returns a ``float`` which takes into account the average goal
+        differential vs a team's strength of schedule. The league average
+        evaluates to 0.0. Teams which have a positive score are comparatively
+        stronger than average while teams with a negative score are weaker.
         """
         return float(self._simple_rating_system)
 
     @property
     def strength_of_schedule(self):
         """
-        Returns a float denoting a team's strength of schedule, based on goals
-        scores and conceded. Higher values result in more challenging schedules
-        while 0.0 is an average schedule.
+        Returns a ``float`` denoting a team's strength of schedule, based on
+        goals scores and conceded. Higher values result in more challenging
+        schedules while 0.0 is an average schedule.
         """
         return float(self._strength_of_schedule)
 
     @property
     def total_goals_per_game(self):
         """
-        Returns a float for the average number of goals scored per game.
+        Returns a ``float`` for the average number of goals scored per game.
         """
         return float(self._total_goals_per_game)
 
     @property
     def power_play_goals(self):
         """
-        Returns an int of the total number of power play goals scored.
+        Returns an ``int`` of the total number of power play goals scored.
         """
         return int(self._power_play_goals)
 
     @property
     def power_play_opportunities(self):
         """
-        Returns an int of the total number of power play opportunities for a
-        team during the season.
+        Returns an ``int`` of the total number of power play opportunities for
+        a team during the season.
         """
         return int(self._power_play_opportunities)
 
     @property
     def power_play_percentage(self):
         """
-        Returns a float denoting the percentage of power play opportunities
+        Returns a ``float`` denoting the percentage of power play opportunities
         where the team has scored. Percentage ranges from 0-100.
         """
         return float(self._power_play_percentage)
@@ -291,39 +293,39 @@ class Team:
     @property
     def power_play_goals_against(self):
         """
-        Returns an int of the total number of power play goals conceded.
+        Returns an ``int`` of the total number of power play goals conceded.
         """
         return int(self._power_play_goals_against)
 
     @property
     def power_play_opportunities_against(self):
         """
-        Returns an int of the total number of power play opportunities for the
-        opponents during the season.
+        Returns an ``int`` of the total number of power play opportunities for
+        the opponents during the season.
         """
         return int(self._power_play_opportunities_against)
 
     @property
     def penalty_killing_percentage(self):
         """
-        Returns a float denoting the percentage of power plays that have been
-        successfully defended without a goal being conceded. Percentage ranges
-        from 0-100.
+        Returns a ``float`` denoting the percentage of power plays that have
+        been successfully defended without a goal being conceded. Percentage
+        ranges from 0-100.
         """
         return float(self._penalty_killing_percentage)
 
     @property
     def short_handed_goals(self):
         """
-        Returns an int of the number of short handed goals the team has scored
-        during the season.
+        Returns an ``int`` of the number of short handed goals the team has
+        scored during the season.
         """
         return int(self._short_handed_goals)
 
     @property
     def short_handed_goals_against(self):
         """
-        Returns an int of the number of short handed goals the team has
+        Returns an ``int`` of the number of short handed goals the team has
         conceded during the season.
         """
         return int(self._short_handed_goals_against)
@@ -331,7 +333,7 @@ class Team:
     @property
     def shots_on_goal(self):
         """
-        Returns an int of the total number of shots on goal the team made
+        Returns an ``int`` of the total number of shots on goal the team made
         during the season.
         """
         return int(self._shots_on_goal)
@@ -339,15 +341,15 @@ class Team:
     @property
     def shooting_percentage(self):
         """
-        Returns a float denoting the percentage of shots to goals during the
-        season. Percentage ranges from 0-100.
+        Returns a ``float`` denoting the percentage of shots to goals during
+        the season. Percentage ranges from 0-100.
         """
         return float(self._shooting_percentage)
 
     @property
     def shots_against(self):
         """
-        Returns an int of the total number of shots on goal the team's
+        Returns an ``int`` of the total number of shots on goal the team's
         opponents made during the season.
         """
         return int(self._shots_against)
@@ -355,7 +357,7 @@ class Team:
     @property
     def save_percentage(self):
         """
-        Returns a float denoting the percentage of shots the team has saved
+        Returns a ``float`` denoting the percentage of shots the team has saved
         during the season. Percentage ranges from 0-1.
         """
         return float(self._save_percentage)
@@ -363,7 +365,7 @@ class Team:
     @property
     def pdo_at_even_strength(self):
         """
-        Returns a float of the PDO at even strength which equates to the
+        Returns a ``float`` of the PDO at even strength which equates to the
         shooting percentage plus the save percentage.
         """
         return float(self._pdo_at_even_strength)
@@ -443,7 +445,7 @@ class Teams:
         return self.__getitem__(abbreviation)
 
     def __repr__(self):
-        """Returns a list of all NHL teams for the given season."""
+        """Returns a ``list`` of all NHL teams for the given season."""
         return self._teams
 
     def __iter__(self):

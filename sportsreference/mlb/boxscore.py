@@ -381,28 +381,29 @@ class Boxscore(object):
     @property
     def date(self):
         """
-        Returns a string of the date the game took place.
+        Returns a ``string`` of the date the game took place.
         """
         return self._date
 
     @property
     def time(self):
         """
-        Returns a string of the time the game started.
+        Returns a ``string`` of the time the game started.
         """
         return self._time.replace('Start Time: ', '')
 
     @property
     def venue(self):
         """
-        Returns a string of the name of the ballpark where the game was played.
+        Returns a ``string`` of the name of the ballpark where the game was
+        played.
         """
         return self._venue.replace('Venue: ', '')
 
     @property
     def attendance(self):
         """
-        Returns an int of the game's listed attendance.
+        Returns an ``int`` of the game's listed attendance.
         """
         attendance = self._attendance.replace('Attendance: ', '')
         try:
@@ -413,15 +414,15 @@ class Boxscore(object):
     @property
     def duration(self):
         """
-        Returns a string of the game's duration in the format 'H:MM'.
+        Returns a ``string`` of the game's duration in the format 'H:MM'.
         """
         return self._duration.replace('Game Duration: ', '')
 
     @property
     def time_of_day(self):
         """
-        Returns a string constant indicated whether the game was played during
-        the day or at night.
+        Returns a ``string`` constant indicated whether the game was played
+        during the day or at night.
         """
         if 'night' in self._time_of_day.lower():
             return NIGHT
@@ -430,7 +431,8 @@ class Boxscore(object):
     @property
     def winner(self):
         """
-        Returns a string constant indicating whether the home or away team won.
+        Returns a ``string`` constant indicating whether the home or away team
+        won.
         """
         if self.home_runs > self.away_runs:
             return HOME
@@ -439,7 +441,7 @@ class Boxscore(object):
     @property
     def winning_name(self):
         """
-        Returns a string of the winning team's name, such as 'Houston
+        Returns a ``string`` of the winning team's name, such as 'Houston
         Astros'.
         """
         if self.winner == HOME:
@@ -449,7 +451,7 @@ class Boxscore(object):
     @property
     def winning_abbr(self):
         """
-        Returns a string of the winning team's abbreviation, such as 'HOU'
+        Returns a ``string`` of the winning team's abbreviation, such as 'HOU'
         for the Houston Astros.
         """
         if self.winner == HOME:
@@ -459,7 +461,7 @@ class Boxscore(object):
     @property
     def losing_name(self):
         """
-        Returns a string of the losing team's name, such as 'Los Angeles
+        Returns a ``string`` of the losing team's name, such as 'Los Angeles
         Dodgers'.
         """
         if self.winner == HOME:
@@ -469,7 +471,7 @@ class Boxscore(object):
     @property
     def losing_abbr(self):
         """
-        Returns a string of the losing team's abbreviation, such as 'LAD'
+        Returns a ``string`` of the losing team's abbreviation, such as 'LAD'
         for the Los Angeles Dodgers.
         """
         if self.winner == HOME:
@@ -479,28 +481,28 @@ class Boxscore(object):
     @property
     def away_at_bats(self):
         """
-        Returns an int of the number of at bats the away team had.
+        Returns an ``int`` of the number of at bats the away team had.
         """
         return int(self._away_at_bats)
 
     @property
     def away_runs(self):
         """
-        Returns an int of the number of runs the away team scored.
+        Returns an ``int`` of the number of runs the away team scored.
         """
         return int(self._away_runs)
 
     @property
     def away_hits(self):
         """
-        Returns an int of the number of hits the away team had.
+        Returns an ``int`` of the number of hits the away team had.
         """
         return int(self._away_hits)
 
     @property
     def away_rbi(self):
         """
-        Returns an int of the number of runs batted in the away team
+        Returns an ``int`` of the number of runs batted in the away team
         registered.
         """
         return int(self._away_rbi)
@@ -508,14 +510,14 @@ class Boxscore(object):
     @property
     def away_earned_runs(self):
         """
-        Returns a float of the number of runs the away team earned.
+        Returns a ``float`` of the number of runs the away team earned.
         """
         return float(self._away_earned_runs)
 
     @property
     def away_bases_on_balls(self):
         """
-        Returns an int of the number of bases the away team registerd as a
+        Returns an ``int`` of the number of bases the away team registerd as a
         result of balls.
         """
         return int(self._away_bases_on_balls)
@@ -523,37 +525,38 @@ class Boxscore(object):
     @property
     def away_strikeouts(self):
         """
-        Returns an int of the number of times the away team was struck out.
+        Returns an ``int`` of the number of times the away team was struck out.
         """
         return int(self._away_strikeouts)
 
     @property
     def away_plate_appearances(self):
         """
-        Returns an int of the number of plate appearances the away team made.
+        Returns an ``int`` of the number of plate appearances the away team
+        made.
         """
         return int(self._away_plate_appearances)
 
     @property
     def away_batting_average(self):
         """
-        Returns a float of the batting average for the away team.
+        Returns a ``float`` of the batting average for the away team.
         """
         return float(self._away_batting_average)
 
     @property
     def away_on_base_percentage(self):
         """
-        Returns a float of the percentage of at bats that result in the batter
-        getting on base.
+        Returns a ``float`` of the percentage of at bats that result in the
+        batter getting on base.
         """
         return float(self._away_on_base_percentage)
 
     @property
     def away_slugging_percentage(self):
         """
-        Returns a float of the slugging percentage for the away team based on
-        the number of bases gained per at-bat with bigger plays getting more
+        Returns a ``float`` of the slugging percentage for the away team based
+        on the number of bases gained per at-bat with bigger plays getting more
         weight.
         """
         return float(self._away_slugging_percentage)
@@ -561,144 +564,147 @@ class Boxscore(object):
     @property
     def away_on_base_plus(self):
         """
-        Returns a float of the on base percentage plus the slugging percentage.
-        Percentage ranges from 0-1.
+        Returns a ``float`` of the on base percentage plus the slugging
+        percentage. Percentage ranges from 0-1.
         """
         return float(self._away_on_base_plus)
 
     @property
     def away_pitches(self):
         """
-        Returns an int of the number of pitches the away team faced.
+        Returns an ``int`` of the number of pitches the away team faced.
         """
         return int(self._away_pitches)
 
     @property
     def away_strikes(self):
         """
-        Returns an int of the number of times a strike was called against the
-        away team.
+        Returns an ``int`` of the number of times a strike was called against
+        the away team.
         """
         return int(self._away_strikes)
 
     @property
     def away_win_probability_for_offensive_player(self):
         """
-        Returns a flaot of the overall influence the away team's offense had on
-        the outcome of the game where 0.0 denotes no influence and 1.0 denotes
-        the offense was solely responsible for the outcome.
+        Returns a ``float`` of the overall influence the away team's offense
+        had on the outcome of the game where 0.0 denotes no influence and 1.0
+        denotes the offense was solely responsible for the outcome.
         """
         return float(self._away_win_probability_for_offensive_player)
 
     @property
     def away_average_leverage_index(self):
         """
-        Returns a float of the amount of pressure the away team's pitcher faced
-        during the game. 1.0 denotes average pressure while numbers less than 0
-        denote lighter pressure.
+        Returns a ``float`` of the amount of pressure the away team's pitcher
+        faced during the game. 1.0 denotes average pressure while numbers less
+        than 0 denote lighter pressure.
         """
         return float(self._away_average_leverage_index)
 
     @property
     def away_win_probability_added(self):
         """
-        Returns a float of the total positive influence the away team's offense
-        had on the outcome of the game.
+        Returns a ``float`` of the total positive influence the away team's
+        offense had on the outcome of the game.
         """
         return float(self._away_win_probability_added)
 
     @property
     def away_win_probability_subtracted(self):
         """
-        Returns a float of the total negative influence the away team's offense
-        had on the outcome of the game.
+        Returns a ``float`` of the total negative influence the away team's
+        offense had on the outcome of the game.
         """
         return float(self._away_win_probability_subtracted)
 
     @property
     def away_base_out_runs_added(self):
         """
-        Returns a float of the number of base out runs added by the away team.
+        Returns a ``float`` of the number of base out runs added by the away
+        team.
         """
         return float(self._away_base_out_runs_added)
 
     @property
     def away_putouts(self):
         """
-        Returns an int of the number of putouts the away team registered.
+        Returns an ``int`` of the number of putouts the away team registered.
         """
         return int(self._away_putouts)
 
     @property
     def away_assists(self):
         """
-        Returns an int of the number of assists the away team registered.
+        Returns an ``int`` of the number of assists the away team registered.
         """
         return int(self._away_assists)
 
     @property
     def away_innings_pitched(self):
         """
-        Returns a float of the number of innings the away team pitched.
+        Returns a ``float`` of the number of innings the away team pitched.
         """
         return float(self._away_innings_pitched)
 
     @property
     def away_home_runs(self):
         """
-        Returns an int of the number of times the away team gave up a home run.
+        Returns an ``int`` of the number of times the away team gave up a home
+        run.
         """
         return int(self._away_home_runs)
 
     @property
     def away_strikes_by_contact(self):
         """
-        Returns an int of the number of times the away team struck out a batter
-        who made contact with the pitch.
+        Returns an ``int`` of the number of times the away team struck out a
+        batter who made contact with the pitch.
         """
         return int(self._away_strikes_by_contact)
 
     @property
     def away_strikes_swinging(self):
         """
-        Returns an int of the number of times the away team struck out a batter
-        who was swinging.
+        Returns an ``int`` of the number of times the away team struck out a
+        batter who was swinging.
         """
         return int(self._away_strikes_swinging)
 
     @property
     def away_strikes_looking(self):
         """
-        Returns an int of the number of times the away team struck out a batter
-        who was looking.
+        Returns an ``int`` of the number of times the away team struck out a
+        batter who was looking.
         """
         return int(self._away_strikes_looking)
 
     @property
     def away_grounded_balls(self):
         """
-        Returns an int of the number of grounded balls the away team allowed.
+        Returns an ``int`` of the number of grounded balls the away team
+        allowed.
         """
         return int(self._away_grounded_balls)
 
     @property
     def away_fly_balls(self):
         """
-        Returns an int of the number of fly balls the away team allowed.
+        Returns an ``int`` of the number of fly balls the away team allowed.
         """
         return int(self._away_fly_balls)
 
     @property
     def away_line_drives(self):
         """
-        Returns an int of the number of line drives the away team allowed.
+        Returns an ``int`` of the number of line drives the away team allowed.
         """
         return int(self._away_line_drives)
 
     @property
     def away_unknown_bat_type(self):
         """
-        Returns an int of the number of away at bats that were not properly
+        Returns an ``int`` of the number of away at bats that were not properly
         tracked and therefore cannot be safely placed in another statistical
         category.
         """
@@ -707,15 +713,16 @@ class Boxscore(object):
     @property
     def away_game_score(self):
         """
-        Returns an int of the starting away pitcher's score determine by many
-        factors, such as number of runs scored against, number of strikes, etc.
+        Returns an ``int`` of the starting away pitcher's score determine by
+        many factors, such as number of runs scored against, number of strikes,
+        etc.
         """
         return int(self._away_game_score)
 
     @property
     def away_inherited_runners(self):
         """
-        Returns an int of the number of runners a pitcher inherited when he
+        Returns an ``int`` of the number of runners a pitcher inherited when he
         entered the game.
         """
         try:
@@ -726,7 +733,7 @@ class Boxscore(object):
     @property
     def away_inherited_score(self):
         """
-        Returns an int of the number of scorers a pitcher inherited when he
+        Returns an ``int`` of the number of scorers a pitcher inherited when he
         entered the game.
         """
         try:
@@ -737,45 +744,45 @@ class Boxscore(object):
     @property
     def away_win_probability_by_pitcher(self):
         """
-        Returns a float of the amount of influence the away pitcher had on the
-        game's result with 0.0 denoting zero influence and 1.0 denoting he was
-        solely responsible for the team's win.
+        Returns a ``float`` of the amount of influence the away pitcher had on
+        the game's result with 0.0 denoting zero influence and 1.0 denoting he
+        was solely responsible for the team's win.
         """
         return float(self._away_win_probability_by_pitcher)
 
     @property
     def away_base_out_runs_saved(self):
         """
-        Returns a float of the number of runs saved by the away pitcher based
-        on the number of players on bases. 0.0 denotes an average value.
+        Returns a ``float`` of the number of runs saved by the away pitcher
+        based on the number of players on bases. 0.0 denotes an average value.
         """
         return float(self._away_base_out_runs_saved)
 
     @property
     def home_at_bats(self):
         """
-        Returns an int of the number of at bats the home team had.
+        Returns an ``int`` of the number of at bats the home team had.
         """
         return int(self._home_at_bats)
 
     @property
     def home_runs(self):
         """
-        Returns an int of the number of runs the home team scored.
+        Returns an ``int`` of the number of runs the home team scored.
         """
         return int(self._home_runs)
 
     @property
     def home_hits(self):
         """
-        Returns an int of the number of hits the home team had.
+        Returns an ``int`` of the number of hits the home team had.
         """
         return int(self._home_hits)
 
     @property
     def home_rbi(self):
         """
-        Returns an int of the number of runs batted in the home team
+        Returns an ``int`` of the number of runs batted in the home team
         registered.
         """
         return int(self._home_rbi)
@@ -783,14 +790,14 @@ class Boxscore(object):
     @property
     def home_earned_runs(self):
         """
-        Returns a float of the number of runs the home team earned.
+        Returns a ``float`` of the number of runs the home team earned.
         """
         return float(self._home_earned_runs)
 
     @property
     def home_bases_on_balls(self):
         """
-        Returns an int of the number of bases the home team registerd as a
+        Returns an ``int`` of the number of bases the home team registerd as a
         result of balls.
         """
         return int(self._home_bases_on_balls)
@@ -798,37 +805,38 @@ class Boxscore(object):
     @property
     def home_strikeouts(self):
         """
-        Returns an int of the number of times the home team was struck out.
+        Returns an ``int`` of the number of times the home team was struck out.
         """
         return int(self._home_strikeouts)
 
     @property
     def home_plate_appearances(self):
         """
-        Returns an int of the number of plate appearances the home team made.
+        Returns an ``int`` of the number of plate appearances the home team
+        made.
         """
         return int(self._home_plate_appearances)
 
     @property
     def home_batting_average(self):
         """
-        Returns a float of the batting average for the home team.
+        Returns a ``float`` of the batting average for the home team.
         """
         return float(self._home_batting_average)
 
     @property
     def home_on_base_percentage(self):
         """
-        Returns a float of the percentage of at bats that result in the batter
-        getting on base.
+        Returns a ``float`` of the percentage of at bats that result in the
+        batter getting on base.
         """
         return float(self._home_on_base_percentage)
 
     @property
     def home_slugging_percentage(self):
         """
-        Returns a float of the slugging percentage for the home team based on
-        the number of bases gained per at-bat with bigger plays getting more
+        Returns a ``float`` of the slugging percentage for the home team based
+        on the number of bases gained per at-bat with bigger plays getting more
         weight.
         """
         return float(self._home_slugging_percentage)
@@ -836,144 +844,147 @@ class Boxscore(object):
     @property
     def home_on_base_plus(self):
         """
-        Returns a float of the on base percentage plus the slugging percentage.
-        Percentage ranges from 0-1.
+        Returns a ``float`` of the on base percentage plus the slugging
+        percentage. Percentage ranges from 0-1.
         """
         return float(self._home_on_base_plus)
 
     @property
     def home_pitches(self):
         """
-        Returns an int of the number of pitches the home team faced.
+        Returns an ``int`` of the number of pitches the home team faced.
         """
         return int(self._home_pitches)
 
     @property
     def home_strikes(self):
         """
-        Returns an int of the number of times a strike was called against the
-        home team.
+        Returns an ``int`` of the number of times a strike was called against
+        the home team.
         """
         return int(self._home_strikes)
 
     @property
     def home_win_probability_for_offensive_player(self):
         """
-        Returns a flaot of the overall influence the home team's offense had on
-        the outcome of the game where 0.0 denotes no influence and 1.0 denotes
-        the offense was solely responsible for the outcome.
+        Returns a ``float`` of the overall influence the home team's offense
+        had on the outcome of the game where 0.0 denotes no influence and 1.0
+        denotes the offense was solely responsible for the outcome.
         """
         return float(self._home_win_probability_for_offensive_player)
 
     @property
     def home_average_leverage_index(self):
         """
-        Returns a float of the amount of pressure the home team's pitcher faced
-        during the game. 1.0 denotes average pressure while numbers less than 0
-        denote lighter pressure.
+        Returns a ``float`` of the amount of pressure the home team's pitcher
+        faced during the game. 1.0 denotes average pressure while numbers less
+        than 0 denote lighter pressure.
         """
         return float(self._home_average_leverage_index)
 
     @property
     def home_win_probability_added(self):
         """
-        Returns a float of the total positive influence the home team's offense
-        had on the outcome of the game.
+        Returns a ``float`` of the total positive influence the home team's
+        offense had on the outcome of the game.
         """
         return float(self._home_win_probability_added)
 
     @property
     def home_win_probability_subtracted(self):
         """
-        Returns a float of the total negative influence the home team's offense
-        had on the outcome of the game.
+        Returns a ``float`` of the total negative influence the home team's
+        offense had on the outcome of the game.
         """
         return float(self._home_win_probability_subtracted)
 
     @property
     def home_base_out_runs_added(self):
         """
-        Returns a float of the number of base out runs added by the home team.
+        Returns a ``float`` of the number of base out runs added by the home
+        team.
         """
         return float(self._home_base_out_runs_added)
 
     @property
     def home_putouts(self):
         """
-        Returns an int of the number of putouts the home team registered.
+        Returns an ``int`` of the number of putouts the home team registered.
         """
         return int(self._home_putouts)
 
     @property
     def home_assists(self):
         """
-        Returns an int of the number of assists the home team registered.
+        Returns an ``int`` of the number of assists the home team registered.
         """
         return int(self._home_assists)
 
     @property
     def home_innings_pitched(self):
         """
-        Returns a float of the number of innings the home team pitched.
+        Returns a ``float`` of the number of innings the home team pitched.
         """
         return float(self._home_innings_pitched)
 
     @property
     def home_home_runs(self):
         """
-        Returns an int of the number of times the home team gave up a home run.
+        Returns an ``int`` of the number of times the home team gave up a home
+        run.
         """
         return int(self._home_home_runs)
 
     @property
     def home_strikes_by_contact(self):
         """
-        Returns an int of the number of times the home team struck out a batter
-        who made contact with the pitch.
+        Returns an ``int`` of the number of times the home team struck out a
+        batter who made contact with the pitch.
         """
         return int(self._home_strikes_by_contact)
 
     @property
     def home_strikes_swinging(self):
         """
-        Returns an int of the number of times the home team struck out a batter
-        who was swinging.
+        Returns an ``int`` of the number of times the home team struck out a
+        batter who was swinging.
         """
         return int(self._home_strikes_swinging)
 
     @property
     def home_strikes_looking(self):
         """
-        Returns an int of the number of times the home team struck out a batter
-        who was looking.
+        Returns an ``int`` of the number of times the home team struck out a
+        batter who was looking.
         """
         return int(self._home_strikes_looking)
 
     @property
     def home_grounded_balls(self):
         """
-        Returns an int of the number of grounded balls the home team allowed.
+        Returns an ``int`` of the number of grounded balls the home team
+        allowed.
         """
         return int(self._home_grounded_balls)
 
     @property
     def home_fly_balls(self):
         """
-        Returns an int of the number of fly balls the home team allowed.
+        Returns an ``int`` of the number of fly balls the home team allowed.
         """
         return int(self._home_fly_balls)
 
     @property
     def home_line_drives(self):
         """
-        Returns an int of the number of line drives the home team allowed.
+        Returns an ``int`` of the number of line drives the home team allowed.
         """
         return int(self._home_line_drives)
 
     @property
     def home_unknown_bat_type(self):
         """
-        Returns an int of the number of home at bats that were not properly
+        Returns an ``int`` of the number of home at bats that were not properly
         tracked and therefore cannot be safely placed in another statistical
         category.
         """
@@ -982,15 +993,16 @@ class Boxscore(object):
     @property
     def home_game_score(self):
         """
-        Returns an int of the starting home pitcher's score determine by many
-        factors, such as number of runs scored against, number of strikes, etc.
+        Returns an ``int`` of the starting home pitcher's score determine by
+        many factors, such as number of runs scored against, number of strikes,
+        etc.
         """
         return int(self._home_game_score)
 
     @property
     def home_inherited_runners(self):
         """
-        Returns an int of the number of runners a pitcher inherited when he
+        Returns an ``int`` of the number of runners a pitcher inherited when he
         entered the game.
         """
         try:
@@ -1001,7 +1013,7 @@ class Boxscore(object):
     @property
     def home_inherited_score(self):
         """
-        Returns an int of the number of scorers a pitcher inherited when he
+        Returns an ``int`` of the number of scorers a pitcher inherited when he
         entered the game.
         """
         try:
@@ -1012,17 +1024,17 @@ class Boxscore(object):
     @property
     def home_win_probability_by_pitcher(self):
         """
-        Returns a float of the amount of influence the home pitcher had on the
-        game's result with 0.0 denoting zero influence and 1.0 denoting he was
-        solely responsible for the team's win.
+        Returns a ``float`` of the amount of influence the home pitcher had on
+        the game's result with 0.0 denoting zero influence and 1.0 denoting he
+        was solely responsible for the team's win.
         """
         return float(self._home_win_probability_by_pitcher)
 
     @property
     def home_base_out_runs_saved(self):
         """
-        Returns a float of the number of runs saved by the home pitcher based
-        on the number of players on bases. 0.0 denotes an average value.
+        Returns a ``float`` of the number of runs saved by the home pitcher
+        based on the number of players on bases. 0.0 denotes an average value.
         """
         return float(self._home_base_out_runs_saved)
 
@@ -1053,33 +1065,28 @@ class Boxscores:
     @property
     def games(self):
         """
-        Retrieve a list of all games played on a given day.
+        Returns a ``dictionary`` object representing all of the games played on
+        the requested day. Dictionary is in the following format::
 
-        Returns a dictionary object containing all of the games that are
-        scheduled on the requested day.
-
-        Returns
-        -------
-            Returns a dictionary object representing the games played on the
-            requested day. Dictionary is in the following format:
-            {'boxscores' : [
-                {'home_name': <Name of the home team, such as 'New York
-                               Yankees'>,
-                 'home_abbr': <Abbreviation for the home team, such as
-                               'NYY'>,
-                 'away_name': <Name of the away team, such as 'Houston
-                               Astros'>,
-                 'away_abbr': <Abbreviation for the away team, such as
-                               'HOU'>,
-                 'boxscore': <String representing the boxscore URI, such as
-                              'SLN/SLN201807280'>,
-                { ... },
-                ...
+            {
+                'boxscores': [
+                    'home_name': Name of the home team, such as 'New York
+                                 Yankees' (`str`),
+                    'home_abbr': Abbreviation for the home team, such as 'NYY'
+                                 (`str`),
+                    'away_name': Name of the away team, such as 'Houston
+                                 Astros' (`str`),
+                    'away_abbr': Abbreviation for the away team, such as 'HOU'
+                                 (`str`),
+                    'boxscore': String representing the boxscore URI, such as
+                                'SLN/SLN201807280' (`str`)},
+                    { ... },
+                    ...
                 ]
             }
 
-            If no games were played during the requested day, the list for
-            ['boxscores'] will be empty.
+        If no games were played during the requested day, the list for
+        ['boxscores'] will be empty.
         """
         return self._boxscores
 
@@ -1099,7 +1106,8 @@ class Boxscores:
         Returns
         -------
         string
-            Returns a string of the boxscore URL including the requested date.
+            Returns a ``string`` of the boxscore URL including the requested
+            date.
         """
         return BOXSCORES_URL % (date.year, date.month, date.day)
 
@@ -1139,7 +1147,8 @@ class Boxscores:
         Returns
         -------
         string
-            Returns a string containing the link to the game's boxscore page.
+            Returns a ``string`` containing the link to the game's boxscore
+            page.
         """
         uri = re.sub(r'.*/boxes/', '', str(url))
         uri = re.sub(r'\.shtml.*', '', uri).strip()
@@ -1159,7 +1168,7 @@ class Boxscores:
         Returns
         -------
         string
-            Returns a string of the team's abbreviation.
+            Returns a ``string`` of the team's abbreviation.
         """
         abbr = re.sub(r'.*/teams/', '', str(abbr))
         abbr = re.sub(r'/.*', '', abbr)
@@ -1231,9 +1240,9 @@ class Boxscores:
         Returns
         -------
         list
-            Returns a list of dictionaries where each dictionary contains the
-            name and abbreviations for both the home and away teams, and a link
-            to the game's boxscore.
+            Returns a ``list`` of dictionaries where each dictionary contains
+            the name and abbreviations for both the home and away teams, and a
+            link to the game's boxscore.
         """
         all_boxscores = []
 

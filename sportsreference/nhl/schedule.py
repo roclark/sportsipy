@@ -74,6 +74,11 @@ class Game(object):
 
         The opponent's abbreviation is embedded within the HTML tag and needs
         a special parsing scheme in order to be extracted.
+
+        Parameters
+        ----------
+        game_data : PyQuery object
+            A PyQuery object containing the information specific to a game.
         """
         name = game_data('td[data-stat="opp_name"]:first')
         name = re.sub(r'.*/teams/', '', str(name))
@@ -86,6 +91,11 @@ class Game(object):
 
         The boxscore is embedded within the HTML tag and needs a special
         parsing scheme in order to be extracted.
+
+        Parameters
+        ----------
+        game_data : PyQuery object
+            A PyQuery object containing the information specific to a game.
         """
         boxscore = game_data('td[data-stat="date_game"]:first')
         boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
@@ -179,15 +189,16 @@ class Game(object):
     @property
     def game(self):
         """
-        Returns an int to indicate which game in the season was requested. The
-        first game of the season returns 1.
+        Returns an ``int`` to indicate which game in the season was requested.
+        The first game of the season returns 1.
         """
         return int(self._game)
 
     @property
     def date(self):
         """
-        Returns a string of the date the game was played, such as '2017-10-05'.
+        Returns a ``string`` of the date the game was played, such as
+        '2017-10-05'.
         """
         return self._date
 
@@ -210,8 +221,8 @@ class Game(object):
     @property
     def location(self):
         """
-        Returns a string constant to indicate whether the game was played at
-        home or away.
+        Returns a ``string`` constant to indicate whether the game was played
+        at home or away.
         """
         if self._location == '@':
             return AWAY
@@ -220,36 +231,39 @@ class Game(object):
     @property
     def opponent_abbr(self):
         """
-        Returns a string of the opponent's 3-letter abbreviation, such as 'NYR'
-        for the New York Rangers.
+        Returns a ``string`` of the opponent's 3-letter abbreviation, such as
+        'NYR' for the New York Rangers.
         """
         return self._opponent_abbr
 
     @property
     def opponent_name(self):
         """
-        Returns a string of the opponent's name, such as 'New York Rangers'.
+        Returns a ``string`` of the opponent's name, such as 'New York
+        Rangers'.
         """
         return self._opponent_name
 
     @property
     def goals_scored(self):
         """
-        Returns an int of the number of goals the team scored during the game.
+        Returns an ``int`` of the number of goals the team scored during the
+        game.
         """
         return int(self._goals_scored)
 
     @property
     def goals_allowed(self):
         """
-        Returns an int of the number of goals the team allowed during the game.
+        Returns an ``int`` of the number of goals the team allowed during the
+        game.
         """
         return int(self._goals_allowed)
 
     @property
     def result(self):
         """
-        Returns a string constant to indicate whether the team lost in
+        Returns a ``string`` constant to indicate whether the team lost in
         regulation, lost in overtime, or won.
         """
         if self._result.lower() == 'w':
@@ -262,8 +276,8 @@ class Game(object):
     @property
     def overtime(self):
         """
-        Returns an int of the number of overtimes that were played during the
-        game, or an int constant if the game went to a shootout.
+        Returns an ``int`` of the number of overtimes that were played during
+        the game, or an int constant if the game went to a shootout.
         """
         if self._overtime.lower() == 'ot':
             return 1
@@ -279,7 +293,7 @@ class Game(object):
     @property
     def shots_on_goal(self):
         """
-        Returns an int of the total number of shots on goal the team
+        Returns an ``int`` of the total number of shots on goal the team
         registered.
         """
         try:
@@ -290,7 +304,7 @@ class Game(object):
     @property
     def penalties_in_minutes(self):
         """
-        Returns an int of the total number of minutes the team served for
+        Returns an ``int`` of the total number of minutes the team served for
         penalties.
         """
         try:
@@ -301,7 +315,7 @@ class Game(object):
     @property
     def power_play_goals(self):
         """
-        Returns an int of the number of power play goals the team scored.
+        Returns an ``int`` of the number of power play goals the team scored.
         """
         try:
             return int(self._power_play_goals)
@@ -311,7 +325,8 @@ class Game(object):
     @property
     def power_play_opportunities(self):
         """
-        Returns an int of the number of power play opportunities the team had.
+        Returns an ``int`` of the number of power play opportunities the team
+        had.
         """
         try:
             return int(self._power_play_opportunities)
@@ -321,7 +336,7 @@ class Game(object):
     @property
     def short_handed_goals(self):
         """
-        Returns an int of the number of shorthanded goals the team scored.
+        Returns an ``int`` of the number of shorthanded goals the team scored.
         """
         try:
             return int(self._short_handed_goals)
@@ -331,7 +346,7 @@ class Game(object):
     @property
     def opp_shots_on_goal(self):
         """
-        Returns an int of the total number of shots on goal the opponent
+        Returns an ``int`` of the total number of shots on goal the opponent
         registered.
         """
         try:
@@ -342,8 +357,8 @@ class Game(object):
     @property
     def opp_penalties_in_minutes(self):
         """
-        Returns an int of the total number of minutes the opponent served for
-        penalties.
+        Returns an ``int`` of the total number of minutes the opponent served
+        for penalties.
         """
         try:
             return int(self._opp_penalties_in_minutes)
@@ -353,7 +368,8 @@ class Game(object):
     @property
     def opp_power_play_goals(self):
         """
-        Returns an int of the number of power play goals the opponent scored.
+        Returns an ``int`` of the number of power play goals the opponent
+        scored.
         """
         try:
             return int(self._opp_power_play_goals)
@@ -363,8 +379,8 @@ class Game(object):
     @property
     def opp_power_play_opportunities(self):
         """
-        Returns an int of the number of power play opportunities the opponent
-        had.
+        Returns an ``int`` of the number of power play opportunities the
+        opponent had.
         """
         try:
             return int(self._opp_power_play_opportunities)
@@ -374,7 +390,8 @@ class Game(object):
     @property
     def opp_short_handed_goals(self):
         """
-        Returns an int of the number of shorthanded goals the opponent scored.
+        Returns an ``int`` of the number of shorthanded goals the opponent
+        scored.
         """
         try:
             return int(self._opp_short_handed_goals)
@@ -384,8 +401,8 @@ class Game(object):
     @property
     def corsi_for(self):
         """
-        Returns an int of the Corsi For at Even Strength metric which equals
-        the number of shots + blocks + misses.
+        Returns an ``int`` of the Corsi For at Even Strength metric which
+        equals the number of shots + blocks + misses.
         """
         try:
             return int(self._corsi_for)
@@ -395,7 +412,7 @@ class Game(object):
     @property
     def corsi_against(self):
         """
-        Returns an int of the Corsi Against at Even Strength metric which
+        Returns an ``int`` of the Corsi Against at Even Strength metric which
         equals the number of shots + blocks + misses by the opponent.
         """
         try:
@@ -406,7 +423,7 @@ class Game(object):
     @property
     def corsi_for_percentage(self):
         """
-        Returns a float of the percentage of control a team had of the puck
+        Returns a ``float`` of the percentage of control a team had of the puck
         which is calculated by the corsi_for value divided by the sum of
         corsi_for and corsi_against. Values greater than 50.0 indicate the team
         had more control of the puck than their opponent. Percentage ranges
@@ -420,8 +437,8 @@ class Game(object):
     @property
     def fenwick_for(self):
         """
-        Returns an int of the Fenwick For at Even Strength metric which equals
-        the number of shots + misses.
+        Returns an ``int`` of the Fenwick For at Even Strength metric which
+        equals the number of shots + misses.
         """
         try:
             return int(self._fenwick_for)
@@ -431,7 +448,7 @@ class Game(object):
     @property
     def fenwick_against(self):
         """
-        Returns an int of the Fenwick Against at Even Strength metric which
+        Returns an ``int`` of the Fenwick Against at Even Strength metric which
         equals the number of shots + misses by the opponent.
         """
         try:
@@ -442,7 +459,7 @@ class Game(object):
     @property
     def fenwick_for_percentage(self):
         """
-        Returns a float of the percentage of control a team had of the puck
+        Returns a ``float`` of the percentage of control a team had of the puck
         which is calculated by the fenwick_for value divided by the sum of
         fenwick_for and fenwick_against. Values greater than 50.0 indicate the
         team had more control of the puck than their opponent. Percentage
@@ -456,7 +473,8 @@ class Game(object):
     @property
     def faceoff_wins(self):
         """
-        Returns an int of the number of faceoffs the team won at even strength.
+        Returns an ``int`` of the number of faceoffs the team won at even
+        strength.
         """
         try:
             return int(self._faceoff_wins)
@@ -466,7 +484,7 @@ class Game(object):
     @property
     def faceoff_losses(self):
         """
-        Returns an int of the number of faceoffs the team lost at even
+        Returns an ``int`` of the number of faceoffs the team lost at even
         strength.
         """
         try:
@@ -477,8 +495,8 @@ class Game(object):
     @property
     def faceoff_win_percentage(self):
         """
-        Returns a float of percentage of faceoffs the team won while at even
-        strength. Percentage ranges from 0-100.
+        Returns a ``float`` of percentage of faceoffs the team won while at
+        even strength. Percentage ranges from 0-100.
         """
         try:
             return float(self._faceoff_win_percentage)
@@ -488,7 +506,7 @@ class Game(object):
     @property
     def offensive_zone_start_percentage(self):
         """
-        Returns a float of the percentage of stats that took place in the
+        Returns a ``float`` of the percentage of stats that took place in the
         offensive half. Value is calculated by the number of offensive zone
         starts divided by the sum of offensive zone starts and defensive zone
         starts. Percentage ranges from 0-100.
@@ -501,7 +519,7 @@ class Game(object):
     @property
     def pdo(self):
         """
-        Returns a float of the team's PDO at Even Strength metric which is
+        Returns a ``float`` of the team's PDO at Even Strength metric which is
         calculated by the sum of the shooting percentage and save percentage.
         Percentage ranges from 0-100.
         """
@@ -520,6 +538,8 @@ class Schedule:
     """
     def __init__(self, abbreviation, year=None):
         """
+        Pull the teams schedule and analyze the games.
+
         Parameters
         ----------
         abbreviation : string
@@ -583,7 +603,7 @@ class Schedule:
         raise ValueError('No games found for requested date')
 
     def __repr__(self):
-        """Returns a list of all games scheduled for the given team."""
+        """Returns a ``list`` of all games scheduled for the given team."""
         return self._games
 
     def __iter__(self):
@@ -598,6 +618,13 @@ class Schedule:
 
     def _pull_schedule(self, abbreviation, year):
         """
+        Download and create objects for the team's schedule.
+
+        Given a team abbreviation and season, first download the team's
+        schedule page and convert to a PyQuery object, then create a Game
+        instance for every game in the team's schedule and append it to the
+        '_games' property.
+
         Parameters
         ----------
         abbreviation : string

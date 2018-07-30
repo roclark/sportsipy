@@ -364,21 +364,23 @@ class Boxscore(object):
     @property
     def date(self):
         """
-        Returns a string of the date the game took place.
+        Returns a ``string`` of the date the game took place.
         """
         return self._date
 
     @property
     def location(self):
         """
-        Returns a string of the name of the venue where the game was played.
+        Returns a ``string`` of the name of the venue where the game was
+        played.
         """
         return self._location
 
     @property
     def winner(self):
         """
-        Returns a string constant indicating whether the home or away team won.
+        Returns a ``string`` constant indicating whether the home or away team
+        won.
         """
         if self.home_points > self.away_points:
             return HOME
@@ -387,7 +389,7 @@ class Boxscore(object):
     @property
     def winning_name(self):
         """
-        Returns a string of the winning team's name, such as 'Purdue
+        Returns a ``string`` of the winning team's name, such as 'Purdue
         Boilermakers'.
         """
         if self.winner == HOME:
@@ -401,8 +403,8 @@ class Boxscore(object):
     @property
     def winning_abbr(self):
         """
-        Returns a string of the winning team's abbreviation, such as 'PURDUE'
-        for the Purdue Boilermakers.
+        Returns a ``string`` of the winning team's abbreviation, such as
+        'PURDUE' for the Purdue Boilermakers.
         """
         if self.winner == HOME:
             if 'cbb/schools' not in str(self._home_name):
@@ -415,7 +417,8 @@ class Boxscore(object):
     @property
     def losing_name(self):
         """
-        Returns a string of the losing team's name, such as 'Indiana Hoosiers'.
+        Returns a ``string`` of the losing team's name, such as 'Indiana'
+        Hoosiers'.
         """
         if self.winner == HOME:
             if 'cbb/schools' not in str(self._away_name):
@@ -428,8 +431,8 @@ class Boxscore(object):
     @property
     def losing_abbr(self):
         """
-        Returns a string of the losing team's abbreviation, such as 'INDIANA'
-        for the Indiana Hoosiers.
+        Returns a ``string`` of the losing team's abbreviation, such as
+        'INDIANA' for the Indiana Hoosiers.
         """
         if self.winner == HOME:
             if 'cbb/schools' not in str(self._away_name):
@@ -442,15 +445,15 @@ class Boxscore(object):
     @property
     def pace(self):
         """
-        Returns a float of the game's overall pace, measured by the number of
-        possessions per 40 minutes.
+        Returns a ``float`` of the game's overall pace, measured by the number
+        of possessions per 40 minutes.
         """
         return float(self._pace)
 
     @property
     def away_wins(self):
         """
-        Returns an int of the number of games the team has won after the
+        Returns an ``int`` of the number of games the team has won after the
         conclusion of the game.
         """
         try:
@@ -462,7 +465,7 @@ class Boxscore(object):
     @property
     def away_losses(self):
         """
-        Returns an int of the number of games the team has lost after the
+        Returns an ``int`` of the number of games the team has lost after the
         conclusion of the game.
         """
         try:
@@ -474,15 +477,15 @@ class Boxscore(object):
     @property
     def away_minutes_played(self):
         """
-        Returns an int of the total number of minutes the team played during
-        the game.
+        Returns an ``int`` of the total number of minutes the team played
+        during the game.
         """
         return int(self._away_minutes_played)
 
     @property
     def away_field_goals(self):
         """
-        Returns an int of the total number of field goals made by the away
+        Returns an ``int`` of the total number of field goals made by the away
         team.
         """
         return int(self._away_field_goals)
@@ -490,24 +493,24 @@ class Boxscore(object):
     @property
     def away_field_goal_attempts(self):
         """
-        Returns an int of the total number of field goal attempts by the away
-        team.
+        Returns an ``int`` of the total number of field goal attempts by the
+        away team.
         """
         return int(self._away_field_goal_attempts)
 
     @property
     def away_field_goal_percentage(self):
         """
-        Returns a float of the number of field goals made divided by the total
-        number of field goal attempts by the away team. Percentage ranges from
-        0-1.
+        Returns a ``float`` of the number of field goals made divided by the
+        total number of field goal attempts by the away team. Percentage ranges
+        from 0-1.
         """
         return float(self._away_field_goal_percentage)
 
     @property
     def away_three_point_field_goals(self):
         """
-        Returns an int of the total number of three point field goals made
+        Returns an ``int`` of the total number of three point field goals made
         by the away team.
         """
         return int(self._away_three_point_field_goals)
@@ -515,24 +518,24 @@ class Boxscore(object):
     @property
     def away_three_point_field_goal_attempts(self):
         """
-        Returns an int of the total number of three point field goal attempts
-        by the away team.
+        Returns an ``int`` of the total number of three point field goal
+        attempts by the away team.
         """
         return int(self._away_three_point_field_goal_attempts)
 
     @property
     def away_three_point_field_goal_percentage(self):
         """
-        Returns a float of the number of three point field goals made divided
-        by the number of three point field goal attempts by the away team.
-        Percentage ranges from 0-1.
+        Returns a ``float`` of the number of three point field goals made
+        divided by the number of three point field goal attempts by the away
+        team. Percentage ranges from 0-1.
         """
         return float(self._away_three_point_field_goal_percentage)
 
     @property
     def away_two_point_field_goals(self):
         """
-        Returns an int of the total number of two point field goals made
+        Returns an ``int`` of the total number of two point field goals made
         by the away team.
         """
         return int(self._away_two_point_field_goals)
@@ -540,7 +543,7 @@ class Boxscore(object):
     @property
     def away_two_point_field_goal_attempts(self):
         """
-        Returns an int of the total number of two point field goal attempts
+        Returns an ``int`` of the total number of two point field goal attempts
         by the away team.
         """
         return int(self._away_two_point_field_goal_attempts)
@@ -548,7 +551,7 @@ class Boxscore(object):
     @property
     def away_two_point_field_goal_percentage(self):
         """
-        Returns a float of the number of two point field goals made divided
+        Returns a ``float`` of the number of two point field goals made divided
         by the number of two point field goal attempts by the away team.
         Percentage ranges from 0-1.
         """
@@ -557,7 +560,7 @@ class Boxscore(object):
     @property
     def away_free_throws(self):
         """
-        Returns an int of the total number of free throws made by the away
+        Returns an ``int`` of the total number of free throws made by the away
         team.
         """
         return int(self._away_free_throws)
@@ -565,16 +568,16 @@ class Boxscore(object):
     @property
     def away_free_throw_attempts(self):
         """
-        Returns an int of the total number of free throw attempts by the away
-        team.
+        Returns an ``int`` of the total number of free throw attempts by the
+        away team.
         """
         return int(self._away_free_throw_attempts)
 
     @property
     def away_free_throw_percentage(self):
         """
-        Returns a float of the number of free throws made divided by the number
-        of free throw attempts  by the away team.
+        Returns a ``float`` of the number of free throws made divided by the
+        number of free throw attempts  by the away team.
         """
         try:
             return float(self._away_free_throw_percentage)
@@ -584,72 +587,73 @@ class Boxscore(object):
     @property
     def away_offensive_rebounds(self):
         """
-        Returns an int of the total number of offensive rebounds by the away
-        team.
+        Returns an ``int`` of the total number of offensive rebounds by the
+        away team.
         """
         return int(self._away_offensive_rebounds)
 
     @property
     def away_defensive_rebounds(self):
         """
-        Returns an int of the total number of defensive rebounds by the away
-        team.
+        Returns an ``int`` of the total number of defensive rebounds by the
+        away team.
         """
         return int(self._away_defensive_rebounds)
 
     @property
     def away_total_rebounds(self):
         """
-        Returns an int of the total number of rebounds by the away team.
+        Returns an ``int`` of the total number of rebounds by the away team.
         """
         return int(self._away_total_rebounds)
 
     @property
     def away_assists(self):
         """
-        Returns an int of the total number of assists by the away team.
+        Returns an ``int`` of the total number of assists by the away team.
         """
         return int(self._away_assists)
 
     @property
     def away_steals(self):
         """
-        Returns an int of the total number of steals by the away team.
+        Returns an ``int`` of the total number of steals by the away team.
         """
         return int(self._away_steals)
 
     @property
     def away_blocks(self):
         """
-        Returns an int of the total number of blocks by the away team.
+        Returns an ``int`` of the total number of blocks by the away team.
         """
         return int(self._away_blocks)
 
     @property
     def away_turnovers(self):
         """
-        Returns an int of the total number of turnovers by the away team.
+        Returns an ``int`` of the total number of turnovers by the away team.
         """
         return int(self._away_turnovers)
 
     @property
     def away_personal_fouls(self):
         """
-        Returns an int of the total number of personal fouls by the away team.
+        Returns an ``int`` of the total number of personal fouls by the away
+        team.
         """
         return int(self._away_personal_fouls)
 
     @property
     def away_points(self):
         """
-        Returns an int of the number of points the away team scored.
+        Returns an ``int`` of the number of points the away team scored.
         """
         return int(self._away_points)
 
     @property
     def away_true_shooting_percentage(self):
         """
-        Returns a float of the away team's true shooting percentage which
+        Returns a ``float`` of the away team's true shooting percentage which
         considers free throws, 2-point field goals, and 3-point field goals.
         Percentage ranges from 0-1.
         """
@@ -658,71 +662,71 @@ class Boxscore(object):
     @property
     def away_effective_field_goal_percentage(self):
         """
-        Returns a float of the away team's field goal percentage while giving
-        extra weight to 3-point field goals. Percentage ranges from 0-1.
+        Returns a ``float`` of the away team's field goal percentage while
+        giving extra weight to 3-point field goals. Percentage ranges from 0-1.
         """
         return float(self._away_effective_field_goal_percentage)
 
     @property
     def away_three_point_attempt_rate(self):
         """
-        Returns a float of the percentage of field goal attempts from 3-point
-        range by the away team. Percentage ranges from 0-1.
+        Returns a ``float`` of the percentage of field goal attempts from
+        3-point range by the away team. Percentage ranges from 0-1.
         """
         return float(self._away_three_point_attempt_rate)
 
     @property
     def away_free_throw_attempt_rate(self):
         """
-        Returns a float of the average number of free throw attempts per field
-        goal attempt by the away team.
+        Returns a ``float`` of the average number of free throw attempts per
+        field goal attempt by the away team.
         """
         return float(self._away_free_throw_attempt_rate)
 
     @property
     def away_offensive_rebound_percentage(self):
         """
-        Returns a float of the percentage of available offensive rebounds the
-        away team grabbed. Percentage ranges from 0-100.
+        Returns a ``float`` of the percentage of available offensive rebounds
+        the away team grabbed. Percentage ranges from 0-100.
         """
         return float(self._away_offensive_rebound_percentage)
 
     @property
     def away_defensive_rebound_percentage(self):
         """
-        Returns a float of the percentage of available defensive rebounds the
-        away team grabbed. Percentage ranges from 0-100.
+        Returns a ``float`` of the percentage of available defensive rebounds
+        the away team grabbed. Percentage ranges from 0-100.
         """
         return float(self._away_defensive_rebound_percentage)
 
     @property
     def away_total_rebound_percentage(self):
         """
-        Returns a float of the percentage of available rebounds the away team
-        grabbed. Percentage ranges from 0-100.
+        Returns a ``float`` of the percentage of available rebounds the away
+        team grabbed. Percentage ranges from 0-100.
         """
         return float(self._away_total_rebound_percentage)
 
     @property
     def away_assist_percentage(self):
         """
-        Returns a float of the percentage of the away team's field goals that
-        were assisted. Percentage ranges from 0-100.
+        Returns a ``float`` of the percentage of the away team's field goals
+        that were assisted. Percentage ranges from 0-100.
         """
         return float(self._away_assist_percentage)
 
     @property
     def away_steal_percentage(self):
         """
-        Returns a float of the percentage of possessions that ended in a steal
-        by the away team. Percentage ranges from 0-100.
+        Returns a ``float`` of the percentage of possessions that ended in a
+        steal by the away team. Percentage ranges from 0-100.
         """
         return float(self._away_steal_percentage)
 
     @property
     def away_block_percentage(self):
         """
-        Returns a float of the percentage of 2-point field goals that were
+        Returns a ``float`` of the percentage of 2-point field goals that were
         blocked by the away team. Percentage ranges from 0-100.
         """
         return float(self._away_block_percentage)
@@ -730,15 +734,15 @@ class Boxscore(object):
     @property
     def away_turnover_percentage(self):
         """
-        Returns a float of the number of times the away team turned the ball
-        over per 100 possessions.
+        Returns a ``float`` of the number of times the away team turned the
+        ball over per 100 possessions.
         """
         return float(self._away_turnover_percentage)
 
     @property
     def away_offensive_rating(self):
         """
-        Returns a float of the average number of points scored per 100
+        Returns a ``float`` of the average number of points scored per 100
         possessions by the away team.
         """
         return float(self._away_offensive_rating)
@@ -746,7 +750,7 @@ class Boxscore(object):
     @property
     def away_defensive_rating(self):
         """
-        Returns a float of the average number of points scored per 100
+        Returns a ``float`` of the average number of points scored per 100
         possessions by the away team.
         """
         return float(self._away_defensive_rating)
@@ -754,7 +758,7 @@ class Boxscore(object):
     @property
     def home_wins(self):
         """
-        Returns an int of the number of games the home team won after the
+        Returns an ``int`` of the number of games the home team won after the
         conclusion of the game.
         """
         try:
@@ -766,7 +770,7 @@ class Boxscore(object):
     @property
     def home_losses(self):
         """
-        Returns an int of the number of games the home team lost after the
+        Returns an ``int`` of the number of games the home team lost after the
         conclusion of the game.
         """
         try:
@@ -778,15 +782,15 @@ class Boxscore(object):
     @property
     def home_minutes_played(self):
         """
-        Returns an int of the total number of minutes the team played during
-        the game.
+        Returns an ``int`` of the total number of minutes the team played
+        during the game.
         """
         return int(self._home_minutes_played)
 
     @property
     def home_field_goals(self):
         """
-        Returns an int of the total number of field goals made by the home
+        Returns an ``int`` of the total number of field goals made by the home
         team.
         """
         return int(self._home_field_goals)
@@ -794,24 +798,24 @@ class Boxscore(object):
     @property
     def home_field_goal_attempts(self):
         """
-        Returns an int of the total number of field goal attempts by the home
-        team.
+        Returns an ``int`` of the total number of field goal attempts by the
+        home team.
         """
         return int(self._home_field_goal_attempts)
 
     @property
     def home_field_goal_percentage(self):
         """
-        Returns a float of the number of field goals made divided by the total
-        number of field goal attempts by the home team. Percentage ranges from
-        0-1.
+        Returns a ``float`` of the number of field goals made divided by the
+        total number of field goal attempts by the home team. Percentage ranges
+        from 0-1.
         """
         return float(self._home_field_goal_percentage)
 
     @property
     def home_three_point_field_goals(self):
         """
-        Returns an int of the total number of three point field goals made
+        Returns an ``int`` of the total number of three point field goals made
         by the home team.
         """
         return int(self._home_three_point_field_goals)
@@ -819,24 +823,24 @@ class Boxscore(object):
     @property
     def home_three_point_field_goal_attempts(self):
         """
-        Returns an int of the total number of three point field goal attempts
-        by the home team.
+        Returns an ``int`` of the total number of three point field goal
+        attempts by the home team.
         """
         return int(self._home_three_point_field_goal_attempts)
 
     @property
     def home_three_point_field_goal_percentage(self):
         """
-        Returns a float of the number of three point field goals made divided
-        by the number of three point field goal attempts by the home team.
-        Percentage ranges from 0-1.
+        Returns a ``float`` of the number of three point field goals made
+        divided by the number of three point field goal attempts by the home
+        team. Percentage ranges from 0-1.
         """
         return float(self._home_three_point_field_goal_percentage)
 
     @property
     def home_two_point_field_goals(self):
         """
-        Returns an int of the total number of two point field goals made
+        Returns an ``int`` of the total number of two point field goals made
         by the home team.
         """
         return int(self._home_two_point_field_goals)
@@ -844,7 +848,7 @@ class Boxscore(object):
     @property
     def home_two_point_field_goal_attempts(self):
         """
-        Returns an int of the total number of two point field goal attempts
+        Returns an ``int`` of the total number of two point field goal attempts
         by the home team.
         """
         return int(self._home_two_point_field_goal_attempts)
@@ -852,7 +856,7 @@ class Boxscore(object):
     @property
     def home_two_point_field_goal_percentage(self):
         """
-        Returns a float of the number of two point field goals made divided
+        Returns a ``float`` of the number of two point field goals made divided
         by the number of two point field goal attempts by the home team.
         Percentage ranges from 0-1.
         """
@@ -861,7 +865,7 @@ class Boxscore(object):
     @property
     def home_free_throws(self):
         """
-        Returns an int of the total number of free throws made by the home
+        Returns an ``int`` of the total number of free throws made by the home
         team.
         """
         return int(self._home_free_throws)
@@ -869,16 +873,16 @@ class Boxscore(object):
     @property
     def home_free_throw_attempts(self):
         """
-        Returns an int of the total number of free throw attempts by the home
-        team.
+        Returns an ``int`` of the total number of free throw attempts by the
+        home team.
         """
         return int(self._home_free_throw_attempts)
 
     @property
     def home_free_throw_percentage(self):
         """
-        Returns a float of the number of free throws made divided by the number
-        of free throw attempts  by the home team.
+        Returns a ``float`` of the number of free throws made divided by the
+        number of free throw attempts  by the home team.
         """
         try:
             return float(self._home_free_throw_percentage)
@@ -888,72 +892,73 @@ class Boxscore(object):
     @property
     def home_offensive_rebounds(self):
         """
-        Returns an int of the total number of offensive rebounds by the home
-        team.
+        Returns an ``int`` of the total number of offensive rebounds by the
+        home team.
         """
         return int(self._home_offensive_rebounds)
 
     @property
     def home_defensive_rebounds(self):
         """
-        Returns an int of the total number of defensive rebounds by the home
-        team.
+        Returns an ``int`` of the total number of defensive rebounds by the
+        home team.
         """
         return int(self._home_defensive_rebounds)
 
     @property
     def home_total_rebounds(self):
         """
-        Returns an int of the total number of rebounds by the home team.
+        Returns an ``int`` of the total number of rebounds by the home team.
         """
         return int(self._home_total_rebounds)
 
     @property
     def home_assists(self):
         """
-        Returns an int of the total number of assists by the home team.
+        Returns an ``int`` of the total number of assists by the home team.
         """
         return int(self._home_assists)
 
     @property
     def home_steals(self):
         """
-        Returns an int of the total number of steals by the home team.
+        Returns an ``int`` of the total number of steals by the home team.
         """
         return int(self._home_steals)
 
     @property
     def home_blocks(self):
         """
-        Returns an int of the total number of blocks by the home team.
+        Returns an ``int`` of the total number of blocks by the home team.
         """
         return int(self._home_blocks)
 
     @property
     def home_turnovers(self):
         """
-        Returns an int of the total number of turnovers by the home team.
+        Returns an ``int`` of the total number of turnovers by the home team.
         """
         return int(self._home_turnovers)
 
     @property
     def home_personal_fouls(self):
         """
-        Returns an int of the total number of personal fouls by the home team.
+        Returns an ``int`` of the total number of personal fouls by the home
+        team.
         """
         return int(self._home_personal_fouls)
 
     @property
     def home_points(self):
         """
-        Returns an int of the number of points the home team scored.
+        Returns an ``int`` of the number of points the home team scored.
         """
         return int(self._home_points)
 
     @property
     def home_true_shooting_percentage(self):
         """
-        Returns a float of the home team's true shooting percentage which
+        Returns a ``float`` of the home team's true shooting percentage which
         considers free throws, 2-point field goals, and 3-point field goals.
         Percentage ranges from 0-1.
         """
@@ -962,71 +967,71 @@ class Boxscore(object):
     @property
     def home_effective_field_goal_percentage(self):
         """
-        Returns a float of the home team's field goal percentage while giving
-        extra weight to 3-point field goals. Percentage ranges from 0-1.
+        Returns a ``float`` of the home team's field goal percentage while
+        giving extra weight to 3-point field goals. Percentage ranges from 0-1.
         """
         return float(self._home_effective_field_goal_percentage)
 
     @property
     def home_three_point_attempt_rate(self):
         """
-        Returns a float of the percentage of field goal attempts from 3-point
-        range by the home team. Percentage ranges from 0-1.
+        Returns a ``float`` of the percentage of field goal attempts from
+        3-point range by the home team. Percentage ranges from 0-1.
         """
         return float(self._home_three_point_attempt_rate)
 
     @property
     def home_free_throw_attempt_rate(self):
         """
-        Returns a float of the average number of free throw attempts per field
-        goal attempt by the home team.
+        Returns a ``float`` of the average number of free throw attempts per
+        field goal attempt by the home team.
         """
         return float(self._home_free_throw_attempt_rate)
 
     @property
     def home_offensive_rebound_percentage(self):
         """
-        Returns a float of the percentage of available offensive rebounds the
-        home team grabbed. Percentage ranges from 0-100.
+        Returns a ``float`` of the percentage of available offensive rebounds
+        the home team grabbed. Percentage ranges from 0-100.
         """
         return float(self._home_offensive_rebound_percentage)
 
     @property
     def home_defensive_rebound_percentage(self):
         """
-        Returns a float of the percentage of available defensive rebounds the
-        home team grabbed. Percentage ranges from 0-100.
+        Returns a ``float`` of the percentage of available defensive rebounds
+        the home team grabbed. Percentage ranges from 0-100.
         """
         return float(self._home_defensive_rebound_percentage)
 
     @property
     def home_total_rebound_percentage(self):
         """
-        Returns a float of the percentage of available rebounds the home team
-        grabbed. Percentage ranges from 0-100.
+        Returns a ``float`` of the percentage of available rebounds the home
+        team grabbed. Percentage ranges from 0-100.
         """
         return float(self._home_total_rebound_percentage)
 
     @property
     def home_assist_percentage(self):
         """
-        Returns a float of the percentage of the home team's field goals that
-        were assisted. Percentage ranges from 0-100.
+        Returns a ``float`` of the percentage of the home team's field goals
+        that were assisted. Percentage ranges from 0-100.
         """
         return float(self._home_assist_percentage)
 
     @property
     def home_steal_percentage(self):
         """
-        Returns a float of the percentage of possessions that ended in a steal
-        by the home team. Percentage ranges from 0-100.
+        Returns a ``float`` of the percentage of possessions that ended in a
+        steal by the home team. Percentage ranges from 0-100.
         """
         return float(self._home_steal_percentage)
 
     @property
     def home_block_percentage(self):
         """
-        Returns a float of the percentage of 2-point field goals that were
+        Returns a ``float`` of the percentage of 2-point field goals that were
         blocked by the home team. Percentage ranges from 0-100.
         """
         return float(self._home_block_percentage)
@@ -1034,15 +1039,15 @@ class Boxscore(object):
     @property
     def home_turnover_percentage(self):
         """
-        Returns a float of the number of times the home team turned the ball
-        over per 100 possessions.
+        Returns a ``float`` of the number of times the home team turned the
+        ball over per 100 possessions.
         """
         return float(self._home_turnover_percentage)
 
     @property
     def home_offensive_rating(self):
         """
-        Returns a float of the average number of points scored per 100
+        Returns a ``float`` of the average number of points scored per 100
         possessions by the home team.
         """
         return float(self._home_offensive_rating)
@@ -1050,7 +1055,7 @@ class Boxscore(object):
     @property
     def home_defensive_rating(self):
         """
-        Returns a float of the average number of points scored per 100
+        Returns a ``float`` of the average number of points scored per 100
         possessions by the away team.
         """
         return float(self._home_defensive_rating)
@@ -1083,36 +1088,30 @@ class Boxscores:
     @property
     def games(self):
         """
-        Retrieve a list of all games played on a given day.
+        Returns a ``dictionary`` object representing all of the games played on
+        the requested day. Dictionary is in the following format::
 
-        Returns a dictionary object containing all of the games that are
-        scheduled on the requested day.
-
-        Returns
-        -------
-            Returns a dictionary object representing the games played on the
-            requested day. Dictionary is in the following format:
             {'boxscores' : [
-                {'home_name': <Name of the home team, such as 'Purdue
-                               Boilermakers'>,
-                 'home_abbr': <Abbreviation for the home team, such as
-                               'PURDUE'>,
-                 'away_name': <Name of the away team, such as 'Indiana
-                               Hoosiers'>,
-                 'away_abbr': <Abbreviation for the away team, such as
-                               'INDIANA'>,
-                 'boxscore': <String representing the boxscore URI, such as
-                              '2018-01-28-15-indiana'>,
-                 'non_di': <Boolean value which evaluates to True when at least
-                            one of the teams does not compete in NCAA
-                            Division-I basketball>},
+                {'home_name': Name of the home team, such as 'Purdue
+                              Boilermakers' (`str`),
+                 'home_abbr': Abbreviation for the home team, such as
+                              'PURDUE' (`str`),
+                 'away_name': Name of the away team, such as 'Indiana
+                              Hoosiers' (`str`),
+                 'away_abbr': Abbreviation for the away team, such as
+                              'INDIANA' (`str`),
+                 'boxscore': String representing the boxscore URI, such as
+                             '2018-01-28-15-indiana' (`str`),
+                 'non_di': Boolean value which evaluates to True when at least
+                           one of the teams does not compete in NCAA
+                           Division-I basketball (`str`)},
                 { ... },
                 ...
                 ]
             }
 
-            If no games were played during the requested day, the list for
-            ['boxscores'] will be empty.
+        If no games were played during the requested day, the list for
+        ['boxscores'] will be empty.
         """
         return self._boxscores
 
@@ -1132,7 +1131,8 @@ class Boxscores:
         Returns
         -------
         string
-            Returns a string of the boxscore URL including the requested date.
+            Returns a ``string`` of the boxscore URL including the requested
+            date.
         """
         return BOXSCORES_URL % (date.month, date.day, date.year)
 
@@ -1172,7 +1172,8 @@ class Boxscores:
         Returns
         -------
         string
-            Returns a string containing the link to the game's boxscore page.
+            Returns a ``string`` containing the link to the game's boxscore
+            page.
         """
         uri = re.sub(r'.*cbb/boxscores/', '', str(url))
         uri = re.sub(r'\.html.*', '', uri).strip()
@@ -1192,7 +1193,7 @@ class Boxscores:
         Returns
         -------
         string
-            Returns a string of the team's abbreviation.
+            Returns a ``string`` of the team's abbreviation.
         """
         if 'cbb/schools' not in str(abbr):
             return None
@@ -1277,10 +1278,10 @@ class Boxscores:
         Returns
         -------
         list
-            Returns a list of dictionaries where each dictionary contains the
-            name and abbreviations for both the home and away teams, a boolean
-            value indicating whether or not both teams compete in Division-I,
-            and a link to the boxscore.
+            Returns a ``list`` of dictionaries where each dictionary contains
+            the name and abbreviations for both the home and away teams, a
+            boolean value indicating whether or not both teams compete in
+            Division-I, and a link to the boxscore.
         """
         all_boxscores = []
 

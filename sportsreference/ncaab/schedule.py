@@ -65,6 +65,11 @@ class Game(object):
         The opponent's abbreviation is embedded within the HTML tag and needs
         a special parsing scheme in order to be extracted. For non-DI schools,
         the team's name should be used as the abbreviation.
+
+        Parameters
+        ----------
+        game_data : PyQuery object
+            A PyQuery object containing the information specific to a game.
         """
         name = game_data('td[data-stat="opp_name"]:first')
         # Non-DI schools do not have abbreviations and should be handled
@@ -82,6 +87,11 @@ class Game(object):
 
         The boxscore is embedded within the HTML tag and needs a special
         parsing scheme in order to be extracted.
+
+        Parameters
+        ----------
+        game_data : PyQuery object
+            A PyQuery object containing the information specific to a game.
         """
         boxscore = game_data('td[data-stat="date_game"]:first')
         # Happens if the game hasn't been played yet as there is no boxscore
@@ -170,15 +180,15 @@ class Game(object):
     @property
     def game(self):
         """
-        Returns an int of the game's position in the season. The first game of
-        the season returns 1.
+        Returns an ``int`` of the game's position in the season. The first game
+        of the season returns 1.
         """
         return int(self._game)
 
     @property
     def date(self):
         """
-        Returns a string of the game's date, such as 'Fri, Nov 10, 2017'.
+        Returns a ``string`` of the game's date, such as 'Fri, Nov 10, 2017'.
         """
         return self._date
 
@@ -201,7 +211,7 @@ class Game(object):
     @property
     def time(self):
         """
-        Returns a string to indicate the time the game started, such as
+        Returns a ``string`` to indicate the time the game started, such as
         '9:00 pm/est'.
         """
         return self._time
@@ -217,7 +227,7 @@ class Game(object):
     @property
     def type(self):
         """
-        Returns a string constant to indicate whether the game was played
+        Returns a ``string`` constant to indicate whether the game was played
         during the regular season or in the post season.
         """
         if self._type.lower() == 'reg':
@@ -236,8 +246,8 @@ class Game(object):
     @property
     def location(self):
         """
-        Returns a string constant to indicate whether the game was played at
-        the team's home venue, the opponent's venue, or at a neutral site.
+        Returns a ``string`` constant to indicate whether the game was played
+        at the team's home venue, the opponent's venue, or at a neutral site.
         """
         if self._location == '':
             return HOME
@@ -249,15 +259,15 @@ class Game(object):
     @property
     def opponent_abbr(self):
         """
-        Returns a string of the opponent's abbreviation, such as 'PURDUE' for
-        the Purdue Boilermakers.
+        Returns a ``string`` of the opponent's abbreviation, such as 'PURDUE'
+        for the Purdue Boilermakers.
         """
         return self._opponent_abbr
 
     @property
     def opponent_name(self):
         """
-        Returns a string of the opponent's name, such as the 'Purdue
+        Returns a ``string`` of the opponent's name, such as the 'Purdue
         Boilermakers'.
         """
         name = re.sub('\(\d+\)', '', self._opponent_name)
@@ -267,8 +277,8 @@ class Game(object):
     @property
     def opponent_rank(self):
         """
-        Returns a string of the opponent's rank when the game was played and
-        None if the team was unranked.
+        Returns a ``string`` of the opponent's rank when the game was played
+        and None if the team was unranked.
         """
         rank = re.findall('\d+', self._opponent_name)
         if len(rank) > 0:
@@ -278,9 +288,9 @@ class Game(object):
     @property
     def opponent_conference(self):
         """
-        Returns a string of the opponent's conference, such as 'Big Ten' for a
-        team participating in the Big Ten Conference. If the team is not a
-        Division-I school, a string constant for non-majors is returned.
+        Returns a ``string`` of the opponent's conference, such as 'Big Ten'
+        for a team participating in the Big Ten Conference. If the team is not
+        a Division-I school, a string constant for non-majors is returned.
         """
         if self._opponent_conference == '':
             return NON_DI
@@ -289,8 +299,8 @@ class Game(object):
     @property
     def result(self):
         """
-        Returns a string constant to indicate whether the team won or lost the
-        game.
+        Returns a ``string`` constant to indicate whether the team won or lost
+        the game.
         """
         if self._result.lower() == 'w':
             return WIN
@@ -313,8 +323,8 @@ class Game(object):
     @property
     def overtimes(self):
         """
-        Returns an int of the number of overtimes that were played during the
-        game and 0 if the game finished at the end of regulation time.
+        Returns an ``int`` of the number of overtimes that were played during
+        the game and 0 if the game finished at the end of regulation time.
         """
         if self._overtimes == '':
             return 0
@@ -329,7 +339,7 @@ class Game(object):
     @property
     def season_wins(self):
         """
-        Returns an int of the number of games the team has won after the
+        Returns an ``int`` of the number of games the team has won after the
         conclusion of the requested game.
         """
         return int(self._season_wins)
@@ -337,7 +347,7 @@ class Game(object):
     @property
     def season_losses(self):
         """
-        Returns an int of the number of games the team has lost after the
+        Returns an ``int`` of the number of games the team has lost after the
         conclusion of the requested game.
         """
         return int(self._season_losses)
@@ -345,7 +355,7 @@ class Game(object):
     @property
     def streak(self):
         """
-        Returns a string of the team's win streak at the conclusion of the
+        Returns a ``string`` of the team's win streak at the conclusion of the
         requested game. Streak is in the format '[W|L] #' (ie. 'W 3' indicates
         a 3-game winning streak while 'L 2' indicates a 2-game losing streak.
         """
@@ -354,7 +364,7 @@ class Game(object):
     @property
     def arena(self):
         """
-        Returns a string of the name of the arena the game was played at.
+        Returns a ``string`` of the name of the arena the game was played at.
         """
         return self._arena
 
@@ -368,6 +378,8 @@ class Schedule:
     """
     def __init__(self, abbreviation, year=None):
         """
+        Pull the teams schedule and analyze the games.
+
         Parameters
         ----------
         abbreviation : string
@@ -431,7 +443,7 @@ class Schedule:
         raise ValueError('No games found for requested date')
 
     def __repr__(self):
-        """Returns a list of all games scheduled for the given team."""
+        """Returns a ``list`` of all games scheduled for the given team."""
         return self._games
 
     def __iter__(self):
@@ -446,6 +458,13 @@ class Schedule:
 
     def _pull_schedule(self, abbreviation, year):
         """
+        Download and create objects for the team's schedule.
+
+        Given a team abbreviation and season, first download the team's
+        schedule page and convert to a PyQuery object, then create a Game
+        instance for every game in the team's schedule and append it to the
+        '_games' property.
+
         Parameters
         ----------
         abbreviation : string

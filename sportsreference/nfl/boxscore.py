@@ -305,28 +305,29 @@ class Boxscore(object):
     @property
     def date(self):
         """
-        Returns a string of the date the game took place.
+        Returns a ``string`` of the date the game took place.
         """
         return self._date
 
     @property
     def time(self):
         """
-        Returns a string of the time the game started.
+        Returns a ``string`` of the time the game started.
         """
         return self._time.replace('Start Time: ', '')
 
     @property
     def stadium(self):
         """
-        Returns a string of the name of the stadium where the game was played.
+        Returns a ``string`` of the name of the stadium where the game was
+        played.
         """
         return self._stadium.replace('Stadium: ', '')
 
     @property
     def attendance(self):
         """
-        Returns an int of the game's listed attendance.
+        Returns an ``int`` of the game's listed attendance.
         """
         attendance = self._attendance.replace('Attendance: ', '')
         return int(attendance.replace(',', ''))
@@ -334,14 +335,15 @@ class Boxscore(object):
     @property
     def duration(self):
         """
-        Returns a string of the game's duration in the format 'H:MM'.
+        Returns a ``string`` of the game's duration in the format 'H:MM'.
         """
         return self._duration.replace('Time of Game: ', '')
 
     @property
     def winner(self):
         """
-        Returns a string constant indicating whether the home or away team won.
+        Returns a ``string`` constant indicating whether the home or away team
+        won.
         """
         if self.home_points > self.away_points:
             return HOME
@@ -350,7 +352,7 @@ class Boxscore(object):
     @property
     def winning_name(self):
         """
-        Returns a string of the winning team's name, such as 'New England
+        Returns a ``string`` of the winning team's name, such as 'New England
         Patriots'.
         """
         if self.winner == HOME:
@@ -360,7 +362,7 @@ class Boxscore(object):
     @property
     def winning_abbr(self):
         """
-        Returns a string of the winning team's abbreviation, such as 'NWE'
+        Returns a ``string`` of the winning team's abbreviation, such as 'NWE'
         for the New England Patriots.
         """
         if self.winner == HOME:
@@ -370,7 +372,7 @@ class Boxscore(object):
     @property
     def losing_name(self):
         """
-        Returns a string of the losing team's name, such as 'Kansas City
+        Returns a ``string`` of the losing team's name, such as 'Kansas City
         Chiefs'.
         """
         if self.winner == HOME:
@@ -380,7 +382,7 @@ class Boxscore(object):
     @property
     def losing_abbr(self):
         """
-        Returns a string of the losing team's abbreviation, such as 'KAN'
+        Returns a ``string`` of the losing team's abbreviation, such as 'KAN'
         for the Kansas City Chiefs.
         """
         if self.winner == HOME:
@@ -390,21 +392,21 @@ class Boxscore(object):
     @property
     def away_points(self):
         """
-        Returns an int of the number of points the away team scored.
+        Returns an ``int`` of the number of points the away team scored.
         """
         return int(self._away_points)
 
     @property
     def away_first_downs(self):
         """
-        Returns an int of the number of first downs the away team gained.
+        Returns an ``int`` of the number of first downs the away team gained.
         """
         return int(self._away_first_downs)
 
     @property
     def away_rush_attempts(self):
         """
-        Returns an int of the number of rushing plays the away team made.
+        Returns an ``int`` of the number of rushing plays the away team made.
         """
         # Rush info is in the format 'Rush-Yds-TDs'
         rush_info = self._away_rush_attempts.split('-')
@@ -413,7 +415,7 @@ class Boxscore(object):
     @property
     def away_rush_yards(self):
         """
-        Returns an int of the number of rushing yards the away team gained.
+        Returns an ``int`` of the number of rushing yards the away team gained.
         """
         # Rush info is in the format 'Rush-Yds-TDs'
         rush_info = self._away_rush_yards.split('-')
@@ -422,7 +424,7 @@ class Boxscore(object):
     @property
     def away_rush_touchdowns(self):
         """
-        Returns an int of the number of rushing touchdowns the away team
+        Returns an ``int`` of the number of rushing touchdowns the away team
         scored.
         """
         # Rush info is in the format 'Rush-Yds-TDs'
@@ -432,7 +434,8 @@ class Boxscore(object):
     @property
     def away_pass_completions(self):
         """
-        Returns an int of the number of completed passes the away team made.
+        Returns an ``int`` of the number of completed passes the away team
+        made.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
         pass_info = self._away_pass_completions.split('-')
@@ -441,7 +444,7 @@ class Boxscore(object):
     @property
     def away_pass_attempts(self):
         """
-        Returns an int of the number of passes that were thrown by the away
+        Returns an ``int`` of the number of passes that were thrown by the away
         team.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
@@ -451,7 +454,7 @@ class Boxscore(object):
     @property
     def away_pass_yards(self):
         """
-        Returns an int of the number of passing yards the away team gained.
+        Returns an ``int`` of the number of passing yards the away team gained.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
         pass_info = self._away_pass_yards.split('-')
@@ -460,7 +463,7 @@ class Boxscore(object):
     @property
     def away_pass_touchdowns(self):
         """
-        Returns an int of the number of passing touchdowns the away team
+        Returns an ``int`` of the number of passing touchdowns the away team
         scored.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
@@ -470,7 +473,7 @@ class Boxscore(object):
     @property
     def away_interceptions(self):
         """
-        Returns an int of the number of interceptions the away team threw.
+        Returns an ``int`` of the number of interceptions the away team threw.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
         pass_info = self._away_interceptions.split('-')
@@ -479,7 +482,7 @@ class Boxscore(object):
     @property
     def away_times_sacked(self):
         """
-        Returns an int of the number of times the away team was sacked.
+        Returns an ``int`` of the number of times the away team was sacked.
         """
         # Sacks info is in the format 'Sacked-Yards'
         sacks_info = self._away_times_sacked.split('-')
@@ -488,8 +491,8 @@ class Boxscore(object):
     @property
     def away_yards_lost_from_sacks(self):
         """
-        Returns an int of the number of yards the away team lost as the result
-        of a sack.
+        Returns an ``int`` of the number of yards the away team lost as the
+        result of a sack.
         """
         # Sacks info is in the format 'Sacked-Yards'
         sacks_info = self._away_yards_lost_from_sacks.split('-')
@@ -498,21 +501,22 @@ class Boxscore(object):
     @property
     def away_net_pass_yards(self):
         """
-        Returns an int of the net pass yards gained by the away team.
+        Returns an ``int`` of the net pass yards gained by the away team.
         """
         return int(self._away_net_pass_yards)
 
     @property
     def away_total_yards(self):
         """
-        Returns an int of the total number of yards the away team gained.
+        Returns an ``int`` of the total number of yards the away team gained.
         """
         return int(self._away_total_yards)
 
     @property
     def away_fumbles(self):
         """
-        Returns an int of the number of times the away team fumbled the ball.
+        Returns an ``int`` of the number of times the away team fumbled the
+        ball.
         """
         # Fumble info is in the format 'Fumbles-Lost'
         fumble_info = self._away_fumbles.split('-')
@@ -521,7 +525,7 @@ class Boxscore(object):
     @property
     def away_fumbles_lost(self):
         """
-        Returns an int of the number of times the away team turned the ball
+        Returns an ``int`` of the number of times the away team turned the ball
         over as the result of a fumble.
         """
         # Fumble info is in the format 'Fumbles-Lost'
@@ -531,7 +535,7 @@ class Boxscore(object):
     @property
     def away_turnovers(self):
         """
-        Returns an int of the number of times the away team turned the ball
+        Returns an ``int`` of the number of times the away team turned the ball
         over.
         """
         return int(self._away_turnovers)
@@ -539,7 +543,7 @@ class Boxscore(object):
     @property
     def away_penalties(self):
         """
-        Returns an int of the number of penalties called on the away team.
+        Returns an ``int`` of the number of penalties called on the away team.
         """
         # Penalties info is in the format 'Penalties-Yards'
         penalties_info = self._away_penalties.split('-')
@@ -548,8 +552,8 @@ class Boxscore(object):
     @property
     def away_yards_from_penalties(self):
         """
-        Returns an int of the number of yards gifted as a result of penalties
-        called on the away team.
+        Returns an ``int`` of the number of yards gifted as a result of
+        penalties called on the away team.
         """
         # Penalties info is in the format 'Penalties-Yards'
         penalties_info = self._away_yards_from_penalties.split('-')
@@ -558,7 +562,7 @@ class Boxscore(object):
     @property
     def away_third_down_conversions(self):
         """
-        Returns an int of the number of third down plays the away team
+        Returns an ``int`` of the number of third down plays the away team
         successfully converted.
         """
         # Conversion info is in the format 'Conversions-Attempts'
@@ -568,7 +572,7 @@ class Boxscore(object):
     @property
     def away_third_down_attempts(self):
         """
-        Returns an int of the number of third down plays the away team
+        Returns an ``int`` of the number of third down plays the away team
         attempted to convert.
         """
         # Conversion info is in the format 'Conversions-Attempts'
@@ -578,7 +582,7 @@ class Boxscore(object):
     @property
     def away_fourth_down_conversions(self):
         """
-        Returns an int of the number of fourth down plays the away team
+        Returns an ``int`` of the number of fourth down plays the away team
         successfully converted.
         """
         # Conversion info is in the format 'Conversions-Attempts'
@@ -588,7 +592,7 @@ class Boxscore(object):
     @property
     def away_fourth_down_attempts(self):
         """
-        Returns an int of the number of fourth down plays the away team
+        Returns an ``int`` of the number of fourth down plays the away team
         attempted to convert.
         """
         # Conversion info is in the format 'Conversions-Attempts'
@@ -598,29 +602,29 @@ class Boxscore(object):
     @property
     def away_time_of_possession(self):
         """
-        Returns a string of the amount of time the home team had possession of
-        the football in the format 'MM:SS'.
+        Returns a ``string`` of the amount of time the home team had possession
+        of the football in the format 'MM:SS'.
         """
         return self._away_time_of_possession
 
     @property
     def home_points(self):
         """
-        Returns an int of the number of points the home team scored.
+        Returns an ``int`` of the number of points the home team scored.
         """
         return int(self._home_points)
 
     @property
     def home_first_downs(self):
         """
-        Returns an int of the number of first downs the home team gained.
+        Returns an ``int`` of the number of first downs the home team gained.
         """
         return int(self._home_first_downs)
 
     @property
     def home_rush_attempts(self):
         """
-        Returns an int of the number of rushing plays the home team made.
+        Returns an ``int`` of the number of rushing plays the home team made.
         """
         # Rush info is in the format 'Rush-Yds-TDs'
         rush_info = self._home_rush_attempts.split('-')
@@ -629,7 +633,7 @@ class Boxscore(object):
     @property
     def home_rush_yards(self):
         """
-        Returns an int of the number of rushing yards the home team gained.
+        Returns an ``int`` of the number of rushing yards the home team gained.
         """
         # Rush info is in the format 'Rush-Yds-TDs'
         rush_info = self._home_rush_yards.split('-')
@@ -638,7 +642,7 @@ class Boxscore(object):
     @property
     def home_rush_touchdowns(self):
         """
-        Returns an int of the number of rushing touchdowns the home team
+        Returns an ``int`` of the number of rushing touchdowns the home team
         scored.
         """
         # Rush info is in the format 'Rush-Yds-TDs'
@@ -648,7 +652,8 @@ class Boxscore(object):
     @property
     def home_pass_completions(self):
         """
-        Returns an int of the number of completed passes the home team made.
+        Returns an ``int`` of the number of completed passes the home team
+        made.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
         pass_info = self._home_pass_completions.split('-')
@@ -657,7 +662,7 @@ class Boxscore(object):
     @property
     def home_pass_attempts(self):
         """
-        Returns an int of the number of passes that were thrown by the home
+        Returns an ``int`` of the number of passes that were thrown by the home
         team.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
@@ -667,7 +672,7 @@ class Boxscore(object):
     @property
     def home_pass_yards(self):
         """
-        Returns an int of the number of passing yards the home team gained.
+        Returns an ``int`` of the number of passing yards the home team gained.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
         pass_info = self._home_pass_yards.split('-')
@@ -676,7 +681,7 @@ class Boxscore(object):
     @property
     def home_pass_touchdowns(self):
         """
-        Returns an int of the number of passing touchdowns the home team
+        Returns an ``int`` of the number of passing touchdowns the home team
         scored.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
@@ -686,7 +691,7 @@ class Boxscore(object):
     @property
     def home_interceptions(self):
         """
-        Returns an int of the number of interceptions the home team threw.
+        Returns an ``int`` of the number of interceptions the home team threw.
         """
         # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
         pass_info = self._home_pass_touchdowns.split('-')
@@ -695,7 +700,7 @@ class Boxscore(object):
     @property
     def home_times_sacked(self):
         """
-        Returns an int of the number of times the home team was sacked.
+        Returns an ``int`` of the number of times the home team was sacked.
         """
         # Sacks info is in the format 'Sacked-Yards'
         sacks_info = self._home_times_sacked.split('-')
@@ -704,8 +709,8 @@ class Boxscore(object):
     @property
     def home_yards_lost_from_sacks(self):
         """
-        Returns an int of the number of yards the home team lost as the result
-        of a sack.
+        Returns an ``int`` of the number of yards the home team lost as the
+        result of a sack.
         """
         # Sacks info is in the format 'Sacked-Yards'
         fumble_info = self._home_yards_lost_from_sacks.split('-')
@@ -714,21 +719,22 @@ class Boxscore(object):
     @property
     def home_net_pass_yards(self):
         """
-        Returns an int of the net pass yards gained by the home team.
+        Returns an ``int`` of the net pass yards gained by the home team.
         """
         return int(self._home_net_pass_yards)
 
     @property
     def home_total_yards(self):
         """
-        Returns an int of the total number of yards the home team gained.
+        Returns an ``int`` of the total number of yards the home team gained.
         """
         return int(self._home_total_yards)
 
     @property
     def home_fumbles(self):
         """
-        Returns an int of the number of times the home team fumbled the ball.
+        Returns an ``int`` of the number of times the home team fumbled the
+        ball.
         """
         # Fumble info is in the format 'Fumbles-Lost'
         fumble_info = self._home_fumbles.split('-')
@@ -737,7 +743,7 @@ class Boxscore(object):
     @property
     def home_fumbles_lost(self):
         """
-        Returns an int of the number of times the home team turned the ball
+        Returns an ``int`` of the number of times the home team turned the ball
         over as the result of a fumble.
         """
         # Fumble info is in the format 'Fumbles-Lost'
@@ -747,7 +753,7 @@ class Boxscore(object):
     @property
     def home_turnovers(self):
         """
-        Returns an int of the number of times the home team turned the ball
+        Returns an ``int`` of the number of times the home team turned the ball
         over.
         """
         return int(self._home_turnovers)
@@ -755,7 +761,7 @@ class Boxscore(object):
     @property
     def home_penalties(self):
         """
-        Returns an int of the number of penalties called on the home team.
+        Returns an ``int`` of the number of penalties called on the home team.
         """
         # Penalties info is in the format 'Penalties-Yards'
         penalties_info = self._home_penalties.split('-')
@@ -764,8 +770,8 @@ class Boxscore(object):
     @property
     def home_yards_from_penalties(self):
         """
-        Returns an int of the number of yards gifted as a result of penalties
-        called on the home team.
+        Returns an ``int`` of the number of yards gifted as a result of
+        penalties called on the home team.
         """
         # Penalties info is in the format 'Penalties-Yards'
         penalties_info = self._home_yards_from_penalties.split('-')
@@ -774,7 +780,7 @@ class Boxscore(object):
     @property
     def home_third_down_conversions(self):
         """
-        Returns an int of the number of third down plays the home team
+        Returns an ``int`` of the number of third down plays the home team
         successfully converted.
         """
         # Conversion info is in the format 'Conversions-Attempts'
@@ -784,7 +790,7 @@ class Boxscore(object):
     @property
     def home_third_down_attempts(self):
         """
-        Returns an int of the number of third down plays the home team
+        Returns an ``int`` of the number of third down plays the home team
         attempted to convert.
         """
         # Conversion info is in the format 'Conversions-Attempts'
@@ -794,7 +800,7 @@ class Boxscore(object):
     @property
     def home_fourth_down_conversions(self):
         """
-        Returns an int of the number of fourth down plays the home team
+        Returns an ``int`` of the number of fourth down plays the home team
         successfully converted.
         """
         # Conversion info is in the format 'Conversions-Attempts'
@@ -804,7 +810,7 @@ class Boxscore(object):
     @property
     def home_fourth_down_attempts(self):
         """
-        Returns an int of the number of fourth down plays the home team
+        Returns an ``int`` of the number of fourth down plays the home team
         attempted to convert.
         """
         # Conversion info is in the format 'Conversions-Attempts'
@@ -814,8 +820,8 @@ class Boxscore(object):
     @property
     def home_time_of_possession(self):
         """
-        Returns a string of the amount of time the home team had possession of
-        the football in the format 'MM:SS'.
+        Returns a ``string`` of the amount of time the home team had possession
+        of the football in the format 'MM:SS'.
         """
         return self._home_time_of_possession
 
@@ -847,33 +853,27 @@ class Boxscores:
     @property
     def games(self):
         """
-        Retrieve a list of all games played on a given day.
+        Returns a ``dictionary`` object representing all of the games played on
+        the requested day. Dictionary is in the following format::
 
-        Returns a dictionary object containing all of the games that are
-        scheduled on the requested day.
-
-        Returns
-        -------
-            Returns a dictionary object representing the games played on the
-            requested day. Dictionary is in the following format:
             {'boxscores' : [
-                {'home_name': <Name of the home team, such as 'Kansas City
-                               Chiefs'>,
-                 'home_abbr': <Abbreviation for the home team, such as
-                               'KAN'>,
-                 'away_name': <Name of the away team, such as 'Houston
-                               Texans'>,
-                 'away_abbr': <Abbreviation for the away team, such as
-                               'HOU'>,
-                 'boxscore': <String representing the boxscore URI, such as
-                              'SLN/SLN201807280'>,
+                {'home_name': Name of the home team, such as 'Kansas City
+                              Chiefs' (`str`),
+                 'home_abbr': Abbreviation for the home team, such as
+                              'KAN' (`str`),
+                 'away_name': Name of the away team, such as 'Houston
+                              Texans' (`str`),
+                 'away_abbr': Abbreviation for the away team, such as
+                              'HOU' (`str`),
+                 'boxscore': String representing the boxscore URI, such as
+                             'SLN/SLN201807280' (`str`)},
                 { ... },
                 ...
                 ]
             }
 
-            If no games were played during the requested day, the list for
-            ['boxscores'] will be empty.
+        If no games were played during the requested day, the list for
+        ['boxscores'] will be empty.
         """
         return self._boxscores
 
@@ -894,7 +894,8 @@ class Boxscores:
         Returns
         -------
         string
-            Returns a string of the boxscore URL including the requested date.
+            Returns a ``string`` of the boxscore URL including the requested
+            date.
         """
         return BOXSCORES_URL % (year, week)
 
@@ -934,7 +935,8 @@ class Boxscores:
         Returns
         -------
         string
-            Returns a string containing the link to the game's boxscore page.
+            Returns a ``string`` containing the link to the game's boxscore
+            page.
         """
         uri = re.sub(r'.*/boxscores/', '', str(url))
         uri = re.sub(r'\.htm.*', '', uri).strip()
@@ -954,7 +956,7 @@ class Boxscores:
         Returns
         -------
         string
-            Returns a string of the team's abbreviation.
+            Returns a ``string`` of the team's abbreviation.
         """
         abbr = re.sub(r'.*/teams/', '', str(abbr))
         abbr = re.sub(r'/.*', '', abbr)
@@ -1026,9 +1028,9 @@ class Boxscores:
         Returns
         -------
         list
-            Returns a list of dictionaries where each dictionary contains the
-            name and abbreviations for both the home and away teams, and a link
-            to the game's boxscore.
+            Returns a ``list`` of dictionaries where each dictionary contains
+            the name and abbreviations for both the home and away teams, and a
+            link to the game's boxscore.
         """
         all_boxscores = []
 

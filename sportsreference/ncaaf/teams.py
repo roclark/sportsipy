@@ -144,7 +144,7 @@ class Team(object):
     @property
     def abbreviation(self):
         """
-        Returns a string of the team's short name, such as 'PURDUE' for the
+        Returns a ``string`` of the team's short name, such as 'PURDUE' for the
         Purdue Boilermakers.
         """
         return self._abbreviation
@@ -160,7 +160,7 @@ class Team(object):
     @property
     def name(self):
         """
-        Returns a string of the team's full name, such as 'Purdue
+        Returns a ``string`` of the team's full name, such as 'Purdue
         Boilermakers'.
         """
         return self._name
@@ -168,15 +168,15 @@ class Team(object):
     @property
     def games(self):
         """
-        Returns an int of the total number of games the team has played during
-        the season.
+        Returns an ``int`` of the total number of games the team has played
+        during the season.
         """
         return int(self._games)
 
     @property
     def wins(self):
         """
-        Returns an int of the total number of games the team won during the
+        Returns an ``int`` of the total number of games the team won during the
         season.
         """
         return int(self._wins)
@@ -184,15 +184,15 @@ class Team(object):
     @property
     def losses(self):
         """
-        Returns an int of the total number of games the team lost during the
-        season.
+        Returns an ``int`` of the total number of games the team lost during
+        the season.
         """
         return int(self._losses)
 
     @property
     def win_percentage(self):
         """
-        Returns a float of the percentage of wins divided by the number of
+        Returns a ``float`` of the percentage of wins divided by the number of
         games played during the season. Percentage ranges from 0-1.
         """
         return float(self._win_percentage)
@@ -200,7 +200,7 @@ class Team(object):
     @property
     def conference_wins(self):
         """
-        Returns an int of the total number of conference games the team won
+        Returns an ``int`` of the total number of conference games the team won
         during the season.
         """
         try:
@@ -211,8 +211,8 @@ class Team(object):
     @property
     def conference_losses(self):
         """
-        Returns an int of the total number of conference games the team lost
-        during the season.
+        Returns an ``int`` of the total number of conference games the team
+        lost during the season.
         """
         try:
             return int(self._conference_losses)
@@ -222,7 +222,7 @@ class Team(object):
     @property
     def conference_win_percentage(self):
         """
-        Returns a float of the percentage of conference wins divided by the
+        Returns a ``float`` of the percentage of conference wins divided by the
         number of conference games played during the season. Percentage ranges
         from 0-1.
         """
@@ -234,57 +234,57 @@ class Team(object):
     @property
     def points_per_game(self):
         """
-        Returns a float of the average number of points scored by the team per
-        game.
+        Returns a ``float`` of the average number of points scored by the team
+        per game.
         """
         return float(self._points_per_game)
 
     @property
     def points_against_per_game(self):
         """
-        Returns a float of the average number of points conceded per game.
+        Returns a ``float`` of the average number of points conceded per game.
         """
         return float(self._points_against_per_game)
 
     @property
     def strength_of_schedule(self):
         """
-        Returns a float of the team's strength of schedule based on the number
-        of points above or below average. An average difficulty schedule is
-        denoted with 0.0 while a negative score indicates a comparatively easy
-        schedule.
+        Returns a ``float`` of the team's strength of schedule based on the
+        number of points above or below average. An average difficulty schedule
+        is denoted with 0.0 while a negative score indicates a comparatively
+        easy schedule.
         """
         return float(self._strength_of_schedule)
 
     @property
     def simple_rating_system(self):
         """
-        Returns a float of the team's relative strength based on the average
-        margin of victory and the strength of schedule. An average team is
-        denoted with 0.0 while a negative score indicates a comparatively weak
-        team.
+        Returns a ``float`` of the team's relative strength based on the
+        average margin of victory and the strength of schedule. An average team
+        is denoted with 0.0 while a negative score indicates a comparatively
+        weak team.
         """
         return float(self._simple_rating_system)
 
     @property
     def pass_completions(self):
         """
-        Returns a float of the average number of completed passes per game.
+        Returns a ``float`` of the average number of completed passes per game.
         """
         return float(self._pass_completions)
 
     @property
     def pass_attempts(self):
         """
-        Returns a float of the average number of passes that are attempted per
-        game.
+        Returns a ``float`` of the average number of passes that are attempted
+        per game.
         """
         return float(self._pass_attempts)
 
     @property
     def pass_completion_percentage(self):
         """
-        Returns a float of the percentage of completed passes per game.
+        Returns a ``float`` of the percentage of completed passes per game.
         Percentage ranges from 0-100.
         """
         return float(self._pass_completion_percentage)
@@ -292,45 +292,46 @@ class Team(object):
     @property
     def pass_yards(self):
         """
-        Returns a float of the average number of yards gained from passing per
-        game.
+        Returns a ``float`` of the average number of yards gained from passing
+        per game.
         """
         return float(self._pass_yards)
 
     @property
     def interceptions(self):
         """
-        Returns a float of the average number of interceptions thrown per game.
+        Returns a ``float`` of the average number of interceptions thrown per
+        game.
         """
         return float(self._interceptions)
 
     @property
     def pass_touchdowns(self):
         """
-        Returns a float of the average number of passing touchdowns scored per
-        game.
+        Returns a ``float`` of the average number of passing touchdowns scored
+        per game.
         """
         return float(self._pass_touchdowns)
 
     @property
     def rush_attempts(self):
         """
-        Returns a float of the average number of rushing plays per game.
+        Returns a ``float`` of the average number of rushing plays per game.
         """
         return float(self._rush_attempts)
 
     @property
     def rush_yards(self):
         """
-        Returns a float of the average number of yards gained from rushing per
-        game.
+        Returns a ``float`` of the average number of yards gained from rushing
+        per game.
         """
         return float(self._rush_yards)
 
     @property
     def rush_yards_per_attempt(self):
         """
-        Returns a float of the average number of yards gained per rushing
+        Returns a ``float`` of the average number of yards gained per rushing
         attempt per game.
         """
         return float(self._rush_yards_per_attempt)
@@ -338,74 +339,75 @@ class Team(object):
     @property
     def rush_touchdowns(self):
         """
-        Returns a float of the average number of rushing touchdowns scored per
-        game.
+        Returns a ``float`` of the average number of rushing touchdowns scored
+        per game.
         """
         return float(self._rush_touchdowns)
 
     @property
     def plays(self):
         """
-        Returns a float of the average number of offensive plays per game.
+        Returns a ``float`` of the average number of offensive plays per game.
         """
         return float(self._plays)
 
     @property
     def yards(self):
         """
-        Returns a float of the average number of yards gained per game.
+        Returns a ``float`` of the average number of yards gained per game.
         """
         return float(self._yards)
 
     @property
     def turnovers(self):
         """
-        Returns a float of the average number of turnovers per game.
+        Returns a ``float`` of the average number of turnovers per game.
         """
         return float(self._turnovers)
 
     @property
     def fumbles_lost(self):
         """
-        Returns a float of the average number of fumbles per game.
+        Returns a ``float`` of the average number of fumbles per game.
         """
         return float(self._fumbles_lost)
 
     @property
     def yards_per_play(self):
         """
-        Returns a float of the average number of yards gained per play.
+        Returns a ``float`` of the average number of yards gained per play.
         """
         return float(self._yards_per_play)
 
     @property
     def pass_first_downs(self):
         """
-        Returns a float of the average number of first downs from passing plays
-        per game.
+        Returns a ``float`` of the average number of first downs from passing
+        plays per game.
         """
         return float(self._pass_first_downs)
 
     @property
     def rush_first_downs(self):
         """
-        Returns a float of the average number of first downs from rushing plays
-        per game.
+        Returns a ``float`` of the average number of first downs from rushing
+        plays per game.
         """
         return float(self._rush_first_downs)
 
     @property
     def first_downs_from_penalties(self):
         """
-        Returns a float of the average number of first downs from an opponent's
-        penalties per game.
+        Returns a ``float`` of the average number of first downs from an
+        opponent's penalties per game.
         """
         return float(self._first_downs_from_penalties)
 
     @property
     def first_downs(self):
         """
-        Returns a float of the total number of first downs achieved per game.
+        Returns a ``float`` of the total number of first downs achieved per
+        game.
         """
         return float(self._first_downs)
 
@@ -419,7 +421,7 @@ class Team(object):
     @property
     def yards_from_penalties(self):
         """
-        Returns a float of the average number of yards gained from an
+        Returns a ``float`` of the average number of yards gained from an
         opponent's penalties per game.
         """
         return float(self._yards_from_penalties)
@@ -499,7 +501,7 @@ class Teams:
         return self.__getitem__(abbreviation)
 
     def __repr__(self):
-        """Returns a list of all NCAAF teams for the given season."""
+        """Returns a ``list`` of all NCAAF teams for the given season."""
         return self._teams
 
     def __iter__(self):

@@ -65,6 +65,11 @@ class Game(object):
 
         The boxscore is embedded within the HTML tag and needs a special
         parsing scheme in order to be extracted.
+
+        Parameters
+        ----------
+        game_data : PyQuery object
+            A PyQuery object containing the information specific to a game.
         """
         boxscore = game_data('td[data-stat="boxscore"]:first')
         boxscore = re.sub(r'.*/boxes/', '', str(boxscore))
@@ -152,15 +157,15 @@ class Game(object):
     @property
     def game(self):
         """
-        Returns an int of the game in the season, where 1 is the first game of
-        the season.
+        Returns an ``int`` of the game in the season, where 1 is the first game
+        of the season.
         """
         return int(self._game)
 
     @property
     def date(self):
         """
-        Returns a string of the date the game was played on.
+        Returns a ``string`` of the date the game was played on.
         """
         return self._date
 
@@ -177,11 +182,11 @@ class Game(object):
     @property
     def game_number_for_day(self):
         """
-        Returns an int denoting which game is played for the team during the
-        given day. Default value is 1 where a team plays only one game during
-        the day, but can be higher for double headers, etc. For example, if a
-        team has a double header one day, the first game of the day will return
-        1 while the second game will return 2.
+        Returns an ``int`` denoting which game is played for the team during
+        the given day. Default value is 1 where a team plays only one game
+        during the day, but can be higher for double headers, etc. For example,
+        if a team has a double header one day, the first game of the day will
+        return 1 while the second game will return 2.
         """
         game_number = re.findall('\(\d+\)', self._date)
         if len(game_number) == 0:
@@ -200,8 +205,8 @@ class Game(object):
     @property
     def location(self):
         """
-        Returns a string constant to indicate whether the game was played at
-        home or away.
+        Returns a ``string`` constant to indicate whether the game was played
+        at home or away.
         """
         if self._location == '@':
             return AWAY
@@ -210,15 +215,15 @@ class Game(object):
     @property
     def opponent_abbr(self):
         """
-        Returns a string of the opponent's 3-letter abbreviation, such as 'NYY'
-        for the New York Yankees.
+        Returns a ``string`` of the opponent's 3-letter abbreviation, such as
+        'NYY' for the New York Yankees.
         """
         return self._opponent_abbr
 
     @property
     def result(self):
         """
-        Returns a string constant to indicate whether the team won or lost.
+        Returns a ``string`` constant to indicate whether the team won or lost.
         """
         if self._result.lower() == 'w':
             return WIN
@@ -227,7 +232,7 @@ class Game(object):
     @property
     def runs_scored(self):
         """
-        Returns an int of the total number of runs that were scored by the
+        Returns an ``int`` of the total number of runs that were scored by the
         team.
         """
         return int(self._runs_scored)
@@ -235,14 +240,14 @@ class Game(object):
     @property
     def runs_allowed(self):
         """
-        Returns an int of the total number of runs that the team allowed.
+        Returns an ``int`` of the total number of runs that the team allowed.
         """
         return int(self._runs_allowed)
 
     @property
     def innings(self):
         """
-        Returns an int of the total number of innings that were played.
+        Returns an ``int`` of the total number of innings that were played.
         """
         if not self._innings:
             return 9
@@ -251,24 +256,24 @@ class Game(object):
     @property
     def record(self):
         """
-        Returns a string of the team's record in the format 'W-L'.
+        Returns a ``string`` of the team's record in the format 'W-L'.
         """
         return self._record
 
     @property
     def rank(self):
         """
-        Returns an int of the team's rank in the league with 1 being the best
-        team.
+        Returns an ``int`` of the team's rank in the league with 1 being the
+        best team.
         """
         return int(self._rank)
 
     @property
     def games_behind(self):
         """
-        Returns a float of the number of games behind the leader the team is.
-        0.0 indicates the team is tied for first. Negative numbers indicate the
-        number of games a team is ahead of the second place team.
+        Returns a ``float`` of the number of games behind the leader the team
+        is. 0.0 indicates the team is tied for first. Negative numbers indicate
+        the number of games a team is ahead of the second place team.
         """
         if 'up' in self._games_behind.lower():
             games_behind = re.sub('up *', '', self._games_behind.lower())
@@ -280,22 +285,22 @@ class Game(object):
     @property
     def winner(self):
         """
-        Returns a string of the name of the winning pitcher.
+        Returns a ``string`` of the name of the winning pitcher.
         """
         return self._winner
 
     @property
     def loser(self):
         """
-        Returns a string of the name of the losing pitcher.
+        Returns a ``string`` of the name of the losing pitcher.
         """
         return self._loser
 
     @property
     def save(self):
         """
-        Returns a string of the name of the pitcher credited with the save if
-        applicable. If no saves, returns None.
+        Returns a ``string`` of the name of the pitcher credited with the save
+        if applicable. If no saves, returns None.
         """
         if self._save == '':
             return None
@@ -304,14 +309,14 @@ class Game(object):
     @property
     def game_duration(self):
         """
-        Returns a string of the game's total duration in the format 'H:MM'.
+        Returns a ``string`` of the game's total duration in the format 'H:MM'.
         """
         return self._game_duration
 
     @property
     def day_or_night(self):
         """
-        Returns a string constant to indicate whether the game was played
+        Returns a ``string`` constant to indicate whether the game was played
         during the day or night.
         """
         if self._day_or_night.lower() == 'n':
@@ -321,7 +326,7 @@ class Game(object):
     @property
     def attendance(self):
         """
-        Returns an int of the total listed attendance for the game.
+        Returns an ``int`` of the total listed attendance for the game.
         """
         try:
             return int(self._attendance.replace(',', ''))
@@ -331,10 +336,10 @@ class Game(object):
     @property
     def streak(self):
         """
-        Returns a string of the team's winning/losing streak at the conclusion
-        of the requested game. A winning streak is denoted by a number of '+'
-        signs for the number of consecutive wins and a losing streak is denoted
-        by a '-' sign.
+        Returns a ``string`` of the team's winning/losing streak at the
+        conclusion of the requested game. A winning streak is denoted by a
+        number of '+' signs for the number of consecutive wins and a losing
+        streak is denoted by a '-' sign.
         """
         return self._streak
 
@@ -348,6 +353,8 @@ class Schedule(object):
     """
     def __init__(self, abbreviation, year=None):
         """
+        Pull the teams schedule and analyze the games.
+
         Parameters
         ----------
         abbreviation : string
@@ -416,7 +423,7 @@ class Schedule(object):
         raise ValueError('No games found for requested date')
 
     def __repr__(self):
-        """Returns a list of all games scheduled for the given team."""
+        """Returns a ``list`` of all games scheduled for the given team."""
         return self._games
 
     def __iter__(self):
@@ -431,6 +438,13 @@ class Schedule(object):
 
     def _pull_schedule(self, abbreviation, year):
         """
+        Download and create objects for the team's schedule.
+
+        Given a team abbreviation and season, first download the team's
+        schedule page and convert to a PyQuery object, then create a Game
+        instance for every game in the team's schedule and append it to the
+        '_games' property.
+
         Parameters
         ----------
         abbreviation : string

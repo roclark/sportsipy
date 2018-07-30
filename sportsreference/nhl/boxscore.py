@@ -314,7 +314,7 @@ class Boxscore(object):
     @property
     def date(self):
         """
-        Returns a string of the date the game took place.
+        Returns a ``string`` of the date the game took place.
         """
         # Date is in the format 'Month Day, Year, Time'. Split the date into
         # the day and time by combining the text on both sides of the first
@@ -325,7 +325,7 @@ class Boxscore(object):
     @property
     def time(self):
         """
-        Returns a string of the time the game started.
+        Returns a ``string`` of the time the game started.
         """
         # Time is in the format 'Month Day, Year, Time'. Split the time into
         # the day and the time by taking the text after the last comma.
@@ -335,14 +335,15 @@ class Boxscore(object):
     @property
     def arena(self):
         """
-        Returns a string of the name of the ballpark where the game was played.
+        Returns a ``string`` of the name of the ballpark where the game was
+        played.
         """
         return self._arena.replace('Arena: ', '')
 
     @property
     def attendance(self):
         """
-        Returns an int of the game's listed attendance.
+        Returns an ``int`` of the game's listed attendance.
         """
         attendance = self._attendance.replace('Attendance: ', '')
         return int(attendance.replace(',', ''))
@@ -350,14 +351,15 @@ class Boxscore(object):
     @property
     def duration(self):
         """
-        Returns a string of the game's duration in the format 'H:MM'.
+        Returns a ``string`` of the game's duration in the format 'H:MM'.
         """
         return self._duration.replace('Game Duration: ', '')
 
     @property
     def winner(self):
         """
-        Returns a string constant indicating whether the home or away team won.
+        Returns a ``string`` constant indicating whether the home or away team
+        won.
         """
         if self.home_goals > self.away_goals:
             return HOME
@@ -366,7 +368,7 @@ class Boxscore(object):
     @property
     def winning_name(self):
         """
-        Returns a string of the winning team's name, such as 'Vegas Golden
+        Returns a ``string`` of the winning team's name, such as 'Vegas Golden
         Knights'.
         """
         if self.winner == HOME:
@@ -376,7 +378,7 @@ class Boxscore(object):
     @property
     def winning_abbr(self):
         """
-        Returns a string of the winning team's abbreviation, such as 'VEG'
+        Returns a ``string`` of the winning team's abbreviation, such as 'VEG'
         for the Vegas Golden Knights.
         """
         if self.winner == HOME:
@@ -386,7 +388,7 @@ class Boxscore(object):
     @property
     def losing_name(self):
         """
-        Returns a string of the losing team's name, such as 'Washington
+        Returns a ``string`` of the losing team's name, such as 'Washington
         Capitals'.
         """
         if self.winner == HOME:
@@ -396,7 +398,7 @@ class Boxscore(object):
     @property
     def losing_abbr(self):
         """
-        Returns a string of the losing team's abbreviation, such as 'WSH'
+        Returns a ``string`` of the losing team's abbreviation, such as 'WSH'
         for the Washington Capitals.
         """
         if self.winner == HOME:
@@ -406,36 +408,36 @@ class Boxscore(object):
     @property
     def away_goals(self):
         """
-        Returns an int of the number of goals the away team scored.
+        Returns an ``int`` of the number of goals the away team scored.
         """
         return int(self._away_goals)
 
     @property
     def away_assists(self):
         """
-        Returns an int of the number of assists the away team registered.
+        Returns an ``int`` of the number of assists the away team registered.
         """
         return int(self._away_assists)
 
     @property
     def away_points(self):
         """
-        Returns an int of the number of points the away team registered.
+        Returns an ``int`` of the number of points the away team registered.
         """
         return int(self._away_points)
 
     @property
     def away_penalties_in_minutes(self):
         """
-        Returns an int of the length of time the away team spent in the penalty
-        box.
+        Returns an ``int`` of the length of time the away team spent in the
+        penalty box.
         """
         return int(self._away_penalties_in_minutes)
 
     @property
     def away_even_strength_goals(self):
         """
-        Returns an int of the number of goals the away team scored at even
+        Returns an ``int`` of the number of goals the away team scored at even
         strength.
         """
         return int(self._away_even_strength_goals)
@@ -443,23 +445,23 @@ class Boxscore(object):
     @property
     def away_power_play_goals(self):
         """
-        Returns an int of the number of goals the away team scored while on a
-        power play.
+        Returns an ``int`` of the number of goals the away team scored while on
+        a power play.
         """
         return int(self._away_power_play_goals)
 
     @property
     def away_short_handed_goals(self):
         """
-        Returns an int of the number of goals the away team scored while short
-        handed.
+        Returns an ``int`` of the number of goals the away team scored while
+        short handed.
         """
         return int(self._away_short_handed_goals)
 
     @property
     def away_game_winning_goals(self):
         """
-        Returns an int of the number of game winning goals the away team
+        Returns an ``int`` of the number of game winning goals the away team
         scored.
         """
         goals = self._away_game_winning_goals[:self._away_skaters]
@@ -474,8 +476,8 @@ class Boxscore(object):
     @property
     def away_even_strength_assists(self):
         """
-        Returns an int of the number of assists the away team registered while
-        at even strength.
+        Returns an ``int`` of the number of assists the away team registered
+        while at even strength.
         """
         assists = self._away_even_strength_assists[:self._away_skaters]
         num = 0
@@ -489,8 +491,8 @@ class Boxscore(object):
     @property
     def away_power_play_assists(self):
         """
-        Returns an int of the number of assists the away team registered while
-        on a power play.
+        Returns an ``int`` of the number of assists the away team registered
+        while on a power play.
         """
         assists = self._away_power_play_assists[:self._away_skaters]
         num = 0
@@ -504,8 +506,8 @@ class Boxscore(object):
     @property
     def away_short_handed_assists(self):
         """
-        Returns an int of the number of assists the away team registered while
-        short handed.
+        Returns an ``int`` of the number of assists the away team registered
+        while short handed.
         """
         assists = self._away_short_handed_assists[:self._away_skaters]
         num = 0
@@ -519,14 +521,15 @@ class Boxscore(object):
     @property
     def away_shots_on_goal(self):
         """
-        Returns an int of the number of shots on goal the away team registered.
+        Returns an ``int`` of the number of shots on goal the away team
+        registered.
         """
         return int(self._away_shots_on_goal)
 
     @property
     def away_shooting_percentage(self):
         """
-        Returns a float of the away team's shooting percentage. Percentage
+        Returns a ``float`` of the away team's shooting percentage. Percentage
         ranges from 0-100.
         """
         return float(self._away_shooting_percentage)
@@ -534,7 +537,7 @@ class Boxscore(object):
     @property
     def away_saves(self):
         """
-        Returns an int of the number of saves the away team made.
+        Returns an ``int`` of the number of saves the away team made.
         """
         saves = self._away_saves[:self._away_goalies]
         num = 0
@@ -548,7 +551,7 @@ class Boxscore(object):
     @property
     def away_save_percentage(self):
         """
-        Returns a float of the percentage of shots the away team saved.
+        Returns a ``float`` of the percentage of shots the away team saved.
         Percentage ranges from 0-1.
         """
         try:
@@ -560,8 +563,8 @@ class Boxscore(object):
     @property
     def away_shutout(self):
         """
-        Returns an int denoting whether or not the away team shutout the home
-        team.
+        Returns an ``int`` denoting whether or not the away team shutout the
+        home team.
         """
         shutout = self._away_shutout[:self._away_goalies]
         for x in shutout:
@@ -576,36 +579,36 @@ class Boxscore(object):
     @property
     def home_goals(self):
         """
-        Returns an int of the number of goals the home team scored.
+        Returns an ``int`` of the number of goals the home team scored.
         """
         return int(self._home_goals)
 
     @property
     def home_assists(self):
         """
-        Returns an int of the number of assists the home team registered.
+        Returns an ``int`` of the number of assists the home team registered.
         """
         return int(self._home_assists)
 
     @property
     def home_points(self):
         """
-        Returns an int of the number of points the home team registered.
+        Returns an ``int`` of the number of points the home team registered.
         """
         return int(self._home_points)
 
     @property
     def home_penalties_in_minutes(self):
         """
-        Returns an int of the length of time the home team spent in the penalty
-        box.
+        Returns an ``int`` of the length of time the home team spent in the
+        penalty box.
         """
         return int(self._home_penalties_in_minutes)
 
     @property
     def home_even_strength_goals(self):
         """
-        Returns an int of the number of goals the home team scored at even
+        Returns an ``int`` of the number of goals the home team scored at even
         strength.
         """
         return int(self._home_even_strength_goals)
@@ -613,23 +616,23 @@ class Boxscore(object):
     @property
     def home_power_play_goals(self):
         """
-        Returns an int of the number of goals the home team scored while on a
-        power play.
+        Returns an ``int`` of the number of goals the home team scored while on
+        a power play.
         """
         return int(self._home_power_play_goals)
 
     @property
     def home_short_handed_goals(self):
         """
-        Returns an int of the number of goals the home team scored while short
-        handed.
+        Returns an ``int`` of the number of goals the home team scored while
+        short handed.
         """
         return int(self._home_short_handed_goals)
 
     @property
     def home_game_winning_goals(self):
         """
-        Returns an int of the number of game winning goals the home team
+        Returns an ``int`` of the number of game winning goals the home team
         scored.
         """
         goals = self._home_game_winning_goals[self._away_skaters:]
@@ -644,8 +647,8 @@ class Boxscore(object):
     @property
     def home_even_strength_assists(self):
         """
-        Returns an int of the number of assists the home team registered while
-        at even strength.
+        Returns an ``int`` of the number of assists the home team registered
+        while at even strength.
         """
         assists = self._home_even_strength_assists[self._away_skaters:]
         num = 0
@@ -659,8 +662,8 @@ class Boxscore(object):
     @property
     def home_power_play_assists(self):
         """
-        Returns an int of the number of assists the home team registered while
-        on a power play.
+        Returns an ``int`` of the number of assists the home team registered
+        while on a power play.
         """
         assists = self._home_power_play_assists[self._away_skaters:]
         num = 0
@@ -674,8 +677,8 @@ class Boxscore(object):
     @property
     def home_short_handed_assists(self):
         """
-        Returns an int of the number of assists the home team registered while
-        short handed.
+        Returns an ``int`` of the number of assists the home team registered
+        while short handed.
         """
         assists = self._home_short_handed_assists[self._away_skaters:]
         num = 0
@@ -689,14 +692,15 @@ class Boxscore(object):
     @property
     def home_shots_on_goal(self):
         """
-        Returns an int of the number of shots on goal the home team registered.
+        Returns an ``int`` of the number of shots on goal the home team
+        registered.
         """
         return int(self._home_shots_on_goal)
 
     @property
     def home_shooting_percentage(self):
         """
-        Returns a float of the home team's shooting percentage. Percentage
+        Returns a ``float`` of the home team's shooting percentage. Percentage
         ranges from 0-100.
         """
         return float(self._home_shooting_percentage)
@@ -704,7 +708,7 @@ class Boxscore(object):
     @property
     def home_saves(self):
         """
-        Returns an int of the number of saves the home team made.
+        Returns an ``int`` of the number of saves the home team made.
         """
         saves = self._home_saves[self._away_goalies:]
         num = 0
@@ -718,7 +722,7 @@ class Boxscore(object):
     @property
     def home_save_percentage(self):
         """
-        Returns a float of the percentage of shots the home team saved.
+        Returns a ``float`` of the percentage of shots the home team saved.
         Percentage ranges from 0-1.
         """
         try:
@@ -730,8 +734,8 @@ class Boxscore(object):
     @property
     def home_shutout(self):
         """
-        Returns an int denoting whether or not the home team shutout the home
-        team.
+        Returns an ``int`` denoting whether or not the home team shutout the
+        home team.
         """
         shutout = self._home_shutout[self._away_goalies:]
         for x in shutout:
@@ -770,33 +774,27 @@ class Boxscores:
     @property
     def games(self):
         """
-        Retrieve a list of all games played on a given day.
+        Returns a ``dictionary`` object representing all of the games played on
+        the requested day. Dictionary is in the following format::
 
-        Returns a dictionary object containing all of the games that are
-        scheduled on the requested day.
-
-        Returns
-        -------
-            Returns a dictionary object representing the games played on the
-            requested day. Dictionary is in the following format:
             {'boxscores' : [
-                {'home_name': <Name of the home team, such as 'New York
-                               Rangers'>,
-                 'home_abbr': <Abbreviation for the home team, such as
-                               'NYR'>,
-                 'away_name': <Name of the away team, such as 'Boston
-                               Bruins'>,
-                 'away_abbr': <Abbreviation for the away team, such as
-                               'BOS'>,
-                 'boxscore': <String representing the boxscore URI, such as
-                              '201702040VAN'>,
+                {'home_name': Name of the home team, such as 'New York
+                              Rangers' (`str`),
+                 'home_abbr': Abbreviation for the home team, such as
+                              'NYR' (`str`),
+                 'away_name': Name of the away team, such as 'Boston
+                              Bruins' (`str`),
+                 'away_abbr': Abbreviation for the away team, such as
+                              'BOS' (`str`),
+                 'boxscore': String representing the boxscore URI, such as
+                             '201702040VAN' (`str`)},
                 { ... },
                 ...
                 ]
             }
 
-            If no games were played during the requested day, the list for
-            ['boxscores'] will be empty.
+        If no games were played during the requested day, the list for
+        ['boxscores'] will be empty.
         """
         return self._boxscores
 
@@ -816,7 +814,8 @@ class Boxscores:
         Returns
         -------
         string
-            Returns a string of the boxscore URL including the requested date.
+            Returns a ``string`` of the boxscore URL including the requested
+            date.
         """
         return BOXSCORES_URL % (date.month, date.day, date.year)
 
@@ -856,7 +855,8 @@ class Boxscores:
         Returns
         -------
         string
-            Returns a string containing the link to the game's boxscore page.
+            Returns a ``string`` containing the link to the game's boxscore
+            page.
         """
         uri = re.sub(r'.*/boxscores/', '', str(url))
         uri = re.sub(r'\.html.*', '', uri).strip()
@@ -876,7 +876,7 @@ class Boxscores:
         Returns
         -------
         string
-            Returns a string of the team's abbreviation.
+            Returns a ``string`` of the team's abbreviation.
         """
         abbr = re.sub(r'.*/teams/', '', str(abbr))
         abbr = re.sub(r'/.*', '', abbr)
@@ -948,9 +948,9 @@ class Boxscores:
         Returns
         -------
         list
-            Returns a list of dictionaries where each dictionary contains the
-            name and abbreviations for both the home and away teams, and a link
-            to the game's boxscore.
+            Returns a ``list`` of dictionaries where each dictionary contains
+            the name and abbreviations for both the home and away teams, and a
+            link to the game's boxscore.
         """
         all_boxscores = []
 
