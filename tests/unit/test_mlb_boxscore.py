@@ -242,3 +242,34 @@ Second game of doubleheader
         result = self.boxscore._parse_game_date_and_location('time', m)
 
         assert result == ''
+
+    def test_invalid_away_inherited_runners_returns_default(self):
+        mock_runners = PropertyMock(return_value='')
+        type(self.boxscore)._away_inherited_runners = mock_runners
+
+        assert self.boxscore.away_inherited_runners == 0
+
+    def test_invalid_away_inherited_score_returns_default(self):
+        mock_score = PropertyMock(return_value='')
+        type(self.boxscore)._away_inherited_score = mock_score
+
+        assert self.boxscore.away_inherited_score == 0
+
+    def test_invalid_home_inherited_runners_returns_default(self):
+        mock_runners = PropertyMock(return_value='')
+        type(self.boxscore)._home_inherited_runners = mock_runners
+
+        assert self.boxscore.home_inherited_runners == 0
+
+    def test_invalid_home_inherited_score_returns_default(self):
+        mock_score = PropertyMock(return_value='')
+        type(self.boxscore)._home_inherited_score = mock_score
+
+        assert self.boxscore.home_inherited_score == 0
+
+    def test_no_class_information_returns_dataframe_of_none(self):
+        mock_runs = PropertyMock(return_value=None)
+        type(self.boxscore)._away_runs = mock_runs
+        type(self.boxscore)._home_runs = mock_runs
+
+        assert self.boxscore.dataframe is None

@@ -183,7 +183,7 @@ class Boxscore(object):
                         if 'night game' in element.lower() or \
                            'day game' in element.lower():
                             return element
-                        continue
+                        continue  # pragma: no cover
                     matcher = DOUBLE_HEADER_INDICES[field]
                     if matcher in element.lower():
                         return element

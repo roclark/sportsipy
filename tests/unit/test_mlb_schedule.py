@@ -1,3 +1,4 @@
+import pytest
 from datetime import datetime
 from flexmock import flexmock
 from mock import PropertyMock
@@ -6,7 +7,7 @@ from sportsreference.constants import (AWAY,
                                        LOSS,
                                        WIN)
 from sportsreference.mlb.constants import DAY, NIGHT
-from sportsreference.mlb.schedule import Game
+from sportsreference.mlb.schedule import Game, Schedule
 
 
 class TestMLBSchedule:
@@ -108,3 +109,29 @@ class TestMLBSchedule:
         type(self.game)._day_or_night = fake_day
 
         assert self.game.day_or_night == NIGHT
+
+    def test_empty_game_class_returns_dataframe_of_none(self):
+        assert self.game._runs_allowed is None
+        assert self.game._runs_scored is None
+        assert self.game.dataframe is None
+
+    def test_empty_boxscore_class_returns_dataframe_of_none(self):
+        assert self.game._runs_allowed is None
+        assert self.game._runs_scored is None
+        assert self.game.dataframe_extended is None
+
+    def test_invalid_dataframe_not_included_with_schedule_dataframes(self):
+        # If a DataFrame is not valid, it should not be included with the
+        # dataframes property. If no dataframes are present, a ValueError
+        # should be raised.
+        flexmock(Schedule) \
+            .should_receive('_pull_schedule') \
+            .and_return(None)
+        schedule = Schedule('HOU')
+
+        fake_game = flexmock(_runs_scored=None, _runs_allowed=None)
+        fake_games = PropertyMock(return_value=fake_game)
+        type(schedule).__iter__ = fake_games
+
+        with pytest.raises(ValueError):
+            schedule.dataframe

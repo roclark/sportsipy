@@ -339,7 +339,7 @@ class Game(object):
         return self._streak
 
 
-class Schedule:
+class Schedule(object):
     """
     An object of the given team's schedule.
 
