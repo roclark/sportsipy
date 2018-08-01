@@ -127,6 +127,24 @@ class TestNCAABSchedule:
 
         assert self.game.overtimes == 0
 
+    def test_empty_schedule_class_returns_dataframe_of_none(self):
+        fake_points = PropertyMock(return_value=None)
+        type(self.game)._home_points = fake_points
+        type(self.game)._away_points = fake_points
+
+        assert self.game._home_points is None
+        assert self.game._away_points is None
+        assert self.game.dataframe is None
+
+    def test_empty_schedule_class_returns_dataframe_extended_of_none(self):
+        fake_points = PropertyMock(return_value=None)
+        type(self.game)._home_points = fake_points
+        type(self.game)._away_points = fake_points
+
+        assert self.game._home_points is None
+        assert self.game._away_points is None
+        assert self.game.dataframe_extended is None
+
 
 class TestNCAABScheduleNames:
     def test_non_major_school_returns_name_for_abbreviation(self):

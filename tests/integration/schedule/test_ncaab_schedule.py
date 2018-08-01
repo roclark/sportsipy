@@ -1,6 +1,7 @@
 import mock
 import os
 import pandas as pd
+import pytest
 from datetime import datetime
 from flexmock import flexmock
 from sportsreference import utils
@@ -140,3 +141,7 @@ class TestNCAABSchedule:
         result = self.schedule.dataframe_extended
 
         assert len(result) == NUM_GAMES_IN_SCHEDULE
+
+    def test_no_games_for_date_raises_value_error(self):
+        with pytest.raises(ValueError):
+            self.schedule(datetime.now())

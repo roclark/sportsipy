@@ -316,3 +316,12 @@ class TestNCAABBoxscore:
         type(self.boxscore)._away_free_throw_percentage = fake_percentage
 
         assert self.boxscore.away_free_throw_percentage == 0.0
+
+    def test_empty_boxscore_class_returns_dataframe_of_none(self):
+        fake_points = PropertyMock(return_value=None)
+        type(self.boxscore)._home_points = fake_points
+        type(self.boxscore)._away_points = fake_points
+
+        assert self.boxscore._home_points is None
+        assert self.boxscore._away_points is None
+        assert self.boxscore.dataframe is None
