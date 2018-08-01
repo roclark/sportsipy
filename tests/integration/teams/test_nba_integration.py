@@ -1,6 +1,7 @@
 import mock
 import os
 import pandas as pd
+import pytest
 from flexmock import flexmock
 from sportsreference import utils
 from sportsreference.nba.constants import SEASON_PAGE_URL
@@ -136,3 +137,7 @@ class TestNBAIntegration:
 
         assert len(result) == len(self.abbreviations)
         assert set(result.columns.values) == set(self.results.keys())
+
+    def test_nba_invalid_team_name_raises_value_error(self):
+        with pytest.raises(ValueError):
+            self.teams('INVALID_NAME')

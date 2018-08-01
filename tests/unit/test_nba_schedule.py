@@ -38,3 +38,8 @@ class TestNBASchedule:
         type(self.game)._result = fake_result
 
         assert self.game.result == LOSS
+
+    def test_empty_game_class_returns_dataframe_of_none(self):
+        assert self.game._points_allowed is None
+        assert self.game._points_scored is None
+        assert self.game.dataframe is None

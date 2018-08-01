@@ -173,3 +173,10 @@ class TestNBABoxscore:
         result = Boxscore(None)._retrieve_html_page('')
 
         assert result is None
+
+    def test_no_class_information_returns_dataframe_of_none(self):
+        mock_points = PropertyMock(return_value=None)
+        type(self.boxscore)._away_points = mock_points
+        type(self.boxscore)._home_points = mock_points
+
+        assert self.boxscore.dataframe is None
