@@ -98,3 +98,8 @@ class TestNFLSchedule:
         type(self.game)._week = fake_week
 
         assert self.game.week == SUPER_BOWL
+
+    def test_empty_game_class_returns_dataframe_of_none(self):
+        assert self.game._points_scored is None
+        assert self.game._points_allowed is None
+        assert self.game.dataframe is None

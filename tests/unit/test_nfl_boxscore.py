@@ -13,13 +13,15 @@ class MockName:
         return self._name
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, status_code=404):
     class MockPQ:
-        def __init__(self, html_contents):
-            self.status_code = 404
+        def __init__(self, html_contents, status_code=404):
+            self.status_code = status_code
             self.html_contents = html_contents
             self.text = html_contents
 
+    if url == '404':
+        return MockPQ('404 error', 200)
     boxscore = read_file('%s.html' % BOXSCORE)
     return MockPQ(boxscore)
 
@@ -145,7 +147,20 @@ class TestNFLBoxscore:
 
         assert self.boxscore.losing_abbr == expected_name
 
-    def test_invalid_url_returns_none(self):
+    @patch('requests.get', side_effect=mock_pyquery)
+    def test_invalid_url_returns_none(self, *args, **kwargs):
         result = Boxscore(None)._retrieve_html_page('')
 
         assert result is None
+
+    def test_url_404_page_returns_none(self):
+        result = Boxscore(None)._retrieve_html_page('404')
+
+        assert result is None
+
+    def test_no_class_information_returns_dataframe_of_none(self):
+        mock_points = PropertyMock(return_value=None)
+        type(self.boxscore)._home_points = mock_points
+        type(self.boxscore)._away_points = mock_points
+
+        assert self.boxscore.dataframe is None
