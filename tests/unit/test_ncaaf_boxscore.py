@@ -143,6 +143,8 @@ class TestNCAAFBoxscore:
         type(self.boxscore).winner = fake_winner
         type(self.boxscore)._home_name = fake_home_name
 
+        assert self.boxscore.winning_abbr == expected_name
+
     def test_winning_abbr_di_is_away(self):
         expected_name = 'AWAY'
         test_name = '<a>cfb/schools</a>AWAY'
@@ -387,3 +389,12 @@ Logos via Sports Logos.net / About logos
         for field, value in fields.items():
             result = self.boxscore._parse_game_date_and_location(field, m)
             assert result == value
+
+    def test_empty_boxscore_class_returns_dataframe_of_none(self):
+        fake_points = PropertyMock(return_value=None)
+        type(self.boxscore)._home_points = fake_points
+        type(self.boxscore)._away_points = fake_points
+
+        assert self.boxscore._home_points is None
+        assert self.boxscore._away_points is None
+        assert self.boxscore.dataframe is None

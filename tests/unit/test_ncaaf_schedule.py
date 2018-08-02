@@ -1,3 +1,4 @@
+import pytest
 from datetime import datetime
 from flexmock import flexmock
 from mock import PropertyMock
@@ -82,6 +83,11 @@ class TestNCAAFSchedule:
         type(self.game)._time = fake_time
 
         assert self.game.datetime == datetime(2017, 8, 31)
+
+    def test_empty_game_class_returns_dataframe_of_none(self):
+        assert self.game._points_for is None
+        assert self.game._points_against is None
+        assert self.game.dataframe is None
 
 
 class TestNCAAFScheduleNames:

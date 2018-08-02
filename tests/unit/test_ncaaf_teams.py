@@ -1,6 +1,6 @@
 from flexmock import flexmock
 from mock import PropertyMock
-from pyquery import PyQuery as pq
+from sportsreference.ncaaf.schedule import Schedule
 from sportsreference.ncaaf.teams import Team
 
 
@@ -29,3 +29,12 @@ class TestNCAAFTeams:
         type(self.team)._conference_win_percentage = fake_conf_win_percentage
 
         assert self.team.conference_win_percentage == 0
+
+    def test_ncaaf_schedule_returns_schedule(self):
+        flexmock(Schedule) \
+            .should_receive('_pull_schedule') \
+            .and_return(None)
+
+        team = Team(None, 1)
+
+        assert len(team.schedule) == 0
