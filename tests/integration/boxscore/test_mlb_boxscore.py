@@ -238,6 +238,6 @@ class TestMLBBoxscores:
             ]
         }
 
-        result = Boxscores(datetime(2017, 7, 17)).games()
+        result = Boxscores(datetime(2017, 7, 17)).games
 
         assert result == expected

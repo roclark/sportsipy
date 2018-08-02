@@ -844,6 +844,7 @@ class Boxscores:
 
         self._find_games(week, year)
 
+    @property
     def games(self):
         """
         Retrieve a list of all games played on a given day.

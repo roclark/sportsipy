@@ -645,6 +645,6 @@ class TestNCAAFBoxscores:
             ]
         }
 
-        result = Boxscores(datetime(2017, 8, 30)).games()
+        result = Boxscores(datetime(2017, 8, 30)).games
 
         assert result == expected

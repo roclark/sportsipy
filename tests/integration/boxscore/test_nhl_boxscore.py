@@ -197,6 +197,6 @@ class TestNHLBoxscores:
             ]
         }
 
-        result = Boxscores(datetime(2017, 2, 4)).games()
+        result = Boxscores(datetime(2017, 2, 4)).games
 
         assert result == expected

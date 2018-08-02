@@ -390,6 +390,6 @@ class TestNCAABBoxscores:
             ]
         }
 
-        result = Boxscores(datetime(2017, 11, 11)).games()
+        result = Boxscores(datetime(2017, 11, 11)).games
 
         assert result == expected

@@ -222,6 +222,6 @@ class TestNFLBoxscores:
             ]
         }
 
-        result = Boxscores(7, 2017).games()
+        result = Boxscores(7, 2017).games
 
         assert result == expected

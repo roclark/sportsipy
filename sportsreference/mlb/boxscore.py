@@ -1050,6 +1050,7 @@ class Boxscores:
 
         self._find_games(date)
 
+    @property
     def games(self):
         """
         Retrieve a list of all games played on a given day.
