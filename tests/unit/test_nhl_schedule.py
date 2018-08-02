@@ -229,3 +229,8 @@ class TestNHLSchedule:
         type(self.game)._pdo = fake_pdo
 
         assert self.game.pdo == 0.0
+
+    def test_empty_game_class_returns_dataframe_of_none(self):
+        assert self.game._goals_scored is None
+        assert self.game._goals_allowed is None
+        assert self.game.dataframe is None

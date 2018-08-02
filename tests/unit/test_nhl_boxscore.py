@@ -435,3 +435,10 @@ Logos via Sports Logos.net / About logos
         type(self.boxscore).away_shots_on_goal = fake_shots_on_goal
 
         assert self.boxscore.home_save_percentage == 0.0
+
+    def test_no_class_information_returns_dataframe_of_none(self):
+        mock_goals = PropertyMock(return_value=None)
+        type(self.boxscore)._away_goals = mock_goals
+        type(self.boxscore)._home_goals = mock_goals
+
+        assert self.boxscore.dataframe is None
