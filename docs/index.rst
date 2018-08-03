@@ -41,7 +41,7 @@ Print every NBA team's name and abbreviation
 
     teams = Teams()
     for team in teams:
-        print team.name, team.abbreviation
+        print(team.name, team.abbreviation)
 
 Get a specific NFL team's season information
 --------------------------------------------
@@ -62,7 +62,7 @@ Print the date of every game for a NCAA Men's Basketball team
 
     purdue_schedule = Schedule('purdue')
     for game in purdue_schedule:
-        print game.date
+        print(game.date)
 
 Print the number of interceptions by the away team in a NCAA Football game
 --------------------------------------------------------------------------
@@ -72,7 +72,7 @@ Print the number of interceptions by the away team in a NCAA Football game
     from sportsreference.ncaaf.boxscore import Boxscore
 
     championship_game = Boxscore('2018-01-08-georgia')
-    print championship_game.away_interceptions
+    print(championship_game.away_interceptions)
 
 Print the attendance at an MLB game
 -----------------------------------
@@ -82,7 +82,7 @@ Print the attendance at an MLB game
     from sportsreference.mlb.boxscore import Boxscore
 
     game = Boxscore('BOS201806070')
-    print game.attendance
+    print(game.attendance)
 
 .. toctree::
    :maxdepth: 4
