@@ -5,6 +5,8 @@ Sportsreference: A free sports API written for python
 .. image:: https://readthedocs.org/projects/sportsreference/badge/?version=latest
     :target: https://sportsreference.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
+.. image:: https://img.shields.io/pypi/v/sportsreference.svg
+    :target: https://pypi.org/project/sportsreference
 
 .. contents::
 
