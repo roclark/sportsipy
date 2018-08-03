@@ -26,24 +26,21 @@ class Game(object):
 
     Stores all relevant high-level match information for a game in a team's
     schedule including date, time, opponent, and result.
+
+    Parameters
+    ----------
+    game_data : string
+        The row containing the specified game's information.
+    game_type : string
+        A constant to denote whether a game took place in the regular
+        season or in the playoffs.
+    year : string
+        The year as a 4-digit string. Note that this is the year that the
+        bulk of the season took place. For example the Super Bowl for the
+        2017 season took place in early Feburary 2018, but 2017 should be
+        passed as that was the year the bulk of the season was played in.
     """
     def __init__(self, game_data, game_type, year):
-        """
-        Parse all of the attributes located in the HTML data.
-
-        Parameters
-        ----------
-        game_data : string
-            The row containing the specified game's information.
-        game_type : string
-            A constant to denote whether a game took place in the regular
-            season or in the playoffs.
-        year : string
-            The year as a 4-digit string. Note that this is the year that the
-            bulk of the season took place. For example the Super Bowl for the
-            2017 season took place in early Feburary 2018, but 2017 should be
-            passed as that was the year the bulk of the season was played in.
-        """
         self._year = year
         self._week = None
         self._day = None
@@ -535,18 +532,15 @@ class Schedule:
 
     Generates a team's schedule for the season including wins, losses, and
     scores if applicable.
+
+    Parameters
+    ----------
+    abbreviation : string
+        A team's short name, such as 'NWE' for the New England Patriots.
+    year : string (optional)
+        The requested year to pull stats from.
     """
     def __init__(self, abbreviation, year=None):
-        """
-        Pull the teams schedule and analyze the games.
-
-        Parameters
-        ----------
-        abbreviation : string
-            A team's short name, such as 'NWE' for the New England Patriots.
-        year : string (optional)
-            The requested year to pull stats from.
-        """
         self._games = []
         self._pull_schedule(abbreviation, year)
 

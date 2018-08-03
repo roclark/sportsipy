@@ -19,17 +19,14 @@ class Boxscore(object):
     Stores all relevant information for a game such as the date, time,
     location, result, and more advanced metrics such as the number of strikes,
     a pitcher's influence on the game, the number of putouts and much more.
+
+    Parameters
+    ----------
+    uri : string
+        The relative link to the boxscore HTML page, such as
+        'BOS/BOS201806070'.
     """
     def __init__(self, uri):
-        """
-        Parse all of the attributes located in the HTML data.
-
-        Parameters
-        ----------
-        uri : string
-            The relative link to the boxscore HTML page, such as
-            'BOS/BOS201806070'.
-        """
         self._uri = uri
         self._date = None
         self._time = None
@@ -1047,17 +1044,14 @@ class Boxscores:
     particular day. Output includes a link to the boxscore, and the names and
     abbreviations for both the home teams. If no games are played on a
     particular day, the list will be empty.
+
+    Parameters
+    ----------
+    date : datetime object
+        The date to search for any matches. The month, day, and year are
+        required for the search, but time is not factored into the search.
     """
     def __init__(self, date):
-        """
-        Search for any MLB games scheduled for the requested date.
-
-        Parameters
-        ----------
-        date : datetime object
-            The date to search for any matches. The month, day, and year are
-            required for the search, but time is not factored into the search.
-        """
         self._boxscores = {'boxscores': []}
 
         self._find_games(date)

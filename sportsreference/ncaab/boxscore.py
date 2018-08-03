@@ -17,17 +17,14 @@ class Boxscore(object):
     Stores all relevant metrics for a game such as the date, time, location,
     result, and more advanced metrics such as the effective field goal rate,
     the true shooting percentage, the game's pace, and much more.
+
+    Parameters
+    ----------
+    uri : string
+        The relative link to the boxscore HTML page, such as
+        '2017-11-10-21-kansas'.
     """
     def __init__(self, uri):
-        """
-        Parse all of the attributes located in the HTML data.
-
-        Parameters
-        ----------
-        uri : string
-            The relative link to the boxscore HTML page, such as
-            '2017-11-10-21-kansas'.
-        """
         self._uri = uri
         self._date = None
         self._location = None
@@ -1070,17 +1067,14 @@ class Boxscores:
     which indicates if the game is between two Division-I teams or not, and the
     names and abbreviations for both the home teams. If no games are played on
     a particular day, the list will be empty.
+
+    Parameters
+    ----------
+    date : datetime object
+        The date to search for any matches. The month, day, and year are
+        required for the search, but time is not factored into the search.
     """
     def __init__(self, date):
-        """
-        Search for any NCAAB games scheduled for the requested date.
-
-        Parameters
-        ----------
-        date : datetime object
-            The date to search for any matches. The month, day, and year are
-            required for the search, but time is not factored into the search.
-        """
         self._boxscores = {'boxscores': []}
 
         self._find_games(date)

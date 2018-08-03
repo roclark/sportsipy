@@ -23,18 +23,15 @@ class Game(object):
 
     Stores all relevant high-level match information for a game in a team's
     schedule including date, time, opponent, and result.
+
+    Parameters
+    ----------
+    game_data : string
+        The row containing the specified game information.
+    year : string
+        The year of the current season.
     """
     def __init__(self, game_data, year):
-        """
-        Parse all of the attributes located in the HTML data.
-
-        Parameters
-        ----------
-        game_data : string
-            The row containing the specified game information.
-        year : string
-            The year of the current season.
-        """
         self._game = None
         self._date = None
         self._datetime = None
@@ -350,18 +347,15 @@ class Schedule(object):
 
     Generates a team's schedule for the season including wins, losses, and
     scores if applicable.
+
+    Parameters
+    ----------
+    abbreviation : string
+        A team's short name, such as 'HOU' for the Houston Astros.
+    year : string (optional)
+        The requested year to pull stats from.
     """
     def __init__(self, abbreviation, year=None):
-        """
-        Pull the teams schedule and analyze the games.
-
-        Parameters
-        ----------
-        abbreviation : string
-            A team's short name, such as 'HOU' for the Houston Astros.
-        year : string (optional)
-            The requested year to pull stats from.
-        """
         self._games = []
         self._pull_schedule(abbreviation, year)
 

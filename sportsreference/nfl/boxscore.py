@@ -17,17 +17,14 @@ class Boxscore(object):
     Stores all relevant information for a game such as the date, time,
     location, result, and more advanced metrics such as the number of yards
     from sacks, a team's passing completion, rushing touchdowns and much more.
+
+    Parameters
+    ----------
+    uri : string
+        The relative link to the boxscore HTML page, such as
+        '201802040nwe'.
     """
     def __init__(self, uri):
-        """
-        Parse all of the attributes located in the HTML data.
-
-        Parameters
-        ----------
-        uri : string
-            The relative link to the boxscore HTML page, such as
-            '201802040nwe'.
-        """
         self._uri = uri
         self._date = None
         self._time = None
@@ -834,18 +831,15 @@ class Boxscores:
     particular day. Output includes a link to the boxscore, and the names and
     abbreviations for both the home teams. If no games are played on a
     particular day, the list will be empty.
+
+    Parameters
+    ----------
+    week : int
+        The week number to pull games from.
+    year : int
+        The 4-digit year to pull games from.
     """
     def __init__(self, week, year):
-        """
-        Search for any NFL games scheduled for the requested date.
-
-        Parameters
-        ----------
-        week : int
-            The week number to pull games from.
-        year : int
-            The 4-digit year to pull games from.
-        """
         self._boxscores = {'boxscores': []}
 
         self._find_games(week, year)

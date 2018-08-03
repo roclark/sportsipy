@@ -17,24 +17,17 @@ class Team:
     Finds and parses all team stat information and identifiers, such as full
     and short names, and sets them as properties which can be directly read
     from for easy reference.
+
+    Parameters
+    ----------
+    team_data : string
+        A string containing all of the rows of stats for a given team. If
+        multiple tables are being referenced, this will be comprised of
+        multiple rows in a single string.
+    year : string (optional)
+        The requested year to pull stats from.
     """
     def __init__(self, team_data, year=None):
-        """
-        Parse all of the attributes located in the HTML data.
-
-        Once Team is invoked, it parses all of the listed attributes for the
-        team which can be found in the passed HTML data. All attributes below
-        are properties which can be directly read for easy reference.
-
-        Parameters
-        ----------
-        team_data : string
-            A string containing all of the rows of stats for a given team. If
-            multiple tables are being referenced, this will be comprised of
-            multiple rows in a single string.
-        year : string (optional)
-            The requested year to pull stats from.
-        """
         self._year = year
         self._abbreviation = None
         self._name = None
@@ -850,19 +843,13 @@ class Teams:
     www.sports-reference.com and creates a Team instance for every team that
     participated in the league in a given year. The Team class comprises a list
     of all major stats and a few identifiers for the requested season.
+
+    Parameters
+    ----------
+    year : string (optional)
+        The requested year to pull stats from.
     """
     def __init__(self, year=None):
-        """
-        Get a list of all Team instances
-
-        Once Teams is invoked, it retrieves a list of all NCAAB teams in the
-        desired season and adds them to the '_teams' attribute.
-
-        Parameters
-        ----------
-        year : string (optional)
-            The requested year to pull stats from.
-        """
         self._teams = []
 
         self._retrieve_all_teams(year)
