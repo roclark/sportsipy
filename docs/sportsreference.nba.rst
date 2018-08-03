@@ -5,9 +5,6 @@ The NBA package offers multiple modules which can be use to retrieve information
 and statistics for the National Basketball Association, such as team names,
 season stats, game schedules, and boxscore metrics.
 
-Submodules
-----------
-
 sportsreference.nba.boxscore module
 -----------------------------------
 

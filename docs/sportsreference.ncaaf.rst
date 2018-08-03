@@ -5,9 +5,6 @@ The NCAAF package offers multiple modules which can be used to retrieve
 information and statistics for Division-I College Football, such as team names,
 season stats, game schedules, and boxscore metrics.
 
-Submodules
-----------
-
 sportsreference.ncaaf.boxscore module
 -------------------------------------
 

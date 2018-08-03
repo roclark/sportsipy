@@ -5,9 +5,6 @@ The MLB package offers multiple modules which can be used to retrieve
 information and statistics for Major League Baseball, such as team names,
 season stats, game schedules, and boxscore metrics.
 
-Submodules
-----------
-
 sportsreference.mlb.boxscore module
 -----------------------------------
 
