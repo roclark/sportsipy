@@ -81,15 +81,15 @@ Print the number of interceptions by the away team in a NCAA Football game
     championship_game = Boxscore('2018-01-08-georgia')
     print(championship_game.away_interceptions)
 
-Print the attendance at an MLB game
------------------------------------
+Get a Pandas DataFrame of all stats for a MLB game
+--------------------------------------------------
 
 .. code-block:: python
 
     from sportsreference.mlb.boxscore import Boxscore
 
     game = Boxscore('BOS201806070')
-    print(game.attendance)
+    df = game.dataframe
 
 Documentation
 =============
