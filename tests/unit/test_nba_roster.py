@@ -1,6 +1,19 @@
 from flexmock import flexmock
 from mock import patch, PropertyMock
-from sportsreference.nba.roster import Player
+from sportsreference.nba.roster import cleanup, Player
+
+
+class MockItem:
+    def attr(self, item):
+        return 'contracts_'
+
+
+class MockInfo:
+    def __call__(self, item):
+        return self
+
+    def items(self):
+        return [MockItem()]
 
 
 def mock_pyquery(url):
@@ -13,7 +26,7 @@ def mock_pyquery(url):
     return MockPQ(None)
 
 
-class TestNBARoster:
+class TestNBAPlayer:
     def setup_method(self):
         flexmock(Player) \
             .should_receive('_parse_player_data') \
@@ -42,3 +55,29 @@ class TestNBARoster:
         result = Player(None)._retrieve_html_page()
 
         assert result is None
+
+    def test_cleanup_of_none_returns_default(self):
+        result = cleanup(None)
+
+        assert result == ''
+
+    def test_empty_contract_is_none(self):
+        player_info = MockInfo()
+
+        flexmock(Player) \
+            .should_receive('_parse_contract_headers') \
+            .and_return(None)
+
+        flexmock(Player) \
+            .should_receive('_parse_contract_wages') \
+            .and_return(None)
+
+        flexmock(Player) \
+            .should_receive('_combine_contract') \
+            .and_return({})
+
+        player = Player(None)
+
+        result = player._parse_contract(player_info)
+
+        assert player._contract is None

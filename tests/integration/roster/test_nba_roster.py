@@ -1,8 +1,11 @@
 import mock
 import os
 import pandas as pd
+import pytest
 from datetime import datetime
-from sportsreference.nba.roster import Player
+from flexmock import flexmock
+from sportsreference import utils
+from sportsreference.nba.roster import Player, Roster
 
 
 def read_file(filename):
@@ -12,15 +15,25 @@ def read_file(filename):
 
 def mock_pyquery(url):
     class MockPQ:
-        def __init__(self, html_contents):
-            self.status_code = 200
+        def __init__(self, html_contents, status=200):
+            self.status_code = status
             self.html_contents = html_contents
             self.text = html_contents
 
+    if 'HOU' in url:
+        return MockPQ(read_file('2018'))
+    if 'anderry01' in url:
+        return MockPQ(read_file('anderry01'))
+    if 'arizatr01' in url:
+        return MockPQ(read_file('arizatr01'))
+    if 'blackta01' in url:
+        return MockPQ(read_file('blackta01'))
+    if 'BAD' in url:
+        return MockPQ(None, 404)
     return MockPQ(read_file('hardeja01'))
 
 
-class TestNBARoster:
+class TestNBAPlayer:
     @mock.patch('requests.get', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results_career = {
@@ -1150,3 +1163,23 @@ class TestNBARoster:
         # duplicates, and they are equal.
         frames = [df, player.dataframe]
         df1 = pd.concat(frames).drop_duplicates(keep=False)
+
+
+class TestNBARoster:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_pulls_all_player_stats(self, *args, **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('HOU')
+
+        assert len(roster.players) == 4
+
+        for player in roster.players:
+            assert player.name in ['James Harden', 'Tarik Black',
+                                   'Ryan Anderson', 'Trevor Ariza']
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_bad_url_raises_value_error(self, *args, **kwargs):
+        with pytest.raises(ValueError):
+            roster = Roster('BAD')

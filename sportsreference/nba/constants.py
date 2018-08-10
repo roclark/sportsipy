@@ -411,3 +411,5 @@ BOXSCORES_URL = ('https://www.basketball-reference.com/boxscores/'
                  '?month=%s&day=%s&year=%s')
 
 PLAYER_URL = 'https://www.basketball-reference.com/players/%s/%s.html'
+
+ROSTER_URL = 'https://www.basketball-reference.com/teams/%s/%s.html'
