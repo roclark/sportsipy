@@ -6,6 +6,7 @@ from datetime import datetime
 from flexmock import flexmock
 from sportsreference import utils
 from sportsreference.nba.roster import Player, Roster
+from sportsreference.nba.teams import Team
 
 
 def read_file(filename):
@@ -1183,3 +1184,20 @@ class TestNBARoster:
     def test_bad_url_raises_value_error(self, *args, **kwargs):
         with pytest.raises(ValueError):
             roster = Roster('BAD')
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_from_team_class(self, *args, **kwargs):
+        flexmock(Team) \
+            .should_receive('_parse_team_data') \
+            .and_return(None)
+        team = Team(None, 1, '2018')
+        mock_abbreviation = mock.PropertyMock(return_value='HOU')
+        type(team)._abbreviation = mock_abbreviation
+
+        assert len(team.roster.players) == 4
+
+        for player in team.roster.players:
+            assert player.name in ['James Harden', 'Tarik Black',
+                                   'Ryan Anderson', 'Trevor Ariza']
+
+        type(team)._abbreviation = None
