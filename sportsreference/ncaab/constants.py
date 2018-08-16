@@ -232,6 +232,15 @@ BOXSCORE_ELEMENT_INDEX = {
     'home_defensive_rating': 1
 }
 
+RANKINGS_SCHEME = {
+    'name': 'td[data-stat="school_name"]',
+    'week': 'th[data-stat="week_poll"]',
+    'date': 'td[data-stat="date_poll"]',
+    'rank': 'td[data-stat="rank"]',
+    'previous': 'td[data-stat="rank_prev"]',
+    'change': 'td[data-stat="rank_diff"]'
+}
+
 BASIC_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'
                    '%s-school-stats.html')
 BASIC_OPPONENT_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'
@@ -246,6 +255,7 @@ SCHEDULE_URL = ('http://www.sports-reference.com/cbb/schools/%s/'
 BOXSCORE_URL = 'http://www.sports-reference.com/cbb/boxscores/%s.html'
 BOXSCORES_URL = ('https://www.sports-reference.com/cbb/boxscores/index.cgi?'
                  'month=%s&day=%s&year=%s')
+RANKINGS_URL = 'https://www.sports-reference.com/cbb/seasons/%s-polls.html'
 
 NCAA_TOURNAMENT = 'NCAA'
 NIT_TOURNAMENT = 'NIT'
