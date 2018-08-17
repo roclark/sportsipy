@@ -9,3 +9,10 @@
 build*
 dist*
 sportsreference.egg-info*
+
+# VirtualEnv
+bin/*
+include/*
+lib/*
+man/*
+pip-selfcheck.json
