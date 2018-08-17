@@ -42,6 +42,38 @@ abbreviations for each matchup as well as the boxscore link if applicable.
     :undoc-members:
     :show-inheritance:
 
+sportsreference.ncaab.conferences module
+---------------------------------------
+
+The Conference module allows conferences to be pulled for any season using the
+``Conferences`` class. Accessing the class properties exposes various
+dictionaries containing the team and conference abbreviations as well as other
+information. To get a list of conference abbreviations for each team, query the
+``team_conference`` property.
+
+.. code-block:: python
+
+    from sportsreference.ncaab.conferences import Conferences
+
+    conferences = Conferences()
+    # Prints a dictionary of the team abbrevation as a key and conference
+    # abbreviation as the value.
+    print(conferences.team_conference)
+
+The ``conferences`` property can also be queried by to provide more details on
+the teams in every conference.
+
+.. code-block:: python
+
+    from sportsreference.ncaab.conferences import Conferences
+
+    conferences = Conferences()
+    # Prints a dictionary where each key is the conference abbreviation and
+    # each value is a dictionary containing the full conference name as well as
+    # another dictionary of all teams in the conference, including name and
+    # abbreviation for each team.
+    print(conferences.conferences)
+
 sportsreference.ncaab.rankings module
 -------------------------------------
 
