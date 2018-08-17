@@ -42,6 +42,37 @@ abbreviations for each matchup as well as the boxscore link if applicable.
     :undoc-members:
     :show-inheritance:
 
+sportsreference.ncaab.rankings module
+-------------------------------------
+
+The Rankings module includes the ``Rankings`` class which can be used to easily
+query the NCAAB Men's Division-I Basketball rankings published by the Associated
+Press on a week-by-week basis. Different formats can be referenced, ranging from
+a lightweight dictionary of the most recent rankings containing only the team
+abbreviation and rank, to a much larger dictionary of all rankings for an entire
+season with results including full team name and abbreviation, current rank,
+week number, previous rank, and movement.
+
+.. code-block:: python
+
+    from sportsreference.ncaab.rankings import Rankings
+
+    rankings = Rankings()
+    # Prints a dictionary of just the team abbreviation and rank for the current
+    # week
+    print(rankings.current)
+    # Prints more detailed information including previous rank, full name, and
+    # movement for all teams in current week
+    print(rankings.current_extended)
+    # Prints detailed information for all teams for all weeks where rankings
+    # have been published for the requested season.
+    print(rankings.complete)
+
+.. automodule:: sportsreference.ncaab.rankings
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 sportsreference.ncaab.schedule module
 -------------------------------------
 
