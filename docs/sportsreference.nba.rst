@@ -42,6 +42,75 @@ abbreviations for each matchup as well as the boxscore link if applicable.
     :undoc-members:
     :show-inheritance:
 
+sportsreference.nba.roster module
+---------------------------------
+
+The Roster module contains detailed player information, allowing each player to
+be queried by their player ID using the ``Player`` class which has detailed
+information ranging from career points totals to single-season stats and player
+height, weight, and nationality. The following is an example on collecting
+career information for James Harden:
+
+.. code-block:: python
+
+    from sportsreference.nba.roster import Player
+
+    james_harden = Player('hardeja01')
+    print(james_harden.name)  # Prints 'James Harden'
+    print(james_harden.points)  # Prints Harden's career points total
+    # Prints a Pandas DataFrame of all relevant Harden stats per season
+    print(james_harden.dataframe)
+    print(james_harden.salary)  # Prints Harden's career earnings
+    print(james_harden.contract)  # Prints Harden's contract by yearly wages
+
+By default, the player's career stats are returned whenever a property is
+called. To get stats for a specific season, call the class instance with the
+season string. All future property requests will return the season-specific
+stats.
+
+.. code-block:: python
+
+    from sportsreference.nba.roster import Player
+
+    james_harden = Player('hardeja01')  # Currently pulling career stats
+    print(james_harden.points)  # Prints Harden's CAREER points total
+    # Prints Harden's points total only for the 2017-18 season.
+    print(james_harden('2017-18').points)
+    # Prints the number of games Harden played in the 2017-18 season.
+    print(james_harden.games_played)
+
+After requesting single-season stats, the career stats can be requested again
+by calling the class without arguments or with the 'Career' string passed.
+
+.. code-block:: python
+
+    from sportsreference.nba.roster import Player
+
+    james_harden = Player('hardeja01')  # Currently pulling career stats
+    # Prints Harden's points total only for the 2017-18 season.
+    print(james_harden('2017-18').points)
+    print(james_harden('Career').points) # Prints Harden's career points total
+
+In addition, the Roster module also contains the ``Roster`` class which can be
+used to pull all players on a team's roster during a given season and creates
+instances of the Player class for each team member and adds them to a list to be
+easily queried.
+
+.. code-block:: python
+
+    from sportsreference.nba.roster import Roster
+
+    houston = Roster('HOU')
+    for player in houston.players:
+        # Prints the name of all players who played for Houston in the most
+        # recent season.
+        print(player.name)
+
+.. automodule:: sportsreference.nba.roster
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 sportsreference.nba.schedule module
 -----------------------------------
 
@@ -96,6 +165,21 @@ queried to easily grab all stats for all games.
         # Returns a Pandas DataFrame of all metrics for all game Boxscores for
         # a season.
         df = team.schedule.dataframe_extended
+
+Lastly, each Team instance also contains a link to the ``Roster`` class which
+enables players from the team to be easily queried. Each Roster instance
+contains detailed stats and information for each player on the team.
+
+.. code-block:: python
+
+    from sportsreference.nba.teams import Teams
+
+    teams = Teams()
+    for team in teams:
+        # Creates an instance of the roster class for each player on the team.
+        roster = team.roster
+        for player in roster.players:
+            print(player.name)  # Prints the name of each player on the team.
 
 .. automodule:: sportsreference.nba.teams
     :members:

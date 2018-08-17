@@ -187,7 +187,7 @@ def _remove_html_comment_tags(html):
     return str(html).replace('<!--', '').replace('-->', '')
 
 
-def _get_stats_table(html_page, div):
+def _get_stats_table(html_page, div, footer=False):
     """
     Returns a generator of all rows in a requested table.
 
@@ -204,6 +204,8 @@ def _get_stats_table(html_page, div):
         The requested tag type and id string in the format "<tag>#<id name>"
         which aligns to the desired table in the passed HTML page. For example,
         "div#all_stats_table" or "table#conference_standings".
+    footer : boolean (optional)
+        Optionally return the table footer rows instead of the table header.
 
     Returns
     -------
@@ -212,5 +214,8 @@ def _get_stats_table(html_page, div):
     """
     stats_html = html_page(div)
     stats_table = pq(_remove_html_comment_tags(stats_html))
-    teams_list = stats_table('tbody tr').items()
+    if footer:
+        teams_list = stats_table('tfoot tr').items()
+    else:
+        teams_list = stats_table('tbody tr').items()
     return teams_list
