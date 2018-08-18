@@ -13,39 +13,6 @@ of wins a team has secured during the season, and many, many more metrics that
 paint a more detailed picture of how a team has performed during a game or
 throughout a season.
 
-Installation
-============
-
-The easiest way to install `sportsreference` is by downloading the latest
-released binary from PyPI using PIP. For instructions on installing PIP, visit
-`PyPA.io <https://pip.pypa.io/en/stable/installing/>`_ for detailed steps on
-installing the package manager for your local environment.
-
-Next, run::
-
-    pip install sportsreference
-
-to download and install the latest official release of `sportsreference` on
-your machine. You now have the latest stable version of `sportsreference`
-installed and can begin using it following the examples below!
-
-If the bleeding-edge version of `sportsreference` is desired, clone this
-repository using git and install all of the package requirements with PIP::
-
-    git clone https://github.com/roclark/sportsreference
-    cd sportsreference
-    pip install -r requirements.txt
-
-Once complete, create a Python wheel for your default version of Python by
-running the following command::
-
-    python setup.py sdist bdist_wheel
-
-This will create a `.whl` file in the `dist` directory which can be installed
-with the following command::
-
-    pip install dist/*.whl
-
 Examples
 ========
 
@@ -122,32 +89,8 @@ Get a Pandas DataFrame of all stats for a MLB game
    :caption: Contents:
 
    sportsreference
-
-Testing
-=======
-
-Sportsreference contains a testing suite which aims to test all major portions
-of code for proper functionality. To run the test suite against your
-environment, ensure all of the requirements are installed by running::
-
-    pip install -r requirements.txt
-
-Next, start the tests by running py.test while optionally including coverage
-flags which identify the amount of production code covered by the testing
-framework::
-
-    py.test --cov=sportsreference --cov-report term-missing tests/
-
-If the tests were successful, it will return a green line will show a message at
-the end of the output similar to the following::
-
-    ======================= 380 passed in 245.56 seconds =======================
-
-If a test failed, it will show the number of failed and what went wrong within
-the test output. If that's the case, ensure you have the latest version of code
-and are in a supported environment. Otherwise, create an issue on GitHub to
-attempt to get the issue resolved.
-
+   installation
+   testing
 
 Indices and tables
 ==================
