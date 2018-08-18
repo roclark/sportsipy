@@ -1,27 +1,27 @@
-sportsreference.nfl package
-===========================
+NCAAF Package
+=============
 
-The NFL package offers multiple modules which can be used to retrieve
-information and statistics for the National Football League, such as team names,
+The NCAAF package offers multiple modules which can be used to retrieve
+information and statistics for Division-I College Football, such as team names,
 season stats, game schedules, and boxscore metrics.
 
-sportsreference.nfl.boxscore module
------------------------------------
+Boxscore
+--------
 
 The Boxscore module can be used to grab information from a specific game.
-Metrics range from number of points scored to the number of passing yards, to
-the number of yards lost from sacks and much more. The Boxscore can be easily
-queried by passing a boxscore's URI on sports-reference.com which can be
-retrieved from the ``Schedule`` class (see ``Schedule`` module below for more
-information on retrieving game-specific information).
+Metrics range from number of points scored to the number of pass yards, to the
+yards from penalties and much more. The Boxscore can be easily queried by
+passing a boxscore's URI on sports-reference.com which can be retrieved from the
+``Schedule`` class (see ``Schedule`` module below for more information on
+retrieving game-specific information).
 
 .. code-block:: python
 
-    from sportsreference.nfl.boxscore import Boxscore
+    from sportsreference.ncaaf.boxscore import Boxscore
 
-    game_data = Boxscore('201802040nwe')
-    print(game_data.home_points)  # Prints 33
-    print(game_data.away_points)  # Prints 41
+    game_data = Boxscore('2018-01-08-georgia')
+    print(game_data.home_points)  # Prints 23
+    print(game_data.away_points)  # Prints 26
     df = game_data.dataframe  # Returns a Pandas DataFrame of game metrics
 
 The Boxscore module also contains a ``Boxscores`` class which searches for all
@@ -32,18 +32,18 @@ abbreviations for each matchup as well as the boxscore link if applicable.
 .. code-block:: python
 
     from datetime import datetime
-    from sportsreference.nfl.boxscore import Boxscores
+    from sportsreference.ncaaf.boxscore import Boxscores
 
     games_today = Boxscores(datetime.today())
     print(games_today.games)  # Prints a dictionary of all matchups for today
 
-.. automodule:: sportsreference.nfl.boxscore
+.. automodule:: sportsreference.ncaaf.boxscore
     :members:
     :undoc-members:
     :show-inheritance:
 
-sportsreference.nfl.schedule module
------------------------------------
+Schedule
+--------
 
 The Schedule module can be used to iterate over all games in a team's schedule
 to get game information such as the date, score, result, and more. Each game
@@ -52,36 +52,35 @@ information on the game metrics.
 
 .. code-block:: python
 
-    from sportsreference.nfl.schedule import Schedule
+    from sportsreference.ncaaf.schedule import Schedule
 
-    houston_schedule = Schedule('HOU')
-    for game in houston_schedule:
+    purdue_schedule = Schedule('PURDUE')
+    for game in purdue_schedule:
         print(game.date)  # Prints the date the game was played
         print(game.result)  # Prints whether the team won or lost
         # Creates an instance of the Boxscore class for the game.
         boxscore = game.boxscore
 
-.. automodule:: sportsreference.nfl.schedule
+.. automodule:: sportsreference.ncaaf.schedule
     :members:
     :undoc-members:
     :show-inheritance:
 
-sportsreference.nfl.teams module
---------------------------------
+Teams
+-----
 
-The Teams module exposes information for all MLB teams including the team name
-and abbreviation, the number of games they won during the season, the average
-margin of victory, and much more.
+The Teams module exposes information for all NCAAF teams including the team name
+and abbreviation, the number of games they won during the season, the total
+number of pass yards, and much more.
 
 .. code-block:: python
 
-    from sportsreference.nfl.teams import Teams
+    from sportsreference.ncaaf.teams import Teams
 
     teams = Teams()
     for team in teams:
         print(team.name)  # Prints the team's name
-        # Prints the team's average margin of victory
-        print(team.margin_of_victory)
+        print(team.pass_yards)  # Prints the team's total passing yards
 
 Each Team instance contains a link to the ``Schedule`` class which enables easy
 iteration over all games for a particular team. A Pandas DataFrame can also be
@@ -89,7 +88,7 @@ queried to easily grab all stats for all games.
 
 .. code-block:: python
 
-    from sportsreference.nfl.teams import Teams
+    from sportsreference.ncaaf.teams import Teams
 
     teams = Teams()
     for team in teams:
@@ -98,7 +97,7 @@ queried to easily grab all stats for all games.
         # a season.
         df = team.schedule.dataframe_extended
 
-.. automodule:: sportsreference.nfl.teams
+.. automodule:: sportsreference.ncaaf.teams
     :members:
     :undoc-members:
     :show-inheritance:

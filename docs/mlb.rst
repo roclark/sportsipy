@@ -1,12 +1,12 @@
-sportsreference.mlb package
-===========================
+MLB Package
+===========
 
 The MLB package offers multiple modules which can be used to retrieve
 information and statistics for Major League Baseball, such as team names,
 season stats, game schedules, and boxscore metrics.
 
-sportsreference.mlb.boxscore module
------------------------------------
+Boxscore
+--------
 
 The Boxscore module can be used to grab information from a specific game.
 Metrics range from number of runs scored to the number of sacrifice flies, to
@@ -42,8 +42,8 @@ abbreviations for each matchup as well as the boxscore link if applicable.
     :undoc-members:
     :show-inheritance:
 
-sportsreference.mlb.schedule module
------------------------------------
+Schedule
+--------
 
 The Schedule module can be used to iterate over all games in a team's schedule
 to get game information such as the date, score, result, and more. Each game
@@ -66,8 +66,8 @@ information on the game metrics.
     :undoc-members:
     :show-inheritance:
 
-sportsreference.mlb.teams module
---------------------------------
+Teams
+-----
 
 The Teams module exposes information for all MLB teams including the team name
 and abbreviation, the number of games they won during the season, the total

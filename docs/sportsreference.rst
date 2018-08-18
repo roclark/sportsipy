@@ -1,14 +1,11 @@
-sportsreference package
-=======================
-
-Subpackages
------------
+API Documentation
+=================
 
 .. toctree::
 
-    sportsreference.mlb
-    sportsreference.nba
-    sportsreference.ncaab
-    sportsreference.ncaaf
-    sportsreference.nfl
-    sportsreference.nhl
+    mlb
+    nba
+    ncaab
+    ncaaf
+    nfl
+    nhl

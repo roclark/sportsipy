@@ -1,12 +1,12 @@
-sportsreference.ncaab package
-=============================
+NCAAB Package
+=============
 
 The NCAAB package offers multiple modules which can be used to retrieve
 information and statistics for Men's Division I College Basketball, such as team
 names, season stats, game schedules, and boxscore metrics.
 
-sportsreference.ncaab.boxscore module
--------------------------------------
+Boxscore
+--------
 
 The Boxscore module can be used to grab information from a specific game.
 Metrics range from number of points scored to the number of blocked shots, to
@@ -42,8 +42,8 @@ abbreviations for each matchup as well as the boxscore link if applicable.
     :undoc-members:
     :show-inheritance:
 
-sportsreference.ncaab.conferences module
----------------------------------------
+Conferences
+-----------
 
 The Conference module allows conferences to be pulled for any season using the
 ``Conferences`` class. Accessing the class properties exposes various
@@ -74,8 +74,8 @@ the teams in every conference.
     # abbreviation for each team.
     print(conferences.conferences)
 
-sportsreference.ncaab.rankings module
--------------------------------------
+Rankings
+--------
 
 The Rankings module includes the ``Rankings`` class which can be used to easily
 query the NCAAB Men's Division-I Basketball rankings published by the Associated
@@ -105,8 +105,8 @@ week number, previous rank, and movement.
     :undoc-members:
     :show-inheritance:
 
-sportsreference.ncaab.schedule module
--------------------------------------
+Schedule
+--------
 
 The Schedule module can be used to iterate over all games in a team's schedule
 to get game information such as the date, score, result, and more. Each game
@@ -129,8 +129,8 @@ information on the game metrics.
     :undoc-members:
     :show-inheritance:
 
-sportsreference.ncaab.teams module
-----------------------------------
+Teams
+-----
 
 The Teams module exposes information for all NCAAB teams including the team name
 and abbreviation, the number of games they won during the season, the total

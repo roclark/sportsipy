@@ -1,12 +1,12 @@
-sportsreference.nba package
-===========================
+NBA Package
+===========
 
 The NBA package offers multiple modules which can be use to retrieve information
 and statistics for the National Basketball Association, such as team names,
 season stats, game schedules, and boxscore metrics.
 
-sportsreference.nba.boxscore module
------------------------------------
+Boxscore
+--------
 
 The Boxscore module can be used to grab information from a specific game.
 Metrics range from number of points scored to the number of free throws made, to
@@ -42,8 +42,8 @@ abbreviations for each matchup as well as the boxscore link if applicable.
     :undoc-members:
     :show-inheritance:
 
-sportsreference.nba.roster module
----------------------------------
+Roster
+------
 
 The Roster module contains detailed player information, allowing each player to
 be queried by their player ID using the ``Player`` class which has detailed
@@ -111,8 +111,8 @@ easily queried.
     :undoc-members:
     :show-inheritance:
 
-sportsreference.nba.schedule module
------------------------------------
+Schedule
+--------
 
 The Schedule module can be used to iterate over all games in a team's schedule
 to get game information such as the date, score, result, and more. Each game
@@ -135,8 +135,8 @@ information on the game metrics.
     :undoc-members:
     :show-inheritance:
 
-sportsreference.nba.teams module
---------------------------------
+Teams
+-----
 
 The Teams module exposes information for all NBA teams including the team name
 and abbreviation, the number of games they won during the season, the total
