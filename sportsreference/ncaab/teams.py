@@ -11,7 +11,7 @@ from .conferences import Conferences
 from .schedule import Schedule
 
 
-class Team:
+class Team(object):
     """
     An object containing all of a team's season information.
 
@@ -53,6 +53,9 @@ class Team:
         self._field_goals = None
         self._field_goal_attempts = None
         self._field_goal_percentage = None
+        self._two_point_field_goals = None
+        self._two_point_field_goal_attempts = None
+        self._two_point_field_goal_percentage = None
         self._three_point_field_goals = None
         self._three_point_field_goal_attempts = None
         self._three_point_field_goal_percentage = None
@@ -69,6 +72,9 @@ class Team:
         self._opp_field_goals = None
         self._opp_field_goal_attempts = None
         self._opp_field_goal_percentage = None
+        self._opp_two_point_field_goals = None
+        self._opp_two_point_field_goal_attempts = None
+        self._opp_two_point_field_goal_percentage = None
         self._opp_three_point_field_goals = None
         self._opp_three_point_field_goal_attempts = None
         self._opp_three_point_field_goal_percentage = None
@@ -206,6 +212,11 @@ class Team:
             'opp_three_point_field_goal_percentage':
             self.opp_three_point_field_goal_percentage,
             'opp_three_point_field_goals': self.opp_three_point_field_goals,
+            'opp_two_point_field_goal_attempts':
+            self.opp_two_point_field_goal_attempts,
+            'opp_two_point_field_goal_percentage':
+            self.opp_two_point_field_goal_percentage,
+            'opp_two_point_field_goals': self.opp_two_point_field_goals,
             'opp_total_rebound_percentage': self.opp_total_rebound_percentage,
             'opp_total_rebounds': self.opp_total_rebounds,
             'opp_true_shooting_percentage': self.opp_true_shooting_percentage,
@@ -224,6 +235,11 @@ class Team:
             'three_point_field_goal_percentage':
             self.three_point_field_goal_percentage,
             'three_point_field_goals': self.three_point_field_goals,
+            'two_point_field_goal_attempts':
+            self.two_point_field_goal_attempts,
+            'two_point_field_goal_percentage':
+            self.two_point_field_goal_percentage,
+            'two_point_field_goals': self.two_point_field_goals,
             'total_rebound_percentage': self.total_rebound_percentage,
             'total_rebounds': self.total_rebounds,
             'true_shooting_percentage': self.true_shooting_percentage,
@@ -415,6 +431,36 @@ class Team:
         return float(self._field_goal_percentage)
 
     @property
+    def two_point_field_goals(self):
+        """
+        Returns an ``int`` of the total number of two point field goals made
+        during the season.
+        """
+        return self.field_goals - self.three_point_field_goals
+
+    @property
+    def two_point_field_goal_attempts(self):
+        """
+        Returns an ``int`` of the total number of two point field goal attempts
+        during the season.
+        """
+        return self.field_goal_attempts - self.three_point_field_goal_attempts
+
+    @property
+    def two_point_field_goal_percentage(self):
+        """
+        Returns a ``float`` of the number of two point field goals made divided
+        by the number of two point field goal attempts. Percentage ranges from
+        0-1.
+        """
+        try:
+            result = float(self.two_point_field_goals) / \
+                float(self.two_point_field_goal_attempts)
+            return round(result, 3)
+        except ZeroDivisionError:
+            return 0.0
+
+    @property
     def three_point_field_goals(self):
         """
         Returns an ``int`` of the total number of three point field goals made
@@ -538,6 +584,37 @@ class Team:
         from 0-1.
         """
         return float(self._opp_field_goal_percentage)
+
+    @property
+    def opp_two_point_field_goals(self):
+        """
+        Returns an ``int`` of the total number of two point field goals made
+        during the season by opponents.
+        """
+        return self.opp_field_goals - self.opp_three_point_field_goals
+
+    @property
+    def opp_two_point_field_goal_attempts(self):
+        """
+        Returns an ``int`` of the total number of two point field goal attempts
+        during the season by opponents.
+        """
+        return self.opp_field_goal_attempts - \
+            self.opp_three_point_field_goal_attempts
+
+    @property
+    def opp_two_point_field_goal_percentage(self):
+        """
+        Returns a ``float`` of the number of two point field goals made divided
+        by the number of two point field goal attempts by opponents. Percentage
+        ranges from 0-1.
+        """
+        try:
+            result = float(self.opp_two_point_field_goals) / \
+                float(self.opp_two_point_field_goal_attempts)
+            return round(result, 3)
+        except ZeroDivisionError:
+            return 0.0
 
     @property
     def opp_three_point_field_goals(self):
