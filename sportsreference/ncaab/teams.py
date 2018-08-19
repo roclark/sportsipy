@@ -63,6 +63,7 @@ class Team(object):
         self._free_throw_attempts = None
         self._free_throw_percentage = None
         self._offensive_rebounds = None
+        self._defensive_rebounds = None
         self._total_rebounds = None
         self._assists = None
         self._steals = None
@@ -82,6 +83,7 @@ class Team(object):
         self._opp_free_throw_attempts = None
         self._opp_free_throw_percentage = None
         self._opp_offensive_rebounds = None
+        self._opp_defensive_rebounds = None
         self._opp_total_rebounds = None
         self._opp_assists = None
         self._opp_steals = None
@@ -163,6 +165,7 @@ class Team(object):
             'conference': self.conference,
             'conference_losses': self.conference_losses,
             'conference_wins': self.conference_wins,
+            'defensive_rebounds': self.defensive_rebounds,
             'effective_field_goal_percentage':
             self.effective_field_goal_percentage,
             'field_goal_attempts': self.field_goal_attempts,
@@ -187,6 +190,7 @@ class Team(object):
             'opp_assists': self.opp_assists,
             'opp_block_percentage': self.opp_block_percentage,
             'opp_blocks': self.opp_blocks,
+            'opp_defensive_rebounds': self.opp_defensive_rebounds,
             'opp_effective_field_goal_percentage':
             self.opp_effective_field_goal_percentage,
             'opp_field_goal_attempts': self.opp_field_goal_attempts,
@@ -518,6 +522,14 @@ class Team(object):
         return int(self._offensive_rebounds)
 
     @property
+    def defensive_rebounds(self):
+        """
+        Returns an ``int`` of the total number of defensive rebounds during the
+        season.
+        """
+        return self.total_rebounds - self.offensive_rebounds
+
+    @property
     def total_rebounds(self):
         """
         Returns an ``int`` of the total number of rebounds during the season.
@@ -672,6 +684,14 @@ class Team(object):
         season by opponents.
         """
         return int(self._opp_offensive_rebounds)
+
+    @property
+    def opp_defensive_rebounds(self):
+        """
+        Returns an ``int`` of the total number of defensive rebounds during the
+        season by opponents.
+        """
+        return self.opp_total_rebounds - self.opp_offensive_rebounds
 
     @property
     def opp_total_rebounds(self):
