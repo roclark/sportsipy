@@ -123,6 +123,7 @@ class TestNCAABIntegration:
             'opp_personal_fouls': 688,
             'pace': 68.2,
             'offensive_rating': 117.5,
+            'net_rating': 21.5,
             'free_throw_attempt_rate': .356,
             'three_point_attempt_rate': .401,
             'true_shooting_percentage': .606,

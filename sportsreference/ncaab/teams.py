@@ -183,6 +183,7 @@ class Team(object):
             'losses': self.losses,
             'minutes_played': self.minutes_played,
             'name': self.name,
+            'net_rating': self.net_rating,
             'offensive_rating': self.offensive_rating,
             'offensive_rebound_percentage': self.offensive_rebound_percentage,
             'offensive_rebounds': self.offensive_rebounds,
@@ -758,6 +759,16 @@ class Team(object):
         return float(self._offensive_rating)
 
     @property
+    def net_rating(self):
+        """
+        Returns a ``float`` of the net team rating which is equivalent to the
+        difference between the offensive rating and the defensive (or the
+        opponent's offensive) rating. Positive values indicate teams that score
+        more points than they allow per 100 possessions.
+        """
+        return self.offensive_rating - self.opp_offensive_rating
+
+    @property
     def free_throw_attempt_rate(self):
         """
         Returns a ``float`` of the average number of free throw attempts per
@@ -852,6 +863,8 @@ class Team(object):
     def opp_offensive_rating(self):
         """
         Returns a ``float`` of the average number of points scored per 100
+        possessions by the opponent. This is equivalent to the team's defensive
+        rating as it is the number of points the team allows per 100
         possessions by the opponent.
         """
         return float(self._opp_offensive_rating)
