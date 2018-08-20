@@ -153,6 +153,7 @@ BOXSCORE_SCHEME = {
     'away_turnover_percentage': 'tfoot td[data-stat="tov_pct"]',
     'away_offensive_rating': 'tfoot td[data-stat="off_rtg"]',
     'away_defensive_rating': 'tfoot td[data-stat="def_rtg"]',
+    'away_ranking': 'div[class="game_summary nohover current"] tr',
     'home_record': 'div#boxes div[class="section_heading"] h2',
     'home_minutes_played': 'tfoot td[data-stat="mp"]',
     'home_field_goals': 'tfoot td[data-stat="fg"]',
@@ -188,12 +189,15 @@ BOXSCORE_SCHEME = {
     'home_block_percentage': 'tfoot td[data-stat="blk_pct"]',
     'home_turnover_percentage': 'tfoot td[data-stat="tov_pct"]',
     'home_offensive_rating': 'tfoot td[data-stat="off_rtg"]',
-    'home_defensive_rating': 'tfoot td[data-stat="def_rtg"]'
+    'home_defensive_rating': 'tfoot td[data-stat="def_rtg"]',
+    'home_ranking': 'div[class="game_summary nohover current"] tr'
 }
 
 BOXSCORE_ELEMENT_INDEX = {
     'date': 0,
     'location': 1,
+    'away_ranking': 0,
+    'home_ranking': 1,
     'home_record': 2,
     'home_minutes_played': 1,
     'home_field_goals': 1,

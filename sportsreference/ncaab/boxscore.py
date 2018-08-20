@@ -36,6 +36,7 @@ class Boxscore(object):
         self._losing_name = None
         self._losing_abbr = None
         self._pace = None
+        self._away_ranking = None
         self._away_record = None
         self._away_minutes_played = None
         self._away_field_goals = None
@@ -72,6 +73,7 @@ class Boxscore(object):
         self._away_turnover_percentage = None
         self._away_offensive_rating = None
         self._away_defensive_rating = None
+        self._home_ranking = None
         self._home_record = None
         self._home_minutes_played = None
         self._home_field_goals = None
@@ -192,6 +194,41 @@ class Boxscore(object):
             name = re.sub(r'<.*', '', str(name))
         return name
 
+    def _parse_ranking(self, field, boxscore):
+        """
+        Parse each team's rank if applicable.
+
+        Retrieve the team's rank according to the rankings published each week.
+        The ranking for the week is only located in the scores section at
+        the top of the page and not in the actual boxscore information. The
+        rank is after the team name inside a parenthesis with a special
+        'pollrank' attribute. If this is not in the team's boxscore
+        information, the team is assumed to not have a rank and will return a
+        value of None.
+
+        Parameters
+        ----------
+        field : string
+            The name of the attribute to parse.
+        boxscore : PyQuery object
+            A PyQuery obejct containing all of the HTML data from the boxscore.
+
+        Returns
+        -------
+        int
+            An int representing the team's ranking or None if the team is not
+            ranked.
+        """
+        ranking = None
+        index = BOXSCORE_ELEMENT_INDEX[field]
+        teams_boxscore = boxscore(BOXSCORE_SCHEME[field])
+        team = pq(teams_boxscore[index])
+        if 'pollrank' in str(team):
+            rank_str = re.findall('\(\d+\)', str(team))
+            if len(rank_str) == 1:
+                ranking = int(rank_str[0].replace('(', '').replace(')', ''))
+        return ranking
+
     def _parse_game_data(self, uri):
         """
         Parses a value for every attribute.
@@ -232,6 +269,11 @@ class Boxscore(object):
             if short_field == 'away_name' or \
                short_field == 'home_name':
                 value = self._parse_name(short_field, boxscore)
+                setattr(self, field, value)
+                continue
+            if short_field == 'away_ranking' or \
+               short_field == 'home_ranking':
+                value = self._parse_ranking(short_field, boxscore)
                 setattr(self, field, value)
                 continue
             index = 0
@@ -278,6 +320,7 @@ class Boxscore(object):
             'away_offensive_rebounds': self.away_offensive_rebounds,
             'away_personal_fouls': self.away_personal_fouls,
             'away_points': self.away_points,
+            'away_ranking': self.away_ranking,
             'away_steal_percentage': self.away_steal_percentage,
             'away_steals': self.away_steals,
             'away_three_point_attempt_rate':
@@ -326,6 +369,7 @@ class Boxscore(object):
             'home_offensive_rebounds': self.home_offensive_rebounds,
             'home_personal_fouls': self.home_personal_fouls,
             'home_points': self.home_points,
+            'home_ranking': self.home_ranking,
             'home_steal_percentage': self.home_steal_percentage,
             'home_steals': self.home_steals,
             'home_three_point_attempt_rate':
@@ -446,6 +490,14 @@ class Boxscore(object):
         of possessions per 40 minutes.
         """
         return float(self._pace)
+
+    @property
+    def away_ranking(self):
+        """
+        Returns an ``int`` of the away team's ranking during the week, or
+        ``None`` if the team wasn't ranked.
+        """
+        return self._away_ranking
 
     @property
     def away_wins(self):
@@ -751,6 +803,14 @@ class Boxscore(object):
         possessions by the away team.
         """
         return float(self._away_defensive_rating)
+
+    @property
+    def home_ranking(self):
+        """
+        Returns an ``int`` of the home team's ranking during the week, or
+        ``None`` if they were not ranked.
+        """
+        return self._home_ranking
 
     @property
     def home_wins(self):
