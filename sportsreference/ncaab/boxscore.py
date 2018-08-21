@@ -342,6 +342,7 @@ class Boxscore(object):
             'away_two_point_field_goal_percentage':
             self.away_two_point_field_goal_percentage,
             'away_two_point_field_goals': self.away_two_point_field_goals,
+            'away_win_percentage': self.away_win_percentage,
             'away_wins': self.away_wins,
             'date': self.date,
             'home_assist_percentage': self.home_assist_percentage,
@@ -391,6 +392,7 @@ class Boxscore(object):
             'home_two_point_field_goal_percentage':
             self.home_two_point_field_goal_percentage,
             'home_two_point_field_goals': self.home_two_point_field_goals,
+            'home_win_percentage': self.home_win_percentage,
             'home_wins': self.home_wins,
             'location': self.location,
             'losing_abbr': self.losing_abbr,
@@ -498,6 +500,19 @@ class Boxscore(object):
         ``None`` if the team wasn't ranked.
         """
         return self._away_ranking
+
+    @property
+    def away_win_percentage(self):
+        """
+        Returns a ``float`` of the percentage of games the away team has won
+        after the conclusion of the game. Percentage ranges from 0-1.
+        """
+        try:
+            result = float(self.away_wins) / \
+                     float(self.away_wins + self.away_losses)
+            return round(result, 3)
+        except ZeroDivisionError:
+            return 0.0
 
     @property
     def away_wins(self):
@@ -811,6 +826,19 @@ class Boxscore(object):
         ``None`` if they were not ranked.
         """
         return self._home_ranking
+
+    @property
+    def home_win_percentage(self):
+        """
+        Returns a ``float`` of the percentage of games the home team has won
+        after the conclusion of the game. Percentage ranges from 0-1.
+        """
+        try:
+            result = float(self.home_wins) / \
+                     float(self.home_wins + self.home_losses)
+            return round(result, 3)
+        except ZeroDivisionError:
+            return 0.0
 
     @property
     def home_wins(self):

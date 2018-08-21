@@ -325,3 +325,21 @@ class TestNCAABBoxscore:
         assert self.boxscore._home_points is None
         assert self.boxscore._away_points is None
         assert self.boxscore.dataframe is None
+
+    def test_away_win_percentage_no_games_played_returns_default(self):
+        fake_games = PropertyMock(return_value=0)
+        type(self.boxscore).away_wins = fake_games
+        type(self.boxscore).away_losses = fake_games
+
+        assert self.boxscore.away_wins == 0
+        assert self.boxscore.away_losses == 0
+        assert self.boxscore.away_win_percentage == 0.0
+
+    def test_home_win_percentage_no_games_played_returns_default(self):
+        fake_games = PropertyMock(return_value=0)
+        type(self.boxscore).home_wins = fake_games
+        type(self.boxscore).home_losses = fake_games
+
+        assert self.boxscore.home_wins == 0
+        assert self.boxscore.home_losses == 0
+        assert self.boxscore.home_win_percentage == 0.0
