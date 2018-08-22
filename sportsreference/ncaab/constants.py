@@ -245,6 +245,64 @@ RANKINGS_SCHEME = {
     'change': 'td[data-stat="rank_diff"]'
 }
 
+PLAYER_SCHEME = {
+    'conference': 'td[data-stat="conf_abbr"]',
+    'season': 'th[data-stat="season"]:first',
+    'name': 'h1',
+    'team_abbreviation': 'td[data-stat="school_name"]',
+    'position': 'td[data-stat="pos"]',
+    'height': 'span[itemprop="height"]',
+    'weight': 'span[itemprop="weight"]',
+    'birth_date': 'td[data-stat=""]',
+    'nationality': 'td[data-stat=""]',
+    'age': 'nobr',
+    'games_played': 'td[data-stat="g"]',
+    'games_started': 'td[data-stat="gs"]',
+    'minutes_played': 'td[data-stat="mp"]',
+    'field_goals': 'td[data-stat="fg"]',
+    'field_goal_attempts': 'td[data-stat="fga"]',
+    'field_goal_percentage': 'td[data-stat="fg_pct"]',
+    'three_pointers': 'td[data-stat="fg3"]',
+    'three_point_attempts': 'td[data-stat="fg3a"]',
+    'three_point_percentage': 'td[data-stat="fg3_pct"]',
+    'two_pointers': 'td[data-stat="fg2"]',
+    'two_point_attempts': 'td[data-stat="fg2a"]',
+    'two_point_percentage': 'td[data-stat="fg2_pct"]',
+    'effective_field_goal_percentage': 'td[data-stat="efg_pct"]',
+    'free_throws': 'td[data-stat="ft"]',
+    'free_throw_attempts': 'td[data-stat="fta"]',
+    'free_throw_percentage': 'td[data-stat="ft_pct"]',
+    'offensive_rebounds': 'td[data-stat="orb"]',
+    'defensive_rebounds': 'td[data-stat="drb"]',
+    'total_rebounds': 'td[data-stat="trb"]',
+    'assists': 'td[data-stat="ast"]',
+    'steals': 'td[data-stat="stl"]',
+    'blocks': 'td[data-stat="blk"]',
+    'turnovers': 'td[data-stat="tov"]',
+    'personal_fouls': 'td[data-stat="pf"]',
+    'points': 'td[data-stat="pts"]',
+    'player_efficiency_rating': 'td[data-stat="per"]',
+    'true_shooting_percentage': 'td[data-stat="ts_pct"]',
+    'three_point_attempt_rate': 'td[data-stat="fg3a_per_fga_pct"]',
+    'free_throw_attempt_rate': 'td[data-stat="fta_per_fga_pct"]',
+    'points_produced': 'td[data-stat="pprod"]',
+    'offensive_rebound_percentage': 'td[data-stat="orb_pct"]',
+    'defensive_rebound_percentage': 'td[data-stat="drb_pct"]',
+    'total_rebound_percentage': 'td[data-stat="trb_pct"]',
+    'assist_percentage': 'td[data-stat="ast_pct"]',
+    'steal_percentage': 'td[data-stat="stl_pct"]',
+    'block_percentage': 'td[data-stat="blk_pct"]',
+    'turnover_percentage': 'td[data-stat="tov_pct"]',
+    'usage_percentage': 'td[data-stat="usg_pct"]',
+    'offensive_win_shares': 'td[data-stat="ows"]',
+    'defensive_win_shares': 'td[data-stat="dws"]',
+    'win_shares': 'td[data-stat="ws"]',
+    'win_shares_per_40_minutes': 'td[data-stat="ws_per_40"]',
+    'offensive_box_plus_minus': 'td[data-stat="obpm"]',
+    'defensive_box_plus_minus': 'td[data-stat="dbpm"]',
+    'box_plus_minus': 'td[data-stat="bpm"]'
+}
+
 BASIC_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'
                    '%s-school-stats.html')
 BASIC_OPPONENT_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'
@@ -262,6 +320,7 @@ BOXSCORES_URL = ('https://www.sports-reference.com/cbb/boxscores/index.cgi?'
 RANKINGS_URL = 'https://www.sports-reference.com/cbb/seasons/%s-polls.html'
 CONFERENCES_URL = 'https://www.sports-reference.com/cbb/seasons/%s.html'
 CONFERENCE_URL = 'https://www.sports-reference.com/cbb/conferences/%s/%s.html'
+PLAYER_URL = 'https://www.sports-reference.com/cbb/players/%s.html'
 
 NCAA_TOURNAMENT = 'NCAA'
 NIT_TOURNAMENT = 'NIT'
