@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+from ..decorators import float_property_decorator, int_property_decorator
 from .constants import (SCHEDULE_SCHEME,
                         SCHEDULE_URL)
 from datetime import datetime
@@ -184,13 +185,13 @@ class Game(object):
         """
         return self.boxscore.dataframe
 
-    @property
+    @int_property_decorator
     def game(self):
         """
         Returns an ``int`` to indicate which game in the season was requested.
         The first game of the season returns 1.
         """
-        return int(self._game)
+        return self._game
 
     @property
     def date(self):
@@ -244,268 +245,268 @@ class Game(object):
             return LOSS
         return WIN
 
-    @property
+    @int_property_decorator
     def points_scored(self):
         """
         Returns an ``int`` of the number of points the team scored during the
         game.
         """
-        return int(self._points_scored)
+        return self._points_scored
 
-    @property
+    @int_property_decorator
     def points_allowed(self):
         """
         Returns an ``int`` of the number of points the team allowed during the
         game.
         """
-        return int(self._points_allowed)
+        return self._points_allowed
 
-    @property
+    @int_property_decorator
     def field_goals(self):
         """
         Returns an ``int`` of the total number of field goals made by the team.
         """
-        return int(self._field_goals)
+        return self._field_goals
 
-    @property
+    @int_property_decorator
     def field_goal_attempts(self):
         """
         Returns an ``int`` of the total number of field goal attempts by the
         team.
         """
-        return int(self._field_goal_attempts)
+        return self._field_goal_attempts
 
-    @property
+    @float_property_decorator
     def field_goal_percentage(self):
         """
         Returns a ``float`` of the number of field goals made divided by the
         total number of field goal attempts by the team. Percentage ranges from
         0-1.
         """
-        return float(self._field_goal_percentage)
+        return self._field_goal_percentage
 
-    @property
+    @int_property_decorator
     def three_point_field_goals(self):
         """
         Returns an ``int`` of the total number of three point field goals made
         by the team.
         """
-        return int(self._three_point_field_goals)
+        return self._three_point_field_goals
 
-    @property
+    @int_property_decorator
     def three_point_field_goal_attempts(self):
         """
         Returns an ``int`` of the total number of three point field goal
         attempts by the team.
         """
-        return int(self._three_point_field_goal_attempts)
+        return self._three_point_field_goal_attempts
 
-    @property
+    @float_property_decorator
     def three_point_field_goal_percentage(self):
         """
         Returns a ``float`` of the number of three point field goals made
         divided by the number of three point field goal attempts by the team.
         Percentage ranges from 0-1.
         """
-        return float(self._three_point_field_goal_percentage)
+        return self._three_point_field_goal_percentage
 
-    @property
+    @int_property_decorator
     def free_throws(self):
         """
         Returns an ``int`` of the total number of free throws made by the team.
         """
-        return int(self._free_throws)
+        return self._free_throws
 
-    @property
+    @int_property_decorator
     def free_throw_attempts(self):
         """
         Returns an ``int`` of the total number of free throw attempts by the
         team.
         """
-        return int(self._free_throw_attempts)
+        return self._free_throw_attempts
 
-    @property
+    @float_property_decorator
     def free_throw_percentage(self):
         """
         Returns a ``float`` of the number of free throws made divided by the
         number of free throw attempts by the team.
         """
-        return float(self._free_throw_percentage)
+        return self._free_throw_percentage
 
-    @property
+    @int_property_decorator
     def offensive_rebounds(self):
         """
         Returns an ``int`` of the total number of offensive rebounds by the
         team.
         """
-        return int(self._offensive_rebounds)
+        return self._offensive_rebounds
 
-    @property
+    @int_property_decorator
     def total_rebounds(self):
         """
         Returns an ``int`` of the total number of rebounds by the team.
         """
-        return int(self._total_rebounds)
+        return self._total_rebounds
 
-    @property
+    @int_property_decorator
     def assists(self):
         """
         Returns an ``int`` of the total number of assists by the team.
         """
-        return int(self._assists)
+        return self._assists
 
-    @property
+    @int_property_decorator
     def steals(self):
         """
         Returns an ``int`` of the total number of steals by the team.
         """
-        return int(self._steals)
+        return self._steals
 
-    @property
+    @int_property_decorator
     def blocks(self):
         """
         Returns an ``int`` of the total number of blocks by the team.
         """
-        return int(self._blocks)
+        return self._blocks
 
-    @property
+    @int_property_decorator
     def turnovers(self):
         """
         Returns an ``int`` of the total number of turnovers by the team.
         """
-        return int(self._turnovers)
+        return self._turnovers
 
-    @property
+    @int_property_decorator
     def personal_fouls(self):
         """
         Returns an ``int`` of the total number of personal fouls by the team.
         """
-        return int(self._personal_fouls)
+        return self._personal_fouls
 
-    @property
+    @int_property_decorator
     def opp_field_goals(self):
         """
         Returns an ``int`` of the total number of field goals made by the
         opponent.
         """
-        return int(self._opp_field_goals)
+        return self._opp_field_goals
 
-    @property
+    @int_property_decorator
     def opp_field_goal_attempts(self):
         """
         Returns an ``int`` of the total number of field goal attempts by the
         opponent.
         """
-        return int(self._opp_field_goal_attempts)
+        return self._opp_field_goal_attempts
 
-    @property
+    @float_property_decorator
     def opp_field_goal_percentage(self):
         """
         Returns a ``float`` of the number of field goals made divided by the
         total number of field goal attempts by the opponent. Percentage ranges
         from 0-1.
         """
-        return float(self._opp_field_goal_percentage)
+        return self._opp_field_goal_percentage
 
-    @property
+    @int_property_decorator
     def opp_three_point_field_goals(self):
         """
         Returns an ``int`` of the total number of three point field goals made
         by the opponent.
         """
-        return int(self._opp_three_point_field_goals)
+        return self._opp_three_point_field_goals
 
-    @property
+    @int_property_decorator
     def opp_three_point_field_goal_attempts(self):
         """
         Returns an ``int`` of the total number of three point field goal
         attempts by the opponent.
         """
-        return int(self._opp_three_point_field_goal_attempts)
+        return self._opp_three_point_field_goal_attempts
 
-    @property
+    @float_property_decorator
     def opp_three_point_field_goal_percentage(self):
         """
         Returns a ``float`` of the number of three point field goals made
         divided by the number of three point field goal attempts by the
         opponent. Percentage ranges from 0-1.
         """
-        return float(self._opp_three_point_field_goal_percentage)
+        return self._opp_three_point_field_goal_percentage
 
-    @property
+    @int_property_decorator
     def opp_free_throws(self):
         """
         Returns an ``int`` of the total number of free throws made by the
         opponent.
         """
-        return int(self._opp_free_throws)
+        return self._opp_free_throws
 
-    @property
+    @int_property_decorator
     def opp_free_throw_attempts(self):
         """
         Returns an ``int`` of the total number of free throw attempts by the
         opponent.
         """
-        return int(self._opp_free_throw_attempts)
+        return self._opp_free_throw_attempts
 
-    @property
+    @float_property_decorator
     def opp_free_throw_percentage(self):
         """
         Returns a ``float`` of the number of free throws made divided by the
         number of free throw attempts by the opponent.
         """
-        return float(self._opp_free_throw_percentage)
+        return self._opp_free_throw_percentage
 
-    @property
+    @int_property_decorator
     def opp_offensive_rebounds(self):
         """
         Returns an ``int`` of the total number of offensive rebounds by the
         opponent.
         """
-        return int(self._opp_offensive_rebounds)
+        return self._opp_offensive_rebounds
 
-    @property
+    @int_property_decorator
     def opp_total_rebounds(self):
         """
         Returns an ``int`` of the total number of rebounds by the opponent.
         """
-        return int(self._opp_total_rebounds)
+        return self._opp_total_rebounds
 
-    @property
+    @int_property_decorator
     def opp_assists(self):
         """
         Returns an ``int`` of the total number of assists by the opponent.
         """
-        return int(self._opp_assists)
+        return self._opp_assists
 
-    @property
+    @int_property_decorator
     def opp_steals(self):
         """
         Returns an ``int`` of the total number of steals by the opponent.
         """
-        return int(self._opp_steals)
+        return self._opp_steals
 
-    @property
+    @int_property_decorator
     def opp_blocks(self):
         """
         Returns an ``int`` of the total number of blocks by the opponent.
         """
-        return int(self._opp_blocks)
+        return self._opp_blocks
 
-    @property
+    @int_property_decorator
     def opp_turnovers(self):
         """
         Returns an ``int`` of the total number of turnovers by the opponent.
         """
-        return int(self._opp_turnovers)
+        return self._opp_turnovers
 
-    @property
+    @int_property_decorator
     def opp_personal_fouls(self):
         """
         Returns an ``int`` of the total number of personal fouls by the
         opponent.
         """
-        return int(self._opp_personal_fouls)
+        return self._opp_personal_fouls
 
 
 class Schedule:

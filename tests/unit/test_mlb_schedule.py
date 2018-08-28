@@ -135,3 +135,15 @@ class TestMLBSchedule:
 
         with pytest.raises(ValueError):
             schedule.dataframe
+
+    def test_bad_games_up_returns_default(self):
+        fake_games_up = PropertyMock(return_value='up BAD')
+        type(self.game)._games_behind = fake_games_up
+
+        assert self.game.games_behind is None
+
+    def test_bad_games_ahead_returns_default(self):
+        fake_games_up = PropertyMock(return_value='BAD')
+        type(self.game)._games_behind = fake_games_up
+
+        assert self.game.games_behind is None

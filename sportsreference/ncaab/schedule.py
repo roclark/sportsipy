@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+from ..decorators import int_property_decorator
 from .constants import (SCHEDULE_SCHEME,
                         SCHEDULE_URL,
                         NCAA_TOURNAMENT,
@@ -174,13 +175,13 @@ class Game(object):
             return None
         return self.boxscore.dataframe
 
-    @property
+    @int_property_decorator
     def game(self):
         """
         Returns an ``int`` of the game's position in the season. The first game
         of the season returns 1.
         """
-        return int(self._game)
+        return self._game
 
     @property
     def date(self):
@@ -303,19 +304,21 @@ class Game(object):
             return WIN
         return LOSS
 
-    @property
+    @int_property_decorator
     def points_for(self):
         """
-        Returns the number of points the team scored during the game.
+        Returns an ``int`` of the number of points the team scored during the
+        game.
         """
-        return int(self._points_for)
+        return self._points_for
 
-    @property
+    @int_property_decorator
     def points_against(self):
         """
-        Returns the number of points the team allowed during the game.
+        Returns an ``int`` of the number of points the team allowed during the
+        game.
         """
-        return int(self._points_against)
+        return self._points_against
 
     @property
     def overtimes(self):
@@ -323,7 +326,7 @@ class Game(object):
         Returns an ``int`` of the number of overtimes that were played during
         the game and 0 if the game finished at the end of regulation time.
         """
-        if self._overtimes == '':
+        if self._overtimes == '' or self._overtimes is None:
             return 0
         if self._overtimes.lower() == 'ot':
             return 1
@@ -333,21 +336,21 @@ class Game(object):
         except (ValueError, IndexError):
             return 0
 
-    @property
+    @int_property_decorator
     def season_wins(self):
         """
         Returns an ``int`` of the number of games the team has won after the
         conclusion of the requested game.
         """
-        return int(self._season_wins)
+        return self._season_wins
 
-    @property
+    @int_property_decorator
     def season_losses(self):
         """
         Returns an ``int`` of the number of games the team has lost after the
         conclusion of the requested game.
         """
-        return int(self._season_losses)
+        return self._season_losses
 
     @property
     def streak(self):

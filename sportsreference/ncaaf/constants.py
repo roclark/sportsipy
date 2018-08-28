@@ -193,6 +193,34 @@ BOXSCORE_ELEMENT_INDEX = {
     'home_yards_from_penalties': 6
 }
 
+# Designates the index of the item within the requested tag
+BOXSCORE_ELEMENT_SUB_INDEX = {
+    'away_rush_attempts': 0,
+    'away_rush_yards': 1,
+    'away_rush_touchdowns': 2,
+    'away_pass_completions': 0,
+    'away_pass_attempts': 1,
+    'away_pass_yards': 2,
+    'away_pass_touchdowns': 3,
+    'away_interceptions': 4,
+    'away_fumbles': 0,
+    'away_fumbles_lost': 1,
+    'away_penalties': 0,
+    'away_yards_from_penalties': 1,
+    'home_rush_attempts': 0,
+    'home_rush_yards': 1,
+    'home_rush_touchdowns': 2,
+    'home_pass_completions': 0,
+    'home_pass_attempts': 1,
+    'home_pass_yards': 2,
+    'home_pass_touchdowns': 3,
+    'home_interceptions': 4,
+    'home_fumbles': 0,
+    'home_fumbles_lost': 1,
+    'home_penalties': 0,
+    'home_yards_from_penalties': 1
+}
+
 SEASON_PAGE_URL = 'http://www.sports-reference.com/cfb/years/%s-standings.html'
 
 OFFENSIVE_STATS_URL = ('https://www.sports-reference.com/cfb/years/'

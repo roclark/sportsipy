@@ -186,7 +186,7 @@ class TestMLBBoxscore:
         fake_attendance = PropertyMock(return_value='')
         type(self.boxscore)._attendance = fake_attendance
 
-        assert self.boxscore.attendance == 0
+        assert self.boxscore.attendance is None
 
     def test_mlb_first_game_double_header_info(self):
         fields = {
@@ -247,25 +247,25 @@ Second game of doubleheader
         mock_runners = PropertyMock(return_value='')
         type(self.boxscore)._away_inherited_runners = mock_runners
 
-        assert self.boxscore.away_inherited_runners == 0
+        assert self.boxscore.away_inherited_runners is None
 
     def test_invalid_away_inherited_score_returns_default(self):
         mock_score = PropertyMock(return_value='')
         type(self.boxscore)._away_inherited_score = mock_score
 
-        assert self.boxscore.away_inherited_score == 0
+        assert self.boxscore.away_inherited_score is None
 
     def test_invalid_home_inherited_runners_returns_default(self):
         mock_runners = PropertyMock(return_value='')
         type(self.boxscore)._home_inherited_runners = mock_runners
 
-        assert self.boxscore.home_inherited_runners == 0
+        assert self.boxscore.home_inherited_runners is None
 
     def test_invalid_home_inherited_score_returns_default(self):
         mock_score = PropertyMock(return_value='')
         type(self.boxscore)._home_inherited_score = mock_score
 
-        assert self.boxscore.home_inherited_score == 0
+        assert self.boxscore.home_inherited_score is None
 
     def test_no_class_information_returns_dataframe_of_none(self):
         mock_runs = PropertyMock(return_value=None)

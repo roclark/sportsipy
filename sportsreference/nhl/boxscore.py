@@ -2,12 +2,41 @@ import pandas as pd
 import re
 from pyquery import PyQuery as pq
 from .. import utils
+from ..decorators import float_property_decorator, int_property_decorator
 from .constants import (BOXSCORE_ELEMENT_INDEX,
                         BOXSCORE_SCHEME,
                         BOXSCORE_URL,
                         BOXSCORES_URL)
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
+
+
+def nhl_int_property_decorator(func):
+    @property
+    def wrapper(*args):
+        value = func(*args)
+        num_skaters = args[0]._away_skaters
+        num_goalies = args[0]._away_goalies
+        num = 0
+        # If the field is specific to goalie stats, use the number of goalies
+        # as an index instead of the number of skaters.
+        index = num_skaters
+        if func.__name__ in ['away_saves', 'away_shutout', 'home_saves',
+                             'home_shutout']:
+            index = num_goalies
+        # For properties dedicated to the away team, reference the first chunk
+        # of skaters. Otherwise, reference the second chunk for home team
+        # properties.
+        value_subset = value[:index]
+        if 'home' in func.__name__:
+            value_subset = value[index:]
+        for x in value_subset:
+            try:
+                num += int(x)
+            except ValueError:
+                continue
+        return num
+    return wrapper
 
 
 class Boxscore(object):
@@ -337,13 +366,12 @@ class Boxscore(object):
         """
         return self._arena.replace('Arena: ', '')
 
-    @property
+    @int_property_decorator
     def attendance(self):
         """
         Returns an ``int`` of the game's listed attendance.
         """
-        attendance = self._attendance.replace('Attendance: ', '')
-        return int(attendance.replace(',', ''))
+        return self._attendance.replace('Attendance: ', '').replace(',', '')
 
     @property
     def duration(self):
@@ -402,148 +430,113 @@ class Boxscore(object):
             return utils._parse_abbreviation(self._away_name)
         return utils._parse_abbreviation(self._home_name)
 
-    @property
+    @int_property_decorator
     def away_goals(self):
         """
         Returns an ``int`` of the number of goals the away team scored.
         """
-        return int(self._away_goals)
+        return self._away_goals
 
-    @property
+    @int_property_decorator
     def away_assists(self):
         """
         Returns an ``int`` of the number of assists the away team registered.
         """
-        return int(self._away_assists)
+        return self._away_assists
 
-    @property
+    @int_property_decorator
     def away_points(self):
         """
         Returns an ``int`` of the number of points the away team registered.
         """
-        return int(self._away_points)
+        return self._away_points
 
-    @property
+    @int_property_decorator
     def away_penalties_in_minutes(self):
         """
         Returns an ``int`` of the length of time the away team spent in the
         penalty box.
         """
-        return int(self._away_penalties_in_minutes)
+        return self._away_penalties_in_minutes
 
-    @property
+    @int_property_decorator
     def away_even_strength_goals(self):
         """
         Returns an ``int`` of the number of goals the away team scored at even
         strength.
         """
-        return int(self._away_even_strength_goals)
+        return self._away_even_strength_goals
 
-    @property
+    @int_property_decorator
     def away_power_play_goals(self):
         """
         Returns an ``int`` of the number of goals the away team scored while on
         a power play.
         """
-        return int(self._away_power_play_goals)
+        return self._away_power_play_goals
 
-    @property
+    @int_property_decorator
     def away_short_handed_goals(self):
         """
         Returns an ``int`` of the number of goals the away team scored while
         short handed.
         """
-        return int(self._away_short_handed_goals)
+        return self._away_short_handed_goals
 
-    @property
+    @nhl_int_property_decorator
     def away_game_winning_goals(self):
         """
         Returns an ``int`` of the number of game winning goals the away team
         scored.
         """
-        goals = self._away_game_winning_goals[:self._away_skaters]
-        num = 0
-        for x in goals:
-            try:
-                num += int(x)
-            except ValueError:
-                continue
-        return num
+        return self._away_game_winning_goals
 
-    @property
+    @nhl_int_property_decorator
     def away_even_strength_assists(self):
         """
         Returns an ``int`` of the number of assists the away team registered
         while at even strength.
         """
-        assists = self._away_even_strength_assists[:self._away_skaters]
-        num = 0
-        for x in assists:
-            try:
-                num += int(x)
-            except ValueError:
-                continue
-        return num
+        return self._away_even_strength_assists
 
-    @property
+    @nhl_int_property_decorator
     def away_power_play_assists(self):
         """
         Returns an ``int`` of the number of assists the away team registered
         while on a power play.
         """
-        assists = self._away_power_play_assists[:self._away_skaters]
-        num = 0
-        for x in assists:
-            try:
-                num += int(x)
-            except ValueError:
-                continue
-        return num
+        return self._away_power_play_assists
 
-    @property
+    @nhl_int_property_decorator
     def away_short_handed_assists(self):
         """
         Returns an ``int`` of the number of assists the away team registered
         while short handed.
         """
-        assists = self._away_short_handed_assists[:self._away_skaters]
-        num = 0
-        for x in assists:
-            try:
-                num += int(x)
-            except ValueError:
-                continue
-        return num
+        return self._away_short_handed_assists
 
-    @property
+    @int_property_decorator
     def away_shots_on_goal(self):
         """
         Returns an ``int`` of the number of shots on goal the away team
         registered.
         """
-        return int(self._away_shots_on_goal)
+        return self._away_shots_on_goal
 
-    @property
+    @float_property_decorator
     def away_shooting_percentage(self):
         """
         Returns a ``float`` of the away team's shooting percentage. Percentage
         ranges from 0-100.
         """
-        return float(self._away_shooting_percentage)
+        return self._away_shooting_percentage
 
-    @property
+    @nhl_int_property_decorator
     def away_saves(self):
         """
         Returns an ``int`` of the number of saves the away team made.
         """
-        saves = self._away_saves[:self._away_goalies]
-        num = 0
-        for x in saves:
-            try:
-                num += int(x)
-            except ValueError:
-                continue
-        return num
+        return self._away_saves
 
     @property
     def away_save_percentage(self):
@@ -557,164 +550,121 @@ class Boxscore(object):
         except ZeroDivisionError:
             return 0.0
 
-    @property
+    @nhl_int_property_decorator
     def away_shutout(self):
         """
         Returns an ``int`` denoting whether or not the away team shutout the
         home team.
         """
-        shutout = self._away_shutout[:self._away_goalies]
-        for x in shutout:
-            try:
-                y = int(x)
-            except ValueError:
-                continue
-            if y == 1:
-                return 1
-        return 0
+        return self._away_shutout
 
-    @property
+    @int_property_decorator
     def home_goals(self):
         """
         Returns an ``int`` of the number of goals the home team scored.
         """
-        return int(self._home_goals)
+        return self._home_goals
 
-    @property
+    @int_property_decorator
     def home_assists(self):
         """
         Returns an ``int`` of the number of assists the home team registered.
         """
-        return int(self._home_assists)
+        return self._home_assists
 
-    @property
+    @int_property_decorator
     def home_points(self):
         """
         Returns an ``int`` of the number of points the home team registered.
         """
-        return int(self._home_points)
+        return self._home_points
 
-    @property
+    @int_property_decorator
     def home_penalties_in_minutes(self):
         """
         Returns an ``int`` of the length of time the home team spent in the
         penalty box.
         """
-        return int(self._home_penalties_in_minutes)
+        return self._home_penalties_in_minutes
 
-    @property
+    @int_property_decorator
     def home_even_strength_goals(self):
         """
         Returns an ``int`` of the number of goals the home team scored at even
         strength.
         """
-        return int(self._home_even_strength_goals)
+        return self._home_even_strength_goals
 
-    @property
+    @int_property_decorator
     def home_power_play_goals(self):
         """
         Returns an ``int`` of the number of goals the home team scored while on
         a power play.
         """
-        return int(self._home_power_play_goals)
+        return self._home_power_play_goals
 
-    @property
+    @int_property_decorator
     def home_short_handed_goals(self):
         """
         Returns an ``int`` of the number of goals the home team scored while
         short handed.
         """
-        return int(self._home_short_handed_goals)
+        return self._home_short_handed_goals
 
-    @property
+    @nhl_int_property_decorator
     def home_game_winning_goals(self):
         """
         Returns an ``int`` of the number of game winning goals the home team
         scored.
         """
-        goals = self._home_game_winning_goals[self._away_skaters:]
-        num = 0
-        for x in goals:
-            try:
-                num += int(x)
-            except ValueError:
-                continue
-        return num
+        return self._home_game_winning_goals
 
-    @property
+    @nhl_int_property_decorator
     def home_even_strength_assists(self):
         """
         Returns an ``int`` of the number of assists the home team registered
         while at even strength.
         """
-        assists = self._home_even_strength_assists[self._away_skaters:]
-        num = 0
-        for x in assists:
-            try:
-                num += int(x)
-            except ValueError:
-                continue
-        return num
+        return self._home_even_strength_assists
 
-    @property
+    @nhl_int_property_decorator
     def home_power_play_assists(self):
         """
         Returns an ``int`` of the number of assists the home team registered
         while on a power play.
         """
-        assists = self._home_power_play_assists[self._away_skaters:]
-        num = 0
-        for x in assists:
-            try:
-                num += int(x)
-            except ValueError:
-                continue
-        return num
+        return self._home_power_play_assists
 
-    @property
+    @nhl_int_property_decorator
     def home_short_handed_assists(self):
         """
         Returns an ``int`` of the number of assists the home team registered
         while short handed.
         """
-        assists = self._home_short_handed_assists[self._away_skaters:]
-        num = 0
-        for x in assists:
-            try:
-                num += int(x)
-            except ValueError:
-                continue
-        return num
+        return self._home_short_handed_assists
 
-    @property
+    @int_property_decorator
     def home_shots_on_goal(self):
         """
         Returns an ``int`` of the number of shots on goal the home team
         registered.
         """
-        return int(self._home_shots_on_goal)
+        return self._home_shots_on_goal
 
-    @property
+    @float_property_decorator
     def home_shooting_percentage(self):
         """
         Returns a ``float`` of the home team's shooting percentage. Percentage
         ranges from 0-100.
         """
-        return float(self._home_shooting_percentage)
+        return self._home_shooting_percentage
 
-    @property
+    @nhl_int_property_decorator
     def home_saves(self):
         """
         Returns an ``int`` of the number of saves the home team made.
         """
-        saves = self._home_saves[self._away_goalies:]
-        num = 0
-        for x in saves:
-            try:
-                num += int(x)
-            except ValueError:
-                continue
-        return num
+        return self._home_saves
 
     @property
     def home_save_percentage(self):
@@ -728,21 +678,13 @@ class Boxscore(object):
         except ZeroDivisionError:
             return 0.0
 
-    @property
+    @nhl_int_property_decorator
     def home_shutout(self):
         """
         Returns an ``int`` denoting whether or not the home team shutout the
         home team.
         """
-        shutout = self._home_shutout[self._away_goalies:]
-        for x in shutout:
-            try:
-                y = int(x)
-            except ValueError:
-                continue
-            if y == 1:
-                return 1
-        return 0
+        return self._home_shutout
 
 
 class Boxscores:

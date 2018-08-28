@@ -2,6 +2,7 @@ import pandas as pd
 import re
 from .constants import PARSING_SCHEME, SEASON_PAGE_URL
 from pyquery import PyQuery as pq
+from ..decorators import float_property_decorator, int_property_decorator
 from .. import utils
 from .schedule import Schedule
 
@@ -154,13 +155,13 @@ class Team:
         }
         return pd.DataFrame([fields_to_include], index=[self._abbreviation])
 
-    @property
+    @int_property_decorator
     def rank(self):
         """
         Returns an ``int`` of the team's rank based on the number of points
         they scored during the season.
         """
-        return int(self._rank)
+        return self._rank
 
     @property
     def abbreviation(self):
@@ -186,293 +187,293 @@ class Team:
         """
         return self._name
 
-    @property
+    @int_property_decorator
     def wins(self):
         """
         Returns an ``int`` of the number of games the team won during the
         season.
         """
-        return int(self._wins)
+        return self._wins
 
-    @property
+    @int_property_decorator
     def losses(self):
         """
         Returns an ``int`` of the number of games the team lost during the
         season.
         """
-        return int(self._losses)
+        return self._losses
 
-    @property
+    @float_property_decorator
     def win_percentage(self):
         """
         Returns a ``float`` of the number of wins divided by the number of
         games played. Percentage ranges from 0-1.
         """
-        return float(self._win_percentage)
+        return self._win_percentage
 
-    @property
+    @int_property_decorator
     def games_played(self):
         """
         Returns an ``int`` of the number of games played during the season.
         """
-        return int(self._games_played)
+        return self._games_played
 
-    @property
+    @int_property_decorator
     def points_for(self):
         """
         Returns an ``int`` of the total number of points scored during the
         season.
         """
-        return int(self._points_for)
+        return self._points_for
 
-    @property
+    @int_property_decorator
     def points_against(self):
         """
         Returns an ``int`` of the total number of points allowed during the
         season.
         """
-        return int(self._points_against)
+        return self._points_against
 
-    @property
+    @int_property_decorator
     def points_difference(self):
         """
         Returns an ``int`` of the difference between the number of points
         scored and allowed during the season.
         """
-        return int(self._points_difference)
+        return self._points_difference
 
-    @property
+    @float_property_decorator
     def margin_of_victory(self):
         """
         Returns a ``float`` of the average margin of victory per game.
         """
-        return float(self._margin_of_victory)
+        return self._margin_of_victory
 
-    @property
+    @float_property_decorator
     def strength_of_schedule(self):
         """
         Returns a ``float`` of the team's strength of schedule. An average
         difficulty schedule is denoted with a 0.0 and a negative number is
         comparatively easier than average.
         """
-        return float(self._strength_of_schedule)
+        return self._strength_of_schedule
 
-    @property
+    @float_property_decorator
     def simple_rating_system(self):
         """
         Returns a ``float`` of the team's relative strength based on average
         margin of victory plus strength of schedule. An average team is denoted
         with 0.0 and a negative score is a comparatively weaker team.
         """
-        return float(self._simple_rating_system)
+        return self._simple_rating_system
 
-    @property
+    @float_property_decorator
     def offensive_simple_rating_system(self):
         """
         Returns a ``float`` of the team's offensive strength according to the
         simple rating system. An average team is denoted with 0.0 and a
         negative score is a comparatively weaker team.
         """
-        return float(self._offensive_simple_rating_system)
+        return self._offensive_simple_rating_system
 
-    @property
+    @float_property_decorator
     def defensive_simple_rating_system(self):
         """
         Returns a ``float`` of the team's defensive strength according to the
         simple rating system. An average team is denoted with 0.0 and a
         negative score is a comparatively weaker team.
         """
-        return float(self._defensive_simple_rating_system)
+        return self._defensive_simple_rating_system
 
-    @property
+    @int_property_decorator
     def yards(self):
         """
         Returns an ``int`` of the total number of yards the team has gained
         during the season.
         """
-        return int(self._yards)
+        return self._yards
 
-    @property
+    @int_property_decorator
     def plays(self):
         """
         Returns an ``int`` of the total number of offensive plays the team has
         made during the season.
         """
-        return int(self._plays)
+        return self._plays
 
-    @property
+    @float_property_decorator
     def yards_per_play(self):
         """
         Returns a ``float`` of the average number of yards gained per play
         during the season.
         """
-        return float(self._yards_per_play)
+        return self._yards_per_play
 
-    @property
+    @int_property_decorator
     def turnovers(self):
         """
         Returns an ``int`` of the total number of turnovers the team committed
         during the season.
         """
-        return int(self._turnovers)
+        return self._turnovers
 
-    @property
+    @int_property_decorator
     def fumbles(self):
         """
         Returns an ``int`` of the total number of times the team fumbled the
         ball during the season.
         """
-        return int(self._fumbles)
+        return self._fumbles
 
-    @property
+    @int_property_decorator
     def first_downs(self):
         """
         Returns an ``int`` of the total number of first downs the team achieved
         during the season.
         """
-        return int(self._first_downs)
+        return self._first_downs
 
-    @property
+    @int_property_decorator
     def pass_completions(self):
         """
         Returns an ``int`` of the total number of passes that were completed.
         """
-        return int(self._pass_completions)
+        return self._pass_completions
 
-    @property
+    @int_property_decorator
     def pass_attempts(self):
         """
         Returns an ``int`` of the total number of passes that were attempted.
         """
-        return int(self._pass_attempts)
+        return self._pass_attempts
 
-    @property
+    @int_property_decorator
     def pass_yards(self):
         """
         Returns an ``int`` of the total number of yards the team gained from
         passing.
         """
-        return int(self._pass_yards)
+        return self._pass_yards
 
-    @property
+    @int_property_decorator
     def pass_touchdowns(self):
         """
         Returns an ``int`` of the total number of touchdowns the team has
         scored from passing.
         """
-        return int(self._pass_touchdowns)
+        return self._pass_touchdowns
 
-    @property
+    @int_property_decorator
     def interceptions(self):
         """
         Returns an ``int`` of the total number of interceptions the team has
         thrown.
         """
-        return int(self._interceptions)
+        return self._interceptions
 
-    @property
+    @float_property_decorator
     def pass_net_yards_per_attempt(self):
         """
         Returns a ``float`` of the net yards gained per passing play including
         sacks.
         """
-        return float(self._pass_net_yards_per_attempt)
+        return self._pass_net_yards_per_attempt
 
-    @property
+    @int_property_decorator
     def pass_first_downs(self):
         """
         Returns an ``int`` of the number of first downs the team gained from
         passing plays.
         """
-        return int(self._pass_first_downs)
+        return self._pass_first_downs
 
-    @property
+    @int_property_decorator
     def rush_attempts(self):
         """
         Returns an ``int`` of the total number of rushing plays that were
         attempted.
         """
-        return int(self._rush_attempts)
+        return self._rush_attempts
 
-    @property
+    @int_property_decorator
     def rush_yards(self):
         """
         Returns an ``int`` of the total number of yards that were gained from
         rushing plays.
         """
-        return int(self._rush_yards)
+        return self._rush_yards
 
-    @property
+    @int_property_decorator
     def rush_touchdowns(self):
         """
         Returns an ``int`` of the total number of touchdowns from rushing
         plays.
         """
-        return int(self._rush_touchdowns)
+        return self._rush_touchdowns
 
-    @property
+    @float_property_decorator
     def rush_yards_per_attempt(self):
         """
         Returns a ``float`` of the average number of yards gained per rushing
         play.
         """
-        return float(self._rush_yards_per_attempt)
+        return self._rush_yards_per_attempt
 
-    @property
+    @int_property_decorator
     def rush_first_downs(self):
         """
         Returns an ``int`` of the total number of first downs gained from
         rushing plays.
         """
-        return int(self._rush_first_downs)
+        return self._rush_first_downs
 
-    @property
+    @int_property_decorator
     def penalties(self):
         """
         Returns an ``int`` of the total number of penalties called on the team
         during the season.
         """
-        return int(self._penalties)
+        return self._penalties
 
-    @property
+    @int_property_decorator
     def yards_from_penalties(self):
         """
         Returns an ``int`` of the total number of yards surrendered as a result
         of penalties called on the team.
         """
-        return int(self._yards_from_penalties)
+        return self._yards_from_penalties
 
-    @property
+    @int_property_decorator
     def first_downs_from_penalties(self):
         """
         Returns an ``int`` of the total number of first downs conceded as a
         result of penalties called on the team.
         """
-        return int(self._first_downs_from_penalties)
+        return self._first_downs_from_penalties
 
-    @property
+    @float_property_decorator
     def percent_drives_with_points(self):
         """
         Returns a ``float`` of the percentage of drives that result in points
         for the offense. Percentage ranges from 0-100.
         """
-        return float(self._percent_drives_with_points)
+        return self._percent_drives_with_points
 
-    @property
+    @float_property_decorator
     def percent_drives_with_turnovers(self):
         """
         Returns a ``float`` of the percentage of drives that result in an
         offensive turnover. Percentage ranges from 0-100.
         """
-        return float(self._percent_drives_with_turnovers)
+        return self._percent_drives_with_turnovers
 
-    @property
+    @float_property_decorator
     def points_contributed_by_offense(self):
         """
         Returns a ``float`` of the number of expected points contributed by the
         offense.
         """
-        return float(self._points_contributed_by_offense)
+        return self._points_contributed_by_offense
 
 
 class Teams:

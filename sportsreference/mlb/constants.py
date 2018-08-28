@@ -84,6 +84,31 @@ PARSING_SCHEME = {
     'opposing_runners_left_on_base': 'td[data-stat="LOB"]:first'
 }
 
+TEAM_ELEMENT = {
+    'home_wins': 0,
+    'home_losses': 1,
+    'away_wins': 0,
+    'away_losses': 1,
+    'extra_inning_wins': 0,
+    'extra_inning_losses': 1,
+    'single_run_wins': 0,
+    'single_run_losses': 1,
+    'wins_vs_right_handed_pitchers': 0,
+    'losses_vs_right_handed_pitchers': 1,
+    'wins_vs_left_handed_pitchers': 0,
+    'losses_vs_left_handed_pitchers': 1,
+    'wins_vs_teams_over_500': 0,
+    'losses_vs_teams_over_500': 1,
+    'wins_vs_teams_under_500': 0,
+    'losses_vs_teams_under_500': 1,
+    'wins_last_ten_games': 0,
+    'losses_last_ten_games': 1,
+    'wins_last_twenty_games': 0,
+    'losses_last_twenty_games': 1,
+    'wins_last_thirty_games': 0,
+    'losses_last_thirty_games': 1
+}
+
 SCHEDULE_SCHEME = {
     'game': 'th[data-stat="team_game"]:first',
     'date': 'td[data-stat="date_game"]:first',

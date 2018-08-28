@@ -2,12 +2,34 @@ import pandas as pd
 import re
 from pyquery import PyQuery as pq
 from .. import utils
+from ..decorators import int_property_decorator
 from .constants import (BOXSCORE_ELEMENT_INDEX,
+                        BOXSCORE_ELEMENT_SUB_INDEX,
                         BOXSCORE_SCHEME,
                         BOXSCORE_URL,
                         BOXSCORES_URL)
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
+
+
+def ncaaf_int_property_sub_index(func):
+    # Decorator dedicated to properties with sub-indices, such as pass yards
+    # which is indexed within a table cell but also has multiple other values
+    # in that same cell that need to be ignored.
+    @property
+    def wrapper(*args):
+        value = func(*args)
+        # Equivalent to the calling property's method name
+        field = func.__name__
+        try:
+            field_items = value.replace('--', '-').split('-')
+        except AttributeError:
+            return None
+        try:
+            return int(field_items[BOXSCORE_ELEMENT_SUB_INDEX[field]])
+        except (TypeError, ValueError, IndexError):
+            return None
+    return wrapper
 
 
 class Boxscore(object):
@@ -359,295 +381,245 @@ class Boxscore(object):
             return self._home_name.text()
         return utils._parse_abbreviation(self._home_name)
 
-    @property
+    @int_property_decorator
     def away_points(self):
         """
         Returns an ``int`` of the number of points the away team scored.
         """
-        return int(self._away_points)
+        return self._away_points
 
-    @property
+    @int_property_decorator
     def away_first_downs(self):
         """
         Returns an ``int`` of the number of first downs the away team gained.
         """
-        return int(self._away_first_downs)
+        return self._away_first_downs
 
-    @property
+    @ncaaf_int_property_sub_index
     def away_rush_attempts(self):
         """
         Returns an ``int`` of the number of rushing plays the away team made.
         """
-        # Rush info is in the format 'Rush-Yds-TDs'
-        rush_info = self._away_rush_attempts.replace('--', '-').split('-')
-        return int(rush_info[0])
+        return self._away_rush_attempts
 
-    @property
+    @ncaaf_int_property_sub_index
     def away_rush_yards(self):
         """
         Returns an ``int`` of the number of rushing yards the away team gained.
         """
-        # Rush info is in the format 'Rush-Yds-TDs'
-        rush_info = self._away_rush_yards.replace('--', '-').split('-')
-        return int(rush_info[1])
+        return self._away_rush_yards
 
-    @property
+    @ncaaf_int_property_sub_index
     def away_rush_touchdowns(self):
         """
         Returns an ``int`` of the number of rushing touchdowns the away team
         scored.
         """
-        # Rush info is in the format 'Rush-Yds-TDs'
-        rush_info = self._away_rush_touchdowns.replace('--', '-').split('-')
-        return int(rush_info[2])
+        return self._away_rush_touchdowns
 
-    @property
+    @ncaaf_int_property_sub_index
     def away_pass_completions(self):
         """
         Returns an ``int`` of the number of completed passes the away team
         made.
         """
-        # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._away_pass_completions.replace('--', '-').split('-')
-        return int(pass_info[0])
+        return self._away_pass_completions
 
-    @property
+    @ncaaf_int_property_sub_index
     def away_pass_attempts(self):
         """
         Returns an ``int`` of the number of passes that were thrown by the away
         team.
         """
-        # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._away_pass_attempts.replace('--', '-').split('-')
-        return int(pass_info[1])
+        return self._away_pass_attempts
 
-    @property
+    @ncaaf_int_property_sub_index
     def away_pass_yards(self):
         """
         Returns an ``int`` of the number of passing yards the away team gained.
         """
-        # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._away_pass_yards.replace('--', '-').split('-')
-        return int(pass_info[2])
+        return self._away_pass_yards
 
-    @property
+    @ncaaf_int_property_sub_index
     def away_pass_touchdowns(self):
         """
         Returns an ``int`` of the number of passing touchdowns the away team
         scored.
         """
-        # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._away_pass_touchdowns.replace('--', '-').split('-')
-        return int(pass_info[3])
+        return self._away_pass_touchdowns
 
-    @property
+    @ncaaf_int_property_sub_index
     def away_interceptions(self):
         """
         Returns an ``int`` of the number of interceptions the away team threw.
         """
-        # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._away_interceptions.replace('--', '-').split('-')
-        return int(pass_info[4])
+        return self._away_interceptions
 
-    @property
+    @int_property_decorator
     def away_total_yards(self):
         """
         Returns an ``int`` of the total number of yards the away team gained.
         """
-        return int(self._away_total_yards)
+        return self._away_total_yards
 
-    @property
+    @ncaaf_int_property_sub_index
     def away_fumbles(self):
         """
         Returns an ``int`` of the number of times the away team fumbled the
         ball.
         """
-        # Fumble info is in the format 'Fumbles-Lost'
-        fumble_info = self._away_fumbles.replace('--', '-').split('-')
-        return int(fumble_info[0])
+        return self._away_fumbles
 
-    @property
+    @ncaaf_int_property_sub_index
     def away_fumbles_lost(self):
         """
         Returns an ``int`` of the number of times the away team turned the ball
         over as the result of a fumble.
         """
-        # Fumble info is in the format 'Fumbles-Lost'
-        fumble_info = self._away_fumbles.replace('--', '-').split('-')
-        return int(fumble_info[1])
+        return self._away_fumbles
 
-    @property
+    @int_property_decorator
     def away_turnovers(self):
         """
         Returns an ``int`` of the number of times the away team turned the ball
         over.
         """
-        return int(self._away_turnovers)
+        return self._away_turnovers
 
-    @property
+    @ncaaf_int_property_sub_index
     def away_penalties(self):
         """
         Returns an ``int`` of the number of penalties called on the away team.
         """
-        # Penalties info is in the format 'Penalties-Yards'
-        penalties_info = self._away_penalties.replace('--', '-').split('-')
-        return int(penalties_info[0])
+        return self._away_penalties
 
-    @property
+    @ncaaf_int_property_sub_index
     def away_yards_from_penalties(self):
         """
         Returns an ``int`` of the number of yards gifted as a result of
         penalties called on the away team.
         """
-        # Penalties info is in the format 'Penalties-Yards'
-        penalties_info = self._away_yards_from_penalties.replace('--', '-')
-        penalties_info = penalties_info.split('-')
-        return int(penalties_info[1])
+        return self._away_yards_from_penalties
 
-    @property
+    @int_property_decorator
     def home_points(self):
         """
         Returns an ``int`` of the number of points the home team scored.
         """
-        return int(self._home_points)
+        return self._home_points
 
-    @property
+    @int_property_decorator
     def home_first_downs(self):
         """
         Returns an ``int`` of the number of first downs the home team gained.
         """
-        return int(self._home_first_downs)
+        return self._home_first_downs
 
-    @property
+    @ncaaf_int_property_sub_index
     def home_rush_attempts(self):
         """
         Returns an ``int`` of the number of rushing plays the home team made.
         """
-        # Rush info is in the format 'Rush-Yds-TDs'
-        rush_info = self._home_rush_attempts.replace('--', '-').split('-')
-        return int(rush_info[0])
+        return self._home_rush_attempts
 
-    @property
+    @ncaaf_int_property_sub_index
     def home_rush_yards(self):
         """
         Returns an ``int`` of the number of rushing yards the home team gained.
         """
-        # Rush info is in the format 'Rush-Yds-TDs'
-        rush_info = self._home_rush_yards.replace('--', '-').split('-')
-        return int(rush_info[1])
+        return self._home_rush_yards
 
-    @property
+    @ncaaf_int_property_sub_index
     def home_rush_touchdowns(self):
         """
         Returns an ``int`` of the number of rushing touchdowns the home team
         scored.
         """
-        # Rush info is in the format 'Rush-Yds-TDs'
-        rush_info = self._home_rush_touchdowns.replace('--', '-').split('-')
-        return int(rush_info[2])
+        return self._home_rush_touchdowns
 
-    @property
+    @ncaaf_int_property_sub_index
     def home_pass_completions(self):
         """
         Returns an ``int`` of the number of completed passes the home team
         made.
         """
-        # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._home_pass_completions.replace('--', '-').split('-')
-        return int(pass_info[0])
+        return self._home_pass_completions
 
-    @property
+    @ncaaf_int_property_sub_index
     def home_pass_attempts(self):
         """
         Returns an ``int`` of the number of passes that were thrown by the home
         team.
         """
-        # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._home_pass_attempts.replace('--', '-').split('-')
-        return int(pass_info[1])
+        return self._home_pass_attempts
 
-    @property
+    @ncaaf_int_property_sub_index
     def home_pass_yards(self):
         """
         Returns an ``int`` of the number of passing yards the home team gained.
         """
-        # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._home_pass_yards.replace('--', '-').split('-')
-        return int(pass_info[2])
+        return self._home_pass_yards
 
-    @property
+    @ncaaf_int_property_sub_index
     def home_pass_touchdowns(self):
         """
         Returns an ``int`` of the number of passing touchdowns the home team
         scored.
         """
-        # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._home_pass_touchdowns.replace('--', '-').split('-')
-        return int(pass_info[3])
+        return self._home_pass_touchdowns
 
-    @property
+    @ncaaf_int_property_sub_index
     def home_interceptions(self):
         """
         Returns an ``int`` of the number of interceptions the home team threw.
         """
-        # Pass info is in the format 'Cmp-Att-Yd-TD-INT'
-        pass_info = self._home_pass_touchdowns.replace('--', '-').split('-')
-        return int(pass_info[4])
+        return self._home_pass_touchdowns
 
-    @property
+    @int_property_decorator
     def home_total_yards(self):
         """
         Returns an ``int`` of the total number of yards the home team gained.
         """
-        return int(self._home_total_yards)
+        return self._home_total_yards
 
-    @property
+    @ncaaf_int_property_sub_index
     def home_fumbles(self):
         """
         Returns an ``int`` of the number of times the home team fumbled the
         ball.
         """
-        # Fumble info is in the format 'Fumbles-Lost'
-        fumble_info = self._home_fumbles.replace('--', '-').split('-')
-        return int(fumble_info[0])
+        return self._home_fumbles
 
-    @property
+    @ncaaf_int_property_sub_index
     def home_fumbles_lost(self):
         """
         Returns an ``int`` of the number of times the home team turned the ball
         over as the result of a fumble.
         """
-        # Fumble info is in the format 'Fumbles-Lost'
-        fumble_info = self._home_fumbles_lost.replace('--', '-').split('-')
-        return int(fumble_info[1])
+        return self._home_fumbles_lost
 
-    @property
+    @int_property_decorator
     def home_turnovers(self):
         """
         Returns an ``int`` of the number of times the home team turned the ball
         over.
         """
-        return int(self._home_turnovers)
+        return self._home_turnovers
 
-    @property
+    @ncaaf_int_property_sub_index
     def home_penalties(self):
         """
         Returns an ``int`` of the number of penalties called on the home team.
         """
-        # Penalties info is in the format 'Penalties-Yards'
-        penalties_info = self._home_penalties.replace('--', '-').split('-')
-        return int(penalties_info[0])
+        return self._home_penalties
 
-    @property
+    @ncaaf_int_property_sub_index
     def home_yards_from_penalties(self):
         """
         Returns an ``int`` of the number of yards gifted as a result of
         penalties called on the home team.
         """
-        # Penalties info is in the format 'Penalties-Yards'
-        penalties_info = self._home_yards_from_penalties.replace('--', '-')
-        penalties_info = penalties_info.split('-')
-        return int(penalties_info[1])
+        return self._home_yards_from_penalties
 
 
 class Boxscores:
