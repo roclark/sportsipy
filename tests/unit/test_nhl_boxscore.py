@@ -169,8 +169,10 @@ class TestNHLBoxscore:
 
         fake_goals = PropertyMock(return_value=goals)
         fake_num_skaters = PropertyMock(return_value=3)
+        fake_num_goalies = PropertyMock(return_value=0)
         type(self.boxscore)._away_game_winning_goals = fake_goals
         type(self.boxscore)._away_skaters = fake_num_skaters
+        type(self.boxscore)._away_goalies = fake_num_goalies
 
         assert self.boxscore.away_game_winning_goals == 1
 
@@ -179,8 +181,10 @@ class TestNHLBoxscore:
 
         fake_assists = PropertyMock(return_value=assists)
         fake_num_skaters = PropertyMock(return_value=3)
+        fake_num_goalies = PropertyMock(return_value=0)
         type(self.boxscore)._away_even_strength_assists = fake_assists
         type(self.boxscore)._away_skaters = fake_num_skaters
+        type(self.boxscore)._away_goalies = fake_num_goalies
 
         assert self.boxscore.away_even_strength_assists == 1
 
@@ -189,8 +193,10 @@ class TestNHLBoxscore:
 
         fake_assists = PropertyMock(return_value=assists)
         fake_num_skaters = PropertyMock(return_value=0)
+        fake_num_goalies = PropertyMock(return_value=0)
         type(self.boxscore)._home_even_strength_assists = fake_assists
         type(self.boxscore)._away_skaters = fake_num_skaters
+        type(self.boxscore)._away_goalies = fake_num_goalies
 
         assert self.boxscore.home_even_strength_assists == 1
 
@@ -199,8 +205,10 @@ class TestNHLBoxscore:
 
         fake_assists = PropertyMock(return_value=assists)
         fake_num_skaters = PropertyMock(return_value=3)
+        fake_num_goalies = PropertyMock(return_value=0)
         type(self.boxscore)._away_power_play_assists = fake_assists
         type(self.boxscore)._away_skaters = fake_num_skaters
+        type(self.boxscore)._away_goalies = fake_num_goalies
 
         assert self.boxscore.away_power_play_assists == 1
 
@@ -209,8 +217,10 @@ class TestNHLBoxscore:
 
         fake_assists = PropertyMock(return_value=assists)
         fake_num_skaters = PropertyMock(return_value=0)
+        fake_num_goalies = PropertyMock(return_value=0)
         type(self.boxscore)._home_power_play_assists = fake_assists
         type(self.boxscore)._away_skaters = fake_num_skaters
+        type(self.boxscore)._away_goalies = fake_num_goalies
 
         assert self.boxscore.home_power_play_assists == 1
 
@@ -219,8 +229,10 @@ class TestNHLBoxscore:
 
         fake_assists = PropertyMock(return_value=assists)
         fake_num_skaters = PropertyMock(return_value=3)
+        fake_num_goalies = PropertyMock(return_value=0)
         type(self.boxscore)._away_short_handed_assists = fake_assists
         type(self.boxscore)._away_skaters = fake_num_skaters
+        type(self.boxscore)._away_goalies = fake_num_goalies
 
         assert self.boxscore.away_short_handed_assists == 1
 
@@ -229,8 +241,10 @@ class TestNHLBoxscore:
 
         fake_assists = PropertyMock(return_value=assists)
         fake_num_skaters = PropertyMock(return_value=0)
+        fake_num_goalies = PropertyMock(return_value=0)
         type(self.boxscore)._home_short_handed_assists = fake_assists
         type(self.boxscore)._away_skaters = fake_num_skaters
+        type(self.boxscore)._away_goalies = fake_num_goalies
 
         assert self.boxscore.home_short_handed_assists == 1
 

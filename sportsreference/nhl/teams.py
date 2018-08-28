@@ -2,6 +2,7 @@ import pandas as pd
 import re
 from .constants import PARSING_SCHEME, SEASON_PAGE_URL
 from pyquery import PyQuery as pq
+from ..decorators import float_property_decorator, int_property_decorator
 from .. import utils
 from .schedule import Schedule
 
@@ -129,13 +130,13 @@ class Team:
         }
         return pd.DataFrame([fields_to_include], index=[self._abbreviation])
 
-    @property
+    @int_property_decorator
     def rank(self):
         """
         Returns an ``int`` of the team's rank based on the number of points
         they obtained in the season.
         """
-        return int(self._rank)
+        return self._rank
 
     @property
     def abbreviation(self):
@@ -161,80 +162,80 @@ class Team:
         """
         return self._name
 
-    @property
+    @float_property_decorator
     def average_age(self):
         """
         Returns a ``float`` of the average age of all players on the team,
         weighted by their time on ice.
         """
-        return float(self._average_age)
+        return self._average_age
 
-    @property
+    @int_property_decorator
     def games_played(self):
         """
         Returns an ``int`` of the total number of games the team has played in
         the season.
         """
-        return int(self._games_played)
+        return self._games_played
 
-    @property
+    @int_property_decorator
     def wins(self):
         """
         Returns an ``int`` of the total number of wins the team had in the
         season.
         """
-        return int(self._wins)
+        return self._wins
 
-    @property
+    @int_property_decorator
     def losses(self):
         """
         Returns an ``int`` of the total number of losses the team had in the
         season.
         """
-        return int(self._losses)
+        return self._losses
 
-    @property
+    @int_property_decorator
     def overtime_losses(self):
         """
         Returns an ``int`` of the total number of overtime losses the team had
         in the season.
         """
-        return int(self._overtime_losses)
+        return self._overtime_losses
 
-    @property
+    @int_property_decorator
     def points(self):
         """
         Returns an ``int`` of the total number of points the team gained in the
         season.
         """
-        return int(self._points)
+        return self._points
 
-    @property
+    @float_property_decorator
     def points_percentage(self):
         """
         Returns a ``float`` denoting the percentage of points gained divided by
         the maximum possible points available during the season. Percentage
         ranges from 0-1.
         """
-        return float(self._points_percentage)
+        return self._points_percentage
 
-    @property
+    @int_property_decorator
     def goals_for(self):
         """
         Returns an ``int`` of the total number of goals a team scored during
         the season.
         """
-        return int(self._goals_for)
+        return self._goals_for
 
-    @property
+    @int_property_decorator
     def goals_against(self):
         """
         Returns an ``int`` of the total number of goals opponents scored
         against the team during the season.
         """
-        return int(self._goals_against)
+        return self._goals_against
 
-    @property
+    @float_property_decorator
     def simple_rating_system(self):
         """
         Returns a ``float`` which takes into account the average goal
@@ -242,126 +243,126 @@ class Team:
         evaluates to 0.0. Teams which have a positive score are comparatively
         stronger than average while teams with a negative score are weaker.
         """
-        return float(self._simple_rating_system)
+        return self._simple_rating_system
 
-    @property
+    @float_property_decorator
     def strength_of_schedule(self):
         """
         Returns a ``float`` denoting a team's strength of schedule, based on
         goals scores and conceded. Higher values result in more challenging
         schedules while 0.0 is an average schedule.
         """
-        return float(self._strength_of_schedule)
+        return self._strength_of_schedule
 
-    @property
+    @float_property_decorator
     def total_goals_per_game(self):
         """
         Returns a ``float`` for the average number of goals scored per game.
         """
-        return float(self._total_goals_per_game)
+        return self._total_goals_per_game
 
-    @property
+    @int_property_decorator
     def power_play_goals(self):
         """
         Returns an ``int`` of the total number of power play goals scored.
         """
-        return int(self._power_play_goals)
+        return self._power_play_goals
 
-    @property
+    @int_property_decorator
     def power_play_opportunities(self):
         """
         Returns an ``int`` of the total number of power play opportunities for
         a team during the season.
         """
-        return int(self._power_play_opportunities)
+        return self._power_play_opportunities
 
-    @property
+    @float_property_decorator
     def power_play_percentage(self):
         """
         Returns a ``float`` denoting the percentage of power play opportunities
         where the team has scored. Percentage ranges from 0-100.
         """
-        return float(self._power_play_percentage)
+        return self._power_play_percentage
 
-    @property
+    @int_property_decorator
     def power_play_goals_against(self):
         """
         Returns an ``int`` of the total number of power play goals conceded.
         """
-        return int(self._power_play_goals_against)
+        return self._power_play_goals_against
 
-    @property
+    @int_property_decorator
     def power_play_opportunities_against(self):
         """
         Returns an ``int`` of the total number of power play opportunities for
         the opponents during the season.
         """
-        return int(self._power_play_opportunities_against)
+        return self._power_play_opportunities_against
 
-    @property
+    @float_property_decorator
     def penalty_killing_percentage(self):
         """
         Returns a ``float`` denoting the percentage of power plays that have
         been successfully defended without a goal being conceded. Percentage
         ranges from 0-100.
         """
-        return float(self._penalty_killing_percentage)
+        return self._penalty_killing_percentage
 
-    @property
+    @int_property_decorator
     def short_handed_goals(self):
         """
         Returns an ``int`` of the number of short handed goals the team has
         scored during the season.
         """
-        return int(self._short_handed_goals)
+        return self._short_handed_goals
 
-    @property
+    @int_property_decorator
     def short_handed_goals_against(self):
         """
         Returns an ``int`` of the number of short handed goals the team has
         conceded during the season.
         """
-        return int(self._short_handed_goals_against)
+        return self._short_handed_goals_against
 
-    @property
+    @int_property_decorator
     def shots_on_goal(self):
         """
         Returns an ``int`` of the total number of shots on goal the team made
         during the season.
         """
-        return int(self._shots_on_goal)
+        return self._shots_on_goal
 
-    @property
+    @float_property_decorator
     def shooting_percentage(self):
         """
         Returns a ``float`` denoting the percentage of shots to goals during
         the season. Percentage ranges from 0-100.
         """
-        return float(self._shooting_percentage)
+        return self._shooting_percentage
 
-    @property
+    @int_property_decorator
     def shots_against(self):
         """
         Returns an ``int`` of the total number of shots on goal the team's
         opponents made during the season.
         """
-        return int(self._shots_against)
+        return self._shots_against
 
-    @property
+    @float_property_decorator
     def save_percentage(self):
         """
         Returns a ``float`` denoting the percentage of shots the team has saved
         during the season. Percentage ranges from 0-1.
         """
-        return float(self._save_percentage)
+        return self._save_percentage
 
-    @property
+    @float_property_decorator
     def pdo_at_even_strength(self):
         """
         Returns a ``float`` of the PDO at even strength which equates to the
         shooting percentage plus the save percentage.
         """
-        return float(self._pdo_at_even_strength)
+        return self._pdo_at_even_strength
 
 
 class Teams:
