@@ -1,28 +1,60 @@
 language: python
-matrix:
-    include:
-        - dist: trusty
-          python: 2.7
-        - dist: trusty
-          python: 3.4
-        - dist: trusty
-          python: 3.5
-        - dist: trusty
-          python: 3.5-dev
-        - dist: trusty
-          python: 3.6
-        - dist: trusty
-          python: 3.6-dev
-        - dist: xenial
-          python: 3.7
-          sudo: true
-        - dist: xenial
-          python: 3.7-dev
-        - dist: xenial
-          python: 3.8-dev
-          sudo: true
+sudo: false
+
 install:
-    - pip install -r requirements.txt
+  - pip install -r requirements.txt
+
 script:
-    - py.test --cov=sportsreference --cov-report term-missing tests/
-    - pep8 sportsreference/ tests/
+  - py.test --cov=sportsreference --cov-report term-missing tests/
+  - pep8 sportsreference/ tests/
+
+jobs:
+  include:
+    - stage: test
+      python: 2.7
+      dist: trusty
+    - stage: test
+      python: 3.4
+      dist: trusty
+    - stage: test
+      python: 3.5
+      dist: trusty
+    - stage: test
+      python: 3.5-dev
+      dist: trusty
+    - stage: test
+      python: 3.6
+      dist: trusty
+    - stage: test
+      python: 3.6-dev
+      dist: trusty
+    - stage: test
+      python: 3.7
+      dist: xenial
+      sudo: true
+    - stage: test
+      python: 3.7-dev
+      dist: xenial
+    - stage: test
+      python: 3.8-dev
+      dist: xenial
+      sudo: true
+    - stage: deploy
+      dist: xenial
+      python: 3.7
+      sudo: true
+      script: if [ -z "$TRAVIS_TAG" ]; then ./dev-version-bump; fi
+      deploy:
+        - provider: pypi
+          server: https://test.pypi.org/legacy/
+          distributions: sdist bdist_wheel --universal
+          user: $PYPI_USERNAME
+          password: $PYPI_PASSWORD
+          skip_cleanup: true  # Allow version changes to be included
+        - provider: pypi
+          distributions: sdist bdist_wheel --universal
+          user: $PYPI_USERNAME
+          password: $PYPI_PASSWORD
+          skip_cleanup: true  # Allow version changes to be included
+          on:
+            tags: true
