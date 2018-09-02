@@ -162,7 +162,10 @@ def _parse_field(parsing_scheme, html_data, field, index=0):
         return None
     # Default to returning the first element. Optionally return another element
     # if multiple fields have the same tag attribute.
-    return items[index]
+    try:
+        return items[index]
+    except IndexError:
+        return None
 
 
 def _remove_html_comment_tags(html):
