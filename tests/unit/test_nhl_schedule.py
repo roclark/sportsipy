@@ -8,7 +8,7 @@ from sportsreference.constants import (AWAY,
                                        REGULAR_SEASON,
                                        WIN)
 from sportsreference.nhl.constants import OVERTIME_LOSS, SHOOTOUT
-from sportsreference.nhl.schedule import Game
+from sportsreference.nhl.schedule import Game, Schedule
 
 
 YEAR = 2017
@@ -234,3 +234,27 @@ class TestNHLSchedule:
         assert self.game._goals_scored is None
         assert self.game._goals_allowed is None
         assert self.game.dataframe is None
+
+    def test_no_dataframes_returns_none(self):
+        flexmock(Schedule) \
+            .should_receive('_pull_schedule') \
+            .and_return(None)
+        schedule = Schedule('DET')
+
+        fake_game = flexmock(dataframe=None)
+        fake_games = PropertyMock(return_value=fake_game)
+        type(schedule).__iter__ = fake_games
+
+        assert schedule.dataframe is None
+
+    def test_no_dataframes_extended_returns_none(self):
+        flexmock(Schedule) \
+            .should_receive('_pull_schedule') \
+            .and_return(None)
+        schedule = Schedule('DET')
+
+        fake_game = flexmock(dataframe_extended=None)
+        fake_games = PropertyMock(return_value=fake_game)
+        type(schedule).__iter__ = fake_games
+
+        assert schedule.dataframe_extended is None

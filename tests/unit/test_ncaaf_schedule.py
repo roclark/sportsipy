@@ -11,7 +11,7 @@ from sportsreference.constants import (AWAY,
                                        NON_DI,
                                        REGULAR_SEASON,
                                        WIN)
-from sportsreference.ncaaf.schedule import Game
+from sportsreference.ncaaf.schedule import Game, Schedule
 
 
 class TestNCAAFSchedule:
@@ -88,6 +88,30 @@ class TestNCAAFSchedule:
         assert self.game._points_for is None
         assert self.game._points_against is None
         assert self.game.dataframe is None
+
+    def test_no_dataframes_returns_none(self):
+        flexmock(Schedule) \
+            .should_receive('_pull_schedule') \
+            .and_return(None)
+        schedule = Schedule('PURDUE')
+
+        fake_game = flexmock(dataframe=None)
+        fake_games = PropertyMock(return_value=fake_game)
+        type(schedule).__iter__ = fake_games
+
+        assert schedule.dataframe is None
+
+    def test_no_dataframes_extended_returns_none(self):
+        flexmock(Schedule) \
+            .should_receive('_pull_schedule') \
+            .and_return(None)
+        schedule = Schedule('PURDUE')
+
+        fake_game = flexmock(dataframe_extended=None)
+        fake_games = PropertyMock(return_value=fake_game)
+        type(schedule).__iter__ = fake_games
+
+        assert schedule.dataframe_extended is None
 
 
 class TestNCAAFScheduleNames:

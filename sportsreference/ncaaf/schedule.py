@@ -324,7 +324,7 @@ class Game(object):
         return self._streak
 
 
-class Schedule:
+class Schedule(object):
     """
     An object of the given team's schedule.
 
@@ -443,7 +443,11 @@ class Schedule:
         """
         frames = []
         for game in self.__iter__():
-            frames.append(game.dataframe)
+            df = game.dataframe
+            if df is not None:
+                frames.append(df)
+        if frames == []:
+            return None
         return pd.concat(frames)
 
     @property
@@ -457,5 +461,9 @@ class Schedule:
         """
         frames = []
         for game in self.__iter__():
-            frames.append(game.dataframe_extended)
+            df = game.dataframe_extended
+            if df is not None:
+                frames.append(df)
+        if frames == []:
+            return None
         return pd.concat(frames)

@@ -14,7 +14,7 @@ from sportsreference.ncaab.constants import (CBI_TOURNAMENT,
                                              CIT_TOURNAMENT,
                                              NCAA_TOURNAMENT,
                                              NIT_TOURNAMENT)
-from sportsreference.ncaab.schedule import Game
+from sportsreference.ncaab.schedule import Game, Schedule
 
 
 class TestNCAABSchedule:
@@ -144,6 +144,30 @@ class TestNCAABSchedule:
         assert self.game._home_points is None
         assert self.game._away_points is None
         assert self.game.dataframe_extended is None
+
+    def test_no_dataframes_returns_none(self):
+        flexmock(Schedule) \
+            .should_receive('_pull_schedule') \
+            .and_return(None)
+        schedule = Schedule('PURDUE')
+
+        fake_game = flexmock(dataframe=None)
+        fake_games = PropertyMock(return_value=fake_game)
+        type(schedule).__iter__ = fake_games
+
+        assert schedule.dataframe is None
+
+    def test_no_dataframes_extended_returns_none(self):
+        flexmock(Schedule) \
+            .should_receive('_pull_schedule') \
+            .and_return(None)
+        schedule = Schedule('PURDUE')
+
+        fake_game = flexmock(dataframe_extended=None)
+        fake_games = PropertyMock(return_value=fake_game)
+        type(schedule).__iter__ = fake_games
+
+        assert schedule.dataframe_extended is None
 
 
 class TestNCAABScheduleNames:

@@ -475,6 +475,8 @@ class Schedule(object):
             if game._runs_scored is None and game._runs_allowed is None:
                 continue
             frames.append(game.dataframe)
+        if frames == []:
+            return None
         return pd.concat(frames)
 
     @property
@@ -488,5 +490,9 @@ class Schedule(object):
         """
         frames = []
         for game in self.__iter__():
-            frames.append(game.dataframe_extended)
+            df = game.dataframe_extended
+            if df is not None:
+                frames.append(df)
+        if frames == []:
+            return None
         return pd.concat(frames)
