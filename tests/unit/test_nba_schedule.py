@@ -4,7 +4,7 @@ from sportsreference.constants import (AWAY,
                                        HOME,
                                        LOSS,
                                        WIN)
-from sportsreference.nba.schedule import Game
+from sportsreference.nba.schedule import Game, Schedule
 
 
 class TestNBASchedule:
@@ -43,3 +43,27 @@ class TestNBASchedule:
         assert self.game._points_allowed is None
         assert self.game._points_scored is None
         assert self.game.dataframe is None
+
+    def test_no_dataframes_returns_none(self):
+        flexmock(Schedule) \
+            .should_receive('_pull_schedule') \
+            .and_return(None)
+        schedule = Schedule('DET')
+
+        fake_game = flexmock(dataframe=None)
+        fake_games = PropertyMock(return_value=fake_game)
+        type(schedule).__iter__ = fake_games
+
+        assert schedule.dataframe is None
+
+    def test_no_dataframes_extended_returns_none(self):
+        flexmock(Schedule) \
+            .should_receive('_pull_schedule') \
+            .and_return(None)
+        schedule = Schedule('DET')
+
+        fake_game = flexmock(dataframe_extended=None)
+        fake_games = PropertyMock(return_value=fake_game)
+        type(schedule).__iter__ = fake_games
+
+        assert schedule.dataframe_extended is None

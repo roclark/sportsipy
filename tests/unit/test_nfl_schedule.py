@@ -11,7 +11,7 @@ from sportsreference.nfl.constants import (CONF_CHAMPIONSHIP,
                                            DIVISION,
                                            SUPER_BOWL,
                                            WILD_CARD)
-from sportsreference.nfl.schedule import Game
+from sportsreference.nfl.schedule import Game, Schedule
 
 
 YEAR = 2017
@@ -103,3 +103,27 @@ class TestNFLSchedule:
         assert self.game._points_scored is None
         assert self.game._points_allowed is None
         assert self.game.dataframe is None
+
+    def test_no_dataframes_returns_none(self):
+        flexmock(Schedule) \
+            .should_receive('_pull_schedule') \
+            .and_return(None)
+        schedule = Schedule('DET')
+
+        fake_game = flexmock(dataframe=None)
+        fake_games = PropertyMock(return_value=fake_game)
+        type(schedule).__iter__ = fake_games
+
+        assert schedule.dataframe is None
+
+    def test_no_dataframes_extended_returns_none(self):
+        flexmock(Schedule) \
+            .should_receive('_pull_schedule') \
+            .and_return(None)
+        schedule = Schedule('DET')
+
+        fake_game = flexmock(dataframe_extended=None)
+        fake_games = PropertyMock(return_value=fake_game)
+        type(schedule).__iter__ = fake_games
+
+        assert schedule.dataframe_extended is None
