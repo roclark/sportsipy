@@ -193,6 +193,36 @@ class Boxscore(object):
             name = re.sub(r'<.*', '', str(name))
         return name
 
+    def _parse_record(self, field, boxscore, index):
+        """
+        Parse each team's record.
+
+        Find the record for both the home and away teams which are listed above
+        the basic boxscore stats tables. Depending on whether or not the
+        advanced stats table is included on the page (generally only for more
+        recent matchups), a blank header is added to the list which should be
+        removed. With all blank headers removed, the home and away team records
+        can be easily parsed by specifying which team is desired.
+
+        Parameters
+        ----------
+        field : string
+            The name of the attribute to parse.
+        boxscore : PyQuery object
+            A PyQuery object containing all of the HTML data from the boxscore.
+        index : int
+            An int of the index to pull the record from, as specified in the
+            BOXSCORE_ELEMENT_INDEX dictionary.
+
+        Returns
+        -------
+        string
+            A string of the team's record in the format 'Team Name (W-L)'.
+        """
+        records = boxscore(BOXSCORE_SCHEME[field]).items()
+        records = [x.text() for x in records if x.text() != '']
+        return records[index]
+
     def _parse_game_data(self, uri):
         """
         Parses a value for every attribute.
@@ -238,6 +268,11 @@ class Boxscore(object):
             index = 0
             if short_field in BOXSCORE_ELEMENT_INDEX.keys():
                 index = BOXSCORE_ELEMENT_INDEX[short_field]
+            if short_field == 'away_record' or \
+               short_field == 'home_record':
+                value = self._parse_record(short_field, boxscore, index)
+                setattr(self, field, value)
+                continue
             value = utils._parse_field(BOXSCORE_SCHEME,
                                        boxscore,
                                        short_field,
@@ -457,7 +492,7 @@ class Boxscore(object):
         try:
             wins, losses = re.findall('\d+', self._away_record)
             return wins
-        except ValueError:
+        except (ValueError, TypeError):
             return 0
 
     @int_property_decorator
@@ -469,7 +504,7 @@ class Boxscore(object):
         try:
             wins, losses = re.findall('\d+', self._away_record)
             return losses
-        except ValueError:
+        except (ValueError, TypeError):
             return 0
 
     @int_property_decorator
@@ -759,7 +794,7 @@ class Boxscore(object):
         try:
             wins, losses = re.findall('\d+', self._home_record)
             return wins
-        except ValueError:
+        except (ValueError, TypeError):
             return 0
 
     @int_property_decorator
@@ -771,7 +806,7 @@ class Boxscore(object):
         try:
             wins, losses = re.findall('\d+', self._home_record)
             return losses
-        except ValueError:
+        except (ValueError, TypeError):
             return 0
 
     @int_property_decorator
