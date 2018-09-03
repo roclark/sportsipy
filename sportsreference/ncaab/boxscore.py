@@ -223,6 +223,10 @@ class Boxscore(object):
         ranking = None
         index = BOXSCORE_ELEMENT_INDEX[field]
         teams_boxscore = boxscore(BOXSCORE_SCHEME[field])
+        # Occasionally, the list of boxscores for the day won't be saved on the
+        # page. If that's the case, return the default ranking.
+        if str(teams_boxscore) == '':
+            return ranking
         team = pq(teams_boxscore[index])
         if 'pollrank' in str(team):
             rank_str = re.findall('\(\d+\)', str(team))

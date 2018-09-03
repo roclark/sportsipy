@@ -343,3 +343,9 @@ class TestNCAABBoxscore:
         assert self.boxscore.home_wins == 0
         assert self.boxscore.home_losses == 0
         assert self.boxscore.home_win_percentage == 0.0
+
+    def test_ranking_with_no_boxscores(self):
+        ranking = self.boxscore._parse_ranking('home_ranking',
+                                               MockBoxscore(''))
+
+        assert ranking is None
