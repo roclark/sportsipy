@@ -1,5 +1,9 @@
+from functools import wraps
+
+
 def int_property_decorator(func):
     @property
+    @wraps(func)
     def wrapper(*args):
         value = func(*args)
         try:
@@ -18,6 +22,7 @@ def int_property_decorator(func):
 
 def float_property_decorator(func):
     @property
+    @wraps(func)
     def wrapper(*args):
         value = func(*args)
         try:
