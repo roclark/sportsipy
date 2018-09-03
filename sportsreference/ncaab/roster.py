@@ -27,8 +27,8 @@ def int_property_decorator(func):
         try:
             return int(value)
         except ValueError:
-            # If there is no value, default to 0
-            return 0
+            # If there is no value, default to None
+            return None
     return wrapper
 
 
@@ -42,8 +42,8 @@ def float_property_decorator(func):
         try:
             return float(value)
         except ValueError:
-            # If there is no value, default to 0.0
-            return 0.0
+            # If there is no value, default to None
+            return None
     return wrapper
 
 

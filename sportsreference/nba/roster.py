@@ -29,6 +29,21 @@ def int_property_decorator(func):
         try:
             return int(value)
         except ValueError:
+            # If there is no value, default to None
+            return None
+    return wrapper
+
+
+def int_property_decorator_default_zero(func):
+    @property
+    @wraps(func)
+    def wrapper(*args):
+        index = args[0]._index
+        prop = func(*args)
+        value = cleanup(prop[index])
+        try:
+            return int(value)
+        except ValueError:
             # If there is no value, default to 0
             return 0
     return wrapper
@@ -44,8 +59,8 @@ def float_property_decorator(func):
         try:
             return float(value)
         except ValueError:
-            # If there is no value, default to 0.0
-            return 0.0
+            # If there is no value, default to None
+            return None
     return wrapper
 
 
@@ -1297,7 +1312,7 @@ class Player(object):
         """
         return self._half_court_heaves_made
 
-    @int_property_decorator
+    @int_property_decorator_default_zero
     def point_guard_percentage(self):
         """
         Returns an ``int`` of the percentage of time the player spent as a
@@ -1306,7 +1321,7 @@ class Player(object):
         """
         return self._point_guard_percentage
 
-    @int_property_decorator
+    @int_property_decorator_default_zero
     def shooting_guard_percentage(self):
         """
         Returns an ``int`` of the percentage of time the player spent as a
@@ -1315,7 +1330,7 @@ class Player(object):
         """
         return self._shooting_guard_percentage
 
-    @int_property_decorator
+    @int_property_decorator_default_zero
     def small_forward_percentage(self):
         """
         Returns an ``int`` of the percentage of time the player spent as a
@@ -1324,7 +1339,7 @@ class Player(object):
         """
         return self._small_forward_percentage
 
-    @int_property_decorator
+    @int_property_decorator_default_zero
     def power_forward_percentage(self):
         """
         Returns an ``int`` of the percentage of time the player spent as a
@@ -1333,7 +1348,7 @@ class Player(object):
         """
         return self._power_forward_percentage
 
-    @int_property_decorator
+    @int_property_decorator_default_zero
     def center_percentage(self):
         """
         Returns an ``int`` of the percentage of time the player spent as a

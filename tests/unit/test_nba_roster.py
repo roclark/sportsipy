@@ -44,7 +44,7 @@ class TestNBAPlayer:
 
         result = player.field_goal_percentage
 
-        assert result == 0.0
+        assert result is None
 
     @patch('requests.get', side_effect=mock_pyquery)
     def test_invalid_url_returns_none(self, *args, **kwargs):
