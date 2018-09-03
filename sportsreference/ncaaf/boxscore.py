@@ -8,6 +8,7 @@ from .constants import (BOXSCORE_ELEMENT_INDEX,
                         BOXSCORE_SCHEME,
                         BOXSCORE_URL,
                         BOXSCORES_URL)
+from functools import wraps
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
 
@@ -17,6 +18,7 @@ def ncaaf_int_property_sub_index(func):
     # which is indexed within a table cell but also has multiple other values
     # in that same cell that need to be ignored.
     @property
+    @wraps(func)
     def wrapper(*args):
         value = func(*args)
         # Equivalent to the calling property's method name

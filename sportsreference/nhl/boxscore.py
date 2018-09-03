@@ -7,12 +7,14 @@ from .constants import (BOXSCORE_ELEMENT_INDEX,
                         BOXSCORE_SCHEME,
                         BOXSCORE_URL,
                         BOXSCORES_URL)
+from functools import wraps
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
 
 
 def nhl_int_property_decorator(func):
     @property
+    @wraps(func)
     def wrapper(*args):
         value = func(*args)
         num_skaters = args[0]._away_skaters

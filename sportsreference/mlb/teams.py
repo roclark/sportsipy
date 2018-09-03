@@ -5,6 +5,7 @@ from .constants import (ELEMENT_INDEX,
                         STANDINGS_URL,
                         TEAM_ELEMENT,
                         TEAM_STATS_URL)
+from functools import wraps
 from pyquery import PyQuery as pq
 from .. import utils
 from ..decorators import float_property_decorator, int_property_decorator
@@ -13,6 +14,7 @@ from .schedule import Schedule
 
 def mlb_int_property_decorator(func):
     @property
+    @wraps(func)
     def wrapper(*args):
         value = func(*args)
         # Equivalent to the calling property's method name
