@@ -298,6 +298,23 @@ Logos via Sports Logos.net / About logos
             result = self.boxscore._parse_game_date_and_location(field, m)
             assert result == value
 
+    def test_limited_game_information(self):
+        fields = {
+            'date': '',
+            'time': '',
+            'attendance': '',
+            'arena': '',
+            'duration': ''
+        }
+
+        mock_field = '\n'
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field, value in fields.items():
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert result == value
+
     def test_away_shutout_single_goalies(self):
         shutout = ['1', '0']
 

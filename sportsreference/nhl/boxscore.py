@@ -170,7 +170,10 @@ class Boxscore(object):
             # information and should retain their original index.
             if field != 'date' and field != 'time':
                 index += 1
-        return game_info[index]
+        try:
+            return game_info[index]
+        except IndexError:
+            return ''
 
     def _parse_name(self, field, boxscore):
         """
