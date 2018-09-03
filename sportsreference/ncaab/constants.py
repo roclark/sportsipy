@@ -198,7 +198,7 @@ BOXSCORE_ELEMENT_INDEX = {
     'location': 1,
     'away_ranking': 0,
     'home_ranking': 1,
-    'home_record': 2,
+    'home_record': 1,
     'home_minutes_played': 1,
     'home_field_goals': 1,
     'home_field_goal_attempts': 1,
