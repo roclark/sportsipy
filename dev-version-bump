@@ -1,4 +1,4 @@
 #!/bin/bash
 version=`cat VERSION`
 timestamp=$(date '+%Y%m%d%H%M%S')
-echo "$version.$timestamp" > VERSION
+echo "$version.dev$timestamp" > VERSION
