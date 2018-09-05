@@ -47,6 +47,7 @@ class TestNHLSchedule:
     def setup_method(self, *args, **kwargs):
         self.results = {
             'game': 2,
+            'boxscore_index': '201610150STL',
             'date': '2016-10-15',
             'datetime': datetime(2016, 10, 15),
             'location': AWAY,

@@ -128,6 +128,7 @@ class Game(object):
         if self._points_for is None and self._points_against is None:
             return None
         fields_to_include = {
+            'boxscore_index': self.boxscore_index,
             'date': self.date,
             'datetime': self.datetime,
             'day_of_week': self.day_of_week,
@@ -200,6 +201,14 @@ class Game(object):
         stats on the game.
         """
         return Boxscore(self._boxscore)
+
+    @property
+    def boxscore_index(self):
+        """
+        Returns a ``string`` of the URI for a boxscore which can be used to
+        access or index a game.
+        """
+        return self._boxscore
 
     @property
     def day_of_week(self):

@@ -47,6 +47,7 @@ class TestMLBSchedule:
     def setup_method(self, *args, **kwargs):
         self.results = {
             'game': 2,
+            'boxscore_index': 'TBA/TBA201704040',
             'date': 'Tuesday, Apr 4',
             'datetime': datetime(2017, 4, 4),
             'game_number_for_day': 1,

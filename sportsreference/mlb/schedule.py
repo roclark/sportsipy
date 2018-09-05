@@ -115,6 +115,7 @@ class Game(object):
             return None
         fields_to_include = {
             'attendance': self.attendance,
+            'boxscore_index': self.boxscore_index,
             'date': self.date,
             'datetime': self.datetime,
             'game_number_for_day': self.game_number_for_day,
@@ -198,6 +199,14 @@ class Game(object):
         stats on the game.
         """
         return Boxscore(self._boxscore)
+
+    @property
+    def boxscore_index(self):
+        """
+        Returns a ``string`` of the URI for a boxscore which can be used to
+        access or index a game.
+        """
+        return self._boxscore
 
     @property
     def location(self):

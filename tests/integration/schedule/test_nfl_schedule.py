@@ -49,6 +49,7 @@ class TestNFLSchedule:
     def setup_method(self, *args, **kwargs):
         self.results = {
             'week': 2,
+            'boxscore_index': '201709170nor',
             'day': 'Sun',
             'date': 'September 17',
             'type': REGULAR_SEASON,

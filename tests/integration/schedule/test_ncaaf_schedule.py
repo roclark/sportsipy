@@ -47,6 +47,7 @@ class TestNCAAFSchedule:
     def setup_method(self, *args, **kwargs):
         self.results = {
             'game': 2,
+            'boxscore_index': '2017-09-09-michigan',
             'date': 'Sep 9, 2017',
             'time': '12:00 PM',
             'day_of_week': 'Sat',

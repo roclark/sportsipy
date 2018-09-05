@@ -49,6 +49,7 @@ class TestNBASchedule:
     def setup_method(self, *args, **kwargs):
         self.results = {
             'game': 2,
+            'boxscore_index': '201610280NOP',
             'date': '2016-10-28',
             'datetime': datetime(2016, 10, 28),
             'location': AWAY,
