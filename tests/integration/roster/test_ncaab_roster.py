@@ -360,3 +360,19 @@ class TestNCAABRoster:
     def test_bad_url_raises_value_error(self, *args, **kwargs):
         with pytest.raises(ValueError):
             roster = Roster('BAD')
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_from_team_class(self, *args, **kwargs):
+        flexmock(Team) \
+            .should_receive('_parse_team_data') \
+            .and_return(None)
+        team = Team(None, 1, '2018')
+        mock_abbreviation = mock.PropertyMock(return_value='PURDUE')
+        type(team)._abbreviation = mock_abbreviation
+
+        assert len(team.roster.players) == 3
+
+        for player in team.roster.players:
+            assert player.name in ['Carsen Edwards', 'Isaac Haas',
+                                   'Vince Edwards']
+        type(team)._abbreviation = None

@@ -9,6 +9,7 @@ from pyquery import PyQuery as pq
 from ..decorators import float_property_decorator, int_property_decorator
 from .. import utils
 from .conferences import Conferences
+from .roster import Roster
 from .schedule import Schedule
 
 
@@ -279,6 +280,14 @@ class Team(object):
         complete schedule for the season.
         """
         return Schedule(self._abbreviation, self._year)
+
+    @property
+    def roster(self):
+        """
+        Returns an instance of the Roster class containing all players for the
+        team during the season with all career stats.
+        """
+        return Roster(self._abbreviation, self._year)
 
     @property
     def name(self):
