@@ -5,7 +5,7 @@ import pytest
 from datetime import datetime
 from flexmock import flexmock
 from sportsreference import utils
-from sportsreference.ncaab.roster import Player
+from sportsreference.ncaab.roster import Player, Roster
 from sportsreference.ncaab.teams import Team
 
 
@@ -21,7 +21,13 @@ def mock_pyquery(url):
             self.html_contents = html_contents
             self.text = html_contents
 
-    if 'BAD' in url:
+    if 'purdue' in url:
+        return MockPQ(read_file('2018'))
+    if 'isaac-haas-1' in url:
+        return MockPQ(read_file('isaac-haas-1'))
+    if 'vince-edwards-2' in url:
+        return MockPQ(read_file('vince-edwards-2'))
+    if 'bad' in url:
         return MockPQ(None, 404)
     return MockPQ(read_file('carsen-edwards-1'))
 
@@ -334,3 +340,23 @@ class TestNCAABPlayer:
         # duplicates, and they are equal.
         frames = [df, player.dataframe]
         df1 = pd.concat(frames).drop_duplicates(keep=False)
+
+
+class TestNCAABRoster:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_pulls_all_player_stats(self, *args, **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('PURDUE')
+
+        assert len(roster.players) == 3
+
+        for player in roster.players:
+            assert player.name in ['Carsen Edwards', 'Isaac Haas',
+                                   'Vince Edwards']
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_bad_url_raises_value_error(self, *args, **kwargs):
+        with pytest.raises(ValueError):
+            roster = Roster('BAD')

@@ -321,6 +321,7 @@ RANKINGS_URL = 'https://www.sports-reference.com/cbb/seasons/%s-polls.html'
 CONFERENCES_URL = 'https://www.sports-reference.com/cbb/seasons/%s.html'
 CONFERENCE_URL = 'https://www.sports-reference.com/cbb/conferences/%s/%s.html'
 PLAYER_URL = 'https://www.sports-reference.com/cbb/players/%s.html'
+ROSTER_URL = 'https://www.sports-reference.com/cbb/schools/%s/%s.html'
 
 NCAA_TOURNAMENT = 'NCAA'
 NIT_TOURNAMENT = 'NIT'
