@@ -110,6 +110,72 @@ week number, previous rank, and movement.
     :undoc-members:
     :show-inheritance:
 
+Roster
+------
+
+The Roster module contains detailed player information, allowing each player to
+be queried by their player ID using the ``Player`` class which has detailed
+information ranging from career points totals to single-season stats and player
+height and weight. The following is an example on collecting career information
+for Carsen Edwards.
+
+.. code-block:: python
+
+    from sportsreference.ncaab.roster import Player
+
+    carsen_edwards = Player('carsen-edwards-1')
+    print(carsen_edwards.name)  # Prints 'Carsen Edwards'
+    print(carsen_edwards.points)  # Prints Edwards' career points total
+    # Prints a Pandas DataFrame of all relevant stats per season for Edwards
+    print(carsen_edwards.dataframe)
+
+By default, the player's career stats are returns whenever a property is called.
+To get stats for a specific season, call the class instance with the season
+string. All future property requests will return the season-specific stats.
+
+.. code-block:: python
+
+    from sportsreference.ncaab.roster import Player
+
+    carsen_edwards = Player('carsen-edwards-1')  # Currently pulling career stats
+    print(carsen_edwards.points)  # Prints Edwards' CAREER points total
+    # Prints Edwards' points total only for the 2017-18 season.
+    print(carsen_edwards('2017-18').points)
+    # Prints the number of games Edwards played in the 2017-18 season.
+    print(carsen_edwards.games_played)
+
+After requesting single-season stats, the career stats can be requested again
+by calling the class without arguments or with the 'Career' string passed.
+
+.. code-block:: python
+
+    from sportsreference.ncaab.roster import Player
+
+    carsen_edwards = Player('carsen-edwards-1')  # Currently pulling career stats
+    # Prints Edwards' points total only for the 2017-18 season.
+    print(carsen_edwards('2017-18').points)
+    print(carsen_edwards('Career').points)  # Prints Edwards' career points total
+
+In addition, the Roster module also contains the ``Roster`` class which can be
+used to pull all players on a team's roster during a given season and creates
+instances of the Player class for each team member and adds them to a list to be
+easily queried.
+
+.. code-block:: python
+
+    from sportsreference.ncaab.roster import Roster
+
+    purdue = Roster('PURDUE')
+    for player in purdue.players:
+        # Prints the name of all players who played for Purdue in the most
+        # recent season.
+        print(player.name)
+
+.. automodule:: sportsreference.ncaab.roster
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Schedule
 --------
 
@@ -164,6 +230,21 @@ queried to easily grab all stats for all games.
         # Returns a Pandas DataFrame of all metrics for all game Boxscores for
         # a season.
         df = team.schedule.dataframe_extended
+
+Lastly, each Team instance also contains a link to the ``Roster`` class which
+enables players from the team to be easily queried. Each Roster instance
+contains detailed stats and information for each player on the team.
+
+.. code-block:: python
+
+    from sportsreference.ncaab.schedule import Schedule
+
+    purdue_schedule = Schedule('PURDUE')
+    for game in purdue_schedule:
+        print(game.date)  # Prints the date the game was played
+        print(game.result)  # Prints whether the team won or lost
+        # Creates an instance of the Boxscore class for the game.
+        boxscore = game.boxscore
 
 .. automodule:: sportsreference.ncaab.teams
     :members:
