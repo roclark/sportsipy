@@ -164,3 +164,15 @@ class TestNFLBoxscore:
         type(self.boxscore)._away_points = mock_points
 
         assert self.boxscore.dataframe is None
+
+    def test_empty_attribute_returns_none(self):
+        fake_rushes = PropertyMock(return_value=None)
+        type(self.boxscore)._away_rush_attempts = fake_rushes
+
+        assert self.boxscore.away_rush_attempts is None
+
+    def test_non_int_value_returns_none(self):
+        fake_rushes = PropertyMock(return_value='bad')
+        type(self.boxscore)._away_rush_attempts = fake_rushes
+
+        assert self.boxscore.away_rush_attempts is None

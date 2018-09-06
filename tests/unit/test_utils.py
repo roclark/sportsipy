@@ -198,6 +198,19 @@ class TestUtils:
                                     'abbreviation')
         assert result == expected
 
+    def test_parse_field_returns_none_on_index_error(self):
+        parsing_scheme = {'batters_used': 'td[data-stat="batters_used"]:first'}
+        html_string = '''<td class="right " data-stat="batters_used">32</td>
+<td class="right " data-stat="age_bat">29.1</td>
+<td class="right " data-stat="runs_per_game">4.10</td>'''
+        expected = None
+
+        result = utils._parse_field(parsing_scheme,
+                                    MockHtml(html_string, [expected]),
+                                    'batters_used',
+                                    index=3)
+        assert result == expected
+
     def test__parse_field_returns_value_for_non_abbreviation(self):
         parsing_scheme = {'batters_used': 'td[data-stat="batters_used"]:first'}
         html_string = '''<td class="right " data-stat="batters_used">32</td>

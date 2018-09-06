@@ -3,13 +3,34 @@ import re
 from .constants import (ELEMENT_INDEX,
                         PARSING_SCHEME,
                         STANDINGS_URL,
+                        TEAM_ELEMENT,
                         TEAM_STATS_URL)
+from functools import wraps
 from pyquery import PyQuery as pq
 from .. import utils
+from ..decorators import float_property_decorator, int_property_decorator
 from .schedule import Schedule
 
 
-class Team:
+def mlb_int_property_decorator(func):
+    @property
+    @wraps(func)
+    def wrapper(*args):
+        value = func(*args)
+        # Equivalent to the calling property's method name
+        field = func.__name__
+        try:
+            record = value.split('-')
+        except AttributeError:
+            return None
+        try:
+            return int(record[TEAM_ELEMENT[field]])
+        except (TypeError, ValueError, IndexError):
+            return None
+    return wrapper
+
+
+class Team(object):
     """
     An object containing all of a team's season information.
 
@@ -305,12 +326,12 @@ class Team:
         }
         return pd.DataFrame([fields_to_include], index=[self._abbreviation])
 
-    @property
+    @int_property_decorator
     def rank(self):
         """
         Returns an ``int`` of the team's rank based on their win percentage.
         """
-        return int(self._rank)
+        return self._rank
 
     @property
     def abbreviation(self):
@@ -343,37 +364,37 @@ class Team:
         """
         return self._league
 
-    @property
+    @int_property_decorator
     def games(self):
         """
         Returns an ``int`` of the number of games the team has played during
         the season.
         """
-        return int(self._games)
+        return self._games
 
-    @property
+    @int_property_decorator
     def wins(self):
         """
         Returns an ``int`` of the total number of games the team won during the
         season.
         """
-        return int(self._wins)
+        return self._wins
 
-    @property
+    @int_property_decorator
     def losses(self):
         """
         Returns an ``int`` of the total number of games the team lost during
         the season.
         """
-        return int(self._losses)
+        return self._losses
 
-    @property
+    @float_property_decorator
     def win_percentage(self):
         """
         Returns a ``float`` of the number of wins divided by the number of
         games played during the season. Percentage ranges from 0-1.
         """
-        return float(self._win_percentage)
+        return self._win_percentage
 
     @property
     def streak(self):
@@ -383,47 +404,47 @@ class Team:
         """
         return self._streak
 
-    @property
+    @float_property_decorator
     def runs(self):
         """
         Returns a ``float`` of the average number of runs scored per game by
         the team.
         """
-        return float(self._runs)
+        return self._runs
 
-    @property
+    @float_property_decorator
     def runs_against(self):
         """
         Returns a ``float`` of the average number of runs scored per game by
         the opponent.
         """
-        return float(self._runs_against)
+        return self._runs_against
 
-    @property
+    @float_property_decorator
     def run_difference(self):
         """
         Returns a ``float`` of the difference between the number of runs scored
         and the number of runs given up per game. Positive numbers indicate
         the team scores more per game than they are scored on.
         """
-        return float(self._run_difference)
+        return self._run_difference
 
-    @property
+    @float_property_decorator
     def strength_of_schedule(self):
         """
         Returns a ``float`` denoting a team's strength of schedule, based on
         runs scores and conceded. Higher values result in more challenging
         schedules while 0.0 is an average schedule.
         """
-        return float(self._strength_of_schedule)
+        return self._strength_of_schedule
 
-    @property
+    @float_property_decorator
     def simple_rating_system(self):
         """
         Returns a ``float`` of the average number of runs per game a team
         scores compared to average.
         """
-        return float(self._simple_rating_system)
+        return self._simple_rating_system
 
     @property
     def pythagorean_win_loss(self):
@@ -433,13 +454,13 @@ class Team:
         """
         return self._pythagorean_win_loss
 
-    @property
+    @int_property_decorator
     def luck(self):
         """
-        Returns an ``int``eger of the difference between the current wins and
+        Returns an ``int`` of the difference between the current wins and
         losses compared to the pythagorean wins and losses.
         """
-        return int(self._luck)
+        return self._luck
 
     @property
     def interleague_record(self):
@@ -457,19 +478,19 @@ class Team:
         """
         return self._home_record
 
-    @property
+    @mlb_int_property_decorator
     def home_wins(self):
         """
         Returns an ``int`` of the number of wins at home during the season.
         """
-        return int(self._home_record.split('-')[0])
+        return self._home_record
 
-    @property
+    @mlb_int_property_decorator
     def home_losses(self):
         """
         Returns an ``int`` of the number of losses at home during the season.
         """
-        return int(self._home_record.split('-')[1])
+        return self._home_record
 
     @property
     def away_record(self):
@@ -479,19 +500,19 @@ class Team:
         """
         return self._away_record
 
-    @property
+    @mlb_int_property_decorator
     def away_wins(self):
         """
         Returns an ``int`` of the number of away wins during the season.
         """
-        return int(self._away_record.split('-')[0])
+        return self._away_record
 
-    @property
+    @mlb_int_property_decorator
     def away_losses(self):
         """
         Returns an ``int`` of the number of away losses during the season.
         """
-        return int(self._away_record.split('-')[1])
+        return self._away_record
 
     @property
     def extra_inning_record(self):
@@ -501,21 +522,21 @@ class Team:
         """
         return self._extra_inning_record
 
-    @property
+    @mlb_int_property_decorator
     def extra_inning_wins(self):
         """
         Returns an ``int`` of the number of wins the team has when the game has
         gone to extra innings.
         """
-        return int(self._extra_inning_record.split('-')[0])
+        return self._extra_inning_record
 
-    @property
+    @mlb_int_property_decorator
     def extra_inning_losses(self):
         """
         Returns an ``int`` of the number of losses the team has when the game
         has gone to extra innings.
         """
-        return int(self._extra_inning_record.split('-')[1])
+        return self._extra_inning_record
 
     @property
     def single_run_record(self):
@@ -525,21 +546,21 @@ class Team:
         """
         return self._single_run_record
 
-    @property
+    @mlb_int_property_decorator
     def single_run_wins(self):
         """
         Returns an ``int`` of the number of wins the team has when only one run
         is scored.
         """
-        return int(self._single_run_record.split('-')[0])
+        return self._single_run_record
 
-    @property
+    @mlb_int_property_decorator
     def single_run_losses(self):
         """
         Returns an ``int`` of the number of losses the team has when only one
         run is scored.
         """
-        return int(self._single_run_record.split('-')[1])
+        return self._single_run_record
 
     @property
     def record_vs_right_handed_pitchers(self):
@@ -550,20 +571,20 @@ class Team:
         """
         return self._record_vs_right_handed_pitchers
 
-    @property
+    @mlb_int_property_decorator
     def wins_vs_right_handed_pitchers(self):
         """
         Returns an ``int`` of the number of wins against right-handed pitchers.
         """
-        return int(self._record_vs_right_handed_pitchers.split('-')[0])
+        return self._record_vs_right_handed_pitchers
 
-    @property
+    @mlb_int_property_decorator
     def losses_vs_right_handed_pitchers(self):
         """
         Returns an ``int`` of the number of losses against right-handed
         pitchers.
         """
-        return int(self._record_vs_right_handed_pitchers.split('-')[1])
+        return self._record_vs_right_handed_pitchers
 
     @property
     def record_vs_left_handed_pitchers(self):
@@ -573,19 +594,19 @@ class Team:
         """
         return self._record_vs_left_handed_pitchers
 
-    @property
+    @mlb_int_property_decorator
     def wins_vs_left_handed_pitchers(self):
         """
         Returns an ``int`` of number of wins against left-handed pitchers.
         """
-        return int(self._record_vs_left_handed_pitchers.split('-')[0])
+        return self._record_vs_left_handed_pitchers
 
-    @property
+    @mlb_int_property_decorator
     def losses_vs_left_handed_pitchers(self):
         """
         Returns an ``int`` of number of losses against left-handed pitchers.
         """
-        return int(self._record_vs_left_handed_pitchers.split('-')[1])
+        return self._record_vs_left_handed_pitchers
 
     @property
     def record_vs_teams_over_500(self):
@@ -595,19 +616,19 @@ class Team:
         """
         return self._record_vs_teams_over_500
 
-    @property
+    @mlb_int_property_decorator
     def wins_vs_teams_over_500(self):
         """
         Returns an ``int`` of the number of wins against teams over 500.
         """
-        return int(self._record_vs_teams_over_500.split('-')[0])
+        return self._record_vs_teams_over_500
 
-    @property
+    @mlb_int_property_decorator
     def losses_vs_teams_over_500(self):
         """
         Returns an ``int`` of the number of losses against teams over 500.
         """
-        return int(self._record_vs_teams_over_500.split('-')[1])
+        return self._record_vs_teams_over_500
 
     @property
     def record_vs_teams_under_500(self):
@@ -617,19 +638,19 @@ class Team:
         """
         return self._record_vs_teams_under_500
 
-    @property
+    @mlb_int_property_decorator
     def wins_vs_teams_under_500(self):
         """
         Returns an ``int`` of the number of wins against teams under 500.
         """
-        return int(self._record_vs_teams_under_500.split('-')[0])
+        return self._record_vs_teams_under_500
 
-    @property
+    @mlb_int_property_decorator
     def losses_vs_teams_under_500(self):
         """
         Returns an ``int`` of the number of losses against teams under 500.
         """
-        return int(self._record_vs_teams_under_500.split('-')[1])
+        return self._record_vs_teams_under_500
 
     @property
     def last_ten_games_record(self):
@@ -639,25 +660,19 @@ class Team:
         """
         return self._last_ten_games_record
 
-    @property
+    @mlb_int_property_decorator
     def wins_last_ten_games(self):
         """
         Returns an ``int`` of the number of wins in the last 10 games.
         """
-        try:
-            return int(self._last_ten_games_record.split('-')[0])
-        except AttributeError:
-            return None
+        return self._last_ten_games_record
 
-    @property
+    @mlb_int_property_decorator
     def losses_last_ten_games(self):
         """
         Returns an ``int`` of the number of losses in the last 10 games.
         """
-        try:
-            return int(self._last_ten_games_record.split('-')[1])
-        except AttributeError:
-            return None
+        return self._last_ten_games_record
 
     @property
     def last_twenty_games_record(self):
@@ -667,25 +682,19 @@ class Team:
         """
         return self._last_twenty_games_record
 
-    @property
+    @mlb_int_property_decorator
     def wins_last_twenty_games(self):
         """
         Returns an ``int`` of the number of wins in the last 20 games.
         """
-        try:
-            return int(self._last_twenty_games_record.split('-')[0])
-        except AttributeError:
-            return None
+        return self._last_twenty_games_record
 
-    @property
+    @mlb_int_property_decorator
     def losses_last_twenty_games(self):
         """
         Returns an ``int`` of the number of losses in the last 20 games.
         """
-        try:
-            return int(self._last_twenty_games_record.split('-')[1])
-        except AttributeError:
-            return None
+        return self._last_twenty_games_record
 
     @property
     def last_thirty_games_record(self):
@@ -695,438 +704,432 @@ class Team:
         """
         return self._last_thirty_games_record
 
-    @property
+    @mlb_int_property_decorator
     def wins_last_thirty_games(self):
         """
         Returns an ``int`` of the number of wins in the last 30 games.
         """
-        try:
-            return int(self._last_thirty_games_record.split('-')[0])
-        except AttributeError:
-            return None
+        return self._last_thirty_games_record
 
-    @property
+    @mlb_int_property_decorator
     def losses_last_thirty_games(self):
         """
         Returns an ``int`` of the number of losses in the last 30 games.
         """
-        try:
-            return int(self._last_thirty_games_record.split('-')[1])
-        except AttributeError:
-            return None
+        return self._last_thirty_games_record
 
-    @property
+    @int_property_decorator
     def number_players_used(self):
         """
         Returns an ``int`` of the number of different players used during the
         season.
         """
-        return int(self._number_players_used)
+        return self._number_players_used
 
-    @property
+    @float_property_decorator
     def average_batter_age(self):
         """
         Returns a ``float`` of the average batter age weighted by their number
         of at bats plus the number of games participated in.
         """
-        return float(self._average_batter_age)
+        return self._average_batter_age
 
-    @property
+    @int_property_decorator
     def plate_appearances(self):
         """
         Returns an ``int`` of the total number of plate appearances for the
         team.
         """
-        return int(self._plate_appearances)
+        return self._plate_appearances
 
-    @property
+    @int_property_decorator
     def at_bats(self):
         """
         Returns an ``int`` of the total number of at bats for the team.
         """
-        return int(self._at_bats)
+        return self._at_bats
 
-    @property
+    @int_property_decorator
     def total_runs(self):
         """
         Returns an ``int`` of the total number of runs scored during the
         season.
         """
-        return int(self._total_runs)
+        return self._total_runs
 
-    @property
+    @int_property_decorator
     def hits(self):
         """
         Returns an ``int`` of the total number of hits during the season.
         """
-        return int(self._hits)
+        return self._hits
 
-    @property
+    @int_property_decorator
     def doubles(self):
         """
         Returns an ``int`` of the total number of doubles hit by the team.
         """
-        return int(self._doubles)
+        return self._doubles
 
-    @property
+    @int_property_decorator
     def triples(self):
         """
         Returns an ``int`` of the total number of tripes hit by the team.
         """
-        return int(self._triples)
+        return self._triples
 
-    @property
+    @int_property_decorator
     def home_runs(self):
         """
         Returns an ``int`` of the total number of home runs hit by the team.
         """
-        return int(self._home_runs)
+        return self._home_runs
 
-    @property
+    @int_property_decorator
     def runs_batted_in(self):
         """
         Returns an ``int`` of the total number of runs batted in by the team.
         """
-        return int(self._runs_batted_in)
+        return self._runs_batted_in
 
-    @property
+    @int_property_decorator
     def stolen_bases(self):
         """
         Returns an ``int`` of the total number of bases stolen by the team.
         """
-        return int(self._stolen_bases)
+        return self._stolen_bases
 
-    @property
+    @int_property_decorator
     def times_caught_stealing(self):
         """
         Returns an ``int`` of the number of times a player was caught stealing.
         """
-        return int(self._times_caught_stealing)
+        return self._times_caught_stealing
 
-    @property
+    @int_property_decorator
     def bases_on_balls(self):
         """
         Returns an ``int`` of the number of bases on walks.
         """
-        return int(self._bases_on_balls)
+        return self._bases_on_balls
 
-    @property
+    @int_property_decorator
     def times_struck_out(self):
         """
         Returns an ``int`` of the total number of times the team struck out.
         """
-        return int(self._times_struck_out)
+        return self._times_struck_out
 
-    @property
+    @float_property_decorator
     def batting_average(self):
         """
         Returns a ``float`` of the batting average for the team. Percentage
         ranges from 0-1.
         """
-        return float(self._batting_average)
+        return self._batting_average
 
-    @property
+    @float_property_decorator
     def on_base_percentage(self):
         """
         Returns a ``float`` of the percentage of at bats that result in a
         player taking a base. Percentage ranges from 0-1.
         """
-        return float(self._on_base_percentage)
+        return self._on_base_percentage
 
-    @property
+    @float_property_decorator
     def slugging_percentage(self):
         """
         Returns a ``float`` of the ratio of total bases gained per at bat.
         """
-        return float(self._slugging_percentage)
+        return self._slugging_percentage
 
-    @property
+    @float_property_decorator
     def on_base_plus_slugging_percentage(self):
         """
         Returns a ``float`` of the sum of the on base percentage plus the
         slugging percentage.
         """
-        return float(self._on_base_plus_slugging_percentage)
+        return self._on_base_plus_slugging_percentage
 
-    @property
+    @int_property_decorator
     def on_base_plus_slugging_percentage_plus(self):
         """
         Returns an ``int`` of the on base percentage plus the slugging
         percentage, adjusted to the team's home ballpark.
         """
-        return int(self._on_base_plus_slugging_percentage_plus)
+        return self._on_base_plus_slugging_percentage_plus
 
-    @property
+    @int_property_decorator
     def total_bases(self):
         """
         Returns an ``int`` of the total number of bases a team has gained
         during the season.
         """
-        return int(self._total_bases)
+        return self._total_bases
 
-    @property
+    @int_property_decorator
     def grounded_into_double_plays(self):
         """
         Returns an ``int`` of the total number double plays grounded into by
         the team.
         """
-        return int(self._grounded_into_double_plays)
+        return self._grounded_into_double_plays
 
-    @property
+    @int_property_decorator
     def times_hit_by_pitch(self):
         """
         Returns an ``int`` of the total number of times a batter was hit by an
         opponent's pitch.
         """
-        return int(self._times_hit_by_pitch)
+        return self._times_hit_by_pitch
 
-    @property
+    @int_property_decorator
     def sacrifice_hits(self):
         """
         Returns an ``int`` of the total number of sacrifice hits the team made
         during the season.
         """
-        return int(self._sacrifice_hits)
+        return self._sacrifice_hits
 
-    @property
+    @int_property_decorator
     def sacrifice_flies(self):
         """
         Returns an ``int`` of the total number of sacrifice flies the team made
         during the season.
         """
-        return int(self._sacrifice_flies)
+        return self._sacrifice_flies
 
-    @property
+    @int_property_decorator
     def intentional_bases_on_balls(self):
         """
         Returns an ``int`` of the total number of times a player took a base
         from an intentional walk.
         """
-        return int(self._intentional_bases_on_balls)
+        return self._intentional_bases_on_balls
 
-    @property
+    @int_property_decorator
     def runners_left_on_base(self):
         """
         Returns an ``int`` of the total number of runners left on base at the
         end of an inning.
         """
-        return int(self._runners_left_on_base)
+        return self._runners_left_on_base
 
-    @property
+    @int_property_decorator
     def number_of_pitchers(self):
         """
         Returns an ``int`` of the total number of pitchers used during a
         season.
         """
-        return int(self._number_of_pitchers)
+        return self._number_of_pitchers
 
-    @property
+    @float_property_decorator
     def average_pitcher_age(self):
         """
         Returns a ``float`` of the average pitcher age weighted by the number
         of games started, followed by the number of games played and saves.
         """
-        return float(self._average_pitcher_age)
+        return self._average_pitcher_age
 
-    @property
+    @float_property_decorator
     def runs_allowed_per_game(self):
         """
         Returns a ``float`` of the average number of runs a team has allowed
         per game.
         """
-        return float(self._runs_allowed_per_game)
+        return self._runs_allowed_per_game
 
-    @property
+    @float_property_decorator
     def earned_runs_against(self):
         """
         Returns a ``float`` of the average number of earned runs against for a
         team.
         """
-        return float(self._earned_runs_against)
+        return self._earned_runs_against
 
-    @property
+    @int_property_decorator
     def games_finished(self):
         """
         Returns an ``int`` of the number of games finished which is equivalent
         to the number of games played minus the number of complete games during
         the season.
         """
-        return int(self._games_finished)
+        return self._games_finished
 
-    @property
+    @int_property_decorator
     def complete_games(self):
         """
         Returns an ``int`` of the total number of complete games a team has
         accumulated during the season.
         """
-        return int(self._complete_games)
+        return self._complete_games
 
-    @property
+    @int_property_decorator
     def shutouts(self):
         """
         Returns an ``int`` of the total number of shutouts a team has
         accumulated during the season.
         """
-        return int(self._shutouts)
+        return self._shutouts
 
-    @property
+    @int_property_decorator
     def complete_game_shutouts(self):
         """
         Returns an ``int`` of the total number of complete games where the
         opponent scored zero runs.
         """
-        return int(self._complete_game_shutouts)
+        return self._complete_game_shutouts
 
-    @property
+    @int_property_decorator
     def saves(self):
         """
         Returns an ``int`` of the total number of saves a team has accumulated
         during the season.
         """
-        return int(self._saves)
+        return self._saves
 
-    @property
+    @float_property_decorator
     def innings_pitched(self):
         """
         Returns a ``float`` of the total number of innings pitched by a team
         during the season.
         """
-        return float(self._innings_pitched)
+        return self._innings_pitched
 
-    @property
+    @int_property_decorator
     def hits_allowed(self):
         """
         Returns an ``int`` of the total number of hits allowed during the
         season.
         """
-        return int(self._hits_allowed)
+        return self._hits_allowed
 
-    @property
+    @int_property_decorator
     def home_runs_against(self):
         """
         Returns an ``int`` of the total number of home runs given up during the
         season.
         """
-        return int(self._home_runs_against)
+        return self._home_runs_against
 
-    @property
+    @int_property_decorator
     def bases_on_walks_given(self):
         """
         Returns an ``int`` of the total number of bases from walks given up by
         a team during the season.
         """
-        return int(self._bases_on_walks_given)
+        return self._bases_on_walks_given
 
-    @property
+    @int_property_decorator
     def strikeouts(self):
         """
         Returns an ``int`` of the total number of times a team has struck out
         an opponent.
         """
-        return int(self._strikeouts)
+        return self._strikeouts
 
-    @property
+    @int_property_decorator
     def hit_pitcher(self):
         """
         Returns an ``int`` of the total number of times a pitcher has hit an
         opposing batter.
         """
-        return int(self._hit_pitcher)
+        return self._hit_pitcher
 
-    @property
+    @int_property_decorator
     def balks(self):
         """
         Returns an ``int`` of the total number of times a pitcher has balked.
         """
-        return int(self._balks)
+        return self._balks
 
-    @property
+    @int_property_decorator
     def wild_pitches(self):
         """
         Returns an ``int`` of the total number of wild pitches thrown by a team
         during a season.
         """
-        return int(self._wild_pitches)
+        return self._wild_pitches
 
-    @property
+    @int_property_decorator
     def batters_faced(self):
         """
         Returns an ``int`` of the total number of batters all pitchers have
         faced during a season.
         """
-        return int(self._batters_faced)
+        return self._batters_faced
 
-    @property
+    @int_property_decorator
     def earned_runs_against_plus(self):
         """
         Returns an ``int`` of the team's average earned runs against, adjusted
         for the home ballpark.
         """
-        return int(self._earned_runs_against_plus)
+        return self._earned_runs_against_plus
 
-    @property
+    @float_property_decorator
     def fielding_independent_pitching(self):
         """
         Returns a ``float`` of the team's effectiveness at preventing home
         runs, walks, batters being hit by pitches, and strikeouts.
         """
-        return float(self._fielding_independent_pitching)
+        return self._fielding_independent_pitching
 
-    @property
+    @float_property_decorator
     def whip(self):
         """
         Returns a ``float`` of the average number of walks plus hits by the
         opponent per inning.
         """
-        return float(self._whip)
+        return self._whip
 
-    @property
+    @float_property_decorator
     def hits_per_nine_innings(self):
         """
         Returns a ``float`` of the average number of hits per nine innings by
         the opponent.
         """
-        return float(self._hits_per_nine_innings)
+        return self._hits_per_nine_innings
 
-    @property
+    @float_property_decorator
     def home_runs_per_nine_innings(self):
         """
         Returns a ``float`` of the average number of home runs per nine innings
         by the opponent.
         """
-        return float(self._home_runs_per_nine_innings)
+        return self._home_runs_per_nine_innings
 
-    @property
+    @float_property_decorator
     def bases_on_walks_given_per_nine_innings(self):
         """
         Returns a ``float`` of the average number of walks conceded per nine
         innings.
         """
-        return float(self._bases_on_walks_given_per_nine_innings)
+        return self._bases_on_walks_given_per_nine_innings
 
-    @property
+    @float_property_decorator
     def strikeouts_per_nine_innings(self):
         """
         Returns a ``float`` of the average number of strikeouts a team throws
         per nine innings.
         """
-        return float(self._strikeouts_per_nine_innings)
+        return self._strikeouts_per_nine_innings
 
-    @property
+    @float_property_decorator
     def strikeouts_per_base_on_balls(self):
         """
         Returns a ``float`` of the average number of strikeouts per walk thrown
         by a team.
         """
-        return float(self._strikeouts_per_base_on_balls)
+        return self._strikeouts_per_base_on_balls
 
-    @property
+    @int_property_decorator
     def opposing_runners_left_on_base(self):
         """
         Returns an ``int`` of the total number of opponents a team has left on
         bases at the end of an inning.
         """
-        return int(self._opposing_runners_left_on_base)
+        return self._opposing_runners_left_on_base
 
 
 class Teams:

@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+from ..decorators import float_property_decorator, int_property_decorator
 from .constants import (SCHEDULE_SCHEME,
                         SCHEDULE_URL)
 from datetime import datetime
@@ -211,7 +212,7 @@ class Game(object):
         """
         return self.boxscore.dataframe
 
-    @property
+    @int_property_decorator
     def week(self):
         """
         Returns an ``int`` of the week number in the season, such as 1 for the
@@ -225,7 +226,7 @@ class Game(object):
             return CONF_CHAMPIONSHIP
         if self._week.lower() == 'superbowl':
             return SUPER_BOWL
-        return int(self._week)
+        return self._week
 
     @property
     def day(self):
@@ -290,7 +291,7 @@ class Game(object):
     @property
     def overtime(self):
         """
-        Returns a boolean value that evaluates to True if the game when to
+        Returns a ``boolean`` value that evaluates to True if the game when to
         overtime and False if it ended in regulation.
         """
         if self._overtime != '':
@@ -325,206 +326,206 @@ class Game(object):
         """
         return self._opponent_name
 
-    @property
+    @int_property_decorator
     def points_scored(self):
         """
         Returns an ``int`` of the number of points scored by the team.
         """
-        return int(self._points_scored)
+        return self._points_scored
 
-    @property
+    @int_property_decorator
     def points_allowed(self):
         """
         Returns an ``int`` of the number of points allowed by the team.
         """
-        return int(self._points_allowed)
+        return self._points_allowed
 
-    @property
+    @int_property_decorator
     def pass_completions(self):
         """
         Returns an ``int`` of the number of completed passed by the team.
         """
-        return int(self._pass_completions)
+        return self._pass_completions
 
-    @property
+    @int_property_decorator
     def pass_attempts(self):
         """
         Returns an ``int`` of the number of passes the team attempted during
         the game.
         """
-        return int(self._pass_attempts)
+        return self._pass_attempts
 
-    @property
+    @int_property_decorator
     def pass_yards(self):
         """
         Returns an ``int`` of the number of yards the team gained as a result
         of passing plays.
         """
-        return int(self._pass_yards)
+        return self._pass_yards
 
-    @property
+    @int_property_decorator
     def pass_touchdowns(self):
         """
         Returns an ``int`` of the number of touchdowns the team scored as a
         result of passing plays.
         """
-        return int(self._pass_touchdowns)
+        return self._pass_touchdowns
 
-    @property
+    @int_property_decorator
     def interceptions(self):
         """
         Returns an ``int`` of the number of interceptions the team threw.
         """
-        return int(self._interceptions)
+        return self._interceptions
 
-    @property
+    @int_property_decorator
     def times_sacked(self):
         """
         Returns an ``int`` of the number of times the quarterback was sacked by
         the opponent.
         """
-        return int(self._times_sacked)
+        return self._times_sacked
 
-    @property
+    @int_property_decorator
     def yards_lost_from_sacks(self):
         """
         Returns an ``int`` of the total number of yards lost as a result of a
         sack.
         """
-        return int(self._yards_lost_from_sacks)
+        return self._yards_lost_from_sacks
 
-    @property
+    @float_property_decorator
     def pass_yards_per_attempt(self):
         """
         Returns a ``float`` of the average number of yards gained per passing
         play.
         """
-        return float(self._pass_yards_per_attempt)
+        return self._pass_yards_per_attempt
 
-    @property
+    @float_property_decorator
     def pass_completion_rate(self):
         """
         Returns a ``float`` of the percentage of passes that were completed by
         the team. Percentage ranges from 0-100.
         """
-        return float(self._pass_completion_rate)
+        return self._pass_completion_rate
 
-    @property
+    @float_property_decorator
     def quarterback_rating(self):
         """
         Returns a ``float`` of the quarterback's rating for the game.
         """
-        return float(self._quarterback_rating)
+        return self._quarterback_rating
 
-    @property
+    @int_property_decorator
     def rush_attempts(self):
         """
         Returns an ``int`` of the total number of times the team attempted a
         rushing play.
         """
-        return int(self._rush_attempts)
+        return self._rush_attempts
 
-    @property
+    @int_property_decorator
     def rush_yards(self):
         """
         Returns an ``int`` of the total number of yards the team gain as a
         result of rushing plays.
         """
-        return int(self._rush_yards)
+        return self._rush_yards
 
-    @property
+    @float_property_decorator
     def rush_yards_per_attempt(self):
         """
         Returns a ``float`` of the average number of yards gained per rushing
         play.
         """
-        return float(self._rush_yards_per_attempt)
+        return self._rush_yards_per_attempt
 
-    @property
+    @int_property_decorator
     def rush_touchdowns(self):
         """
         Returns an ``int`` of the number of touchdowns the team scored as a
         result of rushing plays.
         """
-        return int(self._rush_touchdowns)
+        return self._rush_touchdowns
 
-    @property
+    @int_property_decorator
     def field_goals_made(self):
         """
         Returns an ``int`` of the total number of field goals the team scored.
         """
-        return int(self._field_goals_made)
+        return self._field_goals_made
 
-    @property
+    @int_property_decorator
     def field_goals_attempted(self):
         """
         Returns an ``int`` of the total number of times the team attempted a
         field goal.
         """
-        return int(self._field_goals_attempted)
+        return self._field_goals_attempted
 
-    @property
+    @int_property_decorator
     def extra_points_made(self):
         """
         Returns an ``int`` of the number of extra points the team successfully
         converted after scoring a touchdown.
         """
-        return int(self._extra_points_made)
+        return self._extra_points_made
 
-    @property
+    @int_property_decorator
     def extra_points_attempted(self):
         """
         Returns an ``int`` of the number of times the team attempted to convert
         an extra point after scoring a touchdown.
         """
-        return int(self._extra_points_attempted)
+        return self._extra_points_attempted
 
-    @property
+    @int_property_decorator
     def punts(self):
         """
         Returns an ``int`` of the number of times the team punted the ball.
         """
-        return int(self._punts)
+        return self._punts
 
-    @property
+    @int_property_decorator
     def punt_yards(self):
         """
         Returns an ``int`` of the total number of yards the team punted the
         ball.
         """
-        return int(self._punt_yards)
+        return self._punt_yards
 
-    @property
+    @int_property_decorator
     def third_down_conversions(self):
         """
         Returns an ``int`` of the number of third downs the team successfully
         converted.
         """
-        return int(self._third_down_conversions)
+        return self._third_down_conversions
 
-    @property
+    @int_property_decorator
     def third_down_attempts(self):
         """
         Returns an ``int`` of the total number of third downs the team
         attempted to convert.
         """
-        return int(self._third_down_attempts)
+        return self._third_down_attempts
 
-    @property
+    @int_property_decorator
     def fourth_down_conversions(self):
         """
         Returns an ``int`` of the number of fourth downs the team successfully
         converted.
         """
-        return int(self._fourth_down_conversions)
+        return self._fourth_down_conversions
 
-    @property
+    @int_property_decorator
     def fourth_down_attempts(self):
         """
         Returns an ``int`` of the total number of fourth downs the team
         attempted to convert.
         """
-        return int(self._fourth_down_attempts)
+        return self._fourth_down_attempts
 
     @property
     def time_of_possession(self):
@@ -535,7 +536,7 @@ class Game(object):
         return self._time_of_possession
 
 
-class Schedule:
+class Schedule(object):
     """
     An object of the given team's schedule.
 
@@ -674,7 +675,11 @@ class Schedule:
         """
         frames = []
         for game in self.__iter__():
-            frames.append(game.dataframe)
+            df = game.dataframe
+            if df is not None:
+                frames.append(df)
+        if frames == []:
+            return None
         return pd.concat(frames)
 
     @property
@@ -688,5 +693,9 @@ class Schedule:
         """
         frames = []
         for game in self.__iter__():
-            frames.append(game.dataframe_extended)
+            df = game.dataframe_extended
+            if df is not None:
+                frames.append(df)
+        if frames == []:
+            return None
         return pd.concat(frames)

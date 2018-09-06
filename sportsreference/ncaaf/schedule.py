@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+from ..decorators import int_property_decorator
 from .constants import (SCHEDULE_SCHEME,
                         SCHEDULE_URL)
 from datetime import datetime
@@ -230,7 +231,7 @@ class Game(object):
             return AWAY
         return HOME
 
-    @property
+    @int_property_decorator
     def rank(self):
         """
         Returns an ``int`` of the team's rank at the time the game was played.
@@ -238,9 +239,9 @@ class Game(object):
         rank = re.findall('\d+', self._rank)
         if len(rank) == 0:
             return None
-        return int(rank[0])
+        return rank[0]
 
-    @property
+    @int_property_decorator
     def opponent_rank(self):
         """
         Returns an ``int`` of the opponent's rank at the time the game was
@@ -249,7 +250,7 @@ class Game(object):
         rank = re.findall('\d+', self._opponent_name)
         if len(rank) == 0:
             return None
-        return int(rank[0])
+        return rank[0]
 
     @property
     def opponent_name(self):
@@ -289,37 +290,37 @@ class Game(object):
             return LOSS
         return WIN
 
-    @property
+    @int_property_decorator
     def points_for(self):
         """
         Returns an ``int`` of the number of points the team scored during the
         game.
         """
-        return int(self._points_for)
+        return self._points_for
 
-    @property
+    @int_property_decorator
     def points_against(self):
         """
         Returns an ``int`` of the number of points the team allowed during the
         game.
         """
-        return int(self._points_against)
+        return self._points_against
 
-    @property
+    @int_property_decorator
     def wins(self):
         """
         Returns an ``int`` of the number of games the team has won so far in
         the season at the conclusion of the requested game.
         """
-        return int(self._wins)
+        return self._wins
 
-    @property
+    @int_property_decorator
     def losses(self):
         """
         Returns an ``int`` of the number of games the team has lost so far in
         the season at the conclusion of the requested game.
         """
-        return int(self._losses)
+        return self._losses
 
     @property
     def streak(self):
@@ -332,7 +333,7 @@ class Game(object):
         return self._streak
 
 
-class Schedule:
+class Schedule(object):
     """
     An object of the given team's schedule.
 
@@ -451,7 +452,11 @@ class Schedule:
         """
         frames = []
         for game in self.__iter__():
-            frames.append(game.dataframe)
+            df = game.dataframe
+            if df is not None:
+                frames.append(df)
+        if frames == []:
+            return None
         return pd.concat(frames)
 
     @property
@@ -465,5 +470,9 @@ class Schedule:
         """
         frames = []
         for game in self.__iter__():
-            frames.append(game.dataframe_extended)
+            df = game.dataframe_extended
+            if df is not None:
+                frames.append(df)
+        if frames == []:
+            return None
         return pd.concat(frames)

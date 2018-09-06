@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+from ..decorators import int_property_decorator
 from .constants import (DAY,
                         NIGHT,
                         SCHEDULE_SCHEME,
@@ -152,13 +153,13 @@ class Game(object):
             return None
         return self.boxscore.dataframe
 
-    @property
+    @int_property_decorator
     def game(self):
         """
         Returns an ``int`` of the game in the season, where 1 is the first game
         of the season.
         """
-        return int(self._game)
+        return self._game
 
     @property
     def date(self):
@@ -235,29 +236,29 @@ class Game(object):
             return WIN
         return LOSS
 
-    @property
+    @int_property_decorator
     def runs_scored(self):
         """
         Returns an ``int`` of the total number of runs that were scored by the
         team.
         """
-        return int(self._runs_scored)
+        return self._runs_scored
 
-    @property
+    @int_property_decorator
     def runs_allowed(self):
         """
         Returns an ``int`` of the total number of runs that the team allowed.
         """
-        return int(self._runs_allowed)
+        return self._runs_allowed
 
-    @property
+    @int_property_decorator
     def innings(self):
         """
         Returns an ``int`` of the total number of innings that were played.
         """
         if not self._innings:
             return 9
-        return int(self._innings)
+        return self._innings
 
     @property
     def record(self):
@@ -266,13 +267,13 @@ class Game(object):
         """
         return self._record
 
-    @property
+    @int_property_decorator
     def rank(self):
         """
         Returns an ``int`` of the team's rank in the league with 1 being the
         best team.
         """
-        return int(self._rank)
+        return self._rank
 
     @property
     def games_behind(self):
@@ -283,10 +284,16 @@ class Game(object):
         """
         if 'up' in self._games_behind.lower():
             games_behind = re.sub('up *', '', self._games_behind.lower())
-            return float(games_behind) * -1.0
+            try:
+                return float(games_behind) * -1.0
+            except ValueError:
+                return None
         if 'tied' in self._games_behind.lower():
             return 0.0
-        return float(self._games_behind)
+        try:
+            return float(self._games_behind)
+        except ValueError:
+            return None
 
     @property
     def winner(self):
@@ -329,15 +336,12 @@ class Game(object):
             return NIGHT
         return DAY
 
-    @property
+    @int_property_decorator
     def attendance(self):
         """
         Returns an ``int`` of the total listed attendance for the game.
         """
-        try:
-            return int(self._attendance.replace(',', ''))
-        except ValueError:
-            return 0
+        return self._attendance.replace(',', '')
 
     @property
     def streak(self):
@@ -480,6 +484,8 @@ class Schedule(object):
             if game._runs_scored is None and game._runs_allowed is None:
                 continue
             frames.append(game.dataframe)
+        if frames == []:
+            return None
         return pd.concat(frames)
 
     @property
@@ -493,5 +499,9 @@ class Schedule(object):
         """
         frames = []
         for game in self.__iter__():
-            frames.append(game.dataframe_extended)
+            df = game.dataframe_extended
+            if df is not None:
+                frames.append(df)
+        if frames == []:
+            return None
         return pd.concat(frames)

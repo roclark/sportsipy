@@ -1,6 +1,7 @@
 import pandas as pd
 import re
 from datetime import datetime
+from functools import wraps
 from pyquery import PyQuery as pq
 from .. import utils
 from .constants import NATIONALITY, PLAYER_SCHEME, PLAYER_URL, ROSTER_URL
@@ -20,6 +21,22 @@ def cleanup(prop):
 
 def int_property_decorator(func):
     @property
+    @wraps(func)
+    def wrapper(*args):
+        index = args[0]._index
+        prop = func(*args)
+        value = cleanup(prop[index])
+        try:
+            return int(value)
+        except ValueError:
+            # If there is no value, default to None
+            return None
+    return wrapper
+
+
+def int_property_decorator_default_zero(func):
+    @property
+    @wraps(func)
     def wrapper(*args):
         index = args[0]._index
         prop = func(*args)
@@ -34,6 +51,7 @@ def int_property_decorator(func):
 
 def float_property_decorator(func):
     @property
+    @wraps(func)
     def wrapper(*args):
         index = args[0]._index
         prop = func(*args)
@@ -41,13 +59,14 @@ def float_property_decorator(func):
         try:
             return float(value)
         except ValueError:
-            # If there is no value, default to 0.0
-            return 0.0
+            # If there is no value, default to None
+            return None
     return wrapper
 
 
 def most_recent_decorator(func):
     @property
+    @wraps(func)
     def wrapper(*args):
         season = args[0]._most_recent_season
         seasons = args[0]._season
@@ -1293,7 +1312,7 @@ class Player(object):
         """
         return self._half_court_heaves_made
 
-    @int_property_decorator
+    @int_property_decorator_default_zero
     def point_guard_percentage(self):
         """
         Returns an ``int`` of the percentage of time the player spent as a
@@ -1302,7 +1321,7 @@ class Player(object):
         """
         return self._point_guard_percentage
 
-    @int_property_decorator
+    @int_property_decorator_default_zero
     def shooting_guard_percentage(self):
         """
         Returns an ``int`` of the percentage of time the player spent as a
@@ -1311,7 +1330,7 @@ class Player(object):
         """
         return self._shooting_guard_percentage
 
-    @int_property_decorator
+    @int_property_decorator_default_zero
     def small_forward_percentage(self):
         """
         Returns an ``int`` of the percentage of time the player spent as a
@@ -1320,7 +1339,7 @@ class Player(object):
         """
         return self._small_forward_percentage
 
-    @int_property_decorator
+    @int_property_decorator_default_zero
     def power_forward_percentage(self):
         """
         Returns an ``int`` of the percentage of time the player spent as a
@@ -1329,7 +1348,7 @@ class Player(object):
         """
         return self._power_forward_percentage
 
-    @int_property_decorator
+    @int_property_decorator_default_zero
     def center_percentage(self):
         """
         Returns an ``int`` of the percentage of time the player spent as a

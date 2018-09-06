@@ -122,8 +122,8 @@ class TestMLBSchedule:
 
     def test_invalid_dataframe_not_included_with_schedule_dataframes(self):
         # If a DataFrame is not valid, it should not be included with the
-        # dataframes property. If no dataframes are present, a ValueError
-        # should be raised.
+        # dataframes property. If no dataframes are present, the DataFrame
+        # should return the default value of None.
         flexmock(Schedule) \
             .should_receive('_pull_schedule') \
             .and_return(None)
@@ -133,5 +133,28 @@ class TestMLBSchedule:
         fake_games = PropertyMock(return_value=fake_game)
         type(schedule).__iter__ = fake_games
 
-        with pytest.raises(ValueError):
-            schedule.dataframe
+        assert schedule.dataframe is None
+
+    def test_no_dataframes_extended_returns_none(self):
+        flexmock(Schedule) \
+            .should_receive('_pull_schedule') \
+            .and_return(None)
+        schedule = Schedule('HOU')
+
+        fake_game = flexmock(dataframe_extended=None)
+        fake_games = PropertyMock(return_value=fake_game)
+        type(schedule).__iter__ = fake_games
+
+        assert schedule.dataframe_extended is None
+
+    def test_bad_games_up_returns_default(self):
+        fake_games_up = PropertyMock(return_value='up BAD')
+        type(self.game)._games_behind = fake_games_up
+
+        assert self.game.games_behind is None
+
+    def test_bad_games_ahead_returns_default(self):
+        fake_games_up = PropertyMock(return_value='BAD')
+        type(self.game)._games_behind = fake_games_up
+
+        assert self.game.games_behind is None

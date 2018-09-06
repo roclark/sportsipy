@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+from ..decorators import float_property_decorator, int_property_decorator
 from .constants import (SCHEDULE_SCHEME,
                         SCHEDULE_URL)
 from datetime import datetime
@@ -184,7 +185,7 @@ class Game(object):
         """
         return self.boxscore.dataframe
 
-    @property
+    @int_property_decorator
     def game(self):
         """
         Returns an ``int`` to indicate which game in the season was requested.
@@ -250,21 +251,21 @@ class Game(object):
         """
         return self._opponent_name
 
-    @property
+    @int_property_decorator
     def goals_scored(self):
         """
         Returns an ``int`` of the number of goals the team scored during the
         game.
         """
-        return int(self._goals_scored)
+        return self._goals_scored
 
-    @property
+    @int_property_decorator
     def goals_allowed(self):
         """
         Returns an ``int`` of the number of goals the team allowed during the
         game.
         """
-        return int(self._goals_allowed)
+        return self._goals_allowed
 
     @property
     def result(self):
@@ -279,7 +280,7 @@ class Game(object):
             return OVERTIME_LOSS
         return LOSS
 
-    @property
+    @int_property_decorator
     def overtime(self):
         """
         Returns an ``int`` of the number of overtimes that were played during
@@ -293,140 +294,104 @@ class Game(object):
             return 0
         num = re.findall('\d+', self._overtime)
         if len(num) > 0:
-            return int(num[0])
+            return num[0]
         return 0
 
-    @property
+    @int_property_decorator
     def shots_on_goal(self):
         """
         Returns an ``int`` of the total number of shots on goal the team
         registered.
         """
-        try:
-            return int(self._shots_on_goal)
-        except ValueError:
-            return 0
+        return self._shots_on_goal
 
-    @property
+    @int_property_decorator
     def penalties_in_minutes(self):
         """
         Returns an ``int`` of the total number of minutes the team served for
         penalties.
         """
-        try:
-            return int(self._penalties_in_minutes)
-        except ValueError:
-            return 0
+        return self._penalties_in_minutes
 
-    @property
+    @int_property_decorator
     def power_play_goals(self):
         """
         Returns an ``int`` of the number of power play goals the team scored.
         """
-        try:
-            return int(self._power_play_goals)
-        except ValueError:
-            return 0
+        return self._power_play_goals
 
-    @property
+    @int_property_decorator
     def power_play_opportunities(self):
         """
         Returns an ``int`` of the number of power play opportunities the team
         had.
         """
-        try:
-            return int(self._power_play_opportunities)
-        except ValueError:
-            return 0
+        return self._power_play_opportunities
 
-    @property
+    @int_property_decorator
     def short_handed_goals(self):
         """
         Returns an ``int`` of the number of shorthanded goals the team scored.
         """
-        try:
-            return int(self._short_handed_goals)
-        except ValueError:
-            return 0
+        return self._short_handed_goals
 
-    @property
+    @int_property_decorator
     def opp_shots_on_goal(self):
         """
         Returns an ``int`` of the total number of shots on goal the opponent
         registered.
         """
-        try:
-            return int(self._opp_shots_on_goal)
-        except ValueError:
-            return 0
+        return self._opp_shots_on_goal
 
-    @property
+    @int_property_decorator
     def opp_penalties_in_minutes(self):
         """
         Returns an ``int`` of the total number of minutes the opponent served
         for penalties.
         """
-        try:
-            return int(self._opp_penalties_in_minutes)
-        except ValueError:
-            return 0
+        return self._opp_penalties_in_minutes
 
-    @property
+    @int_property_decorator
     def opp_power_play_goals(self):
         """
         Returns an ``int`` of the number of power play goals the opponent
         scored.
         """
-        try:
-            return int(self._opp_power_play_goals)
-        except ValueError:
-            return 0
+        return self._opp_power_play_goals
 
-    @property
+    @int_property_decorator
     def opp_power_play_opportunities(self):
         """
         Returns an ``int`` of the number of power play opportunities the
         opponent had.
         """
-        try:
-            return int(self._opp_power_play_opportunities)
-        except ValueError:
-            return 0
+        return self._opp_power_play_opportunities
 
-    @property
+    @int_property_decorator
     def opp_short_handed_goals(self):
         """
         Returns an ``int`` of the number of shorthanded goals the opponent
         scored.
         """
-        try:
-            return int(self._opp_short_handed_goals)
-        except ValueError:
-            return 0
+        return self._opp_short_handed_goals
 
-    @property
+    @int_property_decorator
     def corsi_for(self):
         """
         Returns an ``int`` of the Corsi For at Even Strength metric which
         equals the number of shots + blocks + misses.
         """
-        try:
-            return int(self._corsi_for)
-        except ValueError:
-            return 0
+        return self._corsi_for
 
-    @property
+    @int_property_decorator
     def corsi_against(self):
         """
         Returns an ``int`` of the Corsi Against at Even Strength metric which
         equals the number of shots + blocks + misses by the opponent.
         """
-        try:
-            return int(self._corsi_against)
-        except ValueError:
-            return 0
+        return self._corsi_against
 
-    @property
+    @float_property_decorator
     def corsi_for_percentage(self):
         """
         Returns a ``float`` of the percentage of control a team had of the puck
@@ -435,34 +400,25 @@ class Game(object):
         had more control of the puck than their opponent. Percentage ranges
         from 0-100.
         """
-        try:
-            return float(self._corsi_for_percentage)
-        except ValueError:
-            return 0.0
+        return self._corsi_for_percentage
 
-    @property
+    @int_property_decorator
     def fenwick_for(self):
         """
         Returns an ``int`` of the Fenwick For at Even Strength metric which
         equals the number of shots + misses.
         """
-        try:
-            return int(self._fenwick_for)
-        except ValueError:
-            return 0
+        return self._fenwick_for
 
-    @property
+    @int_property_decorator
     def fenwick_against(self):
         """
         Returns an ``int`` of the Fenwick Against at Even Strength metric which
         equals the number of shots + misses by the opponent.
         """
-        try:
-            return int(self._fenwick_against)
-        except ValueError:
-            return 0
+        return self._fenwick_against
 
-    @property
+    @float_property_decorator
     def fenwick_for_percentage(self):
         """
         Returns a ``float`` of the percentage of control a team had of the puck
@@ -471,45 +427,33 @@ class Game(object):
         team had more control of the puck than their opponent. Percentage
         ranges from 0-100.
         """
-        try:
-            return float(self._fenwick_for_percentage)
-        except ValueError:
-            return 0.0
+        return self._fenwick_for_percentage
 
-    @property
+    @int_property_decorator
     def faceoff_wins(self):
         """
         Returns an ``int`` of the number of faceoffs the team won at even
         strength.
         """
-        try:
-            return int(self._faceoff_wins)
-        except ValueError:
-            return 0
+        return self._faceoff_wins
 
-    @property
+    @int_property_decorator
     def faceoff_losses(self):
         """
         Returns an ``int`` of the number of faceoffs the team lost at even
         strength.
         """
-        try:
-            return int(self._faceoff_losses)
-        except ValueError:
-            return 0
+        return self._faceoff_losses
 
-    @property
+    @float_property_decorator
     def faceoff_win_percentage(self):
         """
         Returns a ``float`` of percentage of faceoffs the team won while at
         even strength. Percentage ranges from 0-100.
         """
-        try:
-            return float(self._faceoff_win_percentage)
-        except ValueError:
-            return 0.0
+        return self._faceoff_win_percentage
 
-    @property
+    @float_property_decorator
     def offensive_zone_start_percentage(self):
         """
         Returns a ``float`` of the percentage of stats that took place in the
@@ -517,25 +461,19 @@ class Game(object):
         starts divided by the sum of offensive zone starts and defensive zone
         starts. Percentage ranges from 0-100.
         """
-        try:
-            return float(self._offensive_zone_start_percentage)
-        except ValueError:
-            return 0.0
+        return self._offensive_zone_start_percentage
 
-    @property
+    @float_property_decorator
     def pdo(self):
         """
         Returns a ``float`` of the team's PDO at Even Strength metric which is
         calculated by the sum of the shooting percentage and save percentage.
         Percentage ranges from 0-100.
         """
-        try:
-            return float(self._pdo)
-        except ValueError:
-            return 0.0
+        return self._pdo
 
 
-class Schedule:
+class Schedule(object):
     """
     An object of the given team's schedule.
 
@@ -654,7 +592,11 @@ class Schedule:
         """
         frames = []
         for game in self.__iter__():
-            frames.append(game.dataframe)
+            df = game.dataframe
+            if df is not None:
+                frames.append(df)
+        if frames == []:
+            return None
         return pd.concat(frames)
 
     @property
@@ -668,5 +610,9 @@ class Schedule:
         """
         frames = []
         for game in self.__iter__():
-            frames.append(game.dataframe_extended)
+            df = game.dataframe_extended
+            if df is not None:
+                frames.append(df)
+        if frames == []:
+            return None
         return pd.concat(frames)

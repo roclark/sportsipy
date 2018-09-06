@@ -31,7 +31,7 @@ class TestNCAABPlayer:
 
         result = player.field_goals
 
-        assert result == 0
+        assert result is None
 
     def test_no_float_returns_default_value(self):
         mock_percentage = PropertyMock(return_value=[''])
@@ -42,7 +42,7 @@ class TestNCAABPlayer:
 
         result = player.field_goal_percentage
 
-        assert result == 0.0
+        assert result is None
 
     @patch('requests.get', side_effect=mock_pyquery)
     def test_invalid_url_returns_none(self, *args, **kwargs):
