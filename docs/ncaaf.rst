@@ -79,6 +79,37 @@ teams in every conference.
     :undoc-members:
     :show-inheritance:
 
+Rankings
+--------
+
+The Rankings module include the ``Rankings`` class which can be used to easily
+query the NCAA Men's Division-I Football rankings published by the Associated
+Press on a week-by-week basis. Different formats can be referenced, ranging from
+a lightweight dictionary of the most recent rankings containing only the team
+abbreviation and rank, to a much larger dictionary of all rankings for an entire
+season with results including full team name and abbreviation, current rank,
+week number, previous rank, and movement.
+
+.. code-block:: python
+
+    from sportsreference.ncaaf.rankings import Rankings
+
+    rankings = Rankings()
+    # Prints a dictionary of just the team abbreviation and rank for the current
+    # week.
+    print(rankings.current)
+    # Prints more detailed information including previous rank, full name, and
+    # movement for all teams for the current week.
+    print(rankings.current_extended)
+    # Prints detailed information for all teams for all weeks where rankings
+    # have been published for the requested season.
+    print(rankings.complete)
+
+.. automodule:: sportsreference.ncaaf.rankings
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Schedule
 --------
 
