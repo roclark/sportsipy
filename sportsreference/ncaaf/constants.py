@@ -233,3 +233,5 @@ BOXSCORE_URL = 'https://www.sports-reference.com/cfb/boxscores/%s.html'
 
 BOXSCORES_URL = ('https://www.sports-reference.com/cfb/boxscores/index.cgi'
                  '?month=%s&day=%s&year=%s&conf_id=')
+CONFERENCES_URL = 'https://www.sports-reference.com/cfb/years/%s.html'
+CONFERENCE_URL = 'https://www.sports-reference.com/cfb/conferences/%s/%s.html'

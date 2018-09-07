@@ -4,6 +4,7 @@ from .constants import PARSING_SCHEME, OFFENSIVE_STATS_URL, SEASON_PAGE_URL
 from pyquery import PyQuery as pq
 from ..decorators import float_property_decorator, int_property_decorator
 from .. import utils
+from .conferences import Conferences
 from .schedule import Schedule
 
 
@@ -21,10 +22,13 @@ class Team(object):
         A string containing all of the rows of stats for a given team. If
         multiple tables are being referenced, this will be comprised of
         multiple rows in a single string.
+    team_conference : string (optional)
+        A string of the team's conference abbreviation, such as 'big-12'.
     year : string (optional)
         The requested year to pull stats from.
     """
-    def __init__(self, team_data, year=None):
+    def __init__(self, team_data, team_conference=None, year=None):
+        self._team_conference = team_conference
         self._year = year
         self._abbreviation = None
         self._name = None
@@ -83,7 +87,8 @@ class Team(object):
             multiple rows in a single string.
         """
         for field in self.__dict__:
-            if field == '_year':
+            if field == '_year' or \
+               field == '_team_conference':
                 continue
             value = utils._parse_field(PARSING_SCHEME,
                                        team_data,
@@ -99,6 +104,7 @@ class Team(object):
         """
         fields_to_include = {
             'abbreviation': self.abbreviation,
+            'conference': self.conference,
             'conference_losses': self.conference_losses,
             'conference_win_percentage': self.conference_win_percentage,
             'conference_wins': self.conference_wins,
@@ -134,6 +140,14 @@ class Team(object):
             'yards_per_play': self.yards_per_play
         }
         return pd.DataFrame([fields_to_include], index=[self._abbreviation])
+
+    @property
+    def conference(self):
+        """
+        Returns a ``string`` of the team's conference abbreviation, such as
+        'big-12' for the Big 12 Conference.
+        """
+        return self._team_conference
 
     @property
     def abbreviation(self):
@@ -428,6 +442,7 @@ class Teams:
     """
     def __init__(self, year=None):
         self._teams = []
+        self._conferences_dict = Conferences(year).team_conference
 
         self._retrieve_all_teams(year)
 
@@ -556,8 +571,10 @@ class Teams:
         for stats_list in [teams_list, offense_list]:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 
-        for team_data in team_data_dict.values():
-            team = Team(team_data['data'], year)
+        for team_name, team_data in team_data_dict.items():
+            team = Team(team_data['data'],
+                        self._conferences_dict[team_name.lower()],
+                        year)
             self._teams.append(team)
 
     @property
