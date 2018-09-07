@@ -74,6 +74,11 @@ the teams in every conference.
     # abbreviation for each team.
     print(conferences.conferences)
 
+.. automodule:: sportsreference.ncaab.conferences
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Rankings
 --------
 
