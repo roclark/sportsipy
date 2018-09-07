@@ -221,6 +221,15 @@ BOXSCORE_ELEMENT_SUB_INDEX = {
     'home_yards_from_penalties': 1
 }
 
+RANKINGS_SCHEME = {
+    'name': 'td[data-stat="school_name"]',
+    'week': 'th[data-stat="week_poll"]',
+    'date': 'td[data-stat="date_poll"]',
+    'rank': 'td[data-stat="rank"]',
+    'previous': 'td[data-stat="rank_prev"]',
+    'change': 'td[data-stat="rank_diff"]'
+}
+
 SEASON_PAGE_URL = 'http://www.sports-reference.com/cfb/years/%s-standings.html'
 
 OFFENSIVE_STATS_URL = ('https://www.sports-reference.com/cfb/years/'
@@ -235,3 +244,4 @@ BOXSCORES_URL = ('https://www.sports-reference.com/cfb/boxscores/index.cgi'
                  '?month=%s&day=%s&year=%s&conf_id=')
 CONFERENCES_URL = 'https://www.sports-reference.com/cfb/years/%s.html'
 CONFERENCE_URL = 'https://www.sports-reference.com/cfb/conferences/%s/%s.html'
+RANKINGS_URL = 'https://www.sports-reference.com/cfb/years/%s-polls.html'
