@@ -1,4 +1,24 @@
 #!/bin/bash
+bump_minor() {
+  arr=(${version//./ })
+  major=${arr[0]}
+  minor=$(( ${arr[1]} + 1 ))
+  patch=0
+  echo "$major.$minor.$patch.dev$timestamp" > VERSION
+}
+
+bump_patch() {
+  arr=(${version//./ })
+  major=${arr[0]}
+  minor=${arr[1]}
+  patch=$(( ${arr[2]} + 1 ))
+  echo "$major.$minor.$patch.dev$timestamp" > VERSION
+}
+
 version=`cat VERSION`
 timestamp=$(date '+%Y%m%d%H%M%S')
-echo "$version.dev$timestamp" > VERSION
+
+case $1 in
+  minor) bump_minor;;
+  patch) bump_patch;;
+esac

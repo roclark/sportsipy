@@ -43,14 +43,26 @@ jobs:
       dist: xenial
       python: 3.7
       sudo: true
-      script: if [ -z "$TRAVIS_TAG" ]; then ./dev-version-bump; fi
+      script: if [[ -z "$TRAVIS_TAG" && $TRAVIS_BRANCH = "patch/"* ]]; then ./dev-version-bump patch; elif [ -z "$TRAVIS_TAG" ]; then ./dev-version-bump minor; fi
       deploy:
+          # Steps for master builds
         - provider: pypi
           server: https://test.pypi.org/legacy/
           distributions: sdist bdist_wheel --universal
           user: $PYPI_USERNAME
           password: $PYPI_PASSWORD
           skip_cleanup: true  # Allow version changes to be included
+          # Steps for patch fixes
+        - provider: pypi
+          server: https://test.pypi.org/legacy/
+          distributions: sdist bdist_wheel --universal
+          user: $PYPI_USERNAME
+          password: $PYPI_PASSWORD
+          skip_cleanup: true  # Allow version changes to be included
+          on:
+            all_branches: true
+            condition: $TRAVIS_BRANCH =~ ^patch/.*$
+          # Steps for tagged releases
         - provider: pypi
           distributions: sdist bdist_wheel --universal
           user: $PYPI_USERNAME
