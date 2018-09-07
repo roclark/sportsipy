@@ -60,8 +60,8 @@ information. To get a list of conference abbreviations for each team, query the
     # abbreviation as the value.
     print(conferences.team_conference)
 
-The ``conferences`` property can also be queried by to provide more details on
-the teams in every conference.
+The ``conferences`` property can also be queried to provide more details on the
+teams in every conference.
 
 .. code-block:: python
 
