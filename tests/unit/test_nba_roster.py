@@ -1,6 +1,6 @@
 from flexmock import flexmock
 from mock import patch, PropertyMock
-from sportsreference.nba.roster import cleanup, Player
+from sportsreference.nba.roster import _cleanup, Player
 
 
 class MockItem:
@@ -57,7 +57,7 @@ class TestNBAPlayer:
         assert result is None
 
     def test_cleanup_of_none_returns_default(self):
-        result = cleanup(None)
+        result = _cleanup(None)
 
         assert result == ''
 
