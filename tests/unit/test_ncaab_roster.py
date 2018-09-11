@@ -1,6 +1,6 @@
 from flexmock import flexmock
 from mock import patch, PropertyMock
-from sportsreference.ncaab.roster import cleanup, Player
+from sportsreference.ncaab.roster import _cleanup, Player
 
 
 def mock_pyquery(url):
@@ -55,6 +55,6 @@ class TestNCAABPlayer:
         assert result is None
 
     def test_cleanup_of_none_returns_default(self):
-        result = cleanup(None)
+        result = _cleanup(None)
 
         assert result == ''

@@ -6,7 +6,7 @@ from .. import utils
 from .constants import PLAYER_SCHEME, PLAYER_URL, ROSTER_URL
 
 
-def cleanup(prop):
+def _cleanup(prop):
     try:
         prop = prop.replace('%', '')
         prop = prop.replace(',', '')
@@ -17,13 +17,13 @@ def cleanup(prop):
         return ''
 
 
-def int_property_decorator(func):
+def _int_property_decorator(func):
     @property
     @wraps(func)
     def wrapper(*args):
         index = args[0]._index
         prop = func(*args)
-        value = cleanup(prop[index])
+        value = _cleanup(prop[index])
         try:
             return int(value)
         except ValueError:
@@ -32,13 +32,13 @@ def int_property_decorator(func):
     return wrapper
 
 
-def float_property_decorator(func):
+def _float_property_decorator(func):
     @property
     @wraps(func)
     def wrapper(*args):
         index = args[0]._index
         prop = func(*args)
-        value = cleanup(prop[index])
+        value = _cleanup(prop[index])
         try:
             return float(value)
         except ValueError:
@@ -47,7 +47,7 @@ def float_property_decorator(func):
     return wrapper
 
 
-def most_recent_decorator(func):
+def _most_recent_decorator(func):
     @property
     @wraps(func)
     def wrapper(*args):
@@ -554,7 +554,7 @@ class Player(object):
         """
         return self._name
 
-    @most_recent_decorator
+    @_most_recent_decorator
     def team_abbreviation(self):
         """
         Returns a ``string`` of the abbrevation for the team the player plays
@@ -584,28 +584,28 @@ class Player(object):
         """
         return int(self._weight.replace('lb', ''))
 
-    @int_property_decorator
+    @_int_property_decorator
     def games_played(self):
         """
         Returns an ``int`` of the number of games the player participated in.
         """
         return self._games_played
 
-    @int_property_decorator
+    @_int_property_decorator
     def games_started(self):
         """
         Returns an ``int`` of the number of games the player started.
         """
         return self._games_started
 
-    @int_property_decorator
+    @_int_property_decorator
     def minutes_played(self):
         """
         Returns an ``int`` of the total number of minutes the player played.
         """
         return self._minutes_played
 
-    @int_property_decorator
+    @_int_property_decorator
     def field_goals(self):
         """
         Returns an ``int`` of the total number of field goals the player
@@ -613,7 +613,7 @@ class Player(object):
         """
         return self._field_goals
 
-    @int_property_decorator
+    @_int_property_decorator
     def field_goal_attempts(self):
         """
         Returns an ``int`` of the total number of field goals the player
@@ -621,7 +621,7 @@ class Player(object):
         """
         return self._field_goal_attempts
 
-    @float_property_decorator
+    @_float_property_decorator
     def field_goal_percentage(self):
         """
         Returns a ``float`` of the player's field goal percentage during the
@@ -629,7 +629,7 @@ class Player(object):
         """
         return self._field_goal_percentage
 
-    @int_property_decorator
+    @_int_property_decorator
     def three_pointers(self):
         """
         Returns an ``int`` of the total number of three point field goals the
@@ -637,7 +637,7 @@ class Player(object):
         """
         return self._three_pointers
 
-    @int_property_decorator
+    @_int_property_decorator
     def three_point_attempts(self):
         """
         Returns an ``int`` of the total number of three point field goals the
@@ -645,7 +645,7 @@ class Player(object):
         """
         return self._three_point_attempts
 
-    @float_property_decorator
+    @_float_property_decorator
     def three_point_percentage(self):
         """
         Returns a ``float`` of the player's three point field goal percentage
@@ -653,7 +653,7 @@ class Player(object):
         """
         return self._three_point_percentage
 
-    @int_property_decorator
+    @_int_property_decorator
     def two_pointers(self):
         """
         Returns an ``int`` of the total number of two point field goals the
@@ -661,7 +661,7 @@ class Player(object):
         """
         return self._two_pointers
 
-    @int_property_decorator
+    @_int_property_decorator
     def two_point_attempts(self):
         """
         Returns an ``int`` of the total number of two point field goals the
@@ -669,7 +669,7 @@ class Player(object):
         """
         return self._two_point_attempts
 
-    @float_property_decorator
+    @_float_property_decorator
     def two_point_percentage(self):
         """
         Returns a ``float`` of the player's two point field goal percentage
@@ -677,7 +677,7 @@ class Player(object):
         """
         return self._two_point_percentage
 
-    @float_property_decorator
+    @_float_property_decorator
     def effective_field_goal_percentage(self):
         """
         Returns a ``float`` of the player's field goal percentage while giving
@@ -685,7 +685,7 @@ class Player(object):
         """
         return self._effective_field_goal_percentage
 
-    @int_property_decorator
+    @_int_property_decorator
     def free_throws(self):
         """
         Returns an ``int`` of the total number of free throws the player made
@@ -693,7 +693,7 @@ class Player(object):
         """
         return self._free_throws
 
-    @int_property_decorator
+    @_int_property_decorator
     def free_throw_attempts(self):
         """
         Returns an ``int`` of the total number of free throws the player
@@ -701,7 +701,7 @@ class Player(object):
         """
         return self._free_throw_attempts
 
-    @float_property_decorator
+    @_float_property_decorator
     def free_throw_percentage(self):
         """
         Returns a ``float`` of the player's free throw percentage during the
@@ -709,7 +709,7 @@ class Player(object):
         """
         return self._free_throw_percentage
 
-    @int_property_decorator
+    @_int_property_decorator
     def offensive_rebounds(self):
         """
         Returns an ``int`` of the total number of offensive rebounds the player
@@ -717,7 +717,7 @@ class Player(object):
         """
         return self._offensive_rebounds
 
-    @int_property_decorator
+    @_int_property_decorator
     def defensive_rebounds(self):
         """
         Returns an ``int`` of the total number of defensive rebounds the player
@@ -725,7 +725,7 @@ class Player(object):
         """
         return self._defensive_rebounds
 
-    @int_property_decorator
+    @_int_property_decorator
     def total_rebounds(self):
         """
         Returns an ``int`` of the total number of offensive and defensive
@@ -733,7 +733,7 @@ class Player(object):
         """
         return self._total_rebounds
 
-    @int_property_decorator
+    @_int_property_decorator
     def assists(self):
         """
         Returns an ``int`` of the total number of assists the player tallied
@@ -741,7 +741,7 @@ class Player(object):
         """
         return self._assists
 
-    @int_property_decorator
+    @_int_property_decorator
     def steals(self):
         """
         Returns an ``int`` of the total number of steals the player tallied
@@ -749,7 +749,7 @@ class Player(object):
         """
         return self._steals
 
-    @int_property_decorator
+    @_int_property_decorator
     def blocks(self):
         """
         Returns an ``int`` of the total number of shots the player blocked
@@ -757,7 +757,7 @@ class Player(object):
         """
         return self._blocks
 
-    @int_property_decorator
+    @_int_property_decorator
     def turnovers(self):
         """
         Returns an ``int`` of the total number of times the player turned the
@@ -765,7 +765,7 @@ class Player(object):
         """
         return self._turnovers
 
-    @int_property_decorator
+    @_int_property_decorator
     def personal_fouls(self):
         """
         Returns an ``int`` of the total number of personal fouls the player
@@ -773,7 +773,7 @@ class Player(object):
         """
         return self._personal_fouls
 
-    @int_property_decorator
+    @_int_property_decorator
     def points(self):
         """
         Returns an ``int`` of the total number of points the player scored
@@ -781,7 +781,7 @@ class Player(object):
         """
         return self._points
 
-    @float_property_decorator
+    @_float_property_decorator
     def player_efficiency_rating(self):
         """
         Returns a ``float`` of the player's efficiency rating which represents
@@ -790,7 +790,7 @@ class Player(object):
         """
         return self._player_efficiency_rating
 
-    @float_property_decorator
+    @_float_property_decorator
     def true_shooting_percentage(self):
         """
         Returns a ``float`` of the player's true shooting percentage which
@@ -799,7 +799,7 @@ class Player(object):
         """
         return self._true_shooting_percentage
 
-    @float_property_decorator
+    @_float_property_decorator
     def three_point_attempt_rate(self):
         """
         Returns a ``float`` of the percentage of field goals that are shot from
@@ -807,7 +807,7 @@ class Player(object):
         """
         return self._three_point_attempt_rate
 
-    @float_property_decorator
+    @_float_property_decorator
     def free_throw_attempt_rate(self):
         """
         Returns a ``float`` of the number of free throw attempts per field goal
@@ -815,7 +815,7 @@ class Player(object):
         """
         return self._free_throw_attempt_rate
 
-    @int_property_decorator
+    @_int_property_decorator
     def points_produced(self):
         """
         Returns an ``int`` of the number of offensive points the player
@@ -823,7 +823,7 @@ class Player(object):
         """
         return self._points_produced
 
-    @float_property_decorator
+    @_float_property_decorator
     def offensive_rebound_percentage(self):
         """
         Returns a ``float`` of the percentage of available offensive rebounds
@@ -831,7 +831,7 @@ class Player(object):
         """
         return self._offensive_rebound_percentage
 
-    @float_property_decorator
+    @_float_property_decorator
     def defensive_rebound_percentage(self):
         """
         Returns a ``float`` of the percentage of available defensive rebounds
@@ -839,7 +839,7 @@ class Player(object):
         """
         return self._defensive_rebound_percentage
 
-    @float_property_decorator
+    @_float_property_decorator
     def total_rebound_percentage(self):
         """
         Returns a ``float`` of the percentage of available rebounds the player
@@ -847,7 +847,7 @@ class Player(object):
         """
         return self._total_rebound_percentage
 
-    @float_property_decorator
+    @_float_property_decorator
     def assist_percentage(self):
         """
         Returns a ``float`` of the percentage of field goals the player
@@ -855,7 +855,7 @@ class Player(object):
         """
         return self._assist_percentage
 
-    @float_property_decorator
+    @_float_property_decorator
     def steal_percentage(self):
         """
         Returns a ``float`` of the percentage of defensive possessions that
@@ -864,7 +864,7 @@ class Player(object):
         """
         return self._steal_percentage
 
-    @float_property_decorator
+    @_float_property_decorator
     def block_percentage(self):
         """
         Returns a ``float`` of the percentage of opposing two-point field goal
@@ -873,7 +873,7 @@ class Player(object):
         """
         return self._block_percentage
 
-    @float_property_decorator
+    @_float_property_decorator
     def turnover_percentage(self):
         """
         Returns a ``float`` of the average number of turnovers per 100
@@ -881,7 +881,7 @@ class Player(object):
         """
         return self._turnover_percentage
 
-    @float_property_decorator
+    @_float_property_decorator
     def usage_percentage(self):
         """
         Returns a ``float`` of the percentage of plays the player is involved
@@ -889,7 +889,7 @@ class Player(object):
         """
         return self._usage_percentage
 
-    @float_property_decorator
+    @_float_property_decorator
     def offensive_win_shares(self):
         """
         Returns a ``float`` of the number of wins the player contributed to the
@@ -897,7 +897,7 @@ class Player(object):
         """
         return self._offensive_win_shares
 
-    @float_property_decorator
+    @_float_property_decorator
     def defensive_win_shares(self):
         """
         Returns a ``float`` of the number of wins the player contributed to the
@@ -905,7 +905,7 @@ class Player(object):
         """
         return self._defensive_win_shares
 
-    @float_property_decorator
+    @_float_property_decorator
     def win_shares(self):
         """
         Returns a ``float`` of the number of wins the player contributed to the
@@ -913,7 +913,7 @@ class Player(object):
         """
         return self._win_shares
 
-    @float_property_decorator
+    @_float_property_decorator
     def win_shares_per_40_minutes(self):
         """
         Returns a ``float`` of the number of wins the player contributed to the
@@ -922,7 +922,7 @@ class Player(object):
         """
         return self._win_shares_per_40_minutes
 
-    @float_property_decorator
+    @_float_property_decorator
     def offensive_box_plus_minus(self):
         """
         Returns a ``float`` of the number of offensive points per 100
@@ -931,7 +931,7 @@ class Player(object):
         """
         return self._offensive_box_plus_minus
 
-    @float_property_decorator
+    @_float_property_decorator
     def defensive_box_plus_minus(self):
         """
         Returns a ``float`` of the number of defensive points per 100
@@ -940,7 +940,7 @@ class Player(object):
         """
         return self._defensive_box_plus_minus
 
-    @float_property_decorator
+    @_float_property_decorator
     def box_plus_minus(self):
         """
         Returns a ``float`` of the total number of points per 100 possessions
