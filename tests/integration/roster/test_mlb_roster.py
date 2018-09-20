@@ -2,7 +2,10 @@
 import mock
 import os
 import pandas as pd
-from sportsreference.mlb.roster import Player
+import pytest
+from flexmock import flexmock
+from sportsreference import utils
+from sportsreference.mlb.roster import Player, Roster
 
 
 def read_file(filename):
@@ -17,8 +20,10 @@ def mock_pyquery(url):
             self.html_contents = html_contents
             self.text = html_contents
 
-    if 'BAD' in url:
+    if 'bad' in url:
         return MockPQ(None, 404)
+    if 'hou' in url:
+        return MockPQ(read_file('2017'))
     if 'verlaju01' in url:
         return MockPQ(read_file('verlaju01'))
     return MockPQ(read_file('altuvjo01'))
@@ -1140,3 +1145,23 @@ class TestMLBPitcher:
         result = player._find_initial_index()
 
         assert player._index == 1
+
+
+class TestMLBRoster:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_pulls_all_player_stats(self, *args, **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2017')
+        roster = Roster('HOU')
+
+        assert len(roster.players) == 3
+
+        for player in roster.players:
+            assert player.name in [u'José Altuve', 'Justin Verlander',
+                                   'Charlie Morton']
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_bad_url_raises_value_error(self, *args, **kwargs):
+        with pytest.raises(ValueError):
+            roster = Roster('bad')

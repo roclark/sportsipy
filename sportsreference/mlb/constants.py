@@ -497,6 +497,7 @@ BOXSCORE_URL = 'https://www.baseball-reference.com/boxes/%s.shtml'
 BOXSCORES_URL = ('https://www.baseball-reference.com/boxes/'
                  '?year=%s&month=%s&day=%s')
 PLAYER_URL = 'https://www.baseball-reference.com/players/%s/%s.shtml'
+ROSTER_URL = 'https://www.baseball-reference.com/teams/%s/%s.shtml'
 
 NIGHT = 'Night'
 DAY = 'Day'
