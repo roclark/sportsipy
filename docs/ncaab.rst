@@ -237,14 +237,12 @@ contains detailed stats and information for each player on the team.
 
 .. code-block:: python
 
-    from sportsreference.ncaab.schedule import Schedule
+    from sportsreference.ncaab.teams import Teams
 
-    purdue_schedule = Schedule('PURDUE')
-    for game in purdue_schedule:
-        print(game.date)  # Prints the date the game was played
-        print(game.result)  # Prints whether the team won or lost
-        # Creates an instance of the Boxscore class for the game.
-        boxscore = game.boxscore
+    for team in Teams():
+        roster = team.roster  # Gets each team's roster
+        for player in roster.players:
+            print(player.name)  # Prints each players name on the roster
 
 .. automodule:: sportsreference.ncaab.teams
     :members:
