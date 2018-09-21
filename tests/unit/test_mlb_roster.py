@@ -44,6 +44,19 @@ class TestMLBPlayer:
 
         assert result is None
 
+    def test_no_recent_returns_default_value(self):
+        mock_position = PropertyMock(return_value=[''])
+        mock_season = PropertyMock(return_value='2018')
+        mock_seasons = PropertyMock(return_value=['2018'])
+        player = Player(None)
+        type(player)._position = mock_position
+        type(player)._season = mock_seasons
+        type(player)._most_recent_season = mock_season
+
+        result = player.position
+
+        assert result is None
+
     @patch('requests.get', side_effect=mock_pyquery)
     def test_invalid_url_return_none(self, *args, **kwargs):
         mock_id = PropertyMock(return_value='BAD')

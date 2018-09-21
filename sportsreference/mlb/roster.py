@@ -65,7 +65,11 @@ def _most_recent_decorator(func):
         index = seasons.index(season)
         prop = func(*args)
         element_ind = 0
-        return prop[index][element_ind]
+        try:
+            return prop[index][element_ind]
+        except (TypeError, IndexError):
+            # If there is no value, default to None
+            return None
     return wrapper
 
 
