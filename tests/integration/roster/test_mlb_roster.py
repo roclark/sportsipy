@@ -21,9 +21,9 @@ def mock_pyquery(url):
             self.html_contents = html_contents
             self.text = html_contents
 
-    if 'bad' in url:
+    if 'BAD' in url:
         return MockPQ(None, 404)
-    if 'hou' in url:
+    if 'HOU' in url:
         return MockPQ(read_file('2017'))
     if 'verlaju01' in url:
         return MockPQ(read_file('verlaju01'))
