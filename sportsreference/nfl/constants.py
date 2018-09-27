@@ -354,6 +354,7 @@ BOXSCORE_URL = 'https://www.pro-football-reference.com/boxscores/%s.htm'
 
 BOXSCORES_URL = 'https://www.pro-football-reference.com/years/%s/week_%s.htm'
 PLAYER_URL = 'https://www.pro-football-reference.com/players/%s/%s.htm'
+ROSTER_URL = 'https://www.pro-football-reference.com/teams/%s/%s_roster.htm'
 
 WILD_CARD = 100
 DIVISION = 101

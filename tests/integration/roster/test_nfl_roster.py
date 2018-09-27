@@ -1,7 +1,10 @@
 import mock
 import os
 import pandas as pd
-from sportsreference.nfl.roster import Player
+import pytest
+from flexmock import flexmock
+from sportsreference import utils
+from sportsreference.nfl.roster import Player, Roster
 
 
 def read_file(filename):
@@ -16,7 +19,7 @@ def mock_pyquery(url):
             self.html_contents = html_contents
             self.text = html_contents
 
-    if 'BAD' in url:
+    if 'BAD' in url or 'bad' in url:
         return MockPQ(None, 404)
     if 'Davi' in url:
         return MockPQ(read_file('DaviDe00'))
@@ -26,6 +29,8 @@ def mock_pyquery(url):
         return MockPQ(read_file('LutzWi00'))
     if 'Mors' in url:
         return MockPQ(read_file('MorsTh00'))
+    if '2018_roster' in url:
+        return MockPQ(read_file('2018_roster'))
     return MockPQ(read_file('BreeDr00'))
 
 
@@ -1104,3 +1109,24 @@ class TestNFLPlayer:
         # duplicates, and they are equal.
         frames = [df, player.dataframe]
         df1 = pd.concat(frames).drop_duplicates(keep=False)
+
+
+class TestNFLRoster:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_pulls_all_player_stats(self, *args, **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('NOR')
+
+        assert len(roster.players) == 5
+
+        for player in roster.players:
+            assert player.name in ['Drew Brees', 'Demario Davis',
+                                   'Tommylee Lewis', 'Wil Lutz',
+                                   'Thomas Morstead']
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_bad_url_raises_value_error(self, *args, **kwargs):
+        with pytest.raises(ValueError):
+            roster = Roster('BAD')
