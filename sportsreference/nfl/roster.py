@@ -235,6 +235,10 @@ class Player(object):
             url_data = pq(url)
         except:
             return None
+        # For NFL, a 404 page doesn't actually raise a 404 error, so it needs
+        # to be manually checked.
+        if 'Page Not Found (404 error)' in str(url_data):
+            return None
         return pq(utils._remove_html_comment_tags(url_data))
 
     def _parse_season(self, row):
@@ -384,6 +388,8 @@ class Player(object):
         result.
         """
         player_info = self._retrieve_html_page()
+        if not player_info:
+            return
         all_stats_dict = self._combine_all_stats(player_info)
 
         for field in self.__dict__:
@@ -421,6 +427,9 @@ class Player(object):
         element should be the index value.
         """
         index = 0
+        # Occurs when the player has invalid data or can't be found.
+        if not self._season:
+            return
         for season in self._season:
             if season == 'Career':
                 self._index = index
@@ -450,6 +459,8 @@ class Player(object):
            requested_season == '':
             requested_season = 'Career'
         index = 0
+        if not self._season:
+            return self
         for season in self._season:
             if season == requested_season:
                 self._index = index
@@ -615,6 +626,8 @@ class Player(object):
         temp_index = self._index
         rows = []
         indices = []
+        if not self._season:
+            return None
         for season in self._season:
             self._index = self._season.index(season)
             rows.append(self._dataframe_fields())

@@ -22,6 +22,8 @@ def mock_pyquery(url):
 
     if 'BAD' in url or 'bad' in url:
         return MockPQ(None, 404)
+    if '404' in url:
+        return MockPQ('Page Not Found (404 error)')
     if 'Davi' in url:
         return MockPQ(read_file('DaviDe00'))
     if 'Lewi' in url:
@@ -1110,6 +1112,19 @@ class TestNFLPlayer:
         # duplicates, and they are equal.
         frames = [df, player.dataframe]
         df1 = pd.concat(frames).drop_duplicates(keep=False)
+
+    def test_nfl_fake_404_page_returns_none_with_no_errors(self):
+        player = Player('404')
+
+        assert player.name is None
+        assert player.dataframe is None
+
+    def test_nfl_fake_404_page_returns_none_for_different_season(self):
+        player = Player('404')
+        player = player('2017')
+
+        assert player.name is None
+        assert player.dataframe is None
 
 
 class TestNFLRoster:
