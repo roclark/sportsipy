@@ -32,6 +32,8 @@ def mock_pyquery(url):
         return MockPQ(read_file('LutzWi00'))
     if 'Mors' in url:
         return MockPQ(read_file('MorsTh00'))
+    if 'Hatf' in url:
+        return MockPQ(read_file('HatfDo00'))
     if '2018_roster' in url:
         return MockPQ(read_file('2018_roster'))
     return MockPQ(read_file('BreeDr00'))
@@ -1125,6 +1127,11 @@ class TestNFLPlayer:
 
         assert player.name is None
         assert player.dataframe is None
+
+    def test_nfl_player_with_no_career_stats_handled_properly(self):
+        player = Player('HatfDo00')
+
+        assert player.name == 'Dominique Hatfield'
 
 
 class TestNFLRoster:

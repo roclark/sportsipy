@@ -302,7 +302,12 @@ class Player(object):
         try:
             all_stats_dict['career']['data'] += str(next(career_stats))
         except KeyError:
-            all_stats_dict['career'] = {'data': str(next(career_stats))}
+            try:
+                all_stats_dict['career'] = {'data': str(next(career_stats))}
+            # Occurs when the player doesn't have any career stats listed on
+            # their page in error.
+            except StopIteration:
+                return all_stats_dict
         return all_stats_dict
 
     def _combine_all_stats(self, player_info):
