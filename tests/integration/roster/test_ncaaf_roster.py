@@ -1,7 +1,10 @@
 import mock
 import os
 import pandas as pd
-from sportsreference.ncaaf.roster import Player
+import pytest
+from flexmock import flexmock
+from sportsreference import utils
+from sportsreference.ncaaf.roster import Player, Roster
 
 
 def read_file(filename):
@@ -20,6 +23,8 @@ def mock_pyquery(url):
         return MockPQ(None, 404)
     if 'brycen-hopkins' in url:
         return MockPQ(read_file('brycen-hopkins-1'))
+    if '2018-roster' in url:
+        return MockPQ(read_file('2018-roster'))
     return MockPQ(read_file('david-blough-1'))
 
 
@@ -447,3 +452,22 @@ class TestNCAAFPlayer:
 
         assert player.name is None
         assert player.dataframe is None
+
+
+class TestNCAAFRoster:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_pulls_all_player_stats(self, *args, **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('PURDUE')
+
+        assert len(roster.players) == 2
+
+        for player in roster.players:
+            assert player.name in ['David Blough', 'Rondale Moore']
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_bad_url_raises_value_error(self, *args, **kwargs):
+        with pytest.raises(ValueError):
+            roster = Roster('BAD')

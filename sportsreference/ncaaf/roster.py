@@ -3,7 +3,7 @@ import re
 from functools import wraps
 from pyquery import PyQuery as pq
 from .. import utils
-from .constants import PLAYER_SCHEME, PLAYER_URL
+from .constants import PLAYER_SCHEME, PLAYER_URL, ROSTER_URL
 
 
 def _int_property_decorator(func):
@@ -881,3 +881,126 @@ class Player(object):
         Returns an ``int`` of the number of points the player has scored.
         """
         return self._points
+
+
+class Roster(object):
+    """
+    Get stats for all players on a roster.
+
+    Request a team's roster for a given season and create instances of the
+    Player class for each player, containing a detailed list of the player's
+    statistics and information.
+
+    Parameters
+    ----------
+    team : string
+        The team's abbreviation, such as 'PURDUE' for the Purdue Boilermakers.
+    year : string (optional)
+        The 4-digit year to pull the roster from, such as '2017'. If left
+        blank, defaults to the most recent season.
+    """
+    def __init__(self, team, year=None):
+        self._team = team
+        self._players = []
+
+        self._find_players(year)
+
+    def _pull_team_page(self, url):
+        """
+        Download the team page.
+
+        Download the requested team's season page and create a PyQuery object.
+
+        Parameters
+        ----------
+        url : string
+            A string of the built URL for the requested team and season.
+
+        Returns
+        -------
+        PyQuery object
+            Returns a PyQuery object of the team's HTML page.
+        """
+        try:
+            return pq(utils._remove_html_comment_tags(pq(url)))
+        except:
+            return None
+
+    def _create_url(self, year):
+        """
+        Build the team URL.
+
+        Build a URL given a team's abbreviation and the 4-digit year.
+
+        Parameters
+        ----------
+        year : string
+            The 4-digit string representing the year to pull the team's roster
+            from.
+
+        Returns
+        -------
+        string
+            Returns a string of the team's season page for the requested team
+            and year.
+        """
+        return ROSTER_URL % (self._team.lower(), year)
+
+    def _get_id(self, player):
+        """
+        Parse the player ID.
+
+        Given a PyQuery object representing a single player on the team roster,
+        parse the player ID and return it as a string.
+
+        Parameters
+        ----------
+        player : PyQuery object
+            A PyQuery object representing the player information from the
+            roster table.
+
+        Returns
+        -------
+        string
+            Returns a string of the player ID.
+        """
+        name_tag = player('th[data-stat="player"] a')
+        name = re.sub(r'.*/players/', '', str(name_tag))
+        return re.sub(r'\.htm.*', '', name)
+
+    def _find_players(self, year):
+        """
+        Find all player IDs for the requested team.
+
+        For the requested team and year (if applicable), pull the roster table
+        and parse the player ID for all players on the roster and create an
+        instance of the Player class for the player. All player instances are
+        added to the 'players' property to get all stats for all players on a
+        team.
+
+        Parameters
+        ----------
+        year : string
+            The 4-digit string representing the year to pull the team's roster
+            from.
+        """
+        if not year:
+            year = utils._find_year_for_season('nfl')
+        url = self._create_url(year)
+        page = self._pull_team_page(url)
+        if not page:
+            output = ("Can't pull requested team page. Ensure the following "
+                      "URL exists: %s" % url)
+            raise ValueError(output)
+        for player in page('table#roster tbody tr').items():
+            player_id = self._get_id(player)
+            player_instance = Player(player_id)
+            self._players.append(player_instance)
+
+    @property
+    def players(self):
+        """
+        Returns a ``list`` of player instances for each player on the requested
+        team's roster.
+        """
+        return self._players
