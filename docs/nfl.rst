@@ -47,7 +47,7 @@ Roster
 
 The Roster module contains detailed player information, allowing each player to
 be queried by their player ID using the ``Player`` class which has detailed
-information ranging from career home runs to single-season stats and player
+information ranging from career touchdowns to single-season stats and player
 height, weight, and nationality. The following is an example on collecting
 career information for Drew Brees.
 
