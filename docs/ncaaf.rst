@@ -110,6 +110,73 @@ week number, previous rank, and movement.
     :undoc-members:
     :show-inheritance:
 
+Roster
+------
+
+The Roster module contains detailed player information, allowing each player to
+be queried by their player ID using the ``Player`` class which has detailed
+information ranging from career touchdowns to single-season stats and player
+height, weight, and nationality. The following is an example on collecting
+career information for David Blough.
+
+.. code-block:: python
+
+    from sportsreference.ncaaf.roster import Player
+
+    blough = Player('david-blough-1')
+    print(blough.name)  # Prints 'David Blough'
+    print(blough.passing_yards)  # Prints Blough's career passing yards
+    # Prints a Pandas DataFrame of all relevant stats per season for Blough
+    print(blough.dataframe)
+
+By default, the player's career stats are returned whenever a property is
+called. To get stats for a specific team, call the class instance with the
+season string. All future property requests will return the season-specific
+stats.
+
+.. code-block:: python
+
+    from sportsreference.ncaaf.roster import Player
+
+    blough = Player('david-blough-1')  # Currently pulling career stats
+    print(blough.passing_yards)  # Prints Blough's CAREER passing yards total
+    # Prints Blough's passing yards total only for the 2017 season
+    print(blough('2017').passing_yards)
+    # Prints Blough's passing touchdowns for the 2017 season only
+    print(blough.passing_touchdowns)
+
+After requesting single-season stats, the career stats can be requested again
+by calling the class without arguments or with the 'Career' string passed.
+
+.. code-block:: python
+
+    from sportsreference.ncaaf.roster import Player
+
+    blough = Player('david-blough-1')  # Currently pulling career stats
+    # Prints Blough's passing yards total only for the 2017 season
+    print(blough('2017').passing_yards)
+    print(blough('Career').passing_yards)  # Prints Blough's career passing yards
+
+In addition, the Roster module also contains the ``Roster`` class which can be
+used to pull all players on a team's roster during a given season and creates
+instances of the Player class for each team member and adds them to a list to be
+easily queried.
+
+.. code-block:: python
+
+    from sportsreference.ncaaf.roster import Roster
+
+    boilermakers = Roster('PURDUE')
+    for player in boilermakers.players:
+        # Prints the name of all players who played for the Purdue Boilermakers
+        # in the most recent season.
+        print(player.name)
+
+.. automodule:: sportsreference.ncaaf.roster
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Schedule
 --------
 
@@ -164,6 +231,19 @@ queried to easily grab all stats for all games.
         # Returns a Pandas DataFrame of all metrics for all game Boxscores for
         # a season.
         df = team.schedule.dataframe_extended
+
+Lastly, each Team instance also contains a link to the ``Roster`` class which
+enables players from the team to be easily queried. Each Roster instance
+contains detailed stats and information for each player on the team.
+
+.. code-block:: python
+
+    from sportsreference.ncaaf.teams import Teams
+
+    for team in Teams():
+        roster = team.roster  # Gets each team's roster
+        for player in roster.players:
+                print(player.name)  # Prints each players name on the roster
 
 .. automodule:: sportsreference.ncaaf.teams
     :members:
