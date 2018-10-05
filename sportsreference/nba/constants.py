@@ -316,6 +316,7 @@ PLAYER_SCHEME = {
 }
 
 NATIONALITY = {
+    'ag': 'Antigua and Barbuda',
     'ar': 'Argentina',
     'au': 'Australia',
     'at': 'Austria',
@@ -326,6 +327,7 @@ NATIONALITY = {
     'bg': 'Bulgaria',
     'cm': 'Cameroon',
     'ca': 'Canada',
+    'co': 'Colombia',
     'cv': 'Cape Verde',
     'cn': 'China',
     'hr': 'Croatia',
@@ -372,6 +374,7 @@ NATIONALITY = {
     'pa': 'Panama',
     'pl': 'Poland',
     'pr': 'Puerto Rico',
+    'ke': 'Kenya',
     'kr': 'Republic of Korea',
     'mk': 'Republic of Macedonia',
     'cg': 'Republic of Congo',
@@ -379,6 +382,7 @@ NATIONALITY = {
     'ru': 'Russian Federation',
     'lc': 'Saint Lucia',
     'vc': 'Saint Vincent and the Grenadines',
+    'sd': 'Sudan',
     'sn': 'Senegal',
     'rs': 'Serbia',
     'sk': 'Slovakia',
