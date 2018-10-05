@@ -1562,7 +1562,9 @@ class Roster(object):
         string
             Returns a string of the player ID.
         """
-        return player('td[data-stat="player"]').attr('data-append-csv')
+        name_tag = player('td[data-stat="player"] a')
+        name = re.sub(r'.*/players/./', '', str(name_tag))
+        return re.sub(r'\.html.*', '', name)
 
     def _find_players(self, year):
         """
