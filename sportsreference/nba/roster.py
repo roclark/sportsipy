@@ -325,11 +325,16 @@ class Player(object):
 
         for table_id in ['totals', 'advanced', 'shooting', 'advanced_pbp',
                          'all_salaries']:
-            table_items = utils._get_stats_table(player_info,
-                                                 'table#%s' % table_id)
-            career_items = utils._get_stats_table(player_info,
-                                                  'table#%s' % table_id,
-                                                  footer=True)
+            try:
+                table_items = utils._get_stats_table(player_info,
+                                                     'table#%s' % table_id)
+                career_items = utils._get_stats_table(player_info,
+                                                      'table#%s' % table_id,
+                                                      footer=True)
+            # Error is thrown when player does not have the corresponding
+            # table, such as a rookie.
+            except:
+                continue
             all_stats_dict = self._combine_season_stats(table_items,
                                                         career_items,
                                                         all_stats_dict)

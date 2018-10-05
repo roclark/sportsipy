@@ -29,6 +29,8 @@ def mock_pyquery(url):
         return MockPQ(read_file('arizatr01'))
     if 'blackta01' in url:
         return MockPQ(read_file('blackta01'))
+    if 'youngtr01' in url:
+        return MockPQ(read_file('youngtr01'))
     if 'BAD' in url:
         return MockPQ(None, 404)
     return MockPQ(read_file('hardeja01'))
@@ -1164,6 +1166,11 @@ class TestNBAPlayer:
         # duplicates, and they are equal.
         frames = [df, player.dataframe]
         df1 = pd.concat(frames).drop_duplicates(keep=False)
+
+    def test_nba_player_with_no_stats_handled_without_error(self):
+        player = Player('youngtr01')
+
+        assert player.name == 'Trae Young'
 
 
 class TestNBARoster:
