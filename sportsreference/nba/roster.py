@@ -748,13 +748,13 @@ class Player(object):
         """
         return self._name
 
-    @_most_recent_decorator
+    @property
     def team_abbreviation(self):
         """
         Returns a ``string`` of the abbrevation for the team the player plays
         for, such as 'HOU' for James Harden.
         """
-        return self._team_abbreviation
+        return self._team_abbreviation[self._index]
 
     @_most_recent_decorator
     def position(self):

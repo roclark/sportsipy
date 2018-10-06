@@ -43,7 +43,7 @@ class TestNBAPlayer:
             'player_id': 'hardeja01',
             'season': 'Career',
             'name': 'James Harden',
-            'team_abbreviation': 'HOU',
+            'team_abbreviation': '',
             'position': 'SG',
             'height': '6-5',
             'weight': 220,
