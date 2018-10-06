@@ -17,6 +17,7 @@ setup(
     url='https://github.com/roclark/sportsreference',
     packages=find_packages(),
     python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*',
+    keywords='stats sports api sportsreference machine learning',
     install_requires=[
         "pandas >= 0.21.0",
         "pyquery >= 1.4.0",
