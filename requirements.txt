@@ -1,7 +1,7 @@
 flexmock>=0.10.2
 mock>=2.0.0
 pandas>=0.21.0
-pep8>=1.4.6
+pycodestyle>=2.4.0
 pyquery>=1.4.0
 pytest-cov>=2.5.1
 requests>=2.18.4
