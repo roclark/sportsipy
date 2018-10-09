@@ -175,7 +175,7 @@ class Game(object):
         was played.
         """
         date_string = '%s %s' % (self._date, self._year)
-        date_string = re.sub(' \(\d+\)', '', date_string)
+        date_string = re.sub(r' \(\d+\)', '', date_string)
         return datetime.strptime(date_string, '%A, %b %d %Y')
 
     @property
@@ -187,10 +187,10 @@ class Game(object):
         if a team has a double header one day, the first game of the day will
         return 1 while the second game will return 2.
         """
-        game_number = re.findall('\(\d+\)', self._date)
+        game_number = re.findall(r'\(\d+\)', self._date)
         if len(game_number) == 0:
             return 1
-        game_number = re.findall('\d+', game_number[0])
+        game_number = re.findall(r'\d+', game_number[0])
         return int(game_number[0])
 
     @property

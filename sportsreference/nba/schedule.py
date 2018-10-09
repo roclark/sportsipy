@@ -87,7 +87,7 @@ class Game(object):
         """
         boxscore = game_data('td[data-stat="date_game"]:first')
         boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
-        boxscore = re.sub('\.html.*', '', boxscore)
+        boxscore = re.sub(r'\.html.*', '', boxscore)
         setattr(self, '_boxscore', boxscore)
 
     def _parse_game_data(self, game_data):

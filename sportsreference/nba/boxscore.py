@@ -429,7 +429,7 @@ class Boxscore(object):
         conclusion of the game.
         """
         try:
-            wins, losses = re.findall('\d+', self._away_record)
+            wins, losses = re.findall(r'\d+', self._away_record)
             return wins
         except ValueError:
             return 0
@@ -441,7 +441,7 @@ class Boxscore(object):
         conclusion of the game.
         """
         try:
-            wins, losses = re.findall('\d+', self._away_record)
+            wins, losses = re.findall(r'\d+', self._away_record)
             return losses
         except ValueError:
             return 0
@@ -734,7 +734,7 @@ class Boxscore(object):
         conclusion of the game.
         """
         try:
-            wins, losses = re.findall('\d+', self._home_record)
+            wins, losses = re.findall(r'\d+', self._home_record)
             return wins
         except ValueError:
             return 0
@@ -746,7 +746,7 @@ class Boxscore(object):
         conclusion of the game.
         """
         try:
-            wins, losses = re.findall('\d+', self._home_record)
+            wins, losses = re.findall(r'\d+', self._home_record)
             return losses
         except ValueError:
             return 0
