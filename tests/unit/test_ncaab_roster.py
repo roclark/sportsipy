@@ -6,6 +6,9 @@ from sportsreference.ncaab.roster import _cleanup, Player
 def mock_pyquery(url):
     class MockPQ:
         def __init__(self, html_contents):
+            self.url = url
+            self.reason = 'Bad URL'  # Used when throwing HTTPErrors
+            self.headers = {}  # Used when throwing HTTPErrors
             self.status_code = 404
             self.html_contents = html_contents
             self.text = html_contents

@@ -4,6 +4,7 @@ from functools import wraps
 from pyquery import PyQuery as pq
 from .. import utils
 from .constants import PLAYER_SCHEME, PLAYER_URL, ROSTER_URL
+from six.moves.urllib.error import HTTPError
 
 
 def _int_property_decorator(func):
@@ -152,7 +153,7 @@ class Player(object):
         url = self._build_url()
         try:
             url_data = pq(url)
-        except:
+        except HTTPError:
             return None
         return pq(utils._remove_html_comment_tags(url_data))
 
@@ -923,7 +924,7 @@ class Roster(object):
         """
         try:
             return pq(utils._remove_html_comment_tags(pq(url)))
-        except:
+        except HTTPError:
             return None
 
     def _create_url(self, year):

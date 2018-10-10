@@ -17,6 +17,9 @@ def read_file(filename):
 def mock_pyquery(url):
     class MockPQ:
         def __init__(self, html_contents, status=200):
+            self.url = url
+            self.reason = 'Bad URL'  # Used when throwing HTTPErrors
+            self.headers = {}  # Used when throwing HTTPErrors
             self.status_code = status
             self.html_contents = html_contents
             self.text = html_contents

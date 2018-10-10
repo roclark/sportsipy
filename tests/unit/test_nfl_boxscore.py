@@ -1,5 +1,6 @@
 from flexmock import flexmock
 from mock import patch, PropertyMock
+from os.path import dirname, join
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
 from sportsreference.nfl.boxscore import Boxscore
@@ -13,17 +14,26 @@ class MockName:
         return self._name
 
 
+def read_file(filename):
+    filepath = join(dirname(__file__), 'nfl', filename)
+    return open(filepath, 'r').read()
+
+
 def mock_pyquery(url, status_code=404):
     class MockPQ:
         def __init__(self, html_contents, status_code=404):
+            self.url = url
+            self.reason = 'Bad URL'  # Used when throwing HTTPErrors
+            self.headers = {}  # Used when throwing HTTPErrors
             self.status_code = status_code
             self.html_contents = html_contents
             self.text = html_contents
 
     if url == '404':
         return MockPQ('404 error', 200)
-    boxscore = read_file('%s.html' % BOXSCORE)
-    return MockPQ(boxscore)
+    if 'bad' in url:
+        return MockPQ(None)
+    return MockPQ(read_file('%s.htm' % url))
 
 
 class TestNFLBoxscore:
@@ -149,7 +159,7 @@ class TestNFLBoxscore:
 
     @patch('requests.get', side_effect=mock_pyquery)
     def test_invalid_url_returns_none(self, *args, **kwargs):
-        result = Boxscore(None)._retrieve_html_page('')
+        result = Boxscore(None)._retrieve_html_page('bad')
 
         assert result is None
 

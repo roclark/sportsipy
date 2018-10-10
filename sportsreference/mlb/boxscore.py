@@ -11,6 +11,7 @@ from .constants import (BOXSCORE_ELEMENT_INDEX,
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
 from sportsreference.mlb.constants import DAY, NIGHT
+from six.moves.urllib.error import HTTPError
 
 
 class Boxscore(object):
@@ -139,7 +140,7 @@ class Boxscore(object):
         url = BOXSCORE_URL % uri
         try:
             url_data = pq(url)
-        except:
+        except HTTPError:
             return None
         return pq(utils._remove_html_comment_tags(url_data))
 

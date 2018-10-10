@@ -2,6 +2,7 @@ from pyquery import PyQuery as pq
 import re
 from .. import utils
 from .constants import CONFERENCE_URL, CONFERENCES_URL
+from six.moves.urllib.error import HTTPError
 
 
 class Conference:
@@ -42,7 +43,7 @@ class Conference:
         """
         try:
             return pq(CONFERENCE_URL % (conference_abbreviation, year))
-        except:
+        except HTTPError:
             return None
 
     def _get_team_abbreviation(self, team):
@@ -152,7 +153,7 @@ class Conferences:
         """
         try:
             return pq(CONFERENCES_URL % year)
-        except:
+        except HTTPError:
             return None
 
     def _get_conference_id(self, conference):

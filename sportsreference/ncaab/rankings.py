@@ -2,6 +2,7 @@ import re
 from pyquery import PyQuery as pq
 from .. import utils
 from .constants import RANKINGS_SCHEME, RANKINGS_URL
+from six.moves.urllib.error import HTTPError
 
 
 class Rankings:
@@ -42,7 +43,7 @@ class Rankings:
         """
         try:
             return pq(RANKINGS_URL % year)
-        except:
+        except HTTPError:
             return None
 
     def _get_team(self, team):
