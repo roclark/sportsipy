@@ -10,6 +10,7 @@ from .constants import (BOXSCORE_ELEMENT_INDEX,
 from functools import wraps
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
+from six.moves.urllib.error import HTTPError
 
 
 def nhl_int_property_decorator(func):
@@ -128,7 +129,7 @@ class Boxscore(object):
         url = BOXSCORE_URL % uri
         try:
             url_data = pq(url)
-        except:
+        except HTTPError:
             return None
         return pq(utils._remove_html_comment_tags(url_data))
 

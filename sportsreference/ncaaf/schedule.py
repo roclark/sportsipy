@@ -236,7 +236,7 @@ class Game(object):
         """
         Returns an ``int`` of the team's rank at the time the game was played.
         """
-        rank = re.findall('\d+', self._rank)
+        rank = re.findall(r'\d+', self._rank)
         if len(rank) == 0:
             return None
         return rank[0]
@@ -247,7 +247,7 @@ class Game(object):
         Returns an ``int`` of the opponent's rank at the time the game was
         played.
         """
-        rank = re.findall('\d+', self._opponent_name)
+        rank = re.findall(r'\d+', self._opponent_name)
         if len(rank) == 0:
             return None
         return rank[0]

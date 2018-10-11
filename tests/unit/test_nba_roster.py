@@ -19,6 +19,9 @@ class MockInfo:
 def mock_pyquery(url):
     class MockPQ:
         def __init__(self, html_contents):
+            self.url = url
+            self.reason = 'Bad URL'  # Used when throwing HTTPErrors
+            self.headers = {}  # Used when throwing HTTPErrors
             self.status_code = 404
             self.html_contents = html_contents
             self.text = html_contents
@@ -48,11 +51,11 @@ class TestNBAPlayer:
 
     @patch('requests.get', side_effect=mock_pyquery)
     def test_invalid_url_returns_none(self, *args, **kwargs):
-        flexmock(Player) \
-            .should_receive('_build_url') \
-            .and_return('')
+        mock_id = PropertyMock(return_value='BAD')
+        player = Player(None)
+        type(player)._player_id = mock_id
 
-        result = Player(None)._retrieve_html_page()
+        result = player._retrieve_html_page()
 
         assert result is None
 

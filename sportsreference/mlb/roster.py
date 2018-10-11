@@ -1,6 +1,7 @@
 import pandas as pd
 import re
 from functools import wraps
+from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
 from .. import utils
 from .constants import (NATIONALITY,
@@ -8,6 +9,7 @@ from .constants import (NATIONALITY,
                         PLAYER_SCHEME,
                         PLAYER_URL,
                         ROSTER_URL)
+from six.moves.urllib.error import HTTPError
 
 
 def _cleanup(prop):
@@ -232,7 +234,7 @@ class Player(object):
         url = self._build_url()
         try:
             url_data = pq(url)
-        except:
+        except HTTPError:
             return None
         return pq(utils._remove_html_comment_tags(url_data))
 
@@ -333,7 +335,7 @@ class Player(object):
                                                      'table#%s' % table_id)
             # Error is thrown when player does not have corresponding table,
             # such as an outfielder not having any pitching stats.
-            except:
+            except (ParserError, XMLSyntaxError):
                 continue
             career_items = utils._get_stats_table(player_info,
                                                   'table#%s' % table_id,
@@ -1485,7 +1487,7 @@ class Roster(object):
         """
         try:
             return pq(url)
-        except:
+        except HTTPError:
             return None
 
     def _create_url(self, year):

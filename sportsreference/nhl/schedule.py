@@ -292,7 +292,7 @@ class Game(object):
             return SHOOTOUT
         if self._overtime == '':
             return 0
-        num = re.findall('\d+', self._overtime)
+        num = re.findall(r'\d+', self._overtime)
         if len(num) > 0:
             return num[0]
         return 0

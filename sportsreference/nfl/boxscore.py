@@ -11,6 +11,7 @@ from .constants import (BOXSCORE_ELEMENT_INDEX,
 from functools import wraps
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
+from six.moves.urllib.error import HTTPError
 
 
 def nfl_int_property_sub_index(func):
@@ -136,7 +137,7 @@ class Boxscore(object):
         url = BOXSCORE_URL % uri
         try:
             url_data = pq(url)
-        except:
+        except HTTPError:
             return None
         # For NFL, a 404 page doesn't actually raise a 404 error, so it needs
         # to be manually checked.

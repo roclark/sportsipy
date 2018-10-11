@@ -9,6 +9,7 @@ from .constants import (BOXSCORE_ELEMENT_INDEX,
                         BOXSCORES_URL)
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
+from six.moves.urllib.error import HTTPError
 
 
 class Boxscore(object):
@@ -137,7 +138,7 @@ class Boxscore(object):
         url = BOXSCORE_URL % uri
         try:
             url_data = pq(url)
-        except:
+        except HTTPError:
             return None
         return pq(utils._remove_html_comment_tags(url_data))
 
@@ -229,7 +230,7 @@ class Boxscore(object):
             return ranking
         team = pq(teams_boxscore[index])
         if 'pollrank' in str(team):
-            rank_str = re.findall('\(\d+\)', str(team))
+            rank_str = re.findall(r'\(\d+\)', str(team))
             if len(rank_str) == 1:
                 ranking = int(rank_str[0].replace('(', '').replace(')', ''))
         return ranking
@@ -561,7 +562,7 @@ class Boxscore(object):
         conclusion of the game.
         """
         try:
-            wins, losses = re.findall('\d+', self._away_record)
+            wins, losses = re.findall(r'\d+', self._away_record)
             return wins
         except (ValueError, TypeError):
             return 0
@@ -573,7 +574,7 @@ class Boxscore(object):
         conclusion of the game.
         """
         try:
-            wins, losses = re.findall('\d+', self._away_record)
+            wins, losses = re.findall(r'\d+', self._away_record)
             return losses
         except (ValueError, TypeError):
             return 0
@@ -884,7 +885,7 @@ class Boxscore(object):
         conclusion of the game.
         """
         try:
-            wins, losses = re.findall('\d+', self._home_record)
+            wins, losses = re.findall(r'\d+', self._home_record)
             return wins
         except (ValueError, TypeError):
             return 0
@@ -896,7 +897,7 @@ class Boxscore(object):
         conclusion of the game.
         """
         try:
-            wins, losses = re.findall('\d+', self._home_record)
+            wins, losses = re.findall(r'\d+', self._home_record)
             return losses
         except (ValueError, TypeError):
             return 0

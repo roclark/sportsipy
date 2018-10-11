@@ -277,7 +277,7 @@ class Game(object):
         Returns a ``string`` of the opponent's name, such as the 'Purdue
         Boilermakers'.
         """
-        name = re.sub('\(\d+\)', '', self._opponent_name)
+        name = re.sub(r'\(\d+\)', '', self._opponent_name)
         name = name.replace(u'\xa0', '')
         return name
 
@@ -287,7 +287,7 @@ class Game(object):
         Returns a ``string`` of the opponent's rank when the game was played
         and None if the team was unranked.
         """
-        rank = re.findall('\d+', self._opponent_name)
+        rank = re.findall(r'\d+', self._opponent_name)
         if len(rank) > 0:
             return int(rank[0])
         return None
@@ -339,7 +339,7 @@ class Game(object):
             return 0
         if self._overtimes.lower() == 'ot':
             return 1
-        num_overtimes = re.findall('\d+', self._overtimes)
+        num_overtimes = re.findall(r'\d+', self._overtimes)
         try:
             return int(num_overtimes[0])
         except (ValueError, IndexError):
