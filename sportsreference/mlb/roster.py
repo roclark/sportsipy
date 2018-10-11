@@ -1,6 +1,7 @@
 import pandas as pd
 import re
 from functools import wraps
+from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
 from .. import utils
 from .constants import (NATIONALITY,
@@ -334,7 +335,7 @@ class Player(object):
                                                      'table#%s' % table_id)
             # Error is thrown when player does not have corresponding table,
             # such as an outfielder not having any pitching stats.
-            except:
+            except (ParserError, XMLSyntaxError):
                 continue
             career_items = utils._get_stats_table(player_info,
                                                   'table#%s' % table_id,
