@@ -133,50 +133,57 @@ class Boxscore(object):
             return None
         return pq(utils._remove_html_comment_tags(url_data))
 
-    def _parse_game_date_and_location(self, field, boxscore):
+    def _parse_game_date_and_location(self, boxscore):
         """
         Retrieve the game's date and location.
 
-        The date and location of the game follow a more complicated parsing
-        scheme and should be handled differently from other tags. Both fields
-        are separated by a newline character ('\n') with the first line being
-        the date and the second being the location.
+        The game's meta information, such as date, location, attendance, and
+        duration, follow a complex parsing scheme that changes based on the
+        layout of the page. The information should be able to be parsed and set
+        regardless of the order and how much information is included. To do
+        this, the meta information should be iterated through line-by-line and
+        fields should be determined by the values that are found in each line.
 
         Parameters
         ----------
-        field : string
-            The name of the attribute to parse
         boxscore : PyQuery object
             A PyQuery object containing all of the HTML data from the boxscore.
-
-        Returns
-        -------
-        string
-            Depending on the requested field, returns a text representation of
-            either the date or location of the game.
         """
-        scheme = BOXSCORE_SCHEME[field]
+        scheme = BOXSCORE_SCHEME["game_info"]
         items = [i.text() for i in boxscore(scheme).items()]
         game_info = items[0].split('\n')
-        index = BOXSCORE_ELEMENT_INDEX[field]
-        # For playoff games, the second line (index 1) in the information block
-        # of the boxscore contains the name of the round. If found, the index
-        # will need to be updated by 1 to match the information.
-        if 'eastern first round' in game_info[1].lower() or \
-           'western first round' in game_info[1].lower() or \
-           'eastern second round' in game_info[1].lower() or \
-           'western second round' in game_info[1].lower() or \
-           'eastern conference finals' in game_info[1].lower() or \
-           'western conference finals' in game_info[1].lower() or \
-           'stanley cup final' in game_info[1].lower():
-            # The date and time fields will always be the first line of
-            # information and should retain their original index.
-            if field != 'date' and field != 'time':
-                index += 1
-        try:
-            return game_info[index]
-        except IndexError:
-            return ''
+        arena = None
+        attendance = None
+        date = None
+        duration = None
+        playoff_round = None
+        time = None
+        if game_info[0].count(',') == 2:
+            date = ','.join(game_info[0].split(',')[0:2]).strip()
+            time = game_info[0].split(',')[-1].strip()
+        else:
+            date = game_info[0]
+        for line in game_info:
+            if 'Arena: ' in line:
+                arena = line.replace('Arena: ', '')
+            if 'Attendance: ' in line:
+                attendance = line.replace('Attendance: ', '').replace(',', '')
+            if 'Game Duration: ' in line:
+                duration = line.replace('Game Duration: ', '')
+            if 'eastern first round' in line.lower() or \
+               'western first round' in line.lower() or \
+               'eastern second round' in line.lower() or \
+               'western second round' in line.lower() or \
+               'eastern conference finals' in line.lower() or \
+               'western conference finals' in line.lower() or \
+               'stanley cup final' in line.lower():
+                playoff_round = line
+        setattr(self, '_arena', arena)
+        setattr(self, '_attendance', attendance)
+        setattr(self, '_date', date)
+        setattr(self, '_duration', duration)
+        setattr(self, '_playoff_round', playoff_round)
+        setattr(self, '_time', time)
 
     def _parse_name(self, field, boxscore):
         """
@@ -251,17 +258,13 @@ class Boxscore(object):
                short_field == 'winning_abbr' or \
                short_field == 'losing_name' or \
                short_field == 'losing_abbr' or \
-               short_field == 'uri':
-                continue
-            if short_field == 'date' or \
+               short_field == 'uri' or \
+               short_field == 'date' or \
                short_field == 'time' or \
                short_field == 'arena' or \
                short_field == 'attendance' or \
                short_field == 'time_of_day' or \
                short_field == 'duration':
-                value = self._parse_game_date_and_location(short_field,
-                                                           boxscore)
-                setattr(self, field, value)
                 continue
             if short_field == 'away_name' or \
                short_field == 'home_name':
@@ -287,6 +290,7 @@ class Boxscore(object):
         # Skip the first element as it is dedicated to skaters and not goalies.
         next(num_away_goalies)
         self._away_goalies = len(next(num_away_goalies)('tbody tr'))
+        self._parse_game_date_and_location(boxscore)
 
     @property
     def dataframe(self):
@@ -348,21 +352,14 @@ class Boxscore(object):
         """
         Returns a ``string`` of the date the game took place.
         """
-        # Date is in the format 'Month Day, Year, Time'. Split the date into
-        # the day and time by combining the text on both sides of the first
-        # comma.
-        date = self._date.split(',')
-        return ','.join(date[:-1])
+        return self._date
 
     @property
     def time(self):
         """
         Returns a ``string`` of the time the game started.
         """
-        # Time is in the format 'Month Day, Year, Time'. Split the time into
-        # the day and the time by taking the text after the last comma.
-        time = self._time.split(',')
-        return time[-1].strip()
+        return self._time
 
     @property
     def arena(self):
@@ -370,21 +367,30 @@ class Boxscore(object):
         Returns a ``string`` of the name of the ballpark where the game was
         played.
         """
-        return self._arena.replace('Arena: ', '')
+        return self._arena
 
     @int_property_decorator
     def attendance(self):
         """
         Returns an ``int`` of the game's listed attendance.
         """
-        return self._attendance.replace('Attendance: ', '').replace(',', '')
+        return self._attendance
 
     @property
     def duration(self):
         """
         Returns a ``string`` of the game's duration in the format 'H:MM'.
         """
-        return self._duration.replace('Game Duration: ', '')
+        return self._duration
+
+    @property
+    def playoff_round(self):
+        """
+        Returns a ``string`` denoting which round of the playoffs the game is a
+        part of, such as 'Western First Round', or None if the game was played
+        during the regular season.
+        """
+        return self._playoff_round
 
     @property
     def winner(self):

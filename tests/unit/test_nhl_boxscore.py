@@ -255,11 +255,12 @@ class TestNHLBoxscore:
 
     def test_regular_season_information(self):
         fields = {
-            'date': 'October 5, 2017, 7:00 PM',
-            'time': 'October 5, 2017, 7:00 PM',
-            'attendance': 'Attendance: 17,565',
-            'arena': 'Arena: TD Garden',
-            'duration': 'Game Duration: 2:39'
+            'date': 'October 5, 2017',
+            'playoff_round': None,
+            'time': '7:00 PM',
+            'attendance': 17565,
+            'arena': 'TD Garden',
+            'duration': '2:39'
         }
 
         mock_field = """October 5, 2017, 7:00 PM
@@ -271,17 +272,18 @@ Logos via Sports Logos.net / About logos
 
         m = MockBoxscoreData(MockField(mock_field))
 
+        self.boxscore._parse_game_date_and_location(m)
         for field, value in fields.items():
-            result = self.boxscore._parse_game_date_and_location(field, m)
-            assert result == value
+            assert getattr(self.boxscore, field) == value
 
     def test_playoffs_information(self):
         fields = {
-            'date': 'June 7, 2018, 8:00 PM',
-            'time': 'June 7, 2018, 8:00 PM',
-            'attendance': 'Attendance: 18,529',
-            'arena': 'Arena: T-Mobile Arena',
-            'duration': 'Game Duration: 2:45'
+            'date': 'June 7, 2018',
+            'playoff_round': 'Stanley Cup Final',
+            'time': '8:00 PM',
+            'attendance': 18529,
+            'arena': 'T-Mobile Arena',
+            'duration': '2:45'
         }
 
         mock_field = """June 7, 2018, 8:00 PM
@@ -294,26 +296,49 @@ Logos via Sports Logos.net / About logos
 
         m = MockBoxscoreData(MockField(mock_field))
 
+        self.boxscore._parse_game_date_and_location(m)
         for field, value in fields.items():
-            result = self.boxscore._parse_game_date_and_location(field, m)
-            assert result == value
+            assert getattr(self.boxscore, field) == value
 
-    def test_limited_game_information(self):
+    def test_no_game_information(self):
         fields = {
             'date': '',
-            'time': '',
-            'attendance': '',
-            'arena': '',
-            'duration': ''
+            'playoff_round': None,
+            'time': None,
+            'attendance': None,
+            'arena': None,
+            'duration': None
         }
 
         mock_field = '\n'
 
         m = MockBoxscoreData(MockField(mock_field))
 
+        self.boxscore._parse_game_date_and_location(m)
         for field, value in fields.items():
-            result = self.boxscore._parse_game_date_and_location(field, m)
-            assert result == value
+            assert getattr(self.boxscore, field) == value
+
+    def test_limited_game_information(self):
+        fields = {
+            'date': 'June 7, 2018',
+            'playoff_round': 'Stanley Cup Final',
+            'time': None,
+            'attendance': None,
+            'arena': 'T-Mobile Arena',
+            'duration': None
+        }
+
+        mock_field = """June 7, 2018
+Stanley Cup Final
+Arena: T-Mobile Arena
+Logos via Sports Logos.net / About logos
+"""
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        self.boxscore._parse_game_date_and_location(m)
+        for field, value in fields.items():
+            assert getattr(self.boxscore, field) == value
 
     def test_away_shutout_single_goalies(self):
         shutout = ['1', '0']
