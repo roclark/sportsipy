@@ -53,18 +53,6 @@ class TestMLBBoxscore:
 
         self.boxscore = Boxscore(None)
 
-    def test_night_game_returns_night(self):
-        fake_time_of_day = PropertyMock(return_value='night game on grass')
-        type(self.boxscore)._time_of_day = fake_time_of_day
-
-        assert self.boxscore.time_of_day == NIGHT
-
-    def test_night_game_returns_night(self):
-        fake_time_of_day = PropertyMock(return_value='day game on grass')
-        type(self.boxscore)._time_of_day = fake_time_of_day
-
-        assert self.boxscore.time_of_day == DAY
-
     def test_away_team_wins(self):
         fake_away_runs = PropertyMock(return_value=6)
         fake_home_runs = PropertyMock(return_value=3)
@@ -182,19 +170,38 @@ class TestMLBBoxscore:
 
         assert result is None
 
-    def test_attendance_with_empty_string(self):
-        fake_attendance = PropertyMock(return_value='')
-        type(self.boxscore)._attendance = fake_attendance
+    def test_mlb_game_info(self):
+        fields = {
+            'attendance': 26340,
+            'date': 'Monday, July 9, 2018',
+            'time': '4:05 p.m. ET',
+            'venue': 'Oriole Park at Camden Yards',
+            'duration': '2:55',
+            'time_of_day': 'Night'
+        }
 
-        assert self.boxscore.attendance is None
+        mock_field = """Monday, July 9, 2018
+Start Time: 4:05 p.m. ET
+Attendance: 26,340
+Venue: Oriole Park at Camden Yards
+Game Duration: 2:55
+Night Game, on grass
+"""
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        self.boxscore._parse_game_date_and_location(m)
+        for field, value in fields.items():
+            assert getattr(self.boxscore, field) == value
 
     def test_mlb_first_game_double_header_info(self):
         fields = {
+            'attendance': None,
             'date': 'Monday, July 9, 2018',
-            'time': 'Start Time: 4:05 p.m. ET',
-            'venue': 'Venue: Oriole Park at Camden Yards',
-            'duration': 'Game Duration: 2:55',
-            'time_of_day': 'Night Game, on grass'
+            'time': '4:05 p.m. ET',
+            'venue': 'Oriole Park at Camden Yards',
+            'duration': '2:55',
+            'time_of_day': 'Night'
         }
 
         mock_field = """Monday, July 9, 2018
@@ -207,22 +214,18 @@ First game of doubleheader
 
         m = MockBoxscoreData(MockField(mock_field))
 
+        self.boxscore._parse_game_date_and_location(m)
         for field, value in fields.items():
-            result = self.boxscore._parse_game_date_and_location(field, m)
-            assert result == value
-
-        result = self.boxscore._parse_game_date_and_location('attendance', m)
-
-        assert result == ''
+            assert getattr(self.boxscore, field) == value
 
     def test_mlb_second_game_double_header_info(self):
-        fields = ['date', 'attendance', 'venue', 'duration', 'time_of_day']
         fields = {
+            'attendance': 26340,
             'date': 'Monday, July 9, 2018',
-            'attendance': 'Attendance: 26,340',
-            'venue': 'Venue: Oriole Park at Camden Yards',
-            'duration': 'Game Duration: 3:13',
-            'time_of_day': 'Night Game, on grass'
+            'attendance': 26340,
+            'venue': 'Oriole Park at Camden Yards',
+            'duration': '3:13',
+            'time_of_day': 'Night'
         }
 
         mock_field = """Monday, July 9, 2018
@@ -235,13 +238,32 @@ Second game of doubleheader
 
         m = MockBoxscoreData(MockField(mock_field))
 
+        self.boxscore._parse_game_date_and_location(m)
         for field, value in fields.items():
-            result = self.boxscore._parse_game_date_and_location(field, m)
-            assert result == value
+            assert getattr(self.boxscore, field) == value
 
-        result = self.boxscore._parse_game_date_and_location('time', m)
+    def test_mlb_limited_game_info(self):
+        fields = {
+            'attendance': 19043,
+            'date': 'Sunday, June 28, 1970',
+            'time': None,
+            'venue': 'Robert F. Kennedy Stadium',
+            'duration': '3:43',
+            'time_of_day': 'Day'
+        }
 
-        assert result == ''
+        mock_field = """Sunday, June 28, 1970
+Attendance: 19,043
+Venue: Robert F. Kennedy Stadium
+Game Duration: 3:43
+Day Game, on grass
+"""
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        self.boxscore._parse_game_date_and_location(m)
+        for field, value in fields.items():
+            assert getattr(self.boxscore, field) == value
 
     def test_invalid_away_inherited_runners_returns_default(self):
         mock_runners = PropertyMock(return_value='')
@@ -273,3 +295,21 @@ Second game of doubleheader
         type(self.boxscore)._home_runs = mock_runs
 
         assert self.boxscore.dataframe is None
+
+    def test_attendance_with_empty_string(self):
+        fake_attendance = PropertyMock(return_value='')
+        type(self.boxscore)._attendance = fake_attendance
+
+        assert self.boxscore.attendance is None
+
+    def test_night_game_returns_night(self):
+        fake_time_of_day = PropertyMock(return_value='night game on grass')
+        type(self.boxscore)._time_of_day = fake_time_of_day
+
+        assert self.boxscore.time_of_day == NIGHT
+
+    def test_night_game_returns_night(self):
+        fake_time_of_day = PropertyMock(return_value='day game on grass')
+        type(self.boxscore)._time_of_day = fake_time_of_day
+
+        assert self.boxscore.time_of_day == DAY
