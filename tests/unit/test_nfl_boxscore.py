@@ -14,6 +14,25 @@ class MockName:
         return self._name
 
 
+class MockField:
+    def __init__(self, field):
+        self._field = field
+
+    def text(self):
+        return self._field
+
+
+class MockBoxscoreData:
+    def __init__(self, fields):
+        self._fields = fields
+
+    def __call__(self, field):
+        return self
+
+    def items(self):
+        return [self._fields]
+
+
 def read_file(filename):
     filepath = join(dirname(__file__), 'nfl', filename)
     return open(filepath, 'r').read()
@@ -186,3 +205,47 @@ class TestNFLBoxscore:
         type(self.boxscore)._away_rush_attempts = fake_rushes
 
         assert self.boxscore.away_rush_attempts is None
+
+    def test_nfl_game_information(self):
+        fields = {
+            'attendance': 62881,
+            'date': 'Thursday Nov 8, 2018',
+            'duration': '2:49',
+            'stadium': 'Heinz Field',
+            'time': '8:20pm'
+        }
+
+        mock_field = """Thursday Nov 8, 2018
+Start Time: 8:20pm
+Stadium: Heinz Field
+Attendance: 62,881
+Time of Game: 2:49
+Logos via Sports Logos.net / About logos
+"""
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        self.boxscore._parse_game_date_and_location(m)
+        for field, value in fields.items():
+            assert getattr(self.boxscore, field) == value
+
+    def test_nfl_game_limited_information(self):
+        fields = {
+            'attendance': 22000,
+            'date': 'Sunday Sep 8, 1940',
+            'duration': None,
+            'stadium': 'Forbes Field',
+            'time': None
+        }
+
+        mock_field = """Sunday Sep 8, 1940
+Stadium: Forbes Field
+Attendance: 22,000
+Logos via Sports Logos.net / About logos
+"""
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        self.boxscore._parse_game_date_and_location(m)
+        for field, value in fields.items():
+            assert getattr(self.boxscore, field) == value

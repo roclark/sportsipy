@@ -144,56 +144,50 @@ class Boxscore(object):
             return None
         return pq(utils._remove_html_comment_tags(url_data))
 
-    def _parse_game_date_and_location(self, field, boxscore):
+    def _parse_game_date_and_location(self, boxscore):
         """
         Retrieve the game's date and location.
 
-        The date and location of the game follow a more complicated parsing
-        scheme and should be handled differently from other tags. Both fields
-        are separated by a newline character ('\n') with the first line being
-        the date and the second being the location.
+        The game's meta information, such as date, location, attendance, and
+        duration, follow a complex parsing scheme that changes based on the
+        layout of the page. The information should be able to be parsed and set
+        regardless of the order and how much information is included. To do
+        this, the meta information should be iterated through line-by-line and
+        fields should be determined by the values that are found in each line.
 
         Parameters
         ----------
-        field : string
-            The name of the attribute to parse
         boxscore : PyQuery object
             A PyQuery object containing all of the HTML data from the boxscore.
-
-        Returns
-        -------
-        string
-            Depending on the requested field, returns a text representation of
-            either the date or location of the game.
         """
-        scheme = BOXSCORE_SCHEME[field]
+        scheme = BOXSCORE_SCHEME["game_info"]
         items = [i.text() for i in boxscore(scheme).items()]
-        index = BOXSCORE_ELEMENT_INDEX[field]
         game_info = items[0].split('\n')
-        double_header = False
-        for item in items:
-            if 'first game of doubleheader' in item.lower() or \
-               'second game of doubleheader' in item.lower():
-                double_header = True
-                if field == 'date':
-                    return game_info[0]
-                for element in game_info:
-                    if field == 'time_of_day':
-                        if 'night game' in element.lower() or \
-                           'day game' in element.lower():
-                            return element
-                        continue  # pragma: no cover
-                    matcher = DOUBLE_HEADER_INDICES[field]
-                    if matcher in element.lower():
-                        return element
-        # Triggered for double headers when a specific field is not included
-        # in the game information summary. For double headers, random fields
-        # are omitted for no apparent reason and should be parsed differently.
-        # If the field can't be found, it should return a default value of an
-        # empty string.
-        if double_header:
-            return ''
-        return game_info[index]
+        attendance = None
+        date = None
+        duration = None
+        time = None
+        time_of_day = None
+        venue = None
+        if len(game_info) > 0:
+            date = game_info[0]
+        for line in game_info:
+            if 'Start Time: ' in line:
+                time = line.replace('Start Time: ', '')
+            if 'Attendance: ' in line:
+                attendance = line.replace('Attendance: ', '').replace(',', '')
+            if 'Venue: ' in line:
+                venue = line.replace('Venue: ', '')
+            if 'Game Duration: ' in line:
+                duration = line.replace('Game Duration: ', '')
+            if 'Night Game' in line or 'Day Game' in line:
+                time_of_day = line
+        setattr(self, '_attendance', attendance)
+        setattr(self, '_date', date)
+        setattr(self, '_duration', duration)
+        setattr(self, '_time', time)
+        setattr(self, '_time_of_day', time_of_day)
+        setattr(self, '_venue', venue)
 
     def _parse_name(self, field, boxscore):
         """
@@ -251,17 +245,13 @@ class Boxscore(object):
                short_field == 'winning_abbr' or \
                short_field == 'losing_name' or \
                short_field == 'losing_abbr' or \
-               short_field == 'uri':
-                continue
-            if short_field == 'date' or \
+               short_field == 'uri' or \
+               short_field == 'date' or \
                short_field == 'time' or \
                short_field == 'venue' or \
                short_field == 'attendance' or \
                short_field == 'time_of_day' or \
                short_field == 'duration':
-                value = self._parse_game_date_and_location(short_field,
-                                                           boxscore)
-                setattr(self, field, value)
                 continue
             if short_field == 'away_name' or \
                short_field == 'home_name':
@@ -276,6 +266,7 @@ class Boxscore(object):
                                        short_field,
                                        index)
             setattr(self, field, value)
+        self._parse_game_date_and_location(boxscore)
 
     @property
     def dataframe(self):
@@ -389,7 +380,7 @@ class Boxscore(object):
         """
         Returns a ``string`` of the time the game started.
         """
-        return self._time.replace('Start Time: ', '')
+        return self._time
 
     @property
     def venue(self):
@@ -397,21 +388,21 @@ class Boxscore(object):
         Returns a ``string`` of the name of the ballpark where the game was
         played.
         """
-        return self._venue.replace('Venue: ', '')
+        return self._venue
 
     @int_property_decorator
     def attendance(self):
         """
         Returns an ``int`` of the game's listed attendance.
         """
-        return self._attendance.replace('Attendance: ', '').replace(',', '')
+        return self._attendance
 
     @property
     def duration(self):
         """
         Returns a ``string`` of the game's duration in the format 'H:MM'.
         """
-        return self._duration.replace('Game Duration: ', '')
+        return self._duration
 
     @property
     def time_of_day(self):

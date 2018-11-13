@@ -140,12 +140,7 @@ ELEMENT_INDEX = {
 }
 
 BOXSCORE_SCHEME = {
-    'date': 'div[class="scorebox_meta"]',
-    'time': 'div[class="scorebox_meta"]',
-    'attendance': 'div[class="scorebox_meta"]',
-    'venue': 'div[class="scorebox_meta"]',
-    'time_of_day': 'div[class="scorebox_meta"]',
-    'duration': 'div[class="scorebox_meta"]',
+    'game_info': 'div[class="scorebox_meta"]',
     'away_name': 'a[itemprop="name"]:first',
     'home_name': 'a[itemprop="name"]:last',
     'winner': 'td[data-stat=""]',

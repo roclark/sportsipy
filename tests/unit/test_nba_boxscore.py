@@ -13,6 +13,25 @@ class MockName:
         return self._name
 
 
+class MockField:
+    def __init__(self, field):
+        self._field = field
+
+    def text(self):
+        return self._field
+
+
+class MockBoxscoreData:
+    def __init__(self, fields):
+        self._fields = fields
+
+    def __call__(self, field):
+        return self
+
+    def items(self):
+        return [self._fields]
+
+
 def mock_pyquery(url):
     class MockPQ:
         def __init__(self, html_contents):
@@ -180,3 +199,35 @@ class TestNBABoxscore:
         type(self.boxscore)._home_points = mock_points
 
         assert self.boxscore.dataframe is None
+
+    def test_nba_game_info(self):
+        fields = {
+            'date': '7:30 PM, November 9, 2018',
+            'location': 'State Farm Arena, Atlanta, Georgia'
+        }
+
+        mock_field = """7:30 PM, November 9, 2018
+State Farm Arena, Atlanta, Georgia
+Logos via Sports Logos.net / About logos
+"""
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field, value in fields.items():
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert value == result
+
+    def test_nba_partial_game_info(self):
+        fields = {
+            'date': '7:30 PM, November 9, 2018',
+            'location': None
+        }
+
+        mock_field = """7:30 PM, November 9, 2018
+Logos via Sports Logos.net / About logos"""
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field, value in fields.items():
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert value == result

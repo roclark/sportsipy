@@ -76,11 +76,7 @@ SCHEDULE_SCHEME = {
 }
 
 BOXSCORE_SCHEME = {
-    'date': 'div[class="scorebox_meta"]:first',
-    'time': 'div[class="scorebox_meta"]:first',
-    'stadium': 'div[class="scorebox_meta"]:first',
-    'attendance': 'div[class="scorebox_meta"]:first',
-    'duration': 'div[class="scorebox_meta"]:first',
+    'game_info': 'div[class="scorebox_meta"]:first',
     'home_name': 'a[itemprop="name"]:first',
     'away_name': 'a[itemprop="name"]:last',
     'away_points': 'div[class="scorebox"] div[class="score"]',

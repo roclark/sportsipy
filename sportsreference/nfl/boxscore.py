@@ -145,32 +145,45 @@ class Boxscore(object):
             return None
         return pq(utils._remove_html_comment_tags(url_data))
 
-    def _parse_game_date_and_location(self, field, boxscore):
+    def _parse_game_date_and_location(self, boxscore):
         """
         Retrieve the game's date and location.
 
-        The date and location of the game follow a more complicated parsing
-        scheme and should be handled differently from other tags. Both fields
-        are separated by a newline character ('\n') with the first line being
-        the date and the second being the location.
+        The games' meta information, such as date, location, attendance, and
+        duration, follow a complex parsing scheme that changes based on the
+        layout of the page. The information should be able to be parsed and set
+        regardless of the order and how much information is included. To do
+        this, the meta information should be iterated through line-by-line and
+        fields should be determined by the values that are found in each line.
 
         Parameters
         ----------
-        field : string
-            The name of the attribute to parse
         boxscore : PyQuery object
             A PyQuery object containing all of the HTML data from the boxscore.
-
-        Returns
-        -------
-        string
-            Depending on the requested field, returns a text representation of
-            either the date or location of the game.
         """
-        scheme = BOXSCORE_SCHEME[field]
+        scheme = BOXSCORE_SCHEME["game_info"]
         items = [i.text() for i in boxscore(scheme).items()]
         game_info = items[0].split('\n')
-        return game_info[BOXSCORE_ELEMENT_INDEX[field]]
+        attendance = None
+        date = None
+        duration = None
+        stadium = None
+        time = None
+        date = game_info[0]
+        for line in game_info:
+            if 'Attendance' in line:
+                attendance = line.replace('Attendance: ', '').replace(',', '')
+            if 'Time of Game' in line:
+                duration = line.replace('Time of Game: ', '')
+            if 'Stadium' in line:
+                stadium = line.replace('Stadium: ', '')
+            if 'Start Time' in line:
+                time = line.replace('Start Time: ', '')
+        setattr(self, '_attendance', attendance)
+        setattr(self, '_date', date)
+        setattr(self, '_duration', duration)
+        setattr(self, '_stadium', stadium)
+        setattr(self, '_time', time)
 
     def _parse_name(self, field, boxscore):
         """
@@ -228,16 +241,12 @@ class Boxscore(object):
                short_field == 'winning_abbr' or \
                short_field == 'losing_name' or \
                short_field == 'losing_abbr' or \
-               short_field == 'uri':
-                continue
-            if short_field == 'date' or \
+               short_field == 'uri' or \
+               short_field == 'date' or \
                short_field == 'time' or \
                short_field == 'stadium' or \
                short_field == 'attendance' or \
                short_field == 'duration':
-                value = self._parse_game_date_and_location(short_field,
-                                                           boxscore)
-                setattr(self, field, value)
                 continue
             if short_field == 'away_name' or \
                short_field == 'home_name':
@@ -252,6 +261,7 @@ class Boxscore(object):
                                        short_field,
                                        index)
             setattr(self, field, value)
+        self._parse_game_date_and_location(boxscore)
 
     @property
     def dataframe(self):
@@ -336,7 +346,7 @@ class Boxscore(object):
         """
         Returns a ``string`` of the time the game started.
         """
-        return self._time.replace('Start Time: ', '')
+        return self._time
 
     @property
     def stadium(self):
@@ -344,21 +354,21 @@ class Boxscore(object):
         Returns a ``string`` of the name of the stadium where the game was
         played.
         """
-        return self._stadium.replace('Stadium: ', '')
+        return self._stadium
 
     @int_property_decorator
     def attendance(self):
         """
         Returns an ``int`` of the game's listed attendance.
         """
-        return self._attendance.replace('Attendance: ', '').replace(',', '')
+        return self._attendance
 
     @property
     def duration(self):
         """
         Returns a ``string`` of the game's duration in the format 'H:MM'.
         """
-        return self._duration.replace('Time of Game: ', '')
+        return self._duration
 
     @property
     def winner(self):

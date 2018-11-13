@@ -24,6 +24,25 @@ class MockName:
         return self._name.replace('<a>cbb/schools</a>', '')
 
 
+class MockField:
+    def __init__(self, field):
+        self._field = field
+
+    def text(self):
+        return self._field
+
+
+class MockBoxscoreData:
+    def __init__(self, fields):
+        self._fields = fields
+
+    def __call__(self, field):
+        return self
+
+    def items(self):
+        return [self._fields]
+
+
 def mock_pyquery(url):
     class MockPQ:
         def __init__(self, html_contents):
@@ -349,3 +368,35 @@ class TestNCAABBoxscore:
                                                MockBoxscore(''))
 
         assert ranking is None
+
+    def test_ncaab_game_info(self):
+        fields = {
+            'date': 'November 9, 2018',
+            'location': 'WVU Coliseum, Morgantown, West Virginia'
+        }
+
+        mock_field = """November 9, 2018
+WVU Coliseum, Morgantown, West Virginia
+Logos via Sports Logos.net / About logos
+"""
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field, value in fields.items():
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert value == result
+
+    def test_ncaab_partial_game_info(self):
+        fields = {
+            'date': 'November 9, 2018',
+            'location': None
+        }
+
+        mock_field = """November 9, 2018
+Logos via Sports Logos.net / About logos"""
+
+        m = MockBoxscoreData(MockField(mock_field))
+
+        for field, value in fields.items():
+            result = self.boxscore._parse_game_date_and_location(field, m)
+            assert value == result
