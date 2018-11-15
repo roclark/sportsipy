@@ -317,7 +317,7 @@ SCHEDULE_URL = ('http://www.sports-reference.com/cbb/schools/%s/'
 BOXSCORE_URL = 'http://www.sports-reference.com/cbb/boxscores/%s.html'
 BOXSCORES_URL = ('https://www.sports-reference.com/cbb/boxscores/index.cgi?'
                  'month=%s&day=%s&year=%s')
-RANKINGS_URL = 'https://www.sports-reference.com/cbb/seasons/%s-polls.html'
+RANKINGS_URL = 'https://www.sports-reference.com/cbb/seasons/%s-polls-old.html'
 CONFERENCES_URL = 'https://www.sports-reference.com/cbb/seasons/%s.html'
 CONFERENCE_URL = 'https://www.sports-reference.com/cbb/conferences/%s/%s.html'
 PLAYER_URL = 'https://www.sports-reference.com/cbb/players/%s.html'
