@@ -653,19 +653,38 @@ class Boxscores:
         the requested day. Dictionary is in the following format::
 
             {'boxscores' : [
-                {'home_name': Name of the home team, such as 'Purdue
-                              Boilermakers' (`str`),
-                 'home_abbr': Abbreviation for the home team, such as
-                              'PURDUE' (`str`),
-                 'away_name': Name of the away team, such as 'Indiana
-                              Hoosiers' (`str`),
-                 'away_abbr': Abbreviation for the away team, such as
-                              'INDIANA' (`str`),
-                 'boxscore': String representing the boxscore URI, such as
-                             '2017-09-09-michigan' (`str`),
-                 'non_di': Boolean value which evaluates to True when at least
-                           one of the teams does not compete in NCAA
-                           Division-I football (`str`)},
+                {
+                    'home_name': Name of the home team, such as 'Purdue
+                                 Boilermakers' (`str`),
+                    'home_abbr': Abbreviation for the home team, such as
+                                 'PURDUE' (`str`),
+                    'away_name': Name of the away team, such as 'Indiana
+                                 Hoosiers' (`str`),
+                    'away_abbr': Abbreviation for the away team, such as
+                                 'INDIANA' (`str`),
+                    'boxscore': String representing the boxscore URI, such as
+                                '2018-01-28-15-indiana' (`str`),
+                    'non_di': Boolean value which evaluates to True when at
+                              least one of the teams does not compete in NCAA
+                              Division-I basketball (`bool`),
+                    'top_25': Boolean value which evaluates to True when at
+                              least one of the teams is ranked in the AP Top 25
+                              polls (`bool`),
+                    'winning_name': Full name of the winning team, such as
+                                    'Purdue Boilermakers' (`str`),
+                    'winning_abbr': Abbreviation for the winning team, such as
+                                    'PURDUE' (`str`),
+                    'losing_name': Full name of the losing team, such as
+                                   'Indiana Hoosiers' (`str`),
+                    'losing_abbr': Abbreviation for the losing team, such as
+                                   'INDIANA' (`str`),
+                    'home_score': Integer score for the home team (`int`),
+                    'home_rank': Integer representing the home team's rank
+                                 (`int`),
+                    'away_score': Integer score for the away team (`int`),
+                    'away_rank': Integer representing the away team's rank
+                                 (`int`)
+                },
                 { ... },
                 ...
                 ]
@@ -790,6 +809,55 @@ class Boxscores:
             non_di = True
         return team_name, abbr, non_di
 
+    def _get_score(self, score_link):
+        """
+        Find a team's final score.
+
+        Given an HTML string of a team's boxscore, extract the integer
+        representing the final score and return the number.
+
+        Parameters
+        ----------
+        score_link : string
+            An HTML string representing a team's final score in the format
+            '<td class="right">NN</td>' where 'NN' is the team's score.
+
+        Returns
+        -------
+        int
+            Returns an int representing the team's final score in runs.
+        """
+        score = score_link.replace('<td class="right">', '')
+        score = score.replace('</td>', '')
+        return int(score)
+
+    def _get_rank(self, team):
+        """
+        Find the team's rank when applicable.
+
+        If a team is ranked, it will showup in a separate <span> tag with the
+        actual rank embedded between parentheses. When a team is ranked, the
+        integer value representing their ranking should be returned. For teams
+        that are not ranked, None should be returned.
+
+        Parameters
+        ----------
+        team : PyQuery object
+            A PyQuery object of a team's HTML tag in the boxscore.
+
+        Returns
+        -------
+        int
+            Returns an integer representing the team's ranking when applicable,
+            or None if the team is not ranked.
+        """
+        rank = None
+        rank_field = team('span[class="pollrank"]')
+        if len(rank_field) > 0:
+            rank = re.findall(r'\(\d+\)', str(rank_field))[0]
+            rank = int(rank.replace('(', '').replace(')', ''))
+        return rank
+
     def _get_team_names(self, game):
         """
         Find the names and abbreviations for both teams in a game.
@@ -808,20 +876,31 @@ class Boxscores:
         -------
         tuple
             Returns a tuple containing the names and abbreviations of both
-            teams in the following order: Away Name, Away Abbreviation, Home
-            Name, Home Abbreviation, and a boolean which evaluates to True if
-            either team does not participate in Division-I athletics.
+            teams in the following order: Away Name, Away Abbreviation, Away
+            Score, Away Ranking, Home Name, Home Abbreviation, Home Score, Home
+            Ranking, a boolean which evaluates to True if either team does not
+            participate in Division-I athletics, and a boolean which evalutes
+            to True if either team is currently ranked.
         """
-        links = [i for i in game('td a').items()]
-        # The away team is the first link in the boxscore
-        away = links[0]
+        # Grab the first <td...> tag for each <tr> row in the boxscore,
+        # representing the name for each participating team.
+        links = [g('td:first') for g in game('tr').items()]
+        # The away team is the second link in the boxscore
+        away = links[1]
         # The home team is the last (3rd) link in the boxscore
         home = links[-1]
         non_di = False
-        away_name, away_abbr, away_non_di = self._get_name(away)
-        home_name, home_abbr, home_non_di = self._get_name(home)
+        scores = re.findall(r'<td class="right">\d+</td>', str(game))
+        away_score = self._get_score(scores[0])
+        home_score = self._get_score(scores[1])
+        away_name, away_abbr, away_non_di = self._get_name(away('a'))
+        home_name, home_abbr, home_non_di = self._get_name(home('a'))
         non_di = away_non_di or home_non_di
-        return away_name, away_abbr, home_name, home_abbr, non_di
+        away_rank = self._get_rank(away)
+        home_rank = self._get_rank(home)
+        top_25 = bool(away_rank or home_rank)
+        return (away_name, away_abbr, away_score, away_rank, home_name,
+                home_abbr, home_score, home_rank, non_di, top_25)
 
     def _extract_game_info(self, games):
         """
@@ -848,16 +927,22 @@ class Boxscores:
 
         for game in games:
             names = self._get_team_names(game)
-            away_name, away_abbr, home_name, home_abbr, non_di = names
+            away_name, away_abbr, away_score, away_rank, home_name, \
+                home_abbr, home_score, home_rank, non_di, top_25 = names
             boxscore_url = game('td[class="right gamelink"] a')
             boxscore_uri = self._get_boxscore_uri(boxscore_url)
             game_info = {
                 'boxscore': boxscore_uri,
                 'away_name': away_name,
                 'away_abbr': away_abbr,
+                'away_score': away_score,
+                'away_rank': away_rank,
                 'home_name': home_name,
                 'home_abbr': home_abbr,
-                'non_di': non_di
+                'home_score': home_score,
+                'home_rank': home_rank,
+                'non_di': non_di,
+                'top_25': top_25
             }
             all_boxscores.append(game_info)
         return all_boxscores
