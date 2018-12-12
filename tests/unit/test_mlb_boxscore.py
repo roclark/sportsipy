@@ -1,8 +1,9 @@
 from flexmock import flexmock
 from mock import patch, PropertyMock
+from pyquery import PyQuery as pq
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
-from sportsreference.mlb.boxscore import Boxscore
+from sportsreference.mlb.boxscore import Boxscore, Boxscores
 from sportsreference.mlb.constants import DAY, NIGHT
 
 
@@ -313,3 +314,56 @@ Day Game, on grass
         type(self.boxscore)._time_of_day = fake_time_of_day
 
         assert self.boxscore.time_of_day == DAY
+
+
+class TestMLBBoxscores:
+    @patch('requests.get', side_effect=mock_pyquery)
+    def setup_method(self, *args, **kwargs):
+        flexmock(Boxscores) \
+            .should_receive('_get_team_details') \
+            .and_return((None, None, None, None, None, None))
+        flexmock(Boxscores) \
+            .should_receive('_find_games') \
+            .and_return(None)
+        self.boxscores = Boxscores(None)
+
+    def test_improper_loser_boxscore_format_skips_game(self):
+        mock_html = pq("""<table class="teams">
+<tbody>
+<tr class="loser">
+    <td class="right">1</td>
+    <td class="right gamelink">
+    </td>
+</tr>
+<tr class="winner">
+    <td><a href="/teams/BAL/2017.shtml">Baltimore Orioles</a></td>
+    <td class="right">3</td>
+    <td class="right">
+    </td>
+</tr>
+</tbody>
+</table>""")
+        games = self.boxscores._extract_game_info([mock_html])
+
+        assert len(games) == 0
+
+    def test_improper_winner_boxscore_format_skips_game(self):
+        mock_html = pq("""<table class="teams">
+<tbody>
+<tr class="loser">
+    <td><a href="/teams/TEX/2017.shtml">Texas Rangers</a></td>
+    <td class="right">1</td>
+    <td class="right gamelink">
+        <a href="/boxes/BAL/BAL201707170.shtml">Final</a>
+    </td>
+</tr>
+<tr class="winner">
+    <td class="right">3</td>
+    <td class="right">
+    </td>
+</tr>
+</tbody>
+</table>""")
+        games = self.boxscores._extract_game_info([mock_html])
+
+        assert len(games) == 0

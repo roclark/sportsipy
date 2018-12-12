@@ -813,16 +813,28 @@ class Boxscores:
         the requested day. Dictionary is in the following format::
 
             {'boxscores' : [
-                {'home_name': Name of the home team, such as 'Kansas City
-                              Chiefs' (`str`),
-                 'home_abbr': Abbreviation for the home team, such as
-                              'KAN' (`str`),
-                 'away_name': Name of the away team, such as 'Houston
-                              Texans' (`str`),
-                 'away_abbr': Abbreviation for the away team, such as
-                              'HOU' (`str`),
-                 'boxscore': String representing the boxscore URI, such as
-                             'SLN/SLN201807280' (`str`)},
+                {
+                    'home_name': Name of the home team, such as 'Kansas City
+                                 Chiefs' (`str`),
+                    'home_abbr': Abbreviation for the home team, such as 'KAN'
+                                 (`str`),
+                    'away_name': Name of the away team, such as 'Houston
+                                 Texans' (`str`),
+                    'away_abbr': Abbreviation for the away team, such as 'HOU'
+                                 (`str`),
+                    'boxscore': String representing the boxscore URI, such as
+                                'SLN/SLN201807280' (`str`),
+                    'winning_name': Full name of the winning team, such as
+                                    'Kansas City Chiefs' (`str`),
+                    'winning_abbr': Abbreviation for the winning team, such as
+                                    'KAN' (`str`),
+                    'losing_name': Full name of the losing team, such as
+                                   'Houston Texans' (`str`),
+                    'losing_abbr': Abbreviation for the losing team, such as
+                                   'HOU' (`str`),
+                    'home_score': Integer score for the home team (`int`),
+                    'away_score': Integer score for the away team (`int`)
+                },
                 { ... },
                 ...
                 ]
@@ -939,7 +951,29 @@ class Boxscores:
         abbr = self._parse_abbreviation(name)
         return team_name, abbr
 
-    def _get_team_names(self, game):
+    def _get_score(self, score_link):
+        """
+        Find a team's final score.
+
+        Given an HTML string of a team's boxscore, extract the integer
+        representing the final score and return the number.
+
+        Parameters
+        ----------
+        score_link : string
+            An HTML string representing a team's final score in the format
+            '<td class="right">NN</td>' where 'NN' is the team's score.
+
+        Returns
+        -------
+        int
+            Returns an int representing the team's final score in runs.
+        """
+        score = score_link.replace('<td class="right">', '')
+        score = score.replace('</td>', '')
+        return int(score)
+
+    def _get_team_details(self, game):
         """
         Find the names and abbreviations for both teams in a game.
 
@@ -956,17 +990,48 @@ class Boxscores:
         -------
         tuple
             Returns a tuple containing the names and abbreviations of both
-            teams in the following order: Away Name, Away Abbreviation, Home
-            Name, Home Abbreviation.
+            teams in the following order: Away Name, Away Abbreviation, Away
+            Score, Home Name, Home Abbreviation, Home Score.
         """
         links = [i for i in game('td a').items()]
         # The away team is the first link in the boxscore
         away = links[0]
         # The home team is the last (3rd) link in the boxscore
         home = links[-1]
+        scores = re.findall(r'<td class="right">\d+</td>', str(game))
+        away_score = self._get_score(scores[0])
+        home_score = self._get_score(scores[1])
         away_name, away_abbr = self._get_name(away)
         home_name, home_abbr = self._get_name(home)
-        return away_name, away_abbr, home_name, home_abbr
+        return (away_name, away_abbr, away_score, home_name, home_abbr,
+                home_score)
+
+    def _get_team_results(self, team_result_html):
+        """
+        Extract the winning or losing team's name and abbreviation.
+
+        Depending on which team's data field is passed (either the winner or
+        loser), return the name and abbreviation of that team to denote which
+        team won and which lost the game.
+
+        Parameters
+        ----------
+        team_result_html : PyQuery object
+            A PyQuery object representing either the winning or losing team's
+            data field within the boxscore.
+
+        Returns
+        -------
+        tuple
+            Returns a tuple of the team's name followed by the abbreviation.
+        """
+        link = [i for i in team_result_html('td a').items()]
+        # If there are no links, the boxscore is likely misformed and can't be
+        # parsed. In this case, the boxscore should be skipped.
+        if len(link) < 1:
+            return None
+        name, abbreviation = self._get_name(link[0])
+        return name, abbreviation
 
     def _extract_game_info(self, games):
         """
@@ -991,16 +1056,37 @@ class Boxscores:
         all_boxscores = []
 
         for game in games:
-            names = self._get_team_names(game)
-            away_name, away_abbr, home_name, home_abbr = names
+            details = self._get_team_details(game)
+            away_name, away_abbr, away_score, home_name, home_abbr, \
+                home_score = details
             boxscore_url = game('td[class="right gamelink"] a')
             boxscore_uri = self._get_boxscore_uri(boxscore_url)
+            winner = self._get_team_results(game('tr[class="winner"]'))
+            # Occurs when information couldn't be parsed from the boxscore and
+            # the game should be skipped to avoid conflicts populating the
+            # game information.
+            if not winner:
+                continue
+            winning_name, winning_abbreviation = winner
+            loser = self._get_team_results(game('tr[class="loser"]'))
+            # Occurs when information couldn't be parsed from the boxscore and
+            # the game should be skipped to avoid conflicts populating the
+            # game information.
+            if not loser:
+                continue
+            losing_name, losing_abbreviation = loser
             game_info = {
                 'boxscore': boxscore_uri,
                 'away_name': away_name,
                 'away_abbr': away_abbr,
+                'away_score': away_score,
                 'home_name': home_name,
-                'home_abbr': home_abbr
+                'home_abbr': home_abbr,
+                'home_score': home_score,
+                'winning_name': winning_name,
+                'winning_abbr': winning_abbreviation,
+                'losing_name': losing_name,
+                'losing_abbr': losing_abbreviation
             }
             all_boxscores.append(game_info)
         return all_boxscores

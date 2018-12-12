@@ -1,9 +1,10 @@
 from flexmock import flexmock
 from mock import patch, PropertyMock
+from pyquery import PyQuery as pq
 from os.path import dirname, join
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
-from sportsreference.nfl.boxscore import Boxscore
+from sportsreference.nfl.boxscore import Boxscore, Boxscores
 
 
 class MockName:
@@ -249,3 +250,60 @@ Logos via Sports Logos.net / About logos
         self.boxscore._parse_game_date_and_location(m)
         for field, value in fields.items():
             assert getattr(self.boxscore, field) == value
+
+
+class TestNFLBoxscores:
+    @patch('requests.get', side_effect=mock_pyquery)
+    def setup_method(self, *args, **kwargs):
+        flexmock(Boxscores) \
+            .should_receive('_get_team_details') \
+            .and_return((None, None, None, None, None, None))
+        flexmock(Boxscores) \
+            .should_receive('_find_games') \
+            .and_return(None)
+        self.boxscores = Boxscores(None, None)
+
+    def test_improper_loser_boxscore_format_skips_game(self):
+        mock_html = pq("""<table class="teams">
+<tbody>
+<tr class="date"><td colspan=3>Dec 9, 2018</td></tr>
+
+<tr class="winner">
+    <td><a href="/teams/nyj/2018.htm">New York Jets</a></td>
+    <td class="right">27</td>
+    <td class="right gamelink">
+        <a href="/boxscores/201812090buf.htm">Final</a>
+    </td>
+</tr>
+<tr class="loser">
+    <td class="right">23</td>
+    <td class="right">&nbsp;
+    </td>
+</tr>
+</tbody>
+</table>""")
+        games = self.boxscores._extract_game_info([mock_html])
+
+        assert len(games) == 0
+
+    def test_improper_winner_boxscore_format_skips_game(self):
+        mock_html = pq("""<table class="teams">
+<tbody>
+<tr class="date"><td colspan=3>Dec 9, 2018</td></tr>
+
+<tr class="winner">
+    <td class="right">27</td>
+    <td class="right gamelink">
+    </td>
+</tr>
+<tr class="loser">
+    <td><a href="/teams/buf/2018.htm">Buffalo Bills</a></td>
+    <td class="right">23</td>
+    <td class="right">&nbsp;
+    </td>
+</tr>
+</tbody>
+</table>""")
+        games = self.boxscores._extract_game_info([mock_html])
+
+        assert len(games) == 0
