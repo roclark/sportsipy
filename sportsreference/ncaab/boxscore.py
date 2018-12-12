@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+from datetime import timedelta
 from pyquery import PyQuery as pq
 from .. import utils
 from ..decorators import float_property_decorator, int_property_decorator
@@ -1198,11 +1199,17 @@ class Boxscores:
     date : datetime object
         The date to search for any matches. The month, day, and year are
         required for the search, but time is not factored into the search.
+    end_date : datetime object
+        Optionally specify an end date to iterate until. All boxscores starting
+        from the date specified in the 'date' parameter up to and including the
+        boxscores specified in the 'end_date' parameter will be pulled. If left
+        empty, or if 'end_date' is prior to 'date', only the games from the day
+        specified in the 'date' parameter will be saved.
     """
-    def __init__(self, date):
-        self._boxscores = {'boxscores': []}
+    def __init__(self, date, end_date=None):
+        self._boxscores = {}
 
-        self._find_games(date)
+        self._find_games(date, end_date)
 
     @property
     def games(self):
@@ -1210,7 +1217,7 @@ class Boxscores:
         Returns a ``dictionary`` object representing all of the games played on
         the requested day. Dictionary is in the following format::
 
-            {'boxscores' : [
+            {'date' : [  # 'date' is the string date in format 'MM-DD-YYYY'
                 {
                     'home_name': Name of the home team, such as 'Purdue
                                  Boilermakers' (`str`),
@@ -1248,8 +1255,7 @@ class Boxscores:
                 ]
             }
 
-        If no games were played during the requested day, the list for
-        ['boxscores'] will be empty.
+        If no games were played on 'date', the list for ['date'] will be empty.
         """
         return self._boxscores
 
@@ -1505,7 +1511,7 @@ class Boxscores:
             all_boxscores.append(game_info)
         return all_boxscores
 
-    def _find_games(self, date):
+    def _find_games(self, date, end_date):
         """
         Retrieve all major games played on a given day.
 
@@ -1520,9 +1526,25 @@ class Boxscores:
         date : datetime object
             The date to search for any matches. The month, day, and year are
             required for the search, but time is not factored into the search.
+        end_date : datetime object
+            Optionally specify an end date to iterate until. All boxscores
+            starting from the date specified in the 'date' parameter up to and
+            including the boxscores specified in the 'end_date' parameter will
+            be pulled. If left empty, or if 'end_date' is prior to 'date', only
+            the games from the day specified in the 'date' parameter will be
+            saved.
         """
-        url = self._create_url(date)
-        page = self._get_requested_page(url)
-        games = page('table[class="teams"]').items()
-        boxscores = self._extract_game_info(games)
-        self._boxscores = {'boxscores': boxscores}
+        # Set the end date to the start date if the end date is before the
+        # start date.
+        if not end_date or date > end_date:
+            end_date = date
+        date_step = date
+        while date_step <= end_date:
+            url = self._create_url(date_step)
+            page = self._get_requested_page(url)
+            games = page('table[class="teams"]').items()
+            boxscores = self._extract_game_info(games)
+            timestamp = '%s-%s-%s' % (date_step.month, date_step.day,
+                                      date_step.year)
+            self._boxscores[timestamp] = boxscores
+            date_step += timedelta(days=1)
