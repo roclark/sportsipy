@@ -37,6 +37,20 @@ abbreviations for each matchup as well as the boxscore link if applicable.
     games_today = Boxscores(datetime.today())
     print(games_today.games)  # Prints a dictionary of all matchups for today
 
+The ``Boxscores`` class also allows the ability to query over a range of dates
+using a second optional parameter during instantiation of the class. To query a
+range of dates, enter the start date as the first parameter and the inclusive
+end date as the second parameter.
+
+.. code-block:: python
+
+    from sportsreference.nfl.boxscore import Boxscores
+
+    # Pulls all games from weeks 7 and 8 in 2017
+    games = Boxscores(7, 2017, 8)
+    # Prints a dictionary of all games from weeks 7 and 8 in 2017
+    print(games.games)
+
 .. automodule:: sportsreference.nfl.boxscore
     :members:
     :undoc-members:
