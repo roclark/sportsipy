@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+from datetime import timedelta
 from pyquery import PyQuery as pq
 from .. import utils
 from ..decorators import int_property_decorator
@@ -800,11 +801,17 @@ class Boxscores:
         The week number to pull games from.
     year : int
         The 4-digit year to pull games from.
+    end_week : int (optional)
+        Optionally specify an end week to iterate until. All boxscores starting
+        from the week specified in the 'week' parameter up to and including the
+        boxscores specified in the 'end_week' parameter will be pulled. If left
+        empty, or if 'end_week' is prior to 'week', only the games from the day
+        specified in the 'date' parameter will be saved.
     """
-    def __init__(self, week, year):
-        self._boxscores = {'boxscores': []}
+    def __init__(self, week, year, end_week=None):
+        self._boxscores = {}
 
-        self._find_games(week, year)
+        self._find_games(week, year, end_week)
 
     @property
     def games(self):
@@ -812,7 +819,7 @@ class Boxscores:
         Returns a ``dictionary`` object representing all of the games played on
         the requested day. Dictionary is in the following format::
 
-            {'boxscores' : [
+            {'week' : [  # 'week' is the string week in format 'W-YYYY'
                 {
                     'home_name': Name of the home team, such as 'Kansas City
                                  Chiefs' (`str`),
@@ -840,8 +847,7 @@ class Boxscores:
                 ]
             }
 
-        If no games were played during the requested day, the list for
-        ['boxscores'] will be empty.
+        If no games were played on 'week', the list for ['week'] will be empty.
         """
         return self._boxscores
 
@@ -1091,7 +1097,7 @@ class Boxscores:
             all_boxscores.append(game_info)
         return all_boxscores
 
-    def _find_games(self, week, year):
+    def _find_games(self, week, year, end_week):
         """
         Retrieve all major games played for a given week.
 
@@ -1107,9 +1113,21 @@ class Boxscores:
             The week number to pull games from.
         year : int
             The 4-digit year to pull games from.
+        end_week : int (optional)
+            Optionally specify an end week to iterate until. All boxscores
+            starting from the week specified in the 'week' parameter up to and
+            including the boxscores specified in the 'end_week' parameter will
+            be pulled. If left empty, or if 'end_week' is prior to 'week', only
+            the games from the day specified in the 'date' parameter will be
+            saved.
         """
-        url = self._create_url(week, year)
-        page = self._get_requested_page(url)
-        games = page('table[class="teams"]').items()
-        boxscores = self._extract_game_info(games)
-        self._boxscores = {'boxscores': boxscores}
+        if not end_week or week > end_week:
+            end_week = week
+        while week <= end_week:
+            url = self._create_url(week, year)
+            page = self._get_requested_page(url)
+            games = page('table[class="teams"]').items()
+            boxscores = self._extract_game_info(games)
+            timestamp = '%s-%s' % (week, year)
+            self._boxscores[timestamp] = boxscores
+            week += 1
