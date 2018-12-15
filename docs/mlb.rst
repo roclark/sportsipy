@@ -37,6 +37,21 @@ abbreviations for each matchup as well as the boxscore link if applicable.
     games_today = Boxscores(datetime.today())
     print(games_today.games)  # Prints a dictionary of all matchups for today
 
+The ``Boxscores`` class also allows the ability to query over a range of dates
+using a second optional parameter during instantiation of the class. To query a
+range of dates, enter the start date as the first parameter and the inclusive
+end date as the second parameter.
+
+.. code-block:: python
+
+    from datetime import datetime
+    from sportsreference.mlb.boxscore import Boxscores
+
+    # Pulls all games between and including July 17, 2017 and July 20, 2017
+    games = Boxscores(datetime(2017, 7, 17), datetime(2017, 7, 20))
+    # Prints a dictionary of all results from July 17, 2017 and July 20, 2017
+    print(games.games)
+
 .. automodule:: sportsreference.mlb.boxscore
     :members:
     :undoc-members:

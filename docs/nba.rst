@@ -37,6 +37,22 @@ abbreviations for each matchup as well as the boxscore link if applicable.
     games_today = Boxscores(datetime.today())
     print(games_today.games)  # Prints a dictionary of all matchups for today
 
+The ``Boxscores`` class also allows the ability to query over a range of dates
+using a second optional parameter during instantiation of the class. To query a
+range of dates, enter the start date as the first parameter and the inclusive
+end date as the second parameter.
+
+.. code-block:: python
+
+    from datetime import datetime
+    from sportsreference.nba.boxscore import Boxscores
+
+    # Pulls all games between and including January 1, 2018 and January 5, 2018
+    games = Boxscores(datetime(2018, 1, 1), datetime(2018, 1, 5))
+    # Prints a dictionary of all results from January 1, 2018 and January 5,
+    # 2018
+    print(games.games)
+
 .. automodule:: sportsreference.nba.boxscore
     :members:
     :undoc-members:

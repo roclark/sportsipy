@@ -37,6 +37,22 @@ abbreviations for each matchup as well as the boxscore link if applicable.
     games_today = Boxscores(datetime.today())
     print(games_today.games)  # Prints a dictionary of all matchups for today
 
+The ``Boxscores`` class also allows the ability to query over a range of dates
+using a second optional parameter during instantiation of the class. To query a
+range of dates, enter the start date as the first parameter and the inclusive
+end date as the second parameter.
+
+.. code-block:: python
+
+    from datetime import datetime
+    from sportsreference.ncaaf.boxscore import Boxscores
+
+    # Pulls all games between and including August 30, 2017 and August 31, 2017
+    games = Boxscores(datetime(2017, 8, 30), datetime(2017, 8, 31))
+    # Prints a dictionary of all results from August 30, 2017 and August 31,
+    # 2017
+    print(games.games)
+
 .. automodule:: sportsreference.ncaaf.boxscore
     :members:
     :undoc-members:
