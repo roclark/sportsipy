@@ -31,11 +31,11 @@ abbreviations for each matchup as well as the boxscore link if applicable.
 
 .. code-block:: python
 
-    from datetime import datetime
     from sportsreference.nfl.boxscore import Boxscores
 
-    games_today = Boxscores(datetime.today())
-    print(games_today.games)  # Prints a dictionary of all matchups for today
+    games_today = Boxscores(1, 2017)
+    # Prints a dictionary of all matchups for week 1 of 2017
+    print(games_today.games)
 
 The ``Boxscores`` class also allows the ability to query over a range of dates
 using a second optional parameter during instantiation of the class. To query a
