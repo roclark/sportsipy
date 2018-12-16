@@ -1,8 +1,9 @@
 from flexmock import flexmock
 from mock import patch, PropertyMock
+from pyquery import PyQuery as pq
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
-from sportsreference.ncaab.boxscore import Boxscore
+from sportsreference.ncaab.boxscore import Boxscore, Boxscores
 
 
 class MockBoxscore:
@@ -400,3 +401,48 @@ Logos via Sports Logos.net / About logos"""
         for field, value in fields.items():
             result = self.boxscore._parse_game_date_and_location(field, m)
             assert value == result
+
+
+class TestNCAABBoxscores:
+    @patch('requests.get', side_effect=mock_pyquery)
+    def setup_method(self, *args, **kwargs):
+        flexmock(Boxscores) \
+            .should_receive('_find_games') \
+            .and_return(None)
+        self.boxscores = Boxscores(None)
+
+    def test_boxscore_with_no_score_returns_none(self):
+        mock_html = pq("""<table class="teams">
+<tbody>
+<tr class="loser">
+    <td><a href="/cbb/schools/south-dakota/2019.html">South Dakota</a></td>
+    <td class="right"></td>
+    <td class="right gamelink">
+    </td>
+</tr>
+<tr class="loser">
+    <td><a href="/cbb/schools/kansas/2019.html">Kansas</a>\
+<span class='pollrank'>&nbsp;(1)&nbsp;</span></td>
+    <td class="right"></td>
+    <td class="right">&nbsp;
+    </td>
+</tr>
+</tbody>
+</table>""")
+        games = self.boxscores._extract_game_info([mock_html])
+
+        assert games == [
+            {
+                'home_name': 'Kansas',
+                'home_abbr': 'kansas',
+                'away_name': 'South Dakota',
+                'away_abbr': 'south-dakota',
+                'boxscore': '',
+                'non_di': False,
+                'top_25': True,
+                'home_score': None,
+                'home_rank': 1,
+                'away_score': None,
+                'away_rank': None
+            }
+        ]
