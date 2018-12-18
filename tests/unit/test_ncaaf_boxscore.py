@@ -1,8 +1,9 @@
 from flexmock import flexmock
 from mock import patch, PropertyMock
+from pyquery import PyQuery as pq
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
-from sportsreference.ncaaf.boxscore import Boxscore
+from sportsreference.ncaaf.boxscore import Boxscore, Boxscores
 
 
 class MockField:
@@ -410,3 +411,51 @@ Logos via Sports Logos.net / About logos
         type(self.boxscore)._away_rush_attempts = fake_rushes
 
         assert self.boxscore.away_rush_attempts is None
+
+
+class TestNCAABBoxscores:
+    @patch('requests.get', side_effect=mock_pyquery)
+    def setup_method(self, *args, **kwargs):
+        flexmock(Boxscores) \
+            .should_receive('_find_games') \
+            .and_return(None)
+        self.boxscores = Boxscores(None)
+
+    def test_boxscore_with_no_score_returns_none(self):
+        mock_html = pq("""<table class="teams">
+<tbody>
+<tr class="date"><td colspan=3>Armed Forces Bowl</td></tr>
+
+<tr class="">
+    <td><a href="/cfb/schools/army/2018.html">Army</a>\
+<span class='pollrank'>&nbsp;(22)&nbsp;</span></td>
+    <td class="right"></td>
+    <td class="right gamelink">
+        <a href="/cfb/boxscores/2018-12-22-army.html">Preview</a>
+    </td>
+</tr>
+<tr class="">
+    <td><a href="/cfb/schools/houston/2018.html">Houston</a></td>
+    <td class="right"></td>
+    <td class="right">&nbsp;
+    </td>
+</tr>
+</tbody>
+</table>""")
+        games = self.boxscores._extract_game_info([mock_html])
+
+        assert games == [
+            {
+                'home_name': 'Houston',
+                'home_abbr': 'houston',
+                'away_name': 'Army',
+                'away_abbr': 'army',
+                'boxscore': '2018-12-22-army',
+                'non_di': False,
+                'top_25': True,
+                'home_score': None,
+                'home_rank': None,
+                'away_score': None,
+                'away_rank': 22
+            }
+        ]

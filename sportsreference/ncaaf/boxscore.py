@@ -897,8 +897,13 @@ class Boxscores:
         home = links[-1]
         non_di = False
         scores = re.findall(r'<td class="right">\d+</td>', str(game))
-        away_score = self._get_score(scores[0])
-        home_score = self._get_score(scores[1])
+        away_score = None
+        home_score = None
+        # If the game hasn't started or hasn't been updated on sports-reference
+        # yet, no score will be shown and therefore can't be parsed.
+        if len(scores) == 2:
+            away_score = self._get_score(scores[0])
+            home_score = self._get_score(scores[1])
         away_name, away_abbr, away_non_di = self._get_name(away('a'))
         home_name, home_abbr, home_non_di = self._get_name(home('a'))
         non_di = away_non_di or home_non_di

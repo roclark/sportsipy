@@ -256,14 +256,14 @@ class TestNFLBoxscores:
     @patch('requests.get', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         flexmock(Boxscores) \
-            .should_receive('_get_team_details') \
-            .and_return((None, None, None, None, None, None))
-        flexmock(Boxscores) \
             .should_receive('_find_games') \
             .and_return(None)
         self.boxscores = Boxscores(None, None)
 
     def test_improper_loser_boxscore_format_skips_game(self):
+        flexmock(Boxscores) \
+            .should_receive('_get_team_details') \
+            .and_return((None, None, None, None, None, None))
         mock_html = pq("""<table class="teams">
 <tbody>
 <tr class="date"><td colspan=3>Dec 9, 2018</td></tr>
@@ -287,6 +287,9 @@ class TestNFLBoxscores:
         assert len(games) == 0
 
     def test_improper_winner_boxscore_format_skips_game(self):
+        flexmock(Boxscores) \
+            .should_receive('_get_team_details') \
+            .and_return((None, None, None, None, None, None))
         mock_html = pq("""<table class="teams">
 <tbody>
 <tr class="date"><td colspan=3>Dec 9, 2018</td></tr>
@@ -307,3 +310,39 @@ class TestNFLBoxscores:
         games = self.boxscores._extract_game_info([mock_html])
 
         assert len(games) == 0
+
+    def test_boxscore_with_no_score_returns_none(self):
+        mock_html = pq("""<table class="teams">
+<tbody>
+<tr class="date"><td colspan=3>Dec 9, 2018</td></tr>
+
+<tr class="loser">
+    <td><a href="/teams/nyj/2018.htm">New York Jets</a></td>
+    <td class="right gamelink">
+        <a href="/boxscores/201812090buf.htm">Final</a>
+    </td>
+</tr>
+<tr class="loser">
+    <td><a href="/teams/buf/2018.htm">Buffalo Bills</a></td>
+    <td class="right">&nbsp;
+    </td>
+</tr>
+</tbody>
+</table>""")
+        games = self.boxscores._extract_game_info([mock_html])
+
+        assert games == [
+            {
+                'home_name': 'Buffalo Bills',
+                'home_abbr': 'buf',
+                'away_name': 'New York Jets',
+                'away_abbr': 'nyj',
+                'boxscore': '201812090buf',
+                'winning_name': None,
+                'winning_abbr': None,
+                'losing_name': None,
+                'losing_abbr': None,
+                'home_score': None,
+                'away_score': None
+            }
+        ]

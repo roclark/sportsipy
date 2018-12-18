@@ -238,14 +238,14 @@ class TestNBABoxscores:
     @patch('requests.get', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         flexmock(Boxscores) \
-            .should_receive('_get_team_details') \
-            .and_return((None, None, None, None, None, None))
-        flexmock(Boxscores) \
             .should_receive('_find_games') \
             .and_return(None)
         self.boxscores = Boxscores(None)
 
     def test_improper_loser_boxscore_format_skips_game(self):
+        flexmock(Boxscores) \
+            .should_receive('_get_team_details') \
+            .and_return((None, None, None, None, None, None))
         mock_html = pq("""<table class="teams">
 <tbody>
     <tr class="loser">
@@ -266,6 +266,9 @@ class TestNBABoxscores:
         assert len(games) == 0
 
     def test_improper_winner_boxscore_format_skips_game(self):
+        flexmock(Boxscores) \
+            .should_receive('_get_team_details') \
+            .and_return((None, None, None, None, None, None))
         mock_html = pq("""<table class="teams">
 <tbody>
     <tr class="loser">
@@ -285,3 +288,37 @@ class TestNBABoxscores:
         games = self.boxscores._extract_game_info([mock_html])
 
         assert len(games) == 0
+
+    def test_boxscore_with_no_score_returns_none(self):
+        mock_html = pq("""<table class="teams">
+<tbody>
+    <tr class="loser">
+            <td><a href="/teams/DET/2017.html">Detroit</a></td>
+            <td class="right gamelink">
+                    <a href="/boxscores/201702040IND.html">Final</a>
+            </td>
+    </tr>
+    <tr class="loser">
+            <td><a href="/teams/IND/2017.html">Indiana</a></td>
+            <td class="right">&nbsp;
+            </td>
+    </tr>
+    </tbody>
+</table>""")
+        games = self.boxscores._extract_game_info([mock_html])
+
+        assert games == [
+            {
+                'home_name': 'Indiana',
+                'home_abbr': 'IND',
+                'away_name': 'Detroit',
+                'away_abbr': 'DET',
+                'boxscore': '201702040IND',
+                'winning_name': None,
+                'winning_abbr': None,
+                'losing_name': None,
+                'losing_abbr': None,
+                'home_score': None,
+                'away_score': None
+            }
+        ]

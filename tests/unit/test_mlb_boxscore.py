@@ -320,14 +320,14 @@ class TestMLBBoxscores:
     @patch('requests.get', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         flexmock(Boxscores) \
-            .should_receive('_get_team_details') \
-            .and_return((None, None, None, None, None, None))
-        flexmock(Boxscores) \
             .should_receive('_find_games') \
             .and_return(None)
         self.boxscores = Boxscores(None)
 
     def test_improper_loser_boxscore_format_skips_game(self):
+        flexmock(Boxscores) \
+            .should_receive('_get_team_details') \
+            .and_return((None, None, None, None, None, None))
         mock_html = pq("""<table class="teams">
 <tbody>
 <tr class="loser">
@@ -348,6 +348,9 @@ class TestMLBBoxscores:
         assert len(games) == 0
 
     def test_improper_winner_boxscore_format_skips_game(self):
+        flexmock(Boxscores) \
+            .should_receive('_get_team_details') \
+            .and_return((None, None, None, None, None, None))
         mock_html = pq("""<table class="teams">
 <tbody>
 <tr class="loser">
@@ -367,3 +370,37 @@ class TestMLBBoxscores:
         games = self.boxscores._extract_game_info([mock_html])
 
         assert len(games) == 0
+
+    def test_boxscore_with_no_score_returns_none(self):
+        mock_html = pq("""<table class="teams">
+<tbody>
+<tr class="loser">
+    <td><a href="/teams/TEX/2017.shtml">Texas Rangers</a></td>
+    <td class="right gamelink">
+        <a href="/boxes/BAL/BAL201707170.shtml">Final</a>
+    </td>
+</tr>
+<tr class="loser">
+    <td><a href="/teams/BAL/2017.shtml">Baltimore Orioles</a></td>
+    <td class="right">
+    </td>
+</tr>
+</tbody>
+</table>""")
+        games = self.boxscores._extract_game_info([mock_html])
+
+        assert games == [
+            {
+                'away_abbr': 'TEX',
+                'away_name': 'Texas Rangers',
+                'away_score': None,
+                'boxscore': 'BAL/BAL201707170',
+                'home_abbr': 'BAL',
+                'home_name': 'Baltimore Orioles',
+                'home_score': None,
+                'losing_abbr': None,
+                'losing_name': None,
+                'winning_abbr': None,
+                'winning_name': None
+            }
+        ]
