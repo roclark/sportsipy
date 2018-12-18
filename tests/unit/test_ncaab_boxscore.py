@@ -443,6 +443,10 @@ class TestNCAABBoxscores:
                 'home_score': None,
                 'home_rank': 1,
                 'away_score': None,
-                'away_rank': None
+                'away_rank': None,
+                'winning_name': None,
+                'winning_abbr': None,
+                'losing_name': None,
+                'losing_abbr': None
             }
         ]

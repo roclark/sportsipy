@@ -1471,6 +1471,47 @@ class Boxscores:
         return (away_name, away_abbr, away_score, away_rank, home_name,
                 home_abbr, home_score, home_rank, non_di, top_25)
 
+    def _get_team_results(self, away_name, away_abbr, away_score, home_name,
+                          home_abbr, home_score):
+        """
+        Determine the winner and loser of the game.
+
+        If the game has been completed and sports-reference has been updated
+        with the score, determine the winner and loser and return their
+        respective names and abbreviations.
+
+        Parameters
+        ----------
+        away_name : string
+            The name of the away team, such as 'Indiana'.
+        away_abbr : string
+            The abbreviation of the away team, such as 'indiana'.
+        away_score : int
+            The number of points the away team scored, or None if the game
+            hasn't completed yet.
+        home_score : string
+            The name of the home team, such as 'Purdue'.
+        home_abbr : string
+            The abbreviation of the home team, such as 'purdue'.
+        home_score : int
+            The number of points the home team scored, or None if the game
+            hasn't completed yet.
+
+        Returns
+        -------
+        tuple, tuple
+            Returns two tuples, each containing the name followed by the
+            abbreviation of the winning and losing team, respectively. If the
+            game doesn't have a score associated with it yet, both tuples will
+            be None.
+        """
+        if not away_score or not home_score:
+            return None, None
+        if away_score > home_score:
+            return (away_name, away_abbr), (home_name, home_abbr)
+        else:
+            return (home_name, home_abbr), (away_name, away_abbr)
+
     def _extract_game_info(self, games):
         """
         Parse game information from all boxscores.
@@ -1500,6 +1541,16 @@ class Boxscores:
                 home_abbr, home_score, home_rank, non_di, top_25 = names
             boxscore_url = game('td[class="right gamelink"] a')
             boxscore_uri = self._get_boxscore_uri(boxscore_url)
+            winning_name = None
+            winning_abbr = None
+            losing_name = None
+            losing_abbr = None
+            winner, loser = self._get_team_results(away_name, away_abbr,
+                                                   away_score, home_name,
+                                                   home_abbr, home_score)
+            if winner and loser:
+                winning_name, winning_abbr = winner
+                losing_name, losing_abbr = loser
             game_info = {
                 'boxscore': boxscore_uri,
                 'away_name': away_name,
@@ -1511,7 +1562,11 @@ class Boxscores:
                 'home_score': home_score,
                 'home_rank': home_rank,
                 'non_di': non_di,
-                'top_25': top_25
+                'top_25': top_25,
+                'winning_name': winning_name,
+                'winning_abbr': winning_abbr,
+                'losing_name': losing_name,
+                'losing_abbr': losing_abbr
             }
             all_boxscores.append(game_info)
         return all_boxscores
