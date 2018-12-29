@@ -1,5 +1,6 @@
 import re
 from datetime import datetime
+from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
 
 
@@ -216,7 +217,10 @@ def _get_stats_table(html_page, div, footer=False):
         A generator of all row items in a given table.
     """
     stats_html = html_page(div)
-    stats_table = pq(_remove_html_comment_tags(stats_html))
+    try:
+        stats_table = pq(_remove_html_comment_tags(stats_html))
+    except (ParserError, XMLSyntaxError):
+        return None
     if footer:
         teams_list = stats_table('tfoot tr').items()
     else:

@@ -213,7 +213,9 @@ class Player(object):
             Returns an updated version of the passed all_stats_dict which
             includes more metrics from the provided table.
         """
-        most_recent_season = ''
+        most_recent_season = self._most_recent_season
+        if not table_rows:
+            table_rows = []
         for row in table_rows:
             season = self._parse_season(row)
             try:
@@ -222,6 +224,8 @@ class Player(object):
                 all_stats_dict[season] = {'data': str(row)}
             most_recent_season = season
         self._most_recent_season = most_recent_season
+        if not career_stats:
+            return all_stats_dict
         try:
             all_stats_dict['career']['data'] += str(next(career_stats))
         except KeyError:

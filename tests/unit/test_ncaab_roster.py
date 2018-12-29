@@ -61,3 +61,9 @@ class TestNCAABPlayer:
         result = _cleanup(None)
 
         assert result == ''
+
+    def test_player_with_no_stats(self):
+        player = Player(None)
+        result = player._combine_season_stats(None, None, {})
+
+        assert result == {}

@@ -288,7 +288,9 @@ class Player(object):
             Returns an updated version of the passed all_stats_dict which
             includes more metrics from the provided table.
         """
-        most_recent_season = ''
+        most_recent_season = self._most_recent_season
+        if not table_rows:
+            table_rows = []
         for row in table_rows:
             season = self._parse_season(row)
             try:
@@ -297,6 +299,8 @@ class Player(object):
                 all_stats_dict[season] = {'data': str(row)}
             most_recent_season = season
         self._most_recent_season = most_recent_season
+        if not career_stats:
+            return all_stats_dict
         try:
             all_stats_dict['career']['data'] += str(next(career_stats))
         except KeyError:
@@ -327,16 +331,11 @@ class Player(object):
 
         for table_id in ['totals', 'advanced', 'shooting', 'advanced_pbp',
                          'all_salaries']:
-            try:
-                table_items = utils._get_stats_table(player_info,
-                                                     'table#%s' % table_id)
-                career_items = utils._get_stats_table(player_info,
-                                                      'table#%s' % table_id,
-                                                      footer=True)
-            # Error is thrown when player does not have the corresponding
-            # table, such as a rookie.
-            except (ParserError, XMLSyntaxError):
-                continue
+            table_items = utils._get_stats_table(player_info,
+                                                 'table#%s' % table_id)
+            career_items = utils._get_stats_table(player_info,
+                                                  'table#%s' % table_id,
+                                                  footer=True)
             all_stats_dict = self._combine_season_stats(table_items,
                                                         career_items,
                                                         all_stats_dict)
