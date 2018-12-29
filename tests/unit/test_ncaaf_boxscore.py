@@ -300,9 +300,9 @@ Logos via Sports Logos.net / About logos
 """
         m = MockBoxscoreData(MockField(mock_field))
 
+        self.boxscore._parse_game_date_and_location(m)
         for field, value in fields.items():
-            result = self.boxscore._parse_game_date_and_location(field, m)
-            assert result == value
+            assert getattr(self.boxscore, field) == value
 
     def test_game_information_championship_game(self):
         fields = ['date', 'time', 'stadium']
@@ -320,9 +320,9 @@ Logos via Sports Logos.net / About logos
 """
         m = MockBoxscoreData(MockField(mock_field))
 
+        self.boxscore._parse_game_date_and_location(m)
         for field, value in fields.items():
-            result = self.boxscore._parse_game_date_and_location(field, m)
-            assert result == value
+            assert getattr(self.boxscore, field) == value
 
     def test_somewhat_limited_game_information(self):
         fields = ['date', 'time', 'stadium']
@@ -337,9 +337,9 @@ Logos via Sports Logos.net / About logos
 """
         m = MockBoxscoreData(MockField(mock_field))
 
+        self.boxscore._parse_game_date_and_location(m)
         for field, value in fields.items():
-            result = self.boxscore._parse_game_date_and_location(field, m)
-            assert result == value
+            assert getattr(self.boxscore, field) == value
 
     def test_limited_game_information(self):
         fields = ['date', 'time', 'stadium']
@@ -352,9 +352,9 @@ Logos via Sports Logos.net / About logos
         mock_field = 'Friday Nov 24, 2017'
         m = MockBoxscoreData(MockField(mock_field))
 
+        self.boxscore._parse_game_date_and_location(m)
         for field, value in fields.items():
-            result = self.boxscore._parse_game_date_and_location(field, m)
-            assert result == value
+            assert getattr(self.boxscore, field) == value
 
     def test_limited_game_information_championship(self):
         fields = ['date', 'time', 'stadium']
@@ -370,9 +370,9 @@ Logos via Sports Logos.net / About logos
 """
         m = MockBoxscoreData(MockField(mock_field))
 
+        self.boxscore._parse_game_date_and_location(m)
         for field, value in fields.items():
-            result = self.boxscore._parse_game_date_and_location(field, m)
-            assert result == value
+            assert getattr(self.boxscore, field) == value
 
     def test_no_game_information_championship(self):
         fields = ['date', 'time', 'stadium']
@@ -387,9 +387,9 @@ Logos via Sports Logos.net / About logos
 """
         m = MockBoxscoreData(MockField(mock_field))
 
+        self.boxscore._parse_game_date_and_location(m)
         for field, value in fields.items():
-            result = self.boxscore._parse_game_date_and_location(field, m)
-            assert result == value
+            assert getattr(self.boxscore, field) == value
 
     def test_empty_boxscore_class_returns_dataframe_of_none(self):
         fake_points = PropertyMock(return_value=None)

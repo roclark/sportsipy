@@ -124,7 +124,7 @@ class Boxscore(object):
             return None
         return pq(utils._remove_html_comment_tags(url_data))
 
-    def _parse_game_date_and_location(self, field, boxscore):
+    def _parse_game_date_and_location(self, boxscore):
         """
         Retrieve the game's date and location.
 
@@ -135,44 +135,31 @@ class Boxscore(object):
 
         Parameters
         ----------
-        field : string
-            The name of the attribute to parse
         boxscore : PyQuery object
             A PyQuery object containing all of the HTML data from the boxscore.
-
-        Returns
-        -------
-        string
-            Depending on the requested field, returns a text representation of
-            either the date or location of the game.
         """
-        scheme = BOXSCORE_SCHEME[field]
+        scheme = BOXSCORE_SCHEME['time']
         items = [i.text() for i in boxscore(scheme).items()]
         game_info = items[0].split('\n')
-        index = BOXSCORE_ELEMENT_INDEX[field]
-        # If the game is a bowl game or a championship game, it will have a
-        # different layout for the game information where the specific game
-        # title, such as the name of the bowl game, will be the first line of
-        # text. All other matchers should have the index matcher increased by
-        # 1.
-        for day in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday',
-                    'saturday', 'sunday']:
-            # The day info is generally the first line in text for non-special
-            # games.
-            if day in game_info[0].lower():
-                if index >= len(game_info):
-                    return ''
-                if 'sports logos.net' in game_info[index].lower() or \
-                   game_info[index] == '':
-                    return ''
-                return game_info[index]
-        index += 1
-        if index >= len(game_info):
-            return ''
-        if 'sports logos.net' in game_info[index].lower() or \
-           game_info[index] == '':
-            return ''
-        return game_info[index]
+        time = ''
+        date = ''
+        stadium = ''
+        for line in game_info:
+            time_match = re.findall(r'(\d:\d\d|\d\d:\d\d)', line.lower())
+            if len(time_match) > 0:
+                time = line
+            for day in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday',
+                        'saturday', 'sunday']:
+                if day in line.lower():
+                    date = line
+            # In general, locations are in the format 'Stadium Name - City,
+            # State'. Since the ' - ' characters seem to be unique to the
+            # location line, it should be safe to use this as a matcher.
+            if ' - ' in line:
+                stadium = line
+        setattr(self, '_time', time)
+        setattr(self, '_date', date)
+        setattr(self, '_stadium', stadium)
 
     def _parse_name(self, field, boxscore):
         """
@@ -230,14 +217,10 @@ class Boxscore(object):
                short_field == 'winning_abbr' or \
                short_field == 'losing_name' or \
                short_field == 'losing_abbr' or \
-               short_field == 'uri':
-                continue
-            if short_field == 'date' or \
+               short_field == 'uri' or \
+               short_field == 'date' or \
                short_field == 'time' or \
                short_field == 'stadium':
-                value = self._parse_game_date_and_location(short_field,
-                                                           boxscore)
-                setattr(self, field, value)
                 continue
             if short_field == 'away_name' or \
                short_field == 'home_name':
@@ -252,6 +235,7 @@ class Boxscore(object):
                                        short_field,
                                        index)
             setattr(self, field, value)
+            self._parse_game_date_and_location(boxscore)
 
     @property
     def dataframe(self):
