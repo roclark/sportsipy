@@ -1185,3 +1185,17 @@ class TestMLBRoster:
             assert player.name in [u'José Altuve', 'Justin Verlander',
                                    'Charlie Morton']
         type(team)._abbreviation = None
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_with_slim_parameter(self, *args, **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('HOU', slim=True)
+
+        assert len(roster.players) == 3
+        assert roster.players == {
+            'altuvjo01': 'Jose Altuve',
+            'verlaju01': 'Justin Verlander',
+            'mortoch02': 'Charlie Morton'
+        }

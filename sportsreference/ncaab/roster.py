@@ -970,10 +970,19 @@ class Roster(object):
     year : string (optional)
         The 4-digit year to pull the roster from, such as '2018'. If left
         blank, defaults to the most recent season.
+    slim : boolean (optional)
+        Set to True to return a limited subset of player information including
+        the name and player ID for each player as opposed to all of their
+        respective stats which greatly reduces the time to return a response if
+        just the names and IDs are desired. Defaults to False.
     """
-    def __init__(self, team, year=None):
+    def __init__(self, team, year=None, slim=False):
         self._team = team
-        self._players = []
+        self._slim = slim
+        if slim:
+            self._players = {}
+        else:
+            self._players = []
 
         self._find_players(year)
 
@@ -1040,6 +1049,27 @@ class Roster(object):
         name = re.sub(r'.*/cbb/players/', '', str(name_tag))
         return re.sub(r'\.html.*', '', name)
 
+    def _get_name(self, player):
+        """
+        Parse the player's name.
+
+        Given a PyQuery object representing a single player on the team roster,
+        parse the player ID and return it as a string.
+
+        Parameters
+        ----------
+        player : PyQuery object
+            A PyQuery object representing the player information from the
+            roster table.
+
+        Returns
+        -------
+        string
+            Returns a string of the player's name.
+        """
+        name_tag = player('th[data-stat="player"] a')
+        return name_tag.text()
+
     def _find_players(self, year):
         """
         Find all player IDs for the requested team.
@@ -1067,13 +1097,20 @@ class Roster(object):
         players = page('table#roster tbody tr').items()
         for player in players:
             player_id = self._get_id(player)
-            player_instance = Player(player_id)
-            self._players.append(player_instance)
+            if self._slim:
+                name = self._get_name(player)
+                self._players[player_id] = name
+            else:
+                player_instance = Player(player_id)
+                self._players.append(player_instance)
 
     @property
     def players(self):
         """
         Returns a ``list`` of player instances for each player on the requested
-        team's roster.
+        team's roster if the ``slim`` property is False when calling the Roster
+        class. If the ``slim`` property is True, returns a ``dictionary`` where
+        each key is a string of the player's ID and each value is the player's
+        first and last name as listed on the roster page.
         """
         return self._players
