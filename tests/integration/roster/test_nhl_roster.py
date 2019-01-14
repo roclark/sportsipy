@@ -686,3 +686,16 @@ class TestNHLRoster:
         for player in team.roster.players:
             assert player.name in ['Jimmy Howard', 'Henrik Zetterberg']
         type(team)._abbreviation = None
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_with_slim_parameter(self, *args, **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('DET', slim=True)
+
+        assert len(roster.players) == 2
+        assert roster.players == {
+            'howarja02': 'Jimmy Howard',
+            'zettehe01': 'Henrik Zetterberg'
+        }

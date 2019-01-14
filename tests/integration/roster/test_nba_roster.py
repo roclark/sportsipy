@@ -1211,3 +1211,18 @@ class TestNBARoster:
                                    'Ryan Anderson', 'Trevor Ariza']
 
         type(team)._abbreviation = None
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_with_slim_parameter(self, *args, **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('HOU', slim=True)
+
+        assert len(roster.players) == 4
+        assert roster.players == {
+            'hardeja01': 'James Harden',
+            'blackta01': 'Tarik Black',
+            'anderry01': 'Ryan Anderson',
+            'arizatr01': 'Trevor Ariza'
+        }

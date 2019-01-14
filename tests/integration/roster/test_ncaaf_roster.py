@@ -490,3 +490,16 @@ class TestNCAAFRoster:
         for player in team.roster.players:
             assert player.name in ['David Blough', 'Rondale Moore']
         type(team)._abbreviation = None
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_with_slim_parameter(self, *args, **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('PURDUE', slim=True)
+
+        assert len(roster.players) == 2
+        assert roster.players == {
+            'david-blough-1': 'David Blough',
+            'rondale-moore-1': 'Rondale Moore'
+        }

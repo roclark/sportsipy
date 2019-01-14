@@ -1173,3 +1173,19 @@ class TestNFLRoster:
                                    'Tommylee Lewis', 'Wil Lutz',
                                    'Thomas Morstead']
         type(team)._abbreviation = None
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_with_slim_parameter(self, *args, **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('NOR', slim=True)
+
+        assert len(roster.players) == 5
+        assert roster.players == {
+            'BreeDr00': 'Drew Brees',
+            'DaviDe00': 'Demario Davis',
+            'LewiTo00': 'Tommylee Lewis',
+            'LutzWi00': 'Wil Lutz',
+            'MorsTh00': 'Thomas Morstead'
+        }
