@@ -3,14 +3,123 @@ import re
 from datetime import timedelta
 from pyquery import PyQuery as pq
 from .. import utils
+from ..constants import AWAY, HOME
 from ..decorators import float_property_decorator, int_property_decorator
 from .constants import (BOXSCORE_ELEMENT_INDEX,
                         BOXSCORE_SCHEME,
                         BOXSCORE_URL,
                         BOXSCORES_URL)
+from .player import AbstractPlayer, _int_property_decorator
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
 from six.moves.urllib.error import HTTPError
+
+
+class BoxscorePlayer(AbstractPlayer):
+    """
+    Get player stats for an individual game.
+
+    Given a player ID, such as 'carsen-edwards-1' for Carsen Edwards, their
+    full name, and all associated stats from the Boxscore page in HTML format,
+    parse the HTML and extract only the relevant stats for the specified player
+    and assign them to readable properties.
+
+    This class inherits the ``AbstractPlayer`` class. As a result, all
+    properties associated with ``AbstractPlayer`` can also be read directly
+    from this class.
+
+    As this class is instantiated from within the Boxscore class, it should not
+    be called directly and should instead be queried using the appropriate
+    players properties from the Boxscore class.
+
+    Parameters
+    ----------
+    player_id : string
+        A player's ID accorsing to sports-reference.com, such as
+        'carsen-edwards-1' for Carsen Edwards. The player ID can be found by
+        navigating to the player's stats page and getting the string between
+        the final slash and the '.html' in the URL. In general, the ID is in
+        the format 'first-last-N' where 'first' is the player's first name in
+        lowercase, 'last' is the player's last name in lowercase, and 'N' is a
+        number starting at '1' for the first time that player ID has been used
+        and increments by 1 for every successive player.
+    player_name : string
+        A string representing the player's first and last name, such as 'Carsen
+        Edwards'.
+    player_data : string
+        A string representation of the player's HTML data from the Boxscore
+        page. If the player appears in multiple tables, all of their
+        information will appear in one single string concatenated together.
+    """
+    def __init__(self, player_id, player_name, player_data):
+        self._index = 0
+        self._player_id = player_id
+        self._defensive_rating = None
+        self._offensive_rating = None
+        AbstractPlayer.__init__(self, player_id, player_name, player_data)
+
+    @property
+    def dataframe(self):
+        """
+        Returns a ``pandas DataFrame`` containing all other relevant class
+        properties and values for the specified game.
+        """
+        fields_to_include = {
+            'assist_percentage': self.assist_percentage,
+            'assists': self.assists,
+            'block_percentage': self.block_percentage,
+            'blocks': self.blocks,
+            'defensive_rating': self.defensive_rating,
+            'defensive_rebound_percentage': self.defensive_rebound_percentage,
+            'defensive_rebounds': self.defensive_rebounds,
+            'effective_field_goal_percentage':
+            self.effective_field_goal_percentage,
+            'field_goal_attempts': self.field_goal_attempts,
+            'field_goal_percentage': self.field_goal_percentage,
+            'field_goals': self.field_goals,
+            'free_throw_attempt_rate': self.free_throw_attempt_rate,
+            'free_throw_attempts': self.free_throw_attempts,
+            'free_throw_percentage': self.free_throw_percentage,
+            'free_throws': self.free_throws,
+            'minutes_played': self.minutes_played,
+            'offensive_rating': self.offensive_rating,
+            'offensive_rebound_percentage': self.offensive_rebound_percentage,
+            'offensive_rebounds': self.offensive_rebounds,
+            'personal_fouls': self.personal_fouls,
+            'points': self.points,
+            'steal_percentage': self.steal_percentage,
+            'steals': self.steals,
+            'three_point_attempt_rate': self.three_point_attempt_rate,
+            'three_point_attempts': self.three_point_attempts,
+            'three_point_percentage': self.three_point_percentage,
+            'three_pointers': self.three_pointers,
+            'total_rebound_percentage': self.total_rebound_percentage,
+            'total_rebounds': self.total_rebounds,
+            'true_shooting_percentage': self.true_shooting_percentage,
+            'turnover_percentage': self.turnover_percentage,
+            'turnovers': self.turnovers,
+            'two_point_attempts': self.two_point_attempts,
+            'two_point_percentage': self.two_point_percentage,
+            'two_pointers': self.two_pointers,
+            'usage_percentage': self.usage_percentage
+        }
+        return pd.DataFrame([fields_to_include], index=[self._player_id])
+
+    @_int_property_decorator
+    def offensive_rating(self):
+        """
+        Returns an ``int`` of the player's offensive rating as measured by the
+        points produced per 100 possessions.
+        """
+        return self._offensive_rating
+
+    @_int_property_decorator
+    def defensive_rating(self):
+        """
+        Returns an ``int`` of the player's defensive rating as measured by the
+        points allowed per 100 possesions.
+        """
+        return self._defensive_rating
 
 
 class Boxscore(object):
@@ -268,6 +377,199 @@ class Boxscore(object):
         records = [x.text() for x in records if x.text() != '']
         return records[index]
 
+    def _find_boxscore_tables(self, boxscore):
+        """
+        Find all tables with boxscore information on the page.
+
+        Iterate through all tables on the page and see if any of them are
+        boxscore pages by checking if the ID is prefixed with 'box-score-'. If
+        so, add it to a list and return the final list at the end.
+
+        Parameters
+        ----------
+        boxscore : PyQuery object
+            A PyQuery object containing all of the HTML data from the boxscore.
+
+        Returns
+        -------
+        list
+            Returns a ``list`` of the PyQuery objects where each object
+            represents a boxscore table.
+        """
+        tables = []
+
+        for table in boxscore('table').items():
+            try:
+                if 'box-score-' in table.attr['id']:
+                    tables.append(table)
+            except (KeyError, TypeError):
+                continue
+        return tables
+
+    def _find_player_id(self, row):
+        """
+        Find the player's ID.
+
+        Find the player's ID as embedded in the 'data-append-csv' attibute,
+        such as 'carsen-edwards-1' for Carsen Edwards.
+
+        Parameters
+        ----------
+        row : PyQuery object
+            A PyQuery object representing a single row in a boxscore table for
+            a single player.
+
+        Returns
+        -------
+        str
+            Returns a ``string`` of the player's ID, such as 'carsen-edwards-1'
+            for Carsen Edwards.
+        """
+        return row('th').attr('data-append-csv')
+
+    def _find_player_name(self, row):
+        """
+        Find the player's full name.
+
+        Find the player's full name, such as 'Carsen Edwards'. The name is the
+        text displayed for a link to the player's individual stats page.
+
+        Parameters
+        ----------
+        row : PyQuery object
+            A PyQuery object representing a single row in a boxscore table for
+            a single player.
+
+        Returns
+        -------
+        str
+            Returns a ``string`` of the player's full name, such as 'Carsen
+            Edwards'.
+        """
+        return row('a').text()
+
+    def _extract_player_stats(self, table, player_dict, home_or_away):
+        """
+        Combine all player stats into a single object.
+
+        Since each player generally has a couple of rows worth of stats (one
+        for basic stats and another for advanced stats) on the boxscore page,
+        both rows should be combined into a single string object to easily
+        query all fields from a single object instead of determining which row
+        to pull metrics from.
+
+        Parameters
+        ----------
+        table : PyQuery object
+            A PyQuery object of a single boxscore table, such as the home
+            team's advanced stats or the away team's basic stats.
+        player_dict : dictionary
+            A dictionary where each key is a string of the player's ID and each
+            value is a dictionary where the values contain the player's name,
+            HTML data, and a string constant indicating which team the player
+            is a member of.
+        home_or_away : string constant
+            A string constant indicating whether the player plays for the home
+            or away team.
+
+        Returns
+        -------
+        dictionary
+            Returns a ``dictionary`` where each key is a string of the player's
+            ID and each value is a dictionary where the values contain the
+            player's name, HTML data, and a string constant indicating which
+            team the player is a member of.
+        """
+        for row in table('tbody tr').items():
+            player_id = self._find_player_id(row)
+            # Occurs when a header row is identified instead of a player.
+            if not player_id:
+                continue
+            name = self._find_player_name(row)
+            try:
+                player_dict[player_id]['data'] += str(row).strip()
+            except KeyError:
+                player_dict[player_id] = {
+                    'name': name,
+                    'data': str(row).strip(),
+                    'team': home_or_away
+                }
+        return player_dict
+
+    def _instantiate_players(self, player_dict):
+        """
+        Create a list of player instances for both the home and away teams.
+
+        For every player listed on the boxscores page, create an instance of
+        the BoxscorePlayer class for that player and add them to a list of
+        players for their respective team.
+
+        Parameters
+        ----------
+        player_dict : dictionary
+            A dictionary containing information for every player on the
+            boxscores page. Each key is a string containing the player's ID
+            and each value is a dictionary with the player's full name, a
+            string representation of their HTML stats, and a string constant
+            denoting which team they play for as the values.
+
+        Returns
+        -------
+        tuple
+            Returns a ``tuple`` in the format (away_players, home_players)
+            where each element is a list of player instances for the away and
+            home teams, respectively.
+        """
+        home_players = []
+        away_players = []
+        for player_id, details in player_dict.items():
+            player = BoxscorePlayer(player_id,
+                                    details['name'],
+                                    details['data'])
+            if details['team'] == HOME:
+                home_players.append(player)
+            else:
+                away_players.append(player)
+        return away_players, home_players
+
+    def _find_players(self, boxscore):
+        """
+        Find all players for each team.
+
+        Iterate through every player for both teams as found in the boxscore
+        tables and create a list of instances of the BoxscorePlayer class for
+        each player. Return lists of player instances comprising the away and
+        home team players, respectively.
+
+        Parameters
+        ----------
+        boxscore : PyQuery object
+            A PyQuery object containing all of the HTML data from the boxscore.
+
+        Returns
+        -------
+        tuple
+            Returns a ``tuple`` in the format (away_players, home_players)
+            where each element is a list of player instances for the away and
+            home teams, respectively.
+        """
+        player_dict = {}
+        table_count = 0
+
+        tables = self._find_boxscore_tables(boxscore)
+        for table in tables:
+            home_or_away = HOME
+            # There are two tables per team with the first two tables belonging
+            # to the home team.
+            if table_count < 2:
+                home_or_away = AWAY
+            player_dict = self._extract_player_stats(table,
+                                                     player_dict,
+                                                     home_or_away)
+            table_count += 1
+        away_players, home_players = self._instantiate_players(player_dict)
+        return away_players, home_players
+
     def _parse_game_data(self, uri):
         """
         Parses a value for every attribute.
@@ -328,6 +630,7 @@ class Boxscore(object):
                                        short_field,
                                        index)
             setattr(self, field, value)
+        self._away_players, self._home_players = self._find_players(boxscore)
 
     @property
     def dataframe(self):
@@ -454,6 +757,22 @@ class Boxscore(object):
         Returns a ``string`` of the date the game took place.
         """
         return self._date
+
+    @property
+    def away_players(self):
+        """
+        Returns a ``list`` of ``BoxscorePlayer`` class instances for each
+        player on the away team.
+        """
+        return self._away_players
+
+    @property
+    def home_players(self):
+        """
+        Returns a ``list`` of ``BoxscorePlayer`` class instances for each
+        player on the home team.
+        """
+        return self._home_players
 
     @property
     def location(self):

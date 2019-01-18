@@ -1,5 +1,7 @@
 from flexmock import flexmock
 from mock import patch, PropertyMock
+from sportsreference.ncaab.player import (AbstractPlayer,
+                                          _cleanup as _cleanup_player)
 from sportsreference.ncaab.roster import _cleanup, Player
 
 
@@ -18,14 +20,17 @@ def mock_pyquery(url):
 
 class TestNCAABPlayer:
     def setup_method(self):
-        flexmock(Player) \
+        flexmock(AbstractPlayer) \
             .should_receive('_parse_player_data') \
+            .and_return(None)
+        flexmock(Player) \
+            .should_receive('_pull_player_data') \
             .and_return(None)
         flexmock(Player) \
             .should_receive('_find_initial_index') \
             .and_return(None)
 
-    def test_no_int_return_default_value(self):
+    def test_no_int_return_default_value_abstract_class(self):
         mock_field_goals = PropertyMock(return_value=[''])
         mock_index = PropertyMock(return_value=0)
         player = Player(None)
@@ -36,7 +41,7 @@ class TestNCAABPlayer:
 
         assert result is None
 
-    def test_no_float_returns_default_value(self):
+    def test_no_float_returns_default_value_abstract_class(self):
         mock_percentage = PropertyMock(return_value=[''])
         mock_index = PropertyMock(return_value=0)
         player = Player(None)
@@ -44,6 +49,28 @@ class TestNCAABPlayer:
         type(player)._index = mock_index
 
         result = player.field_goal_percentage
+
+        assert result is None
+
+    def test_no_int_return_default_value_player_class(self):
+        mock_games = PropertyMock(return_value=[''])
+        mock_index = PropertyMock(return_value=0)
+        player = Player(None)
+        type(player)._games_played = mock_games
+        type(player)._index = mock_index
+
+        result = player.games_played
+
+        assert result is None
+
+    def test_no_float_returns_default_value_player_class(self):
+        mock_player_efficiency_rating = PropertyMock(return_value=[''])
+        mock_index = PropertyMock(return_value=0)
+        player = Player(None)
+        type(player)._player_efficiency_rating = mock_player_efficiency_rating
+        type(player)._index = mock_index
+
+        result = player.player_efficiency_rating
 
         assert result is None
 
@@ -59,6 +86,11 @@ class TestNCAABPlayer:
 
     def test_cleanup_of_none_returns_default(self):
         result = _cleanup(None)
+
+        assert result == ''
+
+    def test_cleanup_of_none_returns_default_for_player(self):
+        result = _cleanup_player(None)
 
         assert result == ''
 
