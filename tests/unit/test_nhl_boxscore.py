@@ -500,6 +500,12 @@ Logos via Sports Logos.net / About logos
 
         assert self.boxscore.dataframe is None
 
+    def test_no_players_during_extraction(self):
+        table = pq('<tbody><tr></tr><tr></tr></tbody>')
+        player_dict = self.boxscore._extract_player_stats(table, {}, 'Home')
+
+        assert player_dict == {}
+
 
 class TestMLBBoxscores:
     @patch('requests.get', side_effect=mock_pyquery)

@@ -4,6 +4,7 @@ from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
 from .. import utils
 from .constants import PLAYER_SCHEME, PLAYER_URL, ROSTER_URL
+from .player import AbstractPlayer
 from six.moves.urllib.error import HTTPError
 
 
@@ -35,7 +36,7 @@ def _float_property_decorator(func):
     return wrapper
 
 
-class Player(object):
+class Player(AbstractPlayer):
     """
     Get player information and stats for all seasons.
 
@@ -157,8 +158,11 @@ class Player(object):
         self._short_handed_goals_allowed = None
         self._short_handed_save_percentage = None
 
-        self._parse_player_data()
+        player_data = self._pull_player_data()
+        if not player_data:
+            return
         self._find_initial_index()
+        AbstractPlayer.__init__(self, player_id, self._name, player_data)
 
     def _build_url(self):
         """
@@ -261,9 +265,9 @@ class Player(object):
         if not career_stats:
             return all_stats_dict
         try:
-            all_stats_dict['career']['data'] += str(next(career_stats))
+            all_stats_dict['Career']['data'] += str(next(career_stats))
         except KeyError:
-            all_stats_dict['career'] = {'data': str(next(career_stats))}
+            all_stats_dict['Career'] = {'data': str(next(career_stats))}
         return all_stats_dict
 
     def _combine_all_stats(self, player_info):
@@ -300,7 +304,7 @@ class Player(object):
                                                         all_stats_dict)
         return all_stats_dict
 
-    def _parse_player_information(self, player_info, field):
+    def _parse_player_information(self, player_info):
         """
         Parse general player information.
 
@@ -312,48 +316,35 @@ class Player(object):
         ----------
         player_info : PyQuery object
             A PyQuery object containing the HTML from the player's stats page.
-        field : string
-            A string of the attribute to parse, such as 'weight'.
         """
-        short_field = str(field)[1:]
-        value = utils._parse_field(PLAYER_SCHEME, player_info, short_field)
-        setattr(self, field, value)
+        for field in ['_height', '_weight', '_name']:
+            short_field = str(field)[1:]
+            value = utils._parse_field(PLAYER_SCHEME, player_info, short_field)
+            setattr(self, field, value)
 
-    def _parse_player_data(self):
+    def _pull_player_data(self):
         """
-        Parse all player information and set attributes.
+        Pull and aggregate all player information.
 
-        Pull the player's HTML stats page and go through each class attribute
-        to parse the data from the HTML page and set attribute values with the
-        result.
+        Pull the player's HTML stats page and parse unique properties, such as
+        the player's height, weight, and position. Next, combine all stats for
+        all seasons plus the player's career stats into a single object which
+        can easily be iterated upon.
+
+        Returns
+        -------
+        dictionary
+            Returns a dictionary of the player's combined stats where each key
+            is a string of the season and the value is the season's associated
+            stats.
         """
         player_info = self._retrieve_html_page()
         if not player_info:
             return
-        all_stats_dict = self._combine_all_stats(player_info)
-
-        for field in self.__dict__:
-            short_field = str(field)[1:]
-            if short_field == 'player_id' or \
-               short_field == 'index' or \
-               short_field == 'most_recent_season':
-                continue
-            if short_field == 'name' or \
-               short_field == 'weight' or \
-               short_field == 'height':
-                self._parse_player_information(player_info, field)
-                continue
-            field_stats = []
-            for year, data in all_stats_dict.items():
-                stats = pq(data['data'])
-                if short_field == 'season':
-                    value = self._parse_season(stats)
-                else:
-                    value = utils._parse_field(PLAYER_SCHEME,
-                                               stats,
-                                               short_field)
-                field_stats.append(value)
-            setattr(self, field, field_stats)
+        self._parse_player_information(player_info)
+        all_stats = self._combine_all_stats(player_info)
+        setattr(self, '_season', list(all_stats.keys()))
+        return all_stats
 
     def _find_initial_index(self):
         """
@@ -364,10 +355,7 @@ class Player(object):
         element should be the index value.
         """
         index = 0
-        # Occurs when the player has invalid data or can't be found.
-        if not self._season:
-            return
-        for season in self._season:
+        for season in self._season or season == 'Career':
             if season == 'Career':
                 self._index = index
                 break
@@ -541,14 +529,6 @@ class Player(object):
         return pd.DataFrame(rows, index=[indices])
 
     @property
-    def player_id(self):
-        """
-        Returns a ``string`` of the player's ID on hockey-reference, such as
-        'zettehe01' for Henrik Zetterberg.
-        """
-        return self._player_id
-
-    @property
     def season(self):
         """
         Returns a ``string`` of the season in the format 'YYYY-YY', such as
@@ -612,121 +592,6 @@ class Player(object):
         return self._games_played
 
     @_int_property_decorator
-    def goals(self):
-        """
-        Returns an ``int`` of the number of goals the player scored.
-        """
-        return self._goals
-
-    @_int_property_decorator
-    def assists(self):
-        """
-        Returns an ``int`` of the number of goals the player has assisted.
-        """
-        return self._assists
-
-    @_int_property_decorator
-    def points(self):
-        """
-        Returns an ``int`` of the number of points the player has gained.
-        """
-        return self._points
-
-    @_int_property_decorator
-    def plus_minus(self):
-        """
-        Returns an ``int`` representing the relative presence the player has on
-        the outcome of the game.
-        """
-        return self._plus_minus
-
-    @_int_property_decorator
-    def penalties_in_minutes(self):
-        """
-        Returns an ``int`` of the number of minutes the player has served as a
-        result of penalties.
-        """
-        return self._penalties_in_minutes
-
-    @_int_property_decorator
-    def even_strength_goals(self):
-        """
-        Returns an ``int`` of the number of goals the player has scored at even
-        strength.
-        """
-        return self._even_strength_goals
-
-    @_int_property_decorator
-    def power_play_goals(self):
-        """
-        Returns an ``int`` of the number of goals the player has scored while
-        on a power play.
-        """
-        return self._power_play_goals
-
-    @_int_property_decorator
-    def short_handed_goals(self):
-        """
-        Returns an ``int`` of the number of goals the player has scored while
-        short handed.
-        """
-        return self._short_handed_goals
-
-    @_int_property_decorator
-    def game_winning_goals(self):
-        """
-        Returns an ``int`` of the number of game-winning goals the player has
-        scored.
-        """
-        return self._game_winning_goals
-
-    @_int_property_decorator
-    def even_strength_assists(self):
-        """
-        Returns an ``int`` of the number of goals the player has assisted while
-        at even strength.
-        """
-        return self._even_strength_assists
-
-    @_int_property_decorator
-    def power_play_assists(self):
-        """
-        Returns an ``int`` of the number of goals the player has assisted while
-        on a power play.
-        """
-        return self._power_play_assists
-
-    @_int_property_decorator
-    def short_handed_assists(self):
-        """
-        Returns an ``int`` of the number of goals the player has assisted while
-        short handed.
-        """
-        return self._short_handed_assists
-
-    @_int_property_decorator
-    def shots_on_goal(self):
-        """
-        Returns an ``int`` of the number of shots on goal the player has made.
-        """
-        return self._shots_on_goal
-
-    @_float_property_decorator
-    def shooting_percentage(self):
-        """
-        Returns a ``float`` of the percentage of the player's shots that go in
-        the goal. Percentage ranges from 0-100.
-        """
-        return self._shooting_percentage
-
-    @_int_property_decorator
-    def total_shots(self):
-        """
-        Returns an ``int`` of the total number of shots the player has taken.
-        """
-        return self._total_shots
-
-    @_int_property_decorator
     def time_on_ice(self):
         """
         Returns an ``int`` of the total time the player has spent on ice in
@@ -741,6 +606,14 @@ class Player(object):
         per game.
         """
         return self._average_time_on_ice[self._index]
+
+    @_int_property_decorator
+    def total_shots(self):
+        """
+        Returns an ``int`` of the total number of shots the player took
+        regardless of them being on goal or not.
+        """
+        return self._total_shots
 
     @_int_property_decorator
     def faceoff_wins(self):
@@ -771,14 +644,6 @@ class Player(object):
         even strength.
         """
         return self._blocks_at_even_strength
-
-    @_int_property_decorator
-    def hits_at_even_strength(self):
-        """
-        Returns an ``int`` of the number of hits the player makes while at even
-        strength.
-        """
-        return self._hits_at_even_strength
 
     @_int_property_decorator
     def takeaways(self):
@@ -819,23 +684,6 @@ class Player(object):
         strength, equal to shots + blocks + misses.
         """
         return self._corsi_against
-
-    @_float_property_decorator
-    def corsi_for_percentage(self):
-        """
-        Returns a ``float`` of the 'Corsi For' percentage, equal to corsi_for /
-        (corsi_for + corsi_against). Percentage ranges from 0-100.
-        """
-        return self._corsi_for_percentage
-
-    @_float_property_decorator
-    def relative_corsi_for_percentage(self):
-        """
-        Returns a ``float`` of the player's relative 'Corsi For' percentage,
-        equal to the difference between the player's on and off-ice Corsi For
-        percentage.
-        """
-        return self._relative_corsi_for_percentage
 
     @_int_property_decorator
     def fenwick_for(self):
@@ -911,15 +759,6 @@ class Player(object):
         percentage. Percentage ranges from 0-100.
         """
         return self._pdo
-
-    @_float_property_decorator
-    def offensive_zone_start_percentage(self):
-        """
-        Returns a ``float`` of the percentage of faceoffs that occur in the
-        offensive zone while the player is on ice. Percentage ranges from
-        0-100.
-        """
-        return self._offensive_zone_start_percentage
 
     @_float_property_decorator
     def defensive_zone_start_percentage(self):
@@ -1082,38 +921,6 @@ class Player(object):
         """
         return self._ties_plus_overtime_loss
 
-    @_int_property_decorator
-    def goals_against(self):
-        """
-        Returns an ``int`` of the number of goals the opponent scored on the
-        player while in goal.
-        """
-        return self._goals_against
-
-    @_int_property_decorator
-    def shots_against(self):
-        """
-        Returns an ``int`` of the number of shots the opponent took while the
-        player is in goal.
-        """
-        return self._shots_against
-
-    @_int_property_decorator
-    def saves(self):
-        """
-        Returns an ``int`` of the number of shots the player has saved while in
-        goal.
-        """
-        return self._saves
-
-    @_float_property_decorator
-    def save_percentage(self):
-        """
-        Returns a ``float`` of the percentage of shots the player has saved.
-        Percentage ranges from 0-1.
-        """
-        return self._save_percentage
-
     @_float_property_decorator
     def goals_against_average(self):
         """
@@ -1121,14 +928,6 @@ class Player(object):
         scored per game while the player is in goal.
         """
         return self._goals_against_average
-
-    @_int_property_decorator
-    def shutouts(self):
-        """
-        Returns an ``int`` of the number of shutouts the player has registered
-        while in goal.
-        """
-        return self._shutouts
 
     @_int_property_decorator
     def minutes(self):

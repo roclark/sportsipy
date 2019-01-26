@@ -46,7 +46,7 @@ class TestNHLPlayer:
             'average_time_on_ice': '19:35',
             'blocks_at_even_strength': 267,
             'corsi_against': 10322.0,
-            'corsi_for': None,
+            'corsi_for': 12688,
             'corsi_for_percentage': 55.1,
             'defensive_point_shares': 29.4,
             'defensive_zone_start_percentage': 45.5,
@@ -140,7 +140,7 @@ class TestNHLPlayer:
             'average_time_on_ice': '19:30',
             'blocks_at_even_strength': 34,
             'corsi_against': 1243.0,
-            'corsi_for': None,
+            'corsi_for': 1274,
             'corsi_for_percentage': 50.6,
             'defensive_point_shares': 2.0,
             'defensive_zone_start_percentage': 45.2,
@@ -641,13 +641,15 @@ class TestNHLPlayer:
         frames = [df, player.dataframe]
         df1 = pd.concat(frames).drop_duplicates(keep=False)
 
-    def test_nhl_404_returns_none_with_no_errors(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nhl_404_returns_none_with_no_errors(self, *args, **kwargs):
         player = Player('bad')
 
         assert player.name is None
         assert player.dataframe is None
 
-    def test_nhl_404_returns_none_for_different_season(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nhl_404_returns_none_for_different_season(self, *args, **kwargs):
         player = Player('bad')
 
         assert player.name is None
