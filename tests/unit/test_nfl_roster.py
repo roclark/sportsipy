@@ -1,5 +1,6 @@
 from flexmock import flexmock
 from mock import patch, PropertyMock
+from sportsreference.nfl.player import AbstractPlayer
 from sportsreference.nfl.roster import Player
 
 
@@ -18,8 +19,11 @@ def mock_pyquery(url):
 
 class TestNFLPlayer:
     def setup_method(self):
-        flexmock(Player) \
+        flexmock(AbstractPlayer) \
             .should_receive('_parse_player_data') \
+            .and_return(None)
+        flexmock(Player) \
+            .should_receive('_pull_player_data') \
             .and_return(None)
         flexmock(Player) \
             .should_receive('_find_initial_index') \

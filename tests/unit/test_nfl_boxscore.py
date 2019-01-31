@@ -251,6 +251,20 @@ Logos via Sports Logos.net / About logos
         for field, value in fields.items():
             assert getattr(self.boxscore, field) == value
 
+    def test_nfl_away_abbreviation(self):
+        away_name = PropertyMock(return_value='<a href="/teams/kan/2018.htm" \
+itemprop="name">Kansas City Chiefs</a>')
+        type(self.boxscore)._away_name = away_name
+
+        assert self.boxscore.away_abbreviation == 'kan'
+
+    def test_nfl_home_abbreviation(self):
+        home_name = PropertyMock(return_value='<a href="/teams/nwe/2018.htm" \
+itemprop="name">New England Patriots</a>')
+        type(self.boxscore)._home_name = home_name
+
+        assert self.boxscore.home_abbreviation == 'nwe'
+
 
 class TestNFLBoxscores:
     @patch('requests.get', side_effect=mock_pyquery)
