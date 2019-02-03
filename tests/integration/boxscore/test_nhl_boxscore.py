@@ -125,6 +125,17 @@ class TestNHLBoxscore:
 
         assert df1.empty
 
+    def test_nhl_boxscore_player(self):
+        boxscore = Boxscore(BOXSCORE)
+
+        assert len(boxscore.home_players) == 19
+        assert len(boxscore.away_players) == 19
+
+        for player in boxscore.home_players:
+            assert not player.dataframe.empty
+        for player in boxscore.away_players:
+            assert not player.dataframe.empty
+
 
 class TestNHLBoxscores:
     def setup_method(self):

@@ -300,7 +300,9 @@ PLAYER_SCHEME = {
     'win_shares_per_40_minutes': 'td[data-stat="ws_per_40"]',
     'offensive_box_plus_minus': 'td[data-stat="obpm"]',
     'defensive_box_plus_minus': 'td[data-stat="dbpm"]',
-    'box_plus_minus': 'td[data-stat="bpm"]'
+    'box_plus_minus': 'td[data-stat="bpm"]',
+    'offensive_rating': 'td[data-stat="off_rtg"]',
+    'defensive_rating': 'td[data-stat="def_rtg"]'
 }
 
 BASIC_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'

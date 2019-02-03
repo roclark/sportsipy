@@ -166,6 +166,17 @@ class TestMLBBoxscore:
 
         assert df1.empty
 
+    def test_mlb_boxscore_player(self):
+        boxscore = Boxscore(BOXSCORE)
+
+        assert len(boxscore.home_players) == 13
+        assert len(boxscore.away_players) == 13
+
+        for player in boxscore.home_players:
+            assert not player.dataframe.empty
+        for player in boxscore.away_players:
+            assert not player.dataframe.empty
+
 
 class TestMLBBoxscores:
     def setup_method(self):

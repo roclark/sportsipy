@@ -402,7 +402,31 @@ PLAYER_SCHEME = {
     'batters_struckout_per_nine_innings':
     'td[data-stat="strikeouts_per_nine"]',
     'strikeouts_thrown_per_walk':
-    'td[data-stat="strikeouts_per_base_on_balls"]'
+    'td[data-stat="strikeouts_per_base_on_balls"]',
+    'win_probability_for_offensive_player': 'td[data-stat="wpa_bat"]',
+    'win_probability_added': 'td[data-stat="wpa_bat_pos"]',
+    'win_probability_subtracted': 'td[data-stat="wpa_bat_neg"]',
+    'average_leverage_index': 'td[data-stat="leverage_index_avg"]',
+    'average_leverage_index_pitcher': 'td[data-stat="leverage_index_avg"]',
+    'base_out_runs_added': 'td[data-stat="re24_bat"]',
+    'strikes': 'td[data-stat="strikes_total"]',
+    'innings_pitched': 'td[data-stat="IP"]',
+    'earned_runs_against': 'td[data-stat="earned_run_avg"]',
+    'pitches_thrown': 'td[data-stat="pitches"]',
+    'strikes_thrown': 'td[data-stat="strikes_total"]',
+    'strikes_contact': 'td[data-stat="strikes_contact"]',
+    'strikes_swinging': 'td[data-stat="strikes_swinging"]',
+    'strikes_looking': 'td[data-stat="strikes_looking"]',
+    'grounded_balls': 'td[data-stat="inplay_gb_total"]',
+    'fly_balls': 'td[data-stat="inplay_fb_total"]',
+    'line_drives': 'td[data-stat="inplay_ld"]',
+    'unknown_bat_types': 'td[data-stat="inplay_unk"]',
+    'game_score': 'td[data-stat="game_score"]',
+    'inherited_runners': 'td[data-stat="inherited_runners"]',
+    'inherited_score': 'td[data-stat="inherited_score"]',
+    'win_probability_added_pitcher': 'td[data-stat="wpa_def"]',
+    'base_out_runs_saved': 'td[data-stat="re24_def"]',
+    'home_runs_thrown': 'td[data-stat="HR"]'
 }
 
 PLAYER_ELEMENT_INDEX = {
@@ -412,7 +436,10 @@ PLAYER_ELEMENT_INDEX = {
     'intentional_bases_on_balls_given': 1,
     'runs_allowed': 1,
     'strikeouts': 1,
-    'times_hit_player': 1
+    'times_hit_player': 1,
+    'average_leverage_index_pitcher': 1,
+    'pitches_thrown': 1,
+    'strikes_thrown': 1
 }
 
 NATIONALITY = {

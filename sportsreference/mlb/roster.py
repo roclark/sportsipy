@@ -9,6 +9,7 @@ from .constants import (NATIONALITY,
                         PLAYER_SCHEME,
                         PLAYER_URL,
                         ROSTER_URL)
+from .player import AbstractPlayer
 from six.moves.urllib.error import HTTPError
 
 
@@ -75,7 +76,7 @@ def _most_recent_decorator(func):
     return wrapper
 
 
-class Player(object):
+class Player(AbstractPlayer):
     """
     Get player information and stats for all seasons.
 
@@ -198,8 +199,9 @@ class Player(object):
         self._batters_struckout_per_nine_innings = None
         self._strikeouts_thrown_per_walk = None
 
-        self._parse_player_data()
+        player_data = self._pull_player_data()
         self._find_initial_index()
+        AbstractPlayer.__init__(self, player_id, self._name, player_data)
 
     def _build_url(self):
         """
@@ -305,9 +307,9 @@ class Player(object):
         if not career_stats:
             return all_stats_dict
         try:
-            all_stats_dict['career']['data'] += str(next(career_stats))
+            all_stats_dict['Career']['data'] += str(next(career_stats))
         except KeyError:
-            all_stats_dict['career'] = {'data': str(next(career_stats))}
+            all_stats_dict['Career'] = {'data': str(next(career_stats))}
         return all_stats_dict
 
     def _combine_all_stats(self, player_info):
@@ -365,7 +367,7 @@ class Player(object):
                 setattr(self, '_nationality', nationality)
                 break
 
-    def _parse_player_information(self, player_info, field):
+    def _parse_player_information(self, player_info):
         """
         Parse general player information.
 
@@ -377,12 +379,11 @@ class Player(object):
         ----------
         player_info : PyQuery object
             A PyQuery object containing the HTML from the player's stats page.
-        field : string
-            A string of the attribute to parse, such as 'weight'.
         """
-        short_field = str(field)[1:]
-        value = utils._parse_field(PLAYER_SCHEME, player_info, short_field)
-        setattr(self, field, value)
+        for field in ['_height', '_weight', '_name']:
+            short_field = str(field)[1:]
+            value = utils._parse_field(PLAYER_SCHEME, player_info, short_field)
+            setattr(self, field, value)
 
     def _parse_birth_date(self, player_info):
         """
@@ -489,48 +490,30 @@ class Player(object):
             return None
         return items
 
-    def _parse_player_data(self):
+    def _pull_player_data(self):
         """
-        Parse all player information and set attributes.
+        Pull and aggregate all player information.
 
-        Pull the player's HTML stats page and go through each class attribute
-        to parse the data from the HTML page and set attribute value with the
-        result.
+        Pull the player's HTML stats page and parse unique properties, such as
+        the player's height, weight, and position. Next, combine all stats for
+        all seasons plus the player's career stats into a single object which
+        can easily be iterated upon.
+
+        Returns
+        -------
+        dictionary
+            Returns a dictionary of the player's combined stats where each key
+            is a string of the season and the value is the season's associated
+            stats.
         """
         player_info = self._retrieve_html_page()
-        all_stats_dict = self._combine_all_stats(player_info)
-
-        for field in self.__dict__:
-            short_field = str(field)[1:]
-            if short_field == 'player_id' or \
-               short_field == 'index' or \
-               short_field == 'most_recent_season':
-                continue
-            if short_field == 'name' or \
-               short_field == 'weight' or \
-               short_field == 'height':
-                self._parse_player_information(player_info, field)
-                continue
-            if short_field == 'nationality':
-                self._parse_nationality(player_info)
-                continue
-            if short_field == 'birth_date':
-                self._parse_birth_date(player_info)
-                continue
-            if short_field == 'contract':
-                self._parse_contract(player_info)
-                continue
-            field_stats = []
-            for year, data in all_stats_dict.items():
-                stats = pq(data['data'])
-                if short_field == 'season':
-                    value = utils._parse_field(PLAYER_SCHEME,
-                                               stats,
-                                               short_field)
-                else:
-                    value = self._parse_value(stats, short_field)
-                field_stats.append(value)
-            setattr(self, field, field_stats)
+        self._parse_player_information(player_info)
+        self._parse_nationality(player_info)
+        self._parse_birth_date(player_info)
+        self._parse_contract(player_info)
+        all_stats = self._combine_all_stats(player_info)
+        setattr(self, '_season', list(all_stats.keys()))
+        return all_stats
 
     def _find_initial_index(self):
         """
@@ -543,7 +526,7 @@ class Player(object):
         index = 0
         for season in self._season:
             # The career stats default to Nonetype
-            if season is None:
+            if season is None or season == 'Career':
                 self._index = index
                 self._season[index] = 'Career'
                 break
@@ -721,14 +704,6 @@ class Player(object):
             indices.append(season)
         self._index = temp_index
         return pd.DataFrame(rows, index=[indices])
-
-    @property
-    def player_id(self):
-        """
-        Returns a ``string`` of the player's ID on sports-reference, such as
-        'altuvjo01' for Jose Altuve.
-        """
-        return self._player_id
 
     @property
     def season(self):
@@ -1372,13 +1347,6 @@ class Player(object):
         Returns an ``int`` of the number of wild pitches the player has thrown.
         """
         return self._wild_pitches
-
-    @_int_property_decorator
-    def batters_faced(self):
-        """
-        Returns an ``int`` of the number of batters the pitcher has faced.
-        """
-        return self._batters_faced
 
     @_float_property_decorator
     def era_plus(self):

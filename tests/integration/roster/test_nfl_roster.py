@@ -73,7 +73,7 @@ class TestNFLPlayer:
             'fourty_to_fourty_nine_yard_field_goals_made': None,
             'fumbles': 102,
             'fumbles_forced': 0,
-            'fumbles_recovered': 102,
+            'fumbles_recovered': 29,
             'fumbles_recovered_for_touchdown': -111,
             'game_winning_drives': 43,
             'games': 252,
@@ -154,7 +154,7 @@ class TestNFLPlayer:
             'yards_per_punt': None,
             'yards_per_punt_return': None,
             'yards_per_touch': 1.8,
-            'yards_recovered_from_fumble': 29,
+            'yards_recovered_from_fumble': -111,
             'yards_returned_from_interception': None
         }
 
@@ -186,7 +186,7 @@ class TestNFLPlayer:
             'fourty_to_fourty_nine_yard_field_goals_made': None,
             'fumbles': 5,
             'fumbles_forced': 0,
-            'fumbles_recovered': 5,
+            'fumbles_recovered': 3,
             'fumbles_recovered_for_touchdown': -12,
             'game_winning_drives': 2,
             'games': 16,
@@ -267,7 +267,7 @@ class TestNFLPlayer:
             'yards_per_punt': None,
             'yards_per_punt_return': None,
             'yards_per_touch': 0.4,
-            'yards_recovered_from_fumble': 3,
+            'yards_recovered_from_fumble': -12,
             'yards_returned_from_interception': None
         }
 
@@ -299,7 +299,7 @@ class TestNFLPlayer:
             'fourty_to_fourty_nine_yard_field_goals_made': None,
             'fumbles': 0,
             'fumbles_forced': 2,
-            'fumbles_recovered': 0,
+            'fumbles_recovered': 5,
             'fumbles_recovered_for_touchdown': 8,
             'game_winning_drives': None,
             'games': 99,
@@ -316,7 +316,7 @@ class TestNFLPlayer:
             'less_than_nineteen_yards_field_goal_attempts': None,
             'less_than_nineteen_yards_field_goals_made': None,
             'longest_field_goal_made': None,
-            'longest_interception_return': None,
+            'longest_interception_return': 0,
             'longest_kickoff_return': None,
             'longest_pass': None,
             'longest_punt': None,
@@ -380,7 +380,7 @@ class TestNFLPlayer:
             'yards_per_punt': None,
             'yards_per_punt_return': None,
             'yards_per_touch': None,
-            'yards_recovered_from_fumble': 5,
+            'yards_recovered_from_fumble': 8,
             'yards_returned_from_interception': 0
         }
 
@@ -412,7 +412,7 @@ class TestNFLPlayer:
             'fourty_to_fourty_nine_yard_field_goals_made': 24,
             'fumbles': 0,
             'fumbles_forced': None,
-            'fumbles_recovered': 0,
+            'fumbles_recovered': None,
             'fumbles_recovered_for_touchdown': None,
             'game_winning_drives': None,
             'games': 35,
@@ -638,7 +638,7 @@ class TestNFLPlayer:
             'fourty_to_fourty_nine_yard_field_goals_made': None,
             'fumbles': 3,
             'fumbles_forced': 0,
-            'fumbles_recovered': 3,
+            'fumbles_recovered': 1,
             'fumbles_recovered_for_touchdown': 0,
             'game_winning_drives': None,
             'games': 29,
@@ -656,7 +656,7 @@ class TestNFLPlayer:
             'less_than_nineteen_yards_field_goals_made': None,
             'longest_field_goal_made': None,
             'longest_interception_return': None,
-            'longest_kickoff_return': 0,
+            'longest_kickoff_return': 39,
             'longest_pass': None,
             'longest_punt': None,
             'longest_punt_return': 59,
@@ -719,7 +719,7 @@ class TestNFLPlayer:
             'yards_per_punt': None,
             'yards_per_punt_return': 9.2,
             'yards_per_touch': None,
-            'yards_recovered_from_fumble': 1,
+            'yards_recovered_from_fumble': 0,
             'yards_returned_from_interception': None
         }
 

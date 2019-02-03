@@ -5,6 +5,7 @@ from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
 from .. import utils
 from .constants import PLAYER_SCHEME, PLAYER_URL, ROSTER_URL
+from .player import AbstractPlayer
 from six.moves.urllib.error import HTTPError
 
 
@@ -50,7 +51,7 @@ def _float_property_decorator(func):
     return wrapper
 
 
-class Player(object):
+class Player(AbstractPlayer):
     """
     Get player information and stats for all seasons.
 
@@ -181,7 +182,6 @@ class Player(object):
         self._total_punt_yards = None
         self._longest_punt = None
         self._blocked_punts = None
-        self._yards_per_punt = None
         # Defensive-specific stats
         self._interceptions = None
         self._yards_returned_from_interception = None
@@ -197,8 +197,11 @@ class Player(object):
         self._assists_on_tackles = None
         self._safeties = None
 
-        self._parse_player_data()
+        player_data = self._pull_player_data()
+        if not player_data:
+            return
         self._find_initial_index()
+        AbstractPlayer.__init__(self, player_id, self._name, player_data)
 
     def _build_url(self):
         """
@@ -306,10 +309,10 @@ class Player(object):
         if not career_stats:
             return all_stats_dict
         try:
-            all_stats_dict['career']['data'] += str(next(career_stats))
+            all_stats_dict['Career']['data'] += str(next(career_stats))
         except KeyError:
             try:
-                all_stats_dict['career'] = {'data': str(next(career_stats))}
+                all_stats_dict['Career'] = {'data': str(next(career_stats))}
             # Occurs when the player doesn't have any career stats listed on
             # their page in error.
             except StopIteration:
@@ -351,7 +354,7 @@ class Player(object):
                                                         all_stats_dict)
         return all_stats_dict
 
-    def _parse_player_information(self, player_info, field):
+    def _parse_player_information(self, player_info):
         """
         Parse general player information.
 
@@ -363,12 +366,11 @@ class Player(object):
         ----------
         player_info : PyQuery object
             A PyQuery object containing the HTML from the player's stats page.
-        field : string
-            A string of the attribute to parse, such as 'weight'.
         """
-        short_field = str(field)[1:]
-        value = utils._parse_field(PLAYER_SCHEME, player_info, short_field)
-        setattr(self, field, value)
+        for field in ['_height', '_weight', '_name']:
+            short_field = str(field)[1:]
+            value = utils._parse_field(PLAYER_SCHEME, player_info, short_field)
+            setattr(self, field, value)
 
     def _parse_birth_date(self, player_info):
         """
@@ -385,44 +387,30 @@ class Player(object):
         birth_date = player_info('span#necro-birth').attr('data-birth')
         setattr(self, '_birth_date', birth_date)
 
-    def _parse_player_data(self):
+    def _pull_player_data(self):
         """
-        Parse all player information and set attributes.
+        Pull and aggregate all player information.
 
-        Pull the player's HTML stats page and go through each class attribute
-        to parse the data from the HTML page and set attribute values with the
-        result.
+        Pull the player's HTML stats page and parse unique properties, such as
+        the player's height, weight, and name. Next, combine all stats for all
+        seasons plus the player's career stats into a single object which can
+        easily be iterated upon.
+
+        Returns
+        -------
+        dictionary
+            Returns a dictionary of the player's combined stats where each key
+            is a string of the season and the value is the seaon's associated
+            stats.
         """
         player_info = self._retrieve_html_page()
         if not player_info:
             return
-        all_stats_dict = self._combine_all_stats(player_info)
-
-        for field in self.__dict__:
-            short_field = str(field)[1:]
-            if short_field == 'player_id' or \
-               short_field == 'index' or \
-               short_field == 'most_recent_season':
-                continue
-            if short_field == 'name' or \
-               short_field == 'weight' or \
-               short_field == 'height':
-                self._parse_player_information(player_info, field)
-                continue
-            if short_field == 'birth_date':
-                self._parse_birth_date(player_info)
-                continue
-            field_stats = []
-            for year, data in all_stats_dict.items():
-                stats = pq(data['data'])
-                if short_field == 'season':
-                    value = self._parse_season(stats)
-                else:
-                    value = utils._parse_field(PLAYER_SCHEME,
-                                               stats,
-                                               short_field)
-                field_stats.append(value)
-            setattr(self, field, field_stats)
+        all_stats = self._combine_all_stats(player_info)
+        self._parse_player_information(player_info)
+        self._parse_birth_date(player_info)
+        setattr(self, '_season', list(all_stats.keys()))
+        return all_stats
 
     def _find_initial_index(self):
         """
@@ -433,10 +421,7 @@ class Player(object):
         element should be the index value.
         """
         index = 0
-        # Occurs when the player has invalid data or can't be found.
-        if not self._season:
-            return
-        for season in self._season:
+        for season in self._season or season == 'Career':
             if season == 'Career':
                 self._index = index
                 break
@@ -642,14 +627,6 @@ class Player(object):
         return pd.DataFrame(rows, index=[indices])
 
     @property
-    def player_id(self):
-        """
-        Returns a ``string`` of the player's ID on pro-football-reference, such
-        as 'BreeDr00' for Drew Brees.
-        """
-        return self._player_id
-
-    @property
     def season(self):
         """
         Returns a ``string`` of the season in the format 'YYYY', such as
@@ -657,13 +634,6 @@ class Player(object):
         for the player and the season will default to 'Career'.
         """
         return self._season[self._index]
-
-    @property
-    def name(self):
-        """
-        Returns a ``string`` of the player's name, such as 'Drew Brees'.
-        """
-        return self._name
 
     @property
     def team_abbreviation(self):
@@ -1398,13 +1368,6 @@ class Player(object):
         blocked.
         """
         return self._blocked_punts
-
-    @_float_property_decorator
-    def yards_per_punt(self):
-        """
-        Returns a ``float`` of the average distance the player punts the ball.
-        """
-        return self._yards_per_punt
 
     @_int_property_decorator
     def interceptions(self):

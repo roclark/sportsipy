@@ -155,7 +155,7 @@ PLAYER_SCHEME = {
     'takeaways': 'td[data-stat="takeaways"]',
     'giveaways': 'td[data-stat="giveaways"]',
     'time_on_ice_even_strength': 'td[data-stat="toi_pbp"]',
-    'corsi_for': 'td[data-stat="corsi_fo"]',
+    'corsi_for': 'td[data-stat="corsi_for"]',
     'corsi_against': 'td[data-stat="corsi_against"]',
     'corsi_for_percentage': 'td[data-stat="corsi_pct"]',
     'relative_corsi_for_percentage': 'td[data-stat="corsi_rel_pct"]',
@@ -213,7 +213,20 @@ PLAYER_SCHEME = {
     'power_play_save_percentage': 'td[data-stat="svpct_pp"]',
     'short_handed_shots_faced': 'td[data-stat="shots_against_sh"]',
     'short_handed_goals_allowed': 'td[data-stat="goals_against_sh"]',
-    'short_handed_save_percentage': 'td[data-stat="svpct_sh"]'
+    'short_handed_save_percentage': 'td[data-stat="svpct_sh"]',
+    'decision': 'td[data-stat="decision"]',
+    'defensive_zone_starts': 'td[data-stat="zs_def"]',
+    'individual_corsi_for_events': 'td[data-stat="Cevents"]',
+    'offensive_zone_starts': 'td[data-stat="zs_off"]',
+    'on_ice_shot_attempts_against': 'td[data-stat="on_opp_Cevents"]',
+    'on_ice_shot_attempts_for': 'td[data-stat="on_Cevents"]',
+    'shifts': 'td[data-stat="shifts"]'
+}
+
+BOXSCORE_RETRY = {
+    'corsi_for_percentage': 'td[data-stat="corsi_for"]',
+    'offensive_zone_start_percentage': 'td[data-stat="ozs_pct"]',
+    'relative_corsi_for_percentage': 'td[data-stat="corsi_rel"]'
 }
 
 SEASON_PAGE_URL = 'http://www.hockey-reference.com/leagues/NHL_%s.html'

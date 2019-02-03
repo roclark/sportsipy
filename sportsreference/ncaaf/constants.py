@@ -272,7 +272,28 @@ PLAYER_SCHEME = {
     'field_goals_made': 'td[data-stat="fgm"]',
     'two_point_conversions': 'td[data-stat="two_pt_md"]',
     'safeties': 'td[data-stat="safety_md"]',
-    'points': 'td[data-stat="points"]'
+    'points': 'td[data-stat="points"]',
+    'passing_yards': 'td[data-stat="pass_yds"]',
+    'pass_yards_per_attempt': 'td[data-stat="pass_yds_per_att"]',
+    'kickoff_returns': 'td[data-stat="kick_ret"]',
+    'kickoff_return_yards': 'td[data-stat="kick_ret_yds"]',
+    'average_kickoff_return_yards': 'td[data-stat="kick_ret_yds_per_ret"]',
+    'punt_returns': 'td[data-stat="punt_ret"]',
+    'punt_return_yards': 'td[data-stat="punt_ret_yds"]',
+    'average_punt_return_yards': 'td[data-stat="punt_ret_yds"]',
+    'extra_points_attempted': 'td[data-stat="xpa"]',
+    'extra_point_percentage': 'td[data-stat="xp_pct"]',
+    'field_goals_attempted': 'td[data-stat="fga"]',
+    'field_goal_percentage': 'td[data-stat="fg_pct"]',
+    'points_kicking': 'td[data-stat="kick_points"]',
+    'punts': 'td[data-stat="punt"]',
+    'punting_yards': 'td[data-stat="punt_yds"]',
+    'punting_yards_per_attempt': 'td[data-stat="punt_yds_per_punt"]'
+}
+
+BOXSCORE_RETRY = {
+    'kickoff_return_touchdowns': 'td[data-stat="kick_ret_td"]',
+    'punt_return_touchdowns': 'td[data-stat="punt_ret_td"]'
 }
 
 RANKINGS_SCHEME = {
