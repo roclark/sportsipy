@@ -96,6 +96,20 @@ teams in every conference.
     :undoc-members:
     :show-inheritance:
 
+Player
+------
+
+The Player module contains an abstract base class that can be inherited by both
+the ``BoxscorePlayer`` and ``Player`` classes in the ``Boxscore`` and ``Roster``
+modules, respectively. All of the properties that appear in the
+``AbstractPlayer`` class can be read from either of the two child classes
+mentioned above.
+
+.. automodule:: sportsreference.ncaab.player
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Rankings
 --------
 
