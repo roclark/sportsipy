@@ -33,8 +33,7 @@ def mock_pyquery(url):
 
 
 class TestNHLPlayer:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    def setup_method(self, *args, **kwargs):
+    def setup_method(self):
         self.skater_results_career = {
             'adjusted_assists': 692,
             'adjusted_goals': 377,
@@ -411,38 +410,44 @@ class TestNHLPlayer:
             'wins': 22
         }
 
-        self.skater = Player('zettehe01')
-        self.goalie = Player('howarja02')
-
-    def test_nhl_skater_returns_requested_career_stats(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nhl_skater_returns_requested_career_stats(self, *args, **kwargs):
         # Request the career stats
-        player = self.skater('')
+        player = Player('zettehe01')
+        player = player('')
 
         for attribute, value in self.skater_results_career.items():
             assert getattr(player, attribute) == value
 
-    def test_nhl_skater_returns_player_season_stats(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nhl_skater_returns_player_season_stats(self, *args, **kwargs):
         # Request the 2017 stats
-        player = self.skater('2017-18')
+        player = Player('zettehe01')
+        player = player('2017-18')
 
         for attribute, value in self.skater_results_2017.items():
             assert getattr(player, attribute) == value
 
-    def test_nhl_goalie_returns_requested_career_stats(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nhl_goalie_returns_requested_career_stats(self, *args, **kwargs):
         # Request the career stats
-        player = self.goalie('')
+        player = Player('howarja02')
+        player = player('')
 
         for attribute, value in self.goalie_results_career.items():
             assert getattr(player, attribute) == value
 
-    def test_nhl_goalie_returns_player_season_stats(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nhl_goalie_returns_player_season_stats(self, *args, **kwargs):
         # Request the 2017 stats
-        player = self.goalie('2017-18')
+        player = Player('howarja02')
+        player = player('2017-18')
 
         for attribute, value in self.goalie_results_2017.items():
             assert getattr(player, attribute) == value
 
-    def test_dataframe_returns_dataframe(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_dataframe_returns_dataframe(self, *args, **kwargs):
         dataframe = [
             {'adjusted_assists': 46,
              'adjusted_goals': 11,
@@ -630,7 +635,7 @@ class TestNHLPlayer:
         indices = ['2017', 'Career']
 
         df = pd.DataFrame(dataframe, index=indices)
-        player = self.skater('')
+        player = Player('zettehe01')
 
         # Pandas doesn't natively allow comparisons of DataFrames.
         # Concatenating the two DataFrames (the one generated during the test

@@ -82,6 +82,12 @@ class TestNHLSchedule:
         flexmock(utils) \
             .should_receive('_todays_date') \
             .and_return(MockDateTime(YEAR, MONTH))
+        flexmock(Boxscore) \
+            .should_receive('_parse_game_data') \
+            .and_return(None)
+        flexmock(Boxscore) \
+            .should_receive('dataframe') \
+            .and_return(pd.DataFrame([{'key': 'value'}]))
 
         self.schedule = Schedule('NYR')
 
@@ -118,10 +124,6 @@ class TestNHLSchedule:
     def test_nhl_schedule_dataframe_extended_returns_dataframe(self):
         df = pd.DataFrame([{'key': 'value'}])
 
-        flexmock(Boxscore) \
-            .should_receive('dataframe') \
-            .and_return(pd.DataFrame([{'key': 'value'}]))
-
         result = self.schedule[1].dataframe_extended
 
         frames = [df, result]
@@ -130,19 +132,12 @@ class TestNHLSchedule:
         assert df1.empty
 
     def test_nhl_schedule_all_dataframe_returns_dataframe(self):
-        flexmock(Boxscore) \
-            .should_receive('dataframe') \
-            .and_return(pd.DataFrame([{'key': 'value'}]))
         result = self.schedule.dataframe.drop_duplicates(keep=False)
 
         assert len(result) == NUM_GAMES_IN_SCHEDULE
         assert set(result.columns.values) == set(self.results.keys())
 
     def test_nhl_schedule_all_dataframe_extended_returns_dataframe(self):
-        flexmock(Boxscore) \
-            .should_receive('dataframe') \
-            .and_return(pd.DataFrame([{'key': 'value'}]))
-
         result = self.schedule.dataframe_extended
 
         assert len(result) == NUM_GAMES_IN_SCHEDULE
