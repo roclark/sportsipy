@@ -89,6 +89,7 @@ Get a Pandas DataFrame of all stats for a MLB game
    :caption: Contents:
 
    sportsreference
+   examples
    installation
    testing
 
