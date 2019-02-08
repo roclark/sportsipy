@@ -43,8 +43,7 @@ def mock_pyquery(url):
 
 
 class TestNFLPlayer:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    def setup_method(self, *args, **kwargs):
+    def setup_method(self):
         self.qb_results_career = {
             'adjusted_net_yards_per_attempt_index': 113,
             'adjusted_net_yards_per_pass_attempt': 6.98,
@@ -723,55 +722,64 @@ class TestNFLPlayer:
             'yards_returned_from_interception': None
         }
 
-        self.qb = Player('BreeDr00')
-        self.olb = Player('DaviDe00')
-        self.kicker = Player('LutzWi00')
-        self.punter = Player('MorsTh00')
-        self.receiver = Player('LewiTo00')
-
-    def test_nfl_qb_returns_requested_career_stats(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nfl_qb_returns_requested_career_stats(self, *args, **kwargs):
         # Request the career stats
-        player = self.qb('')
+        player = Player('BreeDr00')
+        player = player('')
 
         for attribute, value in self.qb_results_career.items():
             assert getattr(player, attribute) == value
 
-    def test_nfl_qb_returns_requested_player_season_stats(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nfl_qb_returns_requested_player_season_stats(self,
+                                                          *args,
+                                                          **kwargs):
         # Request the 2017 stats
-        player = self.qb('2017')
+        player = Player('BreeDr00')
+        player = player('2017')
 
         for attribute, value in self.qb_results_2017.items():
             assert getattr(player, attribute) == value
 
-    def test_nfl_olb_returns_requested_career_stats(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nfl_olb_returns_requested_career_stats(self, *args, **kwargs):
         # Request the career stats
-        player = self.olb('')
+        player = Player('DaviDe00')
+        player = player('')
 
         for attribute, value in self.olb_results_career.items():
             assert getattr(player, attribute) == value
 
-    def test_nfl_kicker_returns_requested_career_stats(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nfl_kicker_returns_requested_career_stats(self, *args, **kwargs):
         # Request the career stats
-        player = self.kicker('')
+        player = Player('LutzWi00')
+        player = player('')
 
         for attribute, value in self.kicker_results_career.items():
             assert getattr(player, attribute) == value
 
-    def test_nfl_punter_returns_requested_career_stats(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nfl_punter_returns_requested_career_stats(self, *args, **kwargs):
         # Request the career stats
-        player = self.punter('')
+        player = Player('MorsTh00')
+        player = player('')
 
         for attribute, value in self.punter_results_career.items():
             assert getattr(player, attribute) == value
 
-    def test_nfl_olb_receiver_requested_career_stats(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nfl_olb_receiver_requested_career_stats(self, *args, **kwargs):
         # Request the career stats
-        player = self.receiver('')
+        player = Player('LewiTo00')
+        player = player('')
 
         for attribute, value in self.receiver_results_career.items():
             assert getattr(player, attribute) == value
 
-    def test_dataframe_returns_dataframe(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_dataframe_returns_dataframe(self, *args, **kwargs):
         dataframe = [
             {'adjusted_net_yards_per_attempt_index': 116,
              'adjusted_net_yards_per_pass_attempt': 7.71,
@@ -1107,7 +1115,8 @@ class TestNFLPlayer:
         indices = ['2017', '2018', 'Career']
 
         df = pd.DataFrame(dataframe, index=indices)
-        player = self.qb('')
+        player = Player('BreeDr00')
+        player = player('')
 
         # Pandas doesn't natively allow comparisons of DataFrames.
         # Concatenating the two DataFrames (the one generated during the test
@@ -1118,20 +1127,29 @@ class TestNFLPlayer:
         frames = [df, player.dataframe]
         df1 = pd.concat(frames).drop_duplicates(keep=False)
 
-    def test_nfl_fake_404_page_returns_none_with_no_errors(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nfl_fake_404_page_returns_none_with_no_errors(self,
+                                                           *args,
+                                                           **kwargs):
         player = Player('404')
 
         assert player.name is None
         assert player.dataframe is None
 
-    def test_nfl_fake_404_page_returns_none_for_different_season(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nfl_fake_404_page_returns_none_for_different_season(self,
+                                                                 *args,
+                                                                 **kwargs):
         player = Player('404')
         player = player('2017')
 
         assert player.name is None
         assert player.dataframe is None
 
-    def test_nfl_player_with_no_career_stats_handled_properly(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nfl_player_with_no_career_stats_handled_properly(self,
+                                                              *args,
+                                                              **kwargs):
         player = Player('HatfDo00')
 
         assert player.name == 'Dominique Hatfield'
