@@ -1,6 +1,6 @@
 flexmock>=0.10.2
 mock>=2.0.0
-pandas>=0.21.0
+pandas>=0.24.1
 pycodestyle>=2.4.0
 pyquery>=1.4.0
 pytest-cov>=2.5.1
