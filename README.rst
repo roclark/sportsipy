@@ -129,6 +129,16 @@ Get a Pandas DataFrame of all stats for a MLB game
 Documentation
 =============
 
+Two blog posts detailing the creation and basic usage of `sportsreference` can
+be found on The Medium at the following links:
+
+- `Part 1: Creating a public sports API <https://medium.com/clarktech-sports/python-sports-analytics-made-simple-part-1-14569d6e9a86>`_
+- `Part 2: Pull any sports metric in 10 lines of Python <https://medium.com/clarktech-sports/python-sports-analytics-made-simple-part-2-40e591a7f3db>`_
+
+The second post in particular is a great guide for getting started with
+`sportsreference` and is highly recommended for anyone who is new to the
+package.
+
 Complete documentation is hosted on
 `readthedocs.org <http://sportsreference.readthedocs.io/en/latest>`_. Refer to
 the documentation for a full list of all metrics and information exposed by
