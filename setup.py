@@ -16,16 +16,15 @@ setup(
     license='MIT',
     url='https://github.com/roclark/sportsreference',
     packages=find_packages(),
-    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*',
+    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',
     keywords='stats sports api sportsreference machine learning',
     install_requires=[
-        "pandas >= 0.21.0",
+        "pandas >= 0.24.1",
         "pyquery >= 1.4.0",
         "requests >= 2.18.4"
     ],
     classifiers=(
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
