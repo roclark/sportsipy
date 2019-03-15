@@ -32,10 +32,6 @@ jobs:
     - stage: test
       python: 3.7-dev
       dist: xenial
-    - stage: test
-      python: 3.8-dev
-      dist: xenial
-      sudo: true
     - stage: deploy
       dist: xenial
       python: 3.7
