@@ -34,7 +34,7 @@ def mock_pyquery(url):
                 return read_file('playoff.html')
             return read_file('table.html')
 
-    schedule = read_file('gamelog')
+    schedule = read_file('%s_games.html' % YEAR)
     return MockPQ(schedule)
 
 
@@ -50,45 +50,18 @@ class TestNBASchedule:
         self.results = {
             'game': 2,
             'boxscore_index': '201610280NOP',
-            'date': '2016-10-28',
+            'date': 'Fri, Oct 28, 2016',
+            'time': '9:30p',
             'datetime': datetime(2016, 10, 28),
             'location': AWAY,
             'opponent_abbr': 'NOP',
+            'opponent_name': 'New Orleans Pelicans',
             'result': WIN,
             'points_scored': 122,
             'points_allowed': 114,
-            'field_goals': 44,
-            'field_goal_attempts': 91,
-            'field_goal_percentage': .484,
-            'three_point_field_goals': 9,
-            'three_point_field_goal_attempts': 28,
-            'three_point_field_goal_percentage': .321,
-            'free_throws': 25,
-            'free_throw_attempts': 28,
-            'free_throw_percentage': .893,
-            'offensive_rebounds': 9,
-            'total_rebounds': 49,
-            'assists': 32,
-            'steals': 8,
-            'blocks': 2,
-            'turnovers': 14,
-            'personal_fouls': 22,
-            'opp_field_goals': 47,
-            'opp_field_goal_attempts': 100,
-            'opp_field_goal_percentage': .470,
-            'opp_three_point_field_goals': 5,
-            'opp_three_point_field_goal_attempts': 22,
-            'opp_three_point_field_goal_percentage': .227,
-            'opp_free_throws': 15,
-            'opp_free_throw_attempts': 23,
-            'opp_free_throw_percentage': .652,
-            'opp_offensive_rebounds': 12,
-            'opp_total_rebounds': 49,
-            'opp_assists': 29,
-            'opp_steals': 8,
-            'opp_blocks': 5,
-            'opp_turnovers': 13,
-            'opp_personal_fouls': 24
+            'wins': 1,
+            'losses': 1,
+            'streak': 'W 1'
         }
         flexmock(Boxscore) \
             .should_receive('_parse_game_data') \
