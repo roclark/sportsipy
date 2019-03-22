@@ -31,45 +31,18 @@ class Game(object):
     def __init__(self, game_data):
         self._game = None
         self._date = None
+        self._time = None
         self._datetime = None
         self._boxscore = None
         self._location = None
         self._opponent_abbr = None
+        self._opponent_name = None
         self._result = None
         self._points_scored = None
         self._points_allowed = None
-        self._field_goals = None
-        self._field_goal_attempts = None
-        self._field_goal_percentage = None
-        self._three_point_field_goals = None
-        self._three_point_field_goal_attempts = None
-        self._three_point_field_goal_percentage = None
-        self._free_throws = None
-        self._free_throw_attempts = None
-        self._free_throw_percentage = None
-        self._offensive_rebounds = None
-        self._total_rebounds = None
-        self._assists = None
-        self._steals = None
-        self._blocks = None
-        self._turnovers = None
-        self._personal_fouls = None
-        self._opp_field_goals = None
-        self._opp_field_goal_attempts = None
-        self._opp_field_goal_percentage = None
-        self._opp_three_point_field_goals = None
-        self._opp_three_point_field_goal_attempts = None
-        self._opp_three_point_field_goal_percentage = None
-        self._opp_free_throws = None
-        self._opp_free_throw_attempts = None
-        self._opp_free_throw_percentage = None
-        self._opp_offensive_rebounds = None
-        self._opp_total_rebounds = None
-        self._opp_assists = None
-        self._opp_steals = None
-        self._opp_blocks = None
-        self._opp_turnovers = None
-        self._opp_personal_fouls = None
+        self._wins = None
+        self._losses = None
+        self._streak = None
 
         self._parse_game_data(game_data)
 
@@ -85,10 +58,27 @@ class Game(object):
         game_data : PyQuery object
             A PyQuery object containing the information specific to a game.
         """
-        boxscore = game_data('td[data-stat="date_game"]:first')
+        boxscore = game_data('td[data-stat="box_score_text"]:first')
         boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
         boxscore = re.sub(r'\.html.*', '', boxscore)
         setattr(self, '_boxscore', boxscore)
+
+    def _parse_opponent_abbr(self, game_data):
+        """
+        Parses the opponent's abbreviation for the game.
+
+        The opponent's 3-letter abbreviation is embedded within the HTML tag
+        and needs a special parsing scheme in order to be extracted.
+
+        Parameters
+        ----------
+        game_data : PyQuery object
+            A PyQuery object containing the information specific to a game.
+        """
+        opponent = game_data('td[data-stat="opp_name"]:first')
+        opponent = re.sub(r'.*/teams/', '', str(opponent))
+        opponent = re.sub(r'\/.*.html.*', '', opponent)
+        setattr(self, '_opponent_abbr', opponent)
 
     def _parse_game_data(self, game_data):
         """
@@ -116,6 +106,9 @@ class Game(object):
             elif short_name == 'boxscore':
                 self._parse_boxscore(game_data)
                 continue
+            elif short_name == 'opponent_abbr':
+                self._parse_opponent_abbr(game_data)
+                continue
             value = utils._parse_field(SCHEDULE_SCHEME, game_data, short_name)
             setattr(self, field, value)
 
@@ -128,51 +121,20 @@ class Game(object):
         if self._points_allowed is None and self._points_scored is None:
             return None
         fields_to_include = {
-            'assists': self.assists,
-            'blocks': self.blocks,
             'boxscore_index': self.boxscore_index,
             'date': self.date,
             'datetime': self.datetime,
-            'field_goal_attempts': self.field_goal_attempts,
-            'field_goal_percentage': self.field_goal_percentage,
-            'field_goals': self.field_goals,
-            'free_throw_attempts': self.free_throw_attempts,
-            'free_throw_percentage': self.free_throw_percentage,
-            'free_throws': self.free_throws,
             'game': self.game,
             'location': self.location,
-            'offensive_rebounds': self.offensive_rebounds,
-            'opp_assists': self.opp_assists,
-            'opp_blocks': self.opp_blocks,
-            'opp_field_goal_attempts': self.opp_field_goal_attempts,
-            'opp_field_goal_percentage': self.opp_field_goal_percentage,
-            'opp_field_goals': self.opp_field_goals,
-            'opp_free_throw_attempts': self.opp_free_throw_attempts,
-            'opp_free_throw_percentage': self.opp_free_throw_percentage,
-            'opp_free_throws': self.opp_free_throws,
-            'opp_offensive_rebounds': self.opp_offensive_rebounds,
-            'opp_personal_fouls': self.opp_personal_fouls,
-            'opp_steals': self.opp_steals,
-            'opp_three_point_field_goal_attempts':
-            self.opp_three_point_field_goal_attempts,
-            'opp_three_point_field_goal_percentage':
-            self.opp_three_point_field_goal_percentage,
-            'opp_three_point_field_goals': self.opp_three_point_field_goals,
-            'opp_total_rebounds': self.opp_total_rebounds,
-            'opp_turnovers': self.opp_turnovers,
+            'losses': self.losses,
             'opponent_abbr': self.opponent_abbr,
-            'personal_fouls': self.personal_fouls,
+            'opponent_name': self.opponent_name,
             'points_allowed': self.points_allowed,
             'points_scored': self.points_scored,
             'result': self.result,
-            'steals': self.steals,
-            'three_point_field_goal_attempts':
-            self.three_point_field_goal_attempts,
-            'three_point_field_goal_percentage':
-            self.three_point_field_goal_percentage,
-            'three_point_field_goals': self.three_point_field_goals,
-            'total_rebounds': self.total_rebounds,
-            'turnovers': self.turnovers
+            'streak': self.streak,
+            'time': self.time,
+            'wins': self.wins
         }
         return pd.DataFrame([fields_to_include], index=[self._boxscore])
 
@@ -203,12 +165,20 @@ class Game(object):
         return self._date
 
     @property
+    def time(self):
+        """
+        Returns a ``string`` of the time the game started in Eastern Time, such
+        as '8:01p'.
+        """
+        return self._time
+
+    @property
     def datetime(self):
         """
         Returns a datetime object to indicate the month, day, and year the game
         took place.
         """
-        return datetime.strptime(self._date, '%Y-%m-%d')
+        return datetime.strptime(self._date, '%a, %b %d, %Y')
 
     @property
     def boxscore(self):
@@ -245,6 +215,13 @@ class Game(object):
         return self._opponent_abbr
 
     @property
+    def opponent_name(self):
+        """
+        Returns a ``string`` of the opponent's name, such as 'Chicago Bulls'.
+        """
+        return self._opponent_name
+
+    @property
     def result(self):
         """
         Returns a ``string`` constant to indicate whether the team won or lost
@@ -271,251 +248,28 @@ class Game(object):
         return self._points_allowed
 
     @int_property_decorator
-    def field_goals(self):
+    def wins(self):
         """
-        Returns an ``int`` of the total number of field goals made by the team.
+        Returns an ``int`` of the number of wins the team has in the season
+        after the completion of the listed game.
         """
-        return self._field_goals
+        return self._wins
 
     @int_property_decorator
-    def field_goal_attempts(self):
+    def losses(self):
         """
-        Returns an ``int`` of the total number of field goal attempts by the
-        team.
+        Returns an ``int`` of the number of losses the team has in the season
+        after the completion of the listed game.
         """
-        return self._field_goal_attempts
+        return self._losses
 
-    @float_property_decorator
-    def field_goal_percentage(self):
+    @property
+    def streak(self):
         """
-        Returns a ``float`` of the number of field goals made divided by the
-        total number of field goal attempts by the team. Percentage ranges from
-        0-1.
+        Returns a ``string`` of the team's current streak after the conclusion
+        of the listed game, such as 'W 3' for a 3-game winning streak.
         """
-        return self._field_goal_percentage
-
-    @int_property_decorator
-    def three_point_field_goals(self):
-        """
-        Returns an ``int`` of the total number of three point field goals made
-        by the team.
-        """
-        return self._three_point_field_goals
-
-    @int_property_decorator
-    def three_point_field_goal_attempts(self):
-        """
-        Returns an ``int`` of the total number of three point field goal
-        attempts by the team.
-        """
-        return self._three_point_field_goal_attempts
-
-    @float_property_decorator
-    def three_point_field_goal_percentage(self):
-        """
-        Returns a ``float`` of the number of three point field goals made
-        divided by the number of three point field goal attempts by the team.
-        Percentage ranges from 0-1.
-        """
-        return self._three_point_field_goal_percentage
-
-    @int_property_decorator
-    def free_throws(self):
-        """
-        Returns an ``int`` of the total number of free throws made by the team.
-        """
-        return self._free_throws
-
-    @int_property_decorator
-    def free_throw_attempts(self):
-        """
-        Returns an ``int`` of the total number of free throw attempts by the
-        team.
-        """
-        return self._free_throw_attempts
-
-    @float_property_decorator
-    def free_throw_percentage(self):
-        """
-        Returns a ``float`` of the number of free throws made divided by the
-        number of free throw attempts by the team.
-        """
-        return self._free_throw_percentage
-
-    @int_property_decorator
-    def offensive_rebounds(self):
-        """
-        Returns an ``int`` of the total number of offensive rebounds by the
-        team.
-        """
-        return self._offensive_rebounds
-
-    @int_property_decorator
-    def total_rebounds(self):
-        """
-        Returns an ``int`` of the total number of rebounds by the team.
-        """
-        return self._total_rebounds
-
-    @int_property_decorator
-    def assists(self):
-        """
-        Returns an ``int`` of the total number of assists by the team.
-        """
-        return self._assists
-
-    @int_property_decorator
-    def steals(self):
-        """
-        Returns an ``int`` of the total number of steals by the team.
-        """
-        return self._steals
-
-    @int_property_decorator
-    def blocks(self):
-        """
-        Returns an ``int`` of the total number of blocks by the team.
-        """
-        return self._blocks
-
-    @int_property_decorator
-    def turnovers(self):
-        """
-        Returns an ``int`` of the total number of turnovers by the team.
-        """
-        return self._turnovers
-
-    @int_property_decorator
-    def personal_fouls(self):
-        """
-        Returns an ``int`` of the total number of personal fouls by the team.
-        """
-        return self._personal_fouls
-
-    @int_property_decorator
-    def opp_field_goals(self):
-        """
-        Returns an ``int`` of the total number of field goals made by the
-        opponent.
-        """
-        return self._opp_field_goals
-
-    @int_property_decorator
-    def opp_field_goal_attempts(self):
-        """
-        Returns an ``int`` of the total number of field goal attempts by the
-        opponent.
-        """
-        return self._opp_field_goal_attempts
-
-    @float_property_decorator
-    def opp_field_goal_percentage(self):
-        """
-        Returns a ``float`` of the number of field goals made divided by the
-        total number of field goal attempts by the opponent. Percentage ranges
-        from 0-1.
-        """
-        return self._opp_field_goal_percentage
-
-    @int_property_decorator
-    def opp_three_point_field_goals(self):
-        """
-        Returns an ``int`` of the total number of three point field goals made
-        by the opponent.
-        """
-        return self._opp_three_point_field_goals
-
-    @int_property_decorator
-    def opp_three_point_field_goal_attempts(self):
-        """
-        Returns an ``int`` of the total number of three point field goal
-        attempts by the opponent.
-        """
-        return self._opp_three_point_field_goal_attempts
-
-    @float_property_decorator
-    def opp_three_point_field_goal_percentage(self):
-        """
-        Returns a ``float`` of the number of three point field goals made
-        divided by the number of three point field goal attempts by the
-        opponent. Percentage ranges from 0-1.
-        """
-        return self._opp_three_point_field_goal_percentage
-
-    @int_property_decorator
-    def opp_free_throws(self):
-        """
-        Returns an ``int`` of the total number of free throws made by the
-        opponent.
-        """
-        return self._opp_free_throws
-
-    @int_property_decorator
-    def opp_free_throw_attempts(self):
-        """
-        Returns an ``int`` of the total number of free throw attempts by the
-        opponent.
-        """
-        return self._opp_free_throw_attempts
-
-    @float_property_decorator
-    def opp_free_throw_percentage(self):
-        """
-        Returns a ``float`` of the number of free throws made divided by the
-        number of free throw attempts by the opponent.
-        """
-        return self._opp_free_throw_percentage
-
-    @int_property_decorator
-    def opp_offensive_rebounds(self):
-        """
-        Returns an ``int`` of the total number of offensive rebounds by the
-        opponent.
-        """
-        return self._opp_offensive_rebounds
-
-    @int_property_decorator
-    def opp_total_rebounds(self):
-        """
-        Returns an ``int`` of the total number of rebounds by the opponent.
-        """
-        return self._opp_total_rebounds
-
-    @int_property_decorator
-    def opp_assists(self):
-        """
-        Returns an ``int`` of the total number of assists by the opponent.
-        """
-        return self._opp_assists
-
-    @int_property_decorator
-    def opp_steals(self):
-        """
-        Returns an ``int`` of the total number of steals by the opponent.
-        """
-        return self._opp_steals
-
-    @int_property_decorator
-    def opp_blocks(self):
-        """
-        Returns an ``int`` of the total number of blocks by the opponent.
-        """
-        return self._opp_blocks
-
-    @int_property_decorator
-    def opp_turnovers(self):
-        """
-        Returns an ``int`` of the total number of turnovers by the opponent.
-        """
-        return self._opp_turnovers
-
-    @int_property_decorator
-    def opp_personal_fouls(self):
-        """
-        Returns an ``int`` of the total number of personal fouls by the
-        opponent.
-        """
-        return self._opp_personal_fouls
+        return self._streak
 
 
 class Schedule(object):
@@ -619,7 +373,7 @@ class Schedule(object):
         for item in schedule:
             if 'class="thead"' in str(item) or \
                'class="over_header thead"' in str(item):
-                continue
+                continue  # pragma: no cover
             game = Game(item)
             self._games.append(game)
 
@@ -642,11 +396,10 @@ class Schedule(object):
         if not year:
             year = utils._find_year_for_season('nba')
         doc = pq(SCHEDULE_URL % (abbreviation, year))
-        schedule = utils._get_stats_table(doc, 'table#tgl_basic')
+        schedule = utils._get_stats_table(doc, 'table#games')
         self._add_games_to_schedule(schedule)
-        if 'tgl_basic_playoffs' in str(doc):
-            playoffs = utils._get_stats_table(doc,
-                                              'div#all_tgl_basic_playoffs')
+        if 'games_playoffs' in str(doc):
+            playoffs = utils._get_stats_table(doc, 'table#games_playoffs')
             self._add_games_to_schedule(playoffs)
 
     @property
