@@ -13,7 +13,7 @@ funcsigs==1.0.2;python_version=="2.7"
 idna==2.8
 imagesize==1.1.0
 Jinja2==2.10
-lxml==4.3.2
+lxml==4.3.3
 MarkupSafe==1.1.1
 mock==2.0.0
 more-itertools==5.0.0;python_version=="2.7"
