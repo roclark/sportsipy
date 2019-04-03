@@ -538,7 +538,10 @@ class Team(object):
         Returns an ``int`` of the total number of defensive rebounds during the
         season.
         """
-        return self.total_rebounds - self.offensive_rebounds
+        try:
+            return self.total_rebounds - self.offensive_rebounds
+        except TypeError:
+            return None
 
     @int_property_decorator
     def total_rebounds(self):
@@ -702,7 +705,10 @@ class Team(object):
         Returns an ``int`` of the total number of defensive rebounds during the
         season by opponents.
         """
-        return self.opp_total_rebounds - self.opp_offensive_rebounds
+        try:
+            return self.opp_total_rebounds - self.opp_offensive_rebounds
+        except TypeError:
+            return None
 
     @int_property_decorator
     def opp_total_rebounds(self):
@@ -776,7 +782,10 @@ class Team(object):
         opponent's offensive) rating. Positive values indicate teams that score
         more points than they allow per 100 possessions.
         """
-        return self.offensive_rating - self.opp_offensive_rating
+        try:
+            return self.offensive_rating - self.opp_offensive_rating
+        except TypeError:
+            return None
 
     @float_property_decorator
     def free_throw_attempt_rate(self):
