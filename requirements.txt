@@ -12,7 +12,7 @@ flexmock==0.10.4
 funcsigs==1.0.2;python_version=="2.7"
 idna==2.8
 imagesize==1.1.0
-Jinja2==2.10
+Jinja2==2.10.1
 lxml==4.3.3
 MarkupSafe==1.1.1
 mock==2.0.0
