@@ -28,7 +28,7 @@ pluggy==0.9.0
 py==1.8.0
 pycodestyle==2.5.0
 Pygments==2.3.1
-pyparsing==2.3.1
+pyparsing==2.4.0
 pyquery==1.4.0
 pytest==4.4.0
 pytest-cov==2.6.1
