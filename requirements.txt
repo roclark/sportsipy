@@ -33,7 +33,7 @@ pyquery==1.4.0
 pytest==4.4.0
 pytest-cov==2.6.1
 python-dateutil==2.8.0
-pytz==2018.9
+pytz==2019.1
 readme-renderer==24.0
 requests==2.21.0
 requests-toolbelt==0.9.1
