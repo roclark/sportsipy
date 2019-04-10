@@ -398,7 +398,7 @@ class Schedule(object):
         doc = pq(SCHEDULE_URL % (abbreviation, year))
         schedule = utils._get_stats_table(doc, 'table#games')
         self._add_games_to_schedule(schedule)
-        if 'games_playoffs' in str(doc):
+        if 'id="games_playoffs"' in str(doc):
             playoffs = utils._get_stats_table(doc, 'table#games_playoffs')
             self._add_games_to_schedule(playoffs)
 
