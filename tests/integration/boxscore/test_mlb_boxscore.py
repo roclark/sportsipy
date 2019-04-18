@@ -17,7 +17,7 @@ BOXSCORE = 'BOS/BOS201806070'
 
 def read_file(filename):
     filepath = os.path.join(os.path.dirname(__file__), 'mlb', filename)
-    return open('%s' % filepath, 'r').read()
+    return open('%s' % filepath, 'r', encoding='utf8').read()
 
 
 def mock_pyquery(url):

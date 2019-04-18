@@ -17,7 +17,7 @@ BOXSCORE = '2017-11-24-21-purdue'
 
 def read_file(filename):
     filepath = os.path.join(os.path.dirname(__file__), 'ncaab', filename)
-    return open('%s' % filepath, 'r').read()
+    return open('%s' % filepath, 'r', encoding='utf8').read()
 
 
 def mock_pyquery(url):
