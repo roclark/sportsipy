@@ -46,5 +46,5 @@ sphinxcontrib-websupport==1.1.0
 tqdm==4.31.1
 twine==1.13.0
 typing==3.6.6;python_version=="2.7"
-urllib3==1.24.1
+urllib3==1.25.1
 webencodings==0.5.1
