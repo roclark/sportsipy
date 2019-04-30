@@ -39,9 +39,21 @@ def mock_pyquery(url):
     return MockPQ(html_contents)
 
 
+def mock_request(url):
+    class MockRequest:
+        def __init__(self, html_contents, status_code=200):
+            self.status_code = status_code
+            self.html_contents = html_contents
+            self.text = html_contents
+
+    if str(YEAR) in url:
+        return MockRequest('good')
+    else:
+        return MockRequest('bad', status_code=404)
+
+
 class TestNCAAFConferences:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    def test_conferences_integration(self, *args, **kwargs):
+    def setup_method(self):
         team_conference = {'florida-state': 'acc',
                            'boston-college': 'acc',
                            'clemson': 'acc',
@@ -108,15 +120,19 @@ class TestNCAAFConferences:
                                               'texas-am': 'Texas A&M'}
                                     }
                               }
+        self.team_conference = team_conference
+        self.conferences_result = conferences_result
 
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_conferences_integration(self, *args, **kwargs):
         flexmock(utils) \
             .should_receive('_find_year_for_season') \
             .and_return(YEAR)
 
         conferences = Conferences()
 
-        assert conferences.team_conference == team_conference
-        assert conferences.conferences == conferences_result
+        assert conferences.team_conference == self.team_conference
+        assert conferences.conferences == self.conferences_result
 
     @mock.patch('requests.get', side_effect=mock_pyquery)
     def test_conferences_integration_bad_url(self, *args, **kwargs):
@@ -137,3 +153,30 @@ class TestNCAAFConferences:
         conference = Conference('acc')
 
         assert len(conference._teams) == 0
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('requests.head', side_effect=mock_request)
+    def test_invalid_default_year_reverts_to_previous_year(self,
+                                                           *args,
+                                                           **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return(2019)
+
+        conferences = Conferences()
+
+        assert conferences.team_conference == self.team_conference
+        assert conferences.conferences == self.conferences_result
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('requests.head', side_effect=mock_request)
+    def test_invalid_conference_year_reverts_to_previous_year(self,
+                                                              *args,
+                                                              **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return(2019)
+
+        conference = Conference('acc')
+
+        assert len(conference._teams) == 14

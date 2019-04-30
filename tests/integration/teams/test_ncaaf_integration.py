@@ -40,6 +40,19 @@ def mock_pyquery(url):
         return MockPQ(standings_contents)
 
 
+def mock_request(url):
+    class MockRequest:
+        def __init__(self, html_contents, status_code=200):
+            self.status_code = status_code
+            self.html_contents = html_contents
+            self.text = html_contents
+
+    if str(YEAR) in url:
+        return MockRequest('good')
+    else:
+        return MockRequest('bad', status_code=404)
+
+
 class MockDateTime:
     def __init__(self, year, month):
         self.year = year
@@ -304,3 +317,157 @@ class TestNCAAFIntegration:
     def test_ncaaf_invalid_team_name_raises_value_error(self):
         with pytest.raises(ValueError):
             self.teams('INVALID_NAME')
+
+
+class TestNCAAFIntegrationInvalidYear:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('requests.head', side_effect=mock_request)
+    def test_invalid_default_year_reverts_to_previous_year(self,
+                                                           *args,
+                                                           **kwargs):
+        team_conference = {'florida-state': 'acc',
+                           'boston-college': 'acc',
+                           'clemson': 'acc',
+                           'north-carolina-state': 'acc',
+                           'syracuse': 'acc',
+                           'wake-forest': 'acc',
+                           'louisville': 'acc',
+                           'virginia-tech': 'acc',
+                           'duke': 'acc',
+                           'georgia-tech': 'acc',
+                           'pittsburgh': 'acc',
+                           'virginia': 'acc',
+                           'miami-fl': 'acc',
+                           'north-carolina': 'acc',
+                           'florida': 'sec',
+                           'georgia': 'sec',
+                           'kentucky': 'sec',
+                           'missouri': 'sec',
+                           'south-carolina': 'sec',
+                           'vanderbilt': 'sec',
+                           'tennessee': 'sec',
+                           'alabama': 'sec',
+                           'arkansas': 'sec',
+                           'auburn': 'sec',
+                           'louisiana-state': 'sec',
+                           'mississippi-state': 'sec',
+                           'mississippi': 'sec',
+                           'texas-am': 'sec',
+                           'buffalo': 'mac',
+                           'ohio': 'mac',
+                           'bowling-green-state': 'mac',
+                           'kent-state': 'mac',
+                           'miami-oh': 'mac',
+                           'akron': 'mac',
+                           'ball-state': 'mac',
+                           'eastern-michigan': 'mac',
+                           'toledo': 'mac',
+                           'central-michigan': 'mac',
+                           'northern-illinois': 'mac',
+                           'western-michigan': 'mac',
+                           'georgia-southern': 'sun-belt',
+                           'appalachian-state': 'sun-belt',
+                           'coastal-carolina': 'sun-belt',
+                           'arkansas-state': 'sun-belt',
+                           'georgia-state': 'sun-belt',
+                           'louisiana-lafayette': 'sun-belt',
+                           'louisiana-monroe': 'sun-belt',
+                           'south-alabama': 'sun-belt',
+                           'texas-state': 'sun-belt',
+                           'troy': 'sun-belt',
+                           'idaho': 'sun-belt',
+                           'baylor': 'big-12',
+                           'kansas-state': 'big-12',
+                           'oklahoma': 'big-12',
+                           'oklahoma-state': 'big-12',
+                           'texas-christian': 'big-12',
+                           'west-virginia': 'big-12',
+                           'kansas': 'big-12',
+                           'texas': 'big-12',
+                           'texas-tech': 'big-12',
+                           'iowa-state': 'big-12',
+                           'colorado-state': 'mwc',
+                           'air-force': 'mwc',
+                           'boise-state': 'mwc',
+                           'new-mexico': 'mwc',
+                           'wyoming': 'mwc',
+                           'utah-state': 'mwc',
+                           'hawaii': 'mwc',
+                           'fresno-state': 'mwc',
+                           'nevada': 'mwc',
+                           'nevada-las-vegas': 'mwc',
+                           'san-diego-state': 'mwc',
+                           'san-jose-state': 'mwc',
+                           'california': 'pac-12',
+                           'oregon': 'pac-12',
+                           'stanford': 'pac-12',
+                           'washington-state': 'pac-12',
+                           'oregon-state': 'pac-12',
+                           'washington': 'pac-12',
+                           'arizona-state': 'pac-12',
+                           'colorado': 'pac-12',
+                           'southern-california': 'pac-12',
+                           'utah': 'pac-12',
+                           'arizona': 'pac-12',
+                           'ucla': 'pac-12',
+                           'central-florida': 'american',
+                           'connecticut': 'american',
+                           'cincinnati': 'american',
+                           'south-florida': 'american',
+                           'east-carolina': 'american',
+                           'temple': 'american',
+                           'houston': 'american',
+                           'memphis': 'american',
+                           'tulsa': 'american',
+                           'navy': 'american',
+                           'southern-methodist': 'american',
+                           'tulane': 'american',
+                           'charlotte': 'cusa',
+                           'marshall': 'cusa',
+                           'florida-atlantic': 'cusa',
+                           'florida-international': 'cusa',
+                           'middle-tennessee-state': 'cusa',
+                           'old-dominion': 'cusa',
+                           'western-kentucky': 'cusa',
+                           'louisiana-tech': 'cusa',
+                           'north-texas': 'cusa',
+                           'southern-mississippi': 'cusa',
+                           'alabama-birmingham': 'cusa',
+                           'rice': 'cusa',
+                           'texas-el-paso': 'cusa',
+                           'texas-san-antonio': 'cusa',
+                           'liberty': 'independent',
+                           'massachusetts': 'independent',
+                           'new-mexico-state': 'independent',
+                           'brigham-young': 'independent',
+                           'notre-dame': 'independent',
+                           'army': 'independent',
+                           'indiana': 'big-ten',
+                           'maryland': 'big-ten',
+                           'michigan-state': 'big-ten',
+                           'ohio-state': 'big-ten',
+                           'penn-state': 'big-ten',
+                           'rutgers': 'big-ten',
+                           'michigan': 'big-ten',
+                           'northwestern': 'big-ten',
+                           'purdue': 'big-ten',
+                           'illinois': 'big-ten',
+                           'iowa': 'big-ten',
+                           'minnesota': 'big-ten',
+                           'wisconsin': 'big-ten',
+                           'nebraska': 'big-ten'}
+
+        flexmock(Conferences) \
+            .should_receive('_find_conferences') \
+            .and_return(None)
+        flexmock(Conferences) \
+            .should_receive('team_conference') \
+            .and_return(team_conference)
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return(2018)
+
+        teams = Teams()
+
+        for team in teams:
+            assert team._year == '2017'

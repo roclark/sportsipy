@@ -36,6 +36,19 @@ def mock_pyquery(url):
     return MockPQ(schedule)
 
 
+def mock_request(url):
+    class MockRequest:
+        def __init__(self, html_contents, status_code=200):
+            self.status_code = status_code
+            self.html_contents = html_contents
+            self.text = html_contents
+
+    if str(YEAR) in url:
+        return MockRequest('good')
+    else:
+        return MockRequest('bad', status_code=404)
+
+
 class MockDateTime:
     def __init__(self, year, month):
         self.year = year
@@ -145,3 +158,58 @@ class TestNHLSchedule:
     def test_no_games_for_date_raises_value_error(self):
         with pytest.raises(ValueError):
             self.schedule(datetime.now())
+
+
+class TestNHLScheduleInvalidYear:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('requests.head', side_effect=mock_request)
+    def test_invalid_default_year_reverts_to_previous_year(self,
+                                                           *args,
+                                                           **kwargs):
+        results = {
+            'game': 2,
+            'boxscore_index': '201610150STL',
+            'date': '2016-10-15',
+            'datetime': datetime(2016, 10, 15),
+            'location': AWAY,
+            'opponent_abbr': 'STL',
+            'opponent_name': 'St. Louis Blues',
+            'goals_scored': 2,
+            'goals_allowed': 3,
+            'result': LOSS,
+            'overtime': 0,
+            'shots_on_goal': 35,
+            'penalties_in_minutes': 8,
+            'power_play_goals': 0,
+            'power_play_opportunities': 2,
+            'short_handed_goals': 0,
+            'opp_shots_on_goal': 18,
+            'opp_penalties_in_minutes': 4,
+            'opp_power_play_goals': 1,
+            'opp_power_play_opportunities': 5,
+            'opp_short_handed_goals': 0,
+            'corsi_for': 54,
+            'corsi_against': 23,
+            'corsi_for_percentage': 70.1,
+            'fenwick_for': 41,
+            'fenwick_against': 18,
+            'fenwick_for_percentage': 69.5,
+            'faceoff_wins': 29,
+            'faceoff_losses': 18,
+            'faceoff_win_percentage': 61.7,
+            'offensive_zone_start_percentage': 55.2,
+            'pdo': 92.4
+        }
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return(2018)
+        flexmock(Boxscore) \
+            .should_receive('_parse_game_data') \
+            .and_return(None)
+        flexmock(Boxscore) \
+            .should_receive('dataframe') \
+            .and_return(pd.DataFrame([{'key': 'value'}]))
+        schedule = Schedule('NYR')
+
+        for attribute, value in results.items():
+            assert getattr(schedule[1], attribute) == value

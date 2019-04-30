@@ -17,6 +17,19 @@ def read_file(filename):
     return open('%s' % filepath, 'r').read()
 
 
+def mock_request(url):
+    class MockRequest:
+        def __init__(self, html_contents, status_code=200):
+            self.status_code = status_code
+            self.html_contents = html_contents
+            self.text = html_contents
+
+    if str(YEAR) in url:
+        return MockRequest('good')
+    else:
+        return MockRequest('bad', status_code=404)
+
+
 def mock_pyquery(url):
     class MockPQ:
         def __init__(self, html_contents):
@@ -141,3 +154,19 @@ class TestNBAIntegration:
     def test_nba_invalid_team_name_raises_value_error(self):
         with pytest.raises(ValueError):
             self.teams('INVALID_NAME')
+
+
+class TestNBAIntegrationInvalidDate:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('requests.head', side_effect=mock_request)
+    def test_invalid_default_year_reverts_to_previous_year(self,
+                                                           *args,
+                                                           **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return(2018)
+
+        teams = Teams()
+
+        for team in teams:
+            assert team._year == '2017'

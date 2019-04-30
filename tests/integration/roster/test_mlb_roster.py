@@ -9,6 +9,9 @@ from sportsreference.mlb.roster import Player, Roster
 from sportsreference.mlb.teams import Team
 
 
+YEAR = 2017
+
+
 def read_file(filename):
     filepath = os.path.join(os.path.dirname(__file__), 'mlb', filename)
     return open('%s.shtml' % filepath, 'r').read()
@@ -31,6 +34,19 @@ def mock_pyquery(url):
     if 'verlaju01' in url:
         return MockPQ(read_file('verlaju01'))
     return MockPQ(read_file('altuvjo01'))
+
+
+def mock_request(url):
+    class MockRequest:
+        def __init__(self, html_contents, status_code=200):
+            self.status_code = status_code
+            self.html_contents = html_contents
+            self.text = html_contents
+
+    if str(YEAR) in url:
+        return MockRequest('good')
+    else:
+        return MockRequest('bad', status_code=404)
 
 
 class TestMLBPlayer:
@@ -1199,3 +1215,20 @@ class TestMLBRoster:
             'verlaju01': 'Justin Verlander',
             'mortoch02': 'Charlie Morton'
         }
+
+    @mock.patch('requests.head', side_effect=mock_request)
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_mlb_invalid_default_year_reverts_to_previous_year(self,
+                                                               *args,
+                                                               **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return(2018)
+
+        roster = Roster('HOU')
+
+        assert len(roster.players) == 3
+
+        for player in roster.players:
+            assert player.name in [u'José Altuve', 'Justin Verlander',
+                                   'Charlie Morton']

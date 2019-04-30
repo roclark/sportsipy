@@ -9,6 +9,9 @@ from sportsreference.ncaab.roster import Player, Roster
 from sportsreference.ncaab.teams import Team
 
 
+YEAR = 2018
+
+
 def read_file(filename):
     filepath = os.path.join(os.path.dirname(__file__), 'ncaab', filename)
     return open('%s.html' % filepath, 'r').read()
@@ -33,6 +36,19 @@ def mock_pyquery(url):
     if 'bad' in url:
         return MockPQ(None, 404)
     return MockPQ(read_file('carsen-edwards-1'))
+
+
+def mock_request(url):
+    class MockRequest:
+        def __init__(self, html_contents, status_code=200):
+            self.status_code = status_code
+            self.html_contents = html_contents
+            self.text = html_contents
+
+    if str(YEAR) in url:
+        return MockRequest('good')
+    else:
+        return MockRequest('bad', status_code=404)
 
 
 class TestNCAABPlayer:
@@ -393,3 +409,20 @@ class TestNCAABRoster:
             'isaac-haas-1': 'Isaac Haas',
             'vince-edwards-2': 'Vince Edwards'
         }
+
+    @mock.patch('requests.head', side_effect=mock_request)
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_invalid_default_year_reverts_to_previous_year(self,
+                                                           *args,
+                                                           **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return(2019)
+
+        roster = Roster('PURDUE')
+
+        assert len(roster.players) == 3
+
+        for player in roster.players:
+            assert player.name in ['Carsen Edwards', 'Isaac Haas',
+                                   'Vince Edwards']
