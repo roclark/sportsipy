@@ -41,6 +41,19 @@ def mock_pyquery(url):
         return MockPQ(team_stats)
 
 
+def mock_request(url):
+    class MockRequest:
+        def __init__(self, html_contents, status_code=200):
+            self.status_code = status_code
+            self.html_contents = html_contents
+            self.text = html_contents
+
+    if str(YEAR) in url:
+        return MockRequest('good')
+    else:
+        return MockRequest('bad', status_code=404)
+
+
 class MockDateTime:
     def __init__(self, year, month):
         self.year = year
@@ -166,25 +179,40 @@ class TestMLBIntegration:
             .should_receive('_todays_date') \
             .and_return(MockDateTime(YEAR, MONTH))
 
-        self.teams = Teams()
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_mlb_integration_returns_correct_number_of_teams(self, *args,
+                                                             **kwargs):
+        teams = Teams()
 
-    def test_mlb_integration_returns_correct_number_of_teams(self):
-        assert len(self.teams) == len(self.abbreviations)
+        assert len(teams) == len(self.abbreviations)
 
-    def test_mlb_integration_returns_correct_attributes_for_team(self):
-        houston = self.teams('HOU')
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_mlb_integration_returns_correct_attributes_for_team(self,
+                                                                 *args,
+                                                                 **kwargs):
+        teams = Teams()
+
+        houston = teams('HOU')
 
         for attribute, value in self.results.items():
             assert getattr(houston, attribute) == value
 
-    def test_mlb_integration_returns_correct_team_abbreviations(self):
-        for team in self.teams:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_mlb_integration_returns_correct_team_abbreviations(self,
+                                                                *args,
+                                                                **kwargs):
+        teams = Teams()
+
+        for team in teams:
             assert team.abbreviation in self.abbreviations
 
-    def test_mlb_integration_dataframe_returns_dataframe(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_mlb_integration_dataframe_returns_dataframe(self, *args,
+                                                         **kwargs):
+        teams = Teams()
         df = pd.DataFrame([self.results], index=['HOU'])
 
-        houston = self.teams('HOU')
+        houston = teams('HOU')
         # Pandas doesn't natively allow comparisons of DataFrames.
         # Concatenating the two DataFrames (the one generated during the test
         # and the expected one above) and dropping duplicate rows leaves only
@@ -196,12 +224,33 @@ class TestMLBIntegration:
 
         assert df1.empty
 
-    def test_mlb_integration_all_teams_dataframe_returns_dataframe(self):
-        result = self.teams.dataframes.drop_duplicates(keep=False)
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_mlb_integration_all_teams_dataframe_returns_dataframe(self,
+                                                                   *args,
+                                                                   **kwargs):
+        teams = Teams()
+        result = teams.dataframes.drop_duplicates(keep=False)
 
         assert len(result) == len(self.abbreviations)
         assert set(result.columns.values) == set(self.results.keys())
 
-    def test_mlb_invalid_team_name_raises_value_error(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_mlb_invalid_team_name_raises_value_error(self, *args, **kwargs):
+        teams = Teams()
+
         with pytest.raises(ValueError):
-            self.teams('INVALID_NAME')
+            teams('INVALID_NAME')
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('requests.head', side_effect=mock_request)
+    def test_mlb_invalid_default_year_reverts_to_previous_year(self,
+                                                               *args,
+                                                               **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return(2018)
+
+        teams = Teams()
+
+        for team in teams:
+            assert team._year == '2017'

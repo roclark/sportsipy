@@ -88,6 +88,13 @@ class Conference:
         """
         if not year:
             year = utils._find_year_for_season('ncaab')
+            # If stats for the requested season do not exist yet (as is the
+            # case right before a new season begins), attempt to pull the
+            # previous year's stats. If it exists, use the previous year
+            # instead.
+            if not utils._url_exists(CONFERENCES_URL % year) and \
+               utils._url_exists(CONFERENCES_URL % str(int(year) - 1)):
+                year = str(int(year) - 1)
         page = self._pull_conference_page(conference_abbreviation, year)
         if not page:
             url = CONFERENCE_URL % (conference_abbreviation, year)
@@ -197,6 +204,13 @@ class Conferences:
         """
         if not year:
             year = utils._find_year_for_season('ncaab')
+            # If stats for the requested season do not exist yet (as is the
+            # case right before a new season begins), attempt to pull the
+            # previous year's stats. If it exists, use the previous year
+            # instead.
+            if not utils._url_exists(CONFERENCES_URL % year) and \
+               utils._url_exists(CONFERENCES_URL % str(int(year) - 1)):
+                year = str(int(year) - 1)
         page = self._pull_conference_page(year)
         if not page:
             output = ("Can't pull requested conference page. Ensure the "

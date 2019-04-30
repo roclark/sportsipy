@@ -1547,6 +1547,13 @@ class Roster(object):
         """
         if not year:
             year = utils._find_year_for_season('mlb')
+            # If stats for the requested season do not exist yet (as is the
+            # case right before a new season begins), attempt to pull the
+            # previous year's stats. If it exists, use the previous year
+            # instead.
+            if not utils._url_exists(self._create_url(year)) and \
+               utils._url_exists(self._create_url(str(int(year) - 1))):
+                year = str(int(year) - 1)
         url = self._create_url(year)
         page = self._pull_team_page(url)
         if not page:

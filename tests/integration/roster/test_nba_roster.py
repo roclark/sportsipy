@@ -9,6 +9,9 @@ from sportsreference.nba.roster import Player, Roster
 from sportsreference.nba.teams import Team
 
 
+YEAR = 2018
+
+
 def read_file(filename):
     filepath = os.path.join(os.path.dirname(__file__), 'nba', filename)
     return open('%s.html' % filepath, 'r').read()
@@ -37,6 +40,19 @@ def mock_pyquery(url):
     if 'BAD' in url:
         return MockPQ(None, 404)
     return MockPQ(read_file('hardeja01'))
+
+
+def mock_request(url):
+    class MockRequest:
+        def __init__(self, html_contents, status_code=200):
+            self.status_code = status_code
+            self.html_contents = html_contents
+            self.text = html_contents
+
+    if str(YEAR) in url:
+        return MockRequest('good')
+    else:
+        return MockRequest('bad', status_code=404)
 
 
 class TestNBAPlayer:
@@ -1226,3 +1242,20 @@ class TestNBARoster:
             'anderry01': 'Ryan Anderson',
             'arizatr01': 'Trevor Ariza'
         }
+
+    @mock.patch('requests.head', side_effect=mock_request)
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_invalid_default_year_reverts_to_previous_year(self,
+                                                           *args,
+                                                           **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return(2019)
+
+        roster = Roster('HOU')
+
+        assert len(roster.players) == 4
+
+        for player in roster.players:
+            assert player.name in ['James Harden', 'Tarik Black',
+                                   'Ryan Anderson', 'Trevor Ariza']

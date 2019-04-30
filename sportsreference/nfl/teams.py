@@ -624,6 +624,13 @@ class Teams:
 
         if not year:
             year = utils._find_year_for_season('nfl')
+            # If stats for the requested season do not exist yet (as is the
+            # case right before a new season begins), attempt to pull the
+            # previous year's stats. If it exists, use the previous year
+            # instead.
+            if not utils._url_exists(SEASON_PAGE_URL % year) and \
+               utils._url_exists(SEASON_PAGE_URL % str(int(year) - 1)):
+                year = str(int(year) - 1)
         doc = pq(SEASON_PAGE_URL % year)
         teams_list = utils._get_stats_table(doc, 'div#all_team_stats')
         afc_list = utils._get_stats_table(doc, 'table#AFC')

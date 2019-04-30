@@ -36,6 +36,19 @@ def mock_pyquery(url):
     return MockPQ(schedule)
 
 
+def mock_request(url):
+    class MockRequest:
+        def __init__(self, html_contents, status_code=200):
+            self.status_code = status_code
+            self.html_contents = html_contents
+            self.text = html_contents
+
+    if str(YEAR) in url:
+        return MockRequest('good')
+    else:
+        return MockRequest('bad', status_code=404)
+
+
 class MockDateTime:
     def __init__(self, year, month):
         self.year = year
@@ -131,3 +144,45 @@ class TestNCAAFSchedule:
     def test_no_games_for_date_raises_value_error(self):
         with pytest.raises(ValueError):
             self.schedule(datetime.now())
+
+
+class TestNCAAFScheduleInvalidYear:
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('requests.head', side_effect=mock_request)
+    def test_invalid_default_year_reverts_to_previous_year(self,
+                                                           *args,
+                                                           **kwargs):
+        results = {
+            'game': 2,
+            'boxscore_index': '2017-09-09-michigan',
+            'date': 'Sep 9, 2017',
+            'time': '12:00 PM',
+            'day_of_week': 'Sat',
+            'datetime': datetime(2017, 9, 9, 12, 0),
+            'location': HOME,
+            'rank': 8,
+            'opponent_abbr': 'cincinnati',
+            'opponent_name': 'Cincinnati',
+            'opponent_rank': None,
+            'opponent_conference': 'American',
+            'result': WIN,
+            'points_for': 36,
+            'points_against': 14,
+            'wins': 2,
+            'losses': 0,
+            'streak': 'W 2'
+        }
+        flexmock(Boxscore) \
+            .should_receive('_parse_game_data') \
+            .and_return(None)
+        flexmock(Boxscore) \
+            .should_receive('dataframe') \
+            .and_return(pd.DataFrame([{'key': 'value'}]))
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return(2018)
+
+        schedule = Schedule('MICHIGAN')
+
+        for attribute, value in results.items():
+            assert getattr(schedule[1], attribute) == value

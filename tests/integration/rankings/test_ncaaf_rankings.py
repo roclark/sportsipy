@@ -33,9 +33,21 @@ def mock_pyquery(url):
     return MockPQ(html_contents)
 
 
+def mock_request(url):
+    class MockRequest:
+        def __init__(self, html_contents, status_code=200):
+            self.status_code = status_code
+            self.html_contents = html_contents
+            self.text = html_contents
+
+    if str(YEAR) in url:
+        return MockRequest('good')
+    else:
+        return MockRequest('bad', status_code=404)
+
+
 class TestNCAAFRankings:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    def test_rankings_integration(self, *args, **kwargs):
+    def setup_method(self):
         results_extended = [
             {
                 'abbreviation': 'alabama',
@@ -644,18 +656,38 @@ class TestNCAAFRankings:
              'previous': '',
              'change': 0}
             ]}
+        self.results_extended = results_extended
+        self.results = results
+        self.results_complete = results_complete
 
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_rankings_integration(self, *args, **kwargs):
         flexmock(utils) \
             .should_receive('_find_year_for_season') \
             .and_return(YEAR)
 
         rankings = Rankings()
 
-        assert rankings.current_extended == results_extended
-        assert rankings.current == results
-        assert rankings.complete == results_complete
+        assert rankings.current_extended == self.results_extended
+        assert rankings.current == self.results
+        assert rankings.complete == self.results_complete
 
     @mock.patch('requests.get', side_effect=mock_pyquery)
     def test_rankings_integration_bad_url(self, *args, **kwargs):
         with pytest.raises(ValueError):
             rankings = Rankings('BAD')
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('requests.head', side_effect=mock_request)
+    def test_invalid_default_year_reverts_to_previous_year(self,
+                                                           *args,
+                                                           **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return(2018)
+
+        rankings = Rankings()
+
+        assert rankings.current_extended == self.results_extended
+        assert rankings.current == self.results
+        assert rankings.complete == self.results_complete
