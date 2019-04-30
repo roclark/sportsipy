@@ -1,3 +1,4 @@
+from mock import patch
 from flexmock import flexmock
 from sportsreference import utils
 
@@ -45,6 +46,20 @@ class MockHtml:
 
     def __call__(self, tag):
         return Html(self.html_string, self.item_list)
+
+
+def mock_pyquery(url):
+    class MockPQ:
+        def __init__(self, html_contents, status_code=200):
+            self.status_code = status_code
+            self.html_contents = html_contents
+            self.text = html_contents
+
+    if '404' in url:
+        return MockPQ('This is bad', 404)
+    elif 'exception' in url:
+        raise Exception
+    return MockPQ('This is good', 200)
 
 
 class TestUtils:
@@ -253,3 +268,21 @@ class TestUtils:
             i += 1
 
         assert i == 2
+
+    @patch('requests.head', side_effect=mock_pyquery)
+    def test_valid_url_returns_true(self, *args, **kwargs):
+        response = utils._url_exists('http://www.good_url.com/this/is/valid')
+
+        assert response
+
+    @patch('requests.head', side_effect=mock_pyquery)
+    def test_404_url_returns_false(self, *args, **kwargs):
+        response = utils._url_exists('http://www.404.com/doesnt/exist')
+
+        assert not response
+
+    @patch('requests.head', side_effect=mock_pyquery)
+    def test_invalid_url_exception_returns_false(self, *args, **kwargs):
+        response = utils._url_exists('http://www.exception.com')
+
+        assert not response

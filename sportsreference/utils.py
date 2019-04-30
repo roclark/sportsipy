@@ -1,4 +1,5 @@
 import re
+import requests
 from datetime import datetime
 from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
@@ -36,6 +37,36 @@ def _todays_date():
         The current date and time as a datetime object.
     """
     return datetime.now()
+
+
+def _url_exists(url):
+    """
+    Determine if a URL is valid and exists.
+
+    Not every URL that is provided is valid and exists, such as requesting
+    stats for a season that hasn't yet begun. In this case, the URL needs to be
+    validated prior to continuing any code to ensure no unhandled exceptions
+    occur.
+
+    Parameters
+    ----------
+    url : string
+        A string representation of the url to check.
+
+    Returns
+    -------
+    bool
+        Evaluates to True when the URL exists and is valid, otherwise returns
+        False.
+    """
+    try:
+        response = requests.head(url)
+        if response.status_code < 400:
+            return True
+        else:
+            return False
+    except Exception:
+        return False
 
 
 def _find_year_for_season(league):
