@@ -24,7 +24,7 @@ pandas==0.24.2
 pathlib2==2.3.3;python_version=="2.7"
 pbr==5.2.1
 pkginfo==1.5.0.1
-pluggy==0.9.0
+pluggy==0.12.0
 py==1.8.0
 pycodestyle==2.5.0
 Pygments==2.4.2
