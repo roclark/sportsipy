@@ -1137,7 +1137,7 @@ class Roster(object):
             Returns a string of the team's season page for the requested team
             and year.
         """
-        return ROSTER_URL % (self._team.lower(), year)
+        return ROSTER_URL % (self._team.upper(), year)
 
     def _get_id(self, player):
         """
