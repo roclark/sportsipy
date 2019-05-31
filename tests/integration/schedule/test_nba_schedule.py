@@ -70,6 +70,7 @@ class TestNBASchedule:
             'opponent_abbr': 'NOP',
             'opponent_name': 'New Orleans Pelicans',
             'result': WIN,
+            'playoffs': False,
             'points_scored': 122,
             'points_allowed': 114,
             'wins': 1,

@@ -28,7 +28,7 @@ class Game(object):
     game_data : string
         The row containing the specified game information.
     """
-    def __init__(self, game_data):
+    def __init__(self, game_data, playoffs=False):
         self._game = None
         self._date = None
         self._time = None
@@ -43,6 +43,7 @@ class Game(object):
         self._wins = None
         self._losses = None
         self._streak = None
+        self._playoffs = playoffs
 
         self._parse_game_data(game_data)
 
@@ -101,7 +102,7 @@ class Game(object):
         for field in self.__dict__:
             # Remove the leading '_' from the name
             short_name = str(field)[1:]
-            if short_name == 'datetime':
+            if short_name == 'datetime' or short_name == 'playoffs':
                 continue
             elif short_name == 'boxscore':
                 self._parse_boxscore(game_data)
@@ -129,6 +130,7 @@ class Game(object):
             'losses': self.losses,
             'opponent_abbr': self.opponent_abbr,
             'opponent_name': self.opponent_name,
+            'playoffs': self.playoffs,
             'points_allowed': self.points_allowed,
             'points_scored': self.points_scored,
             'result': self.result,
@@ -271,6 +273,15 @@ class Game(object):
         """
         return self._streak
 
+    @property
+    def playoffs(self):
+        """
+        Returns a ``boolean`` variable which evalutes to True when the game was
+        played in the playoffs and returns False if the game took place in the
+        regular season.
+        """
+        return self._playoffs
+
 
 class Schedule(object):
     """
@@ -356,7 +367,7 @@ class Schedule(object):
         """Returns the number of scheduled games for the given team."""
         return len(self.__repr__())
 
-    def _add_games_to_schedule(self, schedule):
+    def _add_games_to_schedule(self, schedule, playoff=False):
         """
         Add game information to list of games.
 
@@ -367,14 +378,14 @@ class Schedule(object):
         ----------
         schedule : PyQuery object
             A PyQuery object pertaining to a team's schedule table.
-        year : string
-            The requested year to pull stats from.
+        playoff : boolean
+            Evaluates to True if the game took place in the playoffs.
         """
         for item in schedule:
             if 'class="thead"' in str(item) or \
                'class="over_header thead"' in str(item):
                 continue  # pragma: no cover
-            game = Game(item)
+            game = Game(item, playoff)
             self._games.append(game)
 
     def _pull_schedule(self, abbreviation, year):
@@ -409,7 +420,7 @@ class Schedule(object):
         self._add_games_to_schedule(schedule)
         if 'id="games_playoffs"' in str(doc):
             playoffs = utils._get_stats_table(doc, 'table#games_playoffs')
-            self._add_games_to_schedule(playoffs)
+            self._add_games_to_schedule(playoffs, True)
 
     @property
     def dataframe(self):
