@@ -1767,7 +1767,8 @@ class Boxscores:
         """
         # Grab the first <td...> tag for each <tr> row in the boxscore,
         # representing the name for each participating team.
-        links = [g('td:first') for g in game('tr').items()]
+        links = [g('td:first') for g in game('tr').items()
+                 if 'class="desc"' not in str(g('td:first'))]
         # The away team is the first link in the boxscore
         away = links[0]
         # The home team is the last (3rd) link in the boxscore
