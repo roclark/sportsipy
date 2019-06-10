@@ -7,7 +7,7 @@ cssselect==1.0.3
 flexmock==0.10.4
 idna==2.8
 importlib-metadata==0.18
-lxml==4.3.3
+lxml==4.3.4
 mock==3.0.5
 more-itertools==6.0.0
 numpy==1.16.4
