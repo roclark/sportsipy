@@ -2,10 +2,10 @@ import pandas as pd
 import re
 from functools import wraps
 from pyquery import PyQuery as pq
+from urllib.error import HTTPError
 from .. import utils
 from .constants import PLAYER_SCHEME, PLAYER_URL, ROSTER_URL
 from .player import AbstractPlayer
-from six.moves.urllib.error import HTTPError
 
 
 def _cleanup(prop):
@@ -617,7 +617,7 @@ class Player(AbstractPlayer):
         return self._box_plus_minus
 
 
-class Roster(object):
+class Roster:
     """
     Get stats for all players on a roster.
 

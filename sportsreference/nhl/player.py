@@ -2,9 +2,9 @@ import pandas as pd
 from functools import wraps
 from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
+from urllib.error import HTTPError
 from .. import utils
 from .constants import BOXSCORE_RETRY, PLAYER_SCHEME
-from six.moves.urllib.error import HTTPError
 
 
 def _int_property_decorator(func):
@@ -35,7 +35,7 @@ def _float_property_decorator(func):
     return wrapper
 
 
-class AbstractPlayer(object):
+class AbstractPlayer:
     """
     Get player information and stats for all seasons.
 

@@ -21,7 +21,7 @@ from sportsreference.constants import (WIN,
 from sportsreference.ncaab.boxscore import Boxscore
 
 
-class Game(object):
+class Game:
     """
     A representation of a matchup between two teams.
 
@@ -378,7 +378,7 @@ class Game(object):
         return self._arena
 
 
-class Schedule(object):
+class Schedule:
     """
     An object of the given team's schedule.
 

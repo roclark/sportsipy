@@ -11,9 +11,6 @@ script:
 jobs:
   include:
     - stage: test
-      python: 2.7
-      dist: trusty
-    - stage: test
       python: 3.5
       dist: trusty
     - stage: test

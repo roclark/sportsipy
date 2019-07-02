@@ -9,7 +9,7 @@ from .roster import Roster
 from .schedule import Schedule
 
 
-class Team(object):
+class Team:
     """
     An object containing all of a team's season information.
 

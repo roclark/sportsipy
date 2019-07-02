@@ -4,10 +4,10 @@ from datetime import datetime
 from functools import wraps
 from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
+from urllib.error import HTTPError
 from .. import utils
 from .constants import NATIONALITY, PLAYER_SCHEME, PLAYER_URL, ROSTER_URL
 from .player import AbstractPlayer
-from six.moves.urllib.error import HTTPError
 
 
 def _cleanup(prop):
@@ -1166,7 +1166,7 @@ class Player(AbstractPlayer):
         return self._contract
 
 
-class Roster(object):
+class Roster:
     """
     Get stats for all players on a roster.
 

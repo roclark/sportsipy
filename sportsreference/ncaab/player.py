@@ -47,7 +47,7 @@ def _float_property_decorator(func):
     return wrapper
 
 
-class AbstractPlayer(object):
+class AbstractPlayer:
     """
     Get player information and stats for all seasons.
 

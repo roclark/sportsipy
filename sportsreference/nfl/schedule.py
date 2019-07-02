@@ -21,7 +21,7 @@ from sportsreference.nfl.constants import (CONF_CHAMPIONSHIP,
                                            WILD_CARD)
 
 
-class Game(object):
+class Game:
     """
     A representation of a matchup between two teams.
 
@@ -536,7 +536,7 @@ class Game(object):
         return self._time_of_possession
 
 
-class Schedule(object):
+class Schedule:
     """
     An object of the given team's schedule.
 

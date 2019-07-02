@@ -2,6 +2,7 @@ import pandas as pd
 import re
 from datetime import timedelta
 from pyquery import PyQuery as pq
+from urllib.error import HTTPError
 from .. import utils
 from ..constants import AWAY, HOME
 from ..decorators import int_property_decorator
@@ -14,9 +15,6 @@ from .player import (AbstractPlayer,
                      _float_property_decorator,
                      _int_property_decorator)
 from functools import wraps
-from sportsreference import utils
-from sportsreference.constants import AWAY, HOME
-from six.moves.urllib.error import HTTPError
 
 
 def ncaaf_int_property_sub_index(func):
@@ -295,7 +293,7 @@ class BoxscorePlayer(AbstractPlayer):
         return self._punting_yards_per_attempt
 
 
-class Boxscore(object):
+class Boxscore:
     """
     Detailed information about the final statistics for a game.
 

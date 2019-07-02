@@ -1,8 +1,8 @@
 import re
 from pyquery import PyQuery as pq
+from urllib.error import HTTPError
 from .. import utils
 from .constants import RANKINGS_SCHEME, RANKINGS_URL
-from six.moves.urllib.error import HTTPError
 
 
 class Rankings:
