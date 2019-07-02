@@ -2,6 +2,7 @@ import pandas as pd
 import re
 from datetime import timedelta
 from pyquery import PyQuery as pq
+from urllib.error import HTTPError
 from .. import utils
 from ..constants import AWAY, HOME
 from ..decorators import float_property_decorator, int_property_decorator
@@ -10,9 +11,6 @@ from .constants import (BOXSCORE_ELEMENT_INDEX,
                         BOXSCORE_URL,
                         BOXSCORES_URL)
 from .player import AbstractPlayer, _int_property_decorator
-from sportsreference import utils
-from sportsreference.constants import AWAY, HOME
-from six.moves.urllib.error import HTTPError
 
 
 class BoxscorePlayer(AbstractPlayer):
@@ -183,7 +181,7 @@ class BoxscorePlayer(AbstractPlayer):
         return self._defensive_rating
 
 
-class Boxscore(object):
+class Boxscore:
     """
     Detailed information about the final statistics for a game.
 

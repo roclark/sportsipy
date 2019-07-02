@@ -2,7 +2,9 @@ import pandas as pd
 import re
 from datetime import timedelta
 from pyquery import PyQuery as pq
+from urllib.error import HTTPError
 from .. import utils
+from ..constants import AWAY, HOME
 from ..decorators import int_property_decorator
 from .constants import (BOXSCORE_ELEMENT_INDEX,
                         BOXSCORE_ELEMENT_SUB_INDEX,
@@ -13,9 +15,6 @@ from .player import (AbstractPlayer,
                      _float_property_decorator,
                      _int_property_decorator)
 from functools import wraps
-from sportsreference import utils
-from sportsreference.constants import AWAY, HOME
-from six.moves.urllib.error import HTTPError
 
 
 def nfl_int_property_sub_index(func):
@@ -210,7 +209,7 @@ class BoxscorePlayer(AbstractPlayer):
         return self._average_kickoff_return_yards
 
 
-class Boxscore(object):
+class Boxscore:
     """
     Detailed information about the final statistics for a game.
 

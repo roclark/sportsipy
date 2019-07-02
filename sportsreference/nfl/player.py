@@ -3,9 +3,9 @@ import re
 from functools import wraps
 from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
+from urllib.error import HTTPError
 from .. import utils
 from .constants import PLAYER_SCHEME, PLAYER_URL, ROSTER_URL
-from six.moves.urllib.error import HTTPError
 
 
 def _cleanup(prop):
@@ -50,7 +50,7 @@ def _float_property_decorator(func):
     return wrapper
 
 
-class AbstractPlayer(object):
+class AbstractPlayer:
     """
     Get player information and stats for all seasons.
 

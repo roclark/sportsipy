@@ -17,7 +17,7 @@ from sportsreference.nhl.boxscore import Boxscore
 from sportsreference.nhl.constants import OVERTIME_LOSS, SHOOTOUT
 
 
-class Game(object):
+class Game:
     """
     A representation of a matchup between two teams.
 
@@ -473,7 +473,7 @@ class Game(object):
         return self._pdo
 
 
-class Schedule(object):
+class Schedule:
     """
     An object of the given team's schedule.
 

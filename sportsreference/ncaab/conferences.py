@@ -1,8 +1,8 @@
 from pyquery import PyQuery as pq
 import re
+from urllib.error import HTTPError
 from .. import utils
 from .constants import CONFERENCE_URL, CONFERENCES_URL
-from six.moves.urllib.error import HTTPError
 
 
 class Conference:

@@ -3,6 +3,7 @@ import re
 from functools import wraps
 from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
+from urllib.error import HTTPError
 from .. import utils
 from .constants import (NATIONALITY,
                         PLAYER_ELEMENT_INDEX,
@@ -10,7 +11,6 @@ from .constants import (NATIONALITY,
                         PLAYER_URL,
                         ROSTER_URL)
 from .player import AbstractPlayer
-from six.moves.urllib.error import HTTPError
 
 
 def _cleanup(prop):
@@ -404,9 +404,8 @@ class Player(AbstractPlayer):
         """
         Parse the team name in the contract table.
 
-        The team names in the contract table contain special encoded characters
-        that are not supported by Python 2.7. These characters should be
-        filtered out to get the proper team name.
+        The team names in the contract table should be pulled in plain text and
+        returned as a string.
 
         Parameters
         ----------
@@ -419,7 +418,6 @@ class Player(AbstractPlayer):
         string
             A string of the team's name, such as 'Houston Astros'.
         """
-        team = team.replace('&#160;', ' ')
         team = team.replace('\xa0', ' ')
         team_html = pq(team)
         return team_html.text()
@@ -1414,7 +1412,7 @@ class Player(AbstractPlayer):
         return self._strikeouts_thrown_per_walk
 
 
-class Roster(object):
+class Roster:
     """
     Get stats for all players on a roster.
 

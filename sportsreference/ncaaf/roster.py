@@ -3,10 +3,10 @@ import re
 from functools import wraps
 from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
+from urllib.error import HTTPError
 from .. import utils
 from .constants import PLAYER_SCHEME, PLAYER_URL, ROSTER_URL
 from .player import AbstractPlayer
-from six.moves.urllib.error import HTTPError
 
 
 def _int_property_decorator(func):
@@ -826,7 +826,7 @@ class Player(AbstractPlayer):
         return self._points
 
 
-class Roster(object):
+class Roster:
     """
     Get stats for all players on a roster.
 
