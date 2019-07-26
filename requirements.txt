@@ -10,7 +10,7 @@ importlib-metadata==0.18
 lxml==4.3.4
 mock==3.0.5
 more-itertools==7.1.0
-numpy==1.16.4
+numpy==1.17.0
 packaging==19.0
 pandas==0.24.2
 pluggy==0.12.0
