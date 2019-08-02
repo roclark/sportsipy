@@ -5,6 +5,7 @@ from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
 from sportsreference.mlb.boxscore import Boxscore, Boxscores
 from sportsreference.mlb.constants import DAY, NIGHT
+from urllib.error import HTTPError
 
 
 class MockName:
@@ -40,9 +41,11 @@ def mock_pyquery(url):
             self.status_code = 404
             self.html_contents = html_contents
             self.text = html_contents
+            self.url = url
+            self.reason = '404'
+            self.headers = None
 
-    boxscore = read_file('%s.shtml' % BOXSCORE)
-    return MockPQ(boxscore)
+    return MockPQ(None)
 
 
 class TestMLBBoxscore:
@@ -166,7 +169,8 @@ class TestMLBBoxscore:
 
         assert self.boxscore.losing_abbr == expected_name
 
-    def test_invalid_url_returns_none(self):
+    @patch('requests.get', side_effect=mock_pyquery)
+    def test_invalid_url_returns_none(self, *args, **kwargs):
         result = Boxscore(None)._retrieve_html_page('')
 
         assert result is None
