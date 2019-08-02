@@ -14,7 +14,7 @@ YEAR = 2018
 
 def read_file(filename):
     filepath = os.path.join(os.path.dirname(__file__), 'nba', filename)
-    return open('%s.html' % filepath, 'r').read()
+    return open('%s.html' % filepath, 'r', encoding='utf8').read()
 
 
 def mock_pyquery(url):

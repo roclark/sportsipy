@@ -11,7 +11,7 @@ YEAR = 2018
 
 def read_file(filename):
     filepath = join(dirname(__file__), 'ncaaf', filename)
-    return open(filepath, 'r').read()
+    return open(filepath, 'r', encoding='utf8').read()
 
 
 def mock_pyquery(url):

@@ -19,7 +19,7 @@ NUM_GAMES_IN_SCHEDULE = 82
 
 def read_file(filename):
     filepath = os.path.join(os.path.dirname(__file__), 'nhl', filename)
-    return open('%s' % filepath, 'r').read()
+    return open('%s' % filepath, 'r', encoding='utf8').read()
 
 
 def mock_pyquery(url):
