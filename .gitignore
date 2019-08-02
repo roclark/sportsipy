@@ -16,3 +16,4 @@ include/*
 lib/*
 man/*
 pip-selfcheck.json
+env/*
