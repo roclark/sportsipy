@@ -471,6 +471,13 @@ class Player(AbstractPlayer):
         """
         Returns a ``string`` of the player's primary position.
         """
+        # If the position is left blank for the career stats, it will show
+        # the player as not having a position. Since player stats default to
+        # career, this will make it appear no players have a position. Instead,
+        # default to the most recent season.
+        if self.season == 'Career' and self._position[self._index] == '':
+            index = self._season.index(self._most_recent_season)
+            return self._position[index]
         return self._position[self._index]
 
     @property
