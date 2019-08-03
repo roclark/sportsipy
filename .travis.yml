@@ -3,10 +3,14 @@ sudo: false
 
 install:
   - pip install -r requirements.txt
+  - pip install codecov
 
 script:
   - py.test --cov=sportsreference --cov-report term-missing tests/
   - pycodestyle sportsreference/ tests/
+
+after_success:
+  - codecov
 
 jobs:
   include:
