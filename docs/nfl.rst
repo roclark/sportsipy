@@ -149,7 +149,7 @@ information on the game metrics.
 
     from sportsreference.nfl.schedule import Schedule
 
-    houston_schedule = Schedule('HOU')
+    houston_schedule = Schedule('HTX')
     for game in houston_schedule:
         print(game.date)  # Prints the date the game was played
         print(game.result)  # Prints whether the team won or lost

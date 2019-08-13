@@ -1242,7 +1242,7 @@ class Boxscores:
                                  (`str`),
                     'away_name': Name of the away team, such as 'Houston
                                  Texans' (`str`),
-                    'away_abbr': Abbreviation for the away team, such as 'HOU'
+                    'away_abbr': Abbreviation for the away team, such as 'HTX'
                                  (`str`),
                     'boxscore': String representing the boxscore URI, such as
                                 'SLN/SLN201807280' (`str`),
@@ -1253,7 +1253,7 @@ class Boxscores:
                     'losing_name': Full name of the losing team, such as
                                    'Houston Texans' (`str`),
                     'losing_abbr': Abbreviation for the losing team, such as
-                                   'HOU' (`str`),
+                                   'HTX' (`str`),
                     'home_score': Integer score for the home team (`int`),
                     'away_score': Integer score for the away team (`int`)
                 },
