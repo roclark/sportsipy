@@ -292,6 +292,7 @@ PLAYER_SCHEME = {
 }
 
 NATIONALITY = {
+    'ao': 'Angola',
     'ag': 'Antigua and Barbuda',
     'ar': 'Argentina',
     'au': 'Australia',
@@ -324,6 +325,7 @@ NATIONALITY = {
     'gh': 'Ghana',
     'gr': 'Greece',
     'gp': 'Guadeloupe',
+    'gn': 'Guinea',
     'gy': 'Guyana',
     'ht': 'Haiti',
     'hu': 'Hungary',
