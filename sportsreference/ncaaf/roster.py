@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+import warnings
 from functools import wraps
 from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
@@ -75,7 +76,7 @@ class Player(AbstractPlayer):
         self._games = None
         # Passing-specific stats
         self._completed_passes = None
-        self._attempted_passes = None
+        self._pass_attempts = None
         self._passing_completion = None
         self._passing_touchdowns = None
         self._interceptions_thrown = None
@@ -370,7 +371,6 @@ class Player(AbstractPlayer):
         fields_to_include = {
             'adjusted_yards_per_attempt': self.adjusted_yards_per_attempt,
             'assists_on_tackles': self.assists_on_tackles,
-            'attempted_passes': self.attempted_passes,
             'completed_passes': self.completed_passes,
             'extra_points_made': self.extra_points_made,
             'field_goals_made': self.field_goals_made,
@@ -387,6 +387,7 @@ class Player(AbstractPlayer):
             'kickoff_return_touchdowns': self.kickoff_return_touchdowns,
             'name': self.name,
             'other_touchdowns': self.other_touchdowns,
+            'pass_attempts': self.pass_attempts,
             'passes_defended': self.passes_defended,
             'passing_completion': self.passing_completion,
             'passing_touchdowns': self.passing_touchdowns,
@@ -525,7 +526,18 @@ class Player(AbstractPlayer):
         """
         Returns an ``int`` of the number of passes the player attempted.
         """
-        return self._attempted_passes
+        warnings.warn('Warning: "attempted_passes" is deprecated and will '
+                      'be removed in a future release. Please use '
+                      '"pass_attempts" instead for identical functionality.',
+                      DeprecationWarning)
+        return self._pass_attempts
+
+    @_int_property_decorator
+    def pass_attempts(self):
+        """
+        Returns an ``int`` of the number of passes the player attempted.
+        """
+        return self._pass_attempts
 
     @_float_property_decorator
     def passing_completion(self):
