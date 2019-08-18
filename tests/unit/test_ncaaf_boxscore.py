@@ -1,9 +1,11 @@
+import pytest
 from flexmock import flexmock
 from mock import patch, PropertyMock
 from pyquery import PyQuery as pq
 from sportsreference import utils
 from sportsreference.constants import AWAY, HOME
 from sportsreference.ncaaf.boxscore import Boxscore, Boxscores
+from sportsreference.ncaaf.player import AbstractPlayer
 
 
 class MockField:
@@ -411,6 +413,22 @@ Logos via Sports Logos.net / About logos
         type(self.boxscore)._away_rush_attempts = fake_rushes
 
         assert self.boxscore.away_rush_attempts is None
+
+    @patch('requests.get', side_effect=mock_pyquery)
+    def test_attempted_passes_has_deprecation_warning(self, *args, **kwargs):
+        flexmock(AbstractPlayer) \
+            .should_receive('__init__') \
+            .and_return(None)
+        mock_passes = PropertyMock(return_value=[32])
+        mock_index = PropertyMock(return_value=0)
+        player = AbstractPlayer(None, None, None)
+        type(player)._pass_attempts = mock_passes
+        type(player)._index = mock_index
+
+        with pytest.deprecated_call():
+            result = player.attempted_passes
+
+            assert result == 32
 
 
 class TestNCAABBoxscores:

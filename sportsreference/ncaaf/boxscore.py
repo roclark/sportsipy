@@ -103,7 +103,7 @@ class BoxscorePlayer(AbstractPlayer):
         """
         fields_to_include = {
             'completed_passes': self.completed_passes,
-            'attempted_passes': self.attempted_passes,
+            'pass_attempts': self.pass_attempts,
             'passing_completion': self.passing_completion,
             'passing_yards': self.passing_yards,
             'pass_yards_per_attempt': self.pass_yards_per_attempt,

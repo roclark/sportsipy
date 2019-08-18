@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+import warnings
 from functools import wraps
 from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
@@ -72,7 +73,7 @@ class AbstractPlayer:
         self._name = player_name
         # Passing-specific stats
         self._completed_passes = None
-        self._attempted_passes = None
+        self._pass_attempts = None
         self._passing_completion = None
         self._passing_touchdowns = None
         self._interceptions_thrown = None
@@ -209,7 +210,18 @@ class AbstractPlayer:
         """
         Returns an ``int`` of the number of passes the player attempted.
         """
-        return self._attempted_passes
+        warnings.warn('Warning: "attempted_passes" is deprecated and will '
+                      'be removed in a future release. Please use '
+                      '"pass_attempts" instead for identical functionality.',
+                      DeprecationWarning)
+        return self._pass_attempts
+
+    @_int_property_decorator
+    def pass_attempts(self):
+        """
+        Returns an ``int`` of the number of passes the player attempted.
+        """
+        return self._pass_attempts
 
     @_float_property_decorator
     def passing_completion(self):
