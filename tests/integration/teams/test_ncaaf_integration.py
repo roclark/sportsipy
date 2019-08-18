@@ -318,6 +318,18 @@ class TestNCAAFIntegration:
         with pytest.raises(ValueError):
             self.teams('INVALID_NAME')
 
+    def test_ncaaf_empty_page_returns_no_teams(self):
+        flexmock(utils) \
+            .should_receive('_no_data_found') \
+            .once()
+        flexmock(utils) \
+            .should_receive('_get_stats_table') \
+            .and_return(None)
+
+        teams = Teams()
+
+        assert len(teams) == 0
+
 
 class TestNCAAFIntegrationInvalidYear:
     @mock.patch('requests.get', side_effect=mock_pyquery)

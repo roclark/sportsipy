@@ -719,6 +719,9 @@ class Teams:
         teams_list = utils._get_stats_table(doc, 'div#all_team-stats-base')
         opp_teams_list = utils._get_stats_table(doc,
                                                 'div#all_opponent-stats-base')
+        if not teams_list and not opp_teams_list:
+            utils._no_data_found()
+            return
         for stats_list in [teams_list, opp_teams_list]:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 

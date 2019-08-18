@@ -584,6 +584,9 @@ class Teams:
         teams_list = utils._get_stats_table(doc, 'div#div_standings')
         offense_doc = pq(OFFENSIVE_STATS_URL % year)
         offense_list = utils._get_stats_table(offense_doc, 'table#offense')
+        if not teams_list and not offense_list:
+            utils._no_data_found()
+            return
         for stats_list in [teams_list, offense_list]:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 

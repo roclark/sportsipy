@@ -585,6 +585,9 @@ class Schedule:
                 year = str(int(year) - 1)
         doc = pq(SCHEDULE_URL % (abbreviation, year))
         schedule = utils._get_stats_table(doc, 'table#tm_gamelog_rs')
+        if not schedule:
+            utils._no_data_found()
+            return
 
         for item in schedule:
             if 'class="thead"' in str(item):

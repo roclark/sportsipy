@@ -417,6 +417,9 @@ class Schedule:
                 year = str(int(year) - 1)
         doc = pq(SCHEDULE_URL % (abbreviation, year))
         schedule = utils._get_stats_table(doc, 'table#games')
+        if not schedule:
+            utils._no_data_found()
+            return
         self._add_games_to_schedule(schedule)
         if 'id="games_playoffs"' in str(doc):
             playoffs = utils._get_stats_table(doc, 'table#games_playoffs')

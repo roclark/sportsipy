@@ -635,6 +635,9 @@ class Teams:
         teams_list = utils._get_stats_table(doc, 'div#all_team_stats')
         afc_list = utils._get_stats_table(doc, 'table#AFC')
         nfc_list = utils._get_stats_table(doc, 'table#NFC')
+        if not teams_list and not afc_list and not nfc_list:
+            utils._no_data_found()
+            return
         for stats_list in [teams_list, afc_list, nfc_list]:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 

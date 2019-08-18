@@ -1130,7 +1130,10 @@ class Teams:
         adv_teams_list = utils._get_stats_table(doc, 'table#adv_school_stats')
         doc = pq(ADVANCED_OPPONENT_STATS_URL % year)
         adv_opp_list = utils._get_stats_table(doc, 'table#adv_opp_stats')
-
+        if not teams_list and not opp_list and not adv_teams_list \
+           and not adv_opp_list:
+            utils._no_data_found()
+            return
         for stats_list in [teams_list, opp_list, adv_teams_list, adv_opp_list]:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 
