@@ -78,6 +78,7 @@ class Player(AbstractPlayer):
         self._completed_passes = None
         self._pass_attempts = None
         self._passing_completion = None
+        self._passing_yards = None
         self._passing_touchdowns = None
         self._interceptions_thrown = None
         self._passing_yards_per_attempt = None
@@ -391,6 +392,7 @@ class Player(AbstractPlayer):
             'passes_defended': self.passes_defended,
             'passing_completion': self.passing_completion,
             'passing_touchdowns': self.passing_touchdowns,
+            'passing_yards': self.passing_yards,
             'passing_yards_per_attempt': self.passing_yards_per_attempt,
             'player_id': self.player_id,
             'plays_from_scrimmage': self.plays_from_scrimmage,
@@ -546,6 +548,14 @@ class Player(AbstractPlayer):
         receiver. Percentage ranges from 0-100.
         """
         return self._passing_completion
+
+    @_int_property_decorator
+    def passing_yards(self):
+        """
+        Returns an ``int`` of the total number of yards the player gained from
+        passing the ball.
+        """
+        return self._passing_yards
 
     @_int_property_decorator
     def passing_touchdowns(self):

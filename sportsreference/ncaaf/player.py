@@ -76,6 +76,7 @@ class AbstractPlayer:
         self._pass_attempts = None
         self._passing_completion = None
         self._passing_touchdowns = None
+        self._passing_yards = None
         self._interceptions_thrown = None
         self._passing_yards_per_attempt = None
         self._adjusted_yards_per_attempt = None
@@ -230,6 +231,14 @@ class AbstractPlayer:
         receiver. Percentage ranges from 0-100.
         """
         return self._passing_completion
+
+    @_int_property_decorator
+    def passing_yards(self):
+        """
+        Returns an ``int`` of the total number of yards the player gained from
+        passing the ball.
+        """
+        return self._passing_yards
 
     @_int_property_decorator
     def passing_touchdowns(self):
