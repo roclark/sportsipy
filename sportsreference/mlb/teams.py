@@ -1295,6 +1295,9 @@ class Teams:
         div_prefix = 'div#all_teams_standard_%s'
         batting_stats = utils._get_stats_table(doc, div_prefix % 'batting')
         pitching_stats = utils._get_stats_table(doc, div_prefix % 'pitching')
+        if not standings and not batting_stats and not pitching_stats:
+            utils._no_data_found()
+            return
         for stats_list in [standings, batting_stats, pitching_stats]:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 

@@ -144,6 +144,18 @@ class TestNBASchedule:
         with pytest.raises(ValueError):
             self.schedule(datetime.now())
 
+    def test_empty_page_return_no_games(self):
+        flexmock(utils) \
+            .should_receive('_no_data_found') \
+            .once()
+        flexmock(utils) \
+            .should_receive('_get_stats_table') \
+            .and_return(None)
+
+        schedule = Schedule('GSW')
+
+        assert len(schedule) == 0
+
 
 class TestNBAScheduleInvalidError:
     @mock.patch('requests.get', side_effect=mock_pyquery)

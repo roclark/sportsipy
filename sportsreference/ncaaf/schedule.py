@@ -448,6 +448,9 @@ class Schedule:
                 year = str(int(year) - 1)
         doc = pq(SCHEDULE_URL % (abbreviation.lower(), year))
         schedule = utils._get_stats_table(doc, 'table#schedule')
+        if not schedule:
+            utils._no_data_found()
+            return
 
         for item in schedule:
             game = Game(item)

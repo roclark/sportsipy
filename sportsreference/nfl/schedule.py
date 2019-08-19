@@ -670,6 +670,9 @@ class Schedule:
                 year = str(int(year) - 1)
         doc = pq(SCHEDULE_URL % (abbreviation.lower(), year))
         schedule = utils._get_stats_table(doc, 'table#gamelog%s' % year)
+        if not schedule:
+            utils._no_data_found()
+            return
         self._add_games_to_schedule(schedule, REGULAR_SEASON, year)
         if 'playoff_gamelog%s' % year in str(doc):
             playoffs = utils._get_stats_table(doc,

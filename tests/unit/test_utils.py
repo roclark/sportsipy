@@ -286,3 +286,8 @@ class TestUtils:
         response = utils._url_exists('http://www.exception.com')
 
         assert not response
+
+    def test_no_data_found_returns_safely(self, *args, **kwargs):
+        response = utils._no_data_found()
+
+        assert not response

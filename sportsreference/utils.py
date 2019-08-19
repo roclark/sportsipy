@@ -257,3 +257,19 @@ def _get_stats_table(html_page, div, footer=False):
     else:
         teams_list = stats_table('tbody tr').items()
     return teams_list
+
+
+def _no_data_found():
+    """
+    Print a message that no data could be found on the page.
+
+    Occasionally, such as right before the beginning of a season, a page will
+    return a valid response but will have no data outside of the default
+    HTML and CSS template. With no data present on the page, sportsreference
+    can't parse any information and should indicate the lack of data and return
+    safely.
+    """
+    print('The requested page returned a valid response, but no data could be '
+          'found. Has the season begun, and is the data available on '
+          'www.sports-reference.com?')
+    return

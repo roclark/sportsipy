@@ -484,6 +484,9 @@ class Teams:
         teams_list = utils._get_stats_table(doc, 'div#all_stats')
         # Teams are listed in terms of rank with the first team being #1
         rank = 1
+        if not teams_list:
+            utils._no_data_found()
+            return
         for team_data in teams_list:
             team = Team(team_data, rank, year)
             self._teams.append(team)
