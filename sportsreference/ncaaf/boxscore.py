@@ -77,7 +77,6 @@ class BoxscorePlayer(AbstractPlayer):
     def __init__(self, player_id, player_name, player_data):
         self._index = 0
         self._player_id = player_id
-        self._passing_yards = None
         self._pass_yards_per_attempt = None
         self._kickoff_returns = None
         self._kickoff_return_yards = None
@@ -164,14 +163,6 @@ class BoxscorePlayer(AbstractPlayer):
             'punting_yards_per_punt': self.punting_yards_per_attempt
         }
         return pd.DataFrame([fields_to_include], index=[self._player_id])
-
-    @_int_property_decorator
-    def passing_yards(self):
-        """
-        Returns an ``int`` of the total number of yards the player gained from
-        passing the ball.
-        """
-        return self._passing_yards
 
     @_float_property_decorator
     def pass_yards_per_attempt(self):
