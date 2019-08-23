@@ -4,7 +4,8 @@ from .constants import (MLS_CURRENT_SEASON_URL,
                         ID_MAP,
                         PARSING_SCHEME)
 from pyquery import PyQuery as pq
-from sportsreference.decorators import float_property_decorator, int_property_decorator
+from sportsreference.decorators import float_property_decorator, \
+    int_property_decorator
 from sportsreference import utils
 
 
@@ -161,8 +162,8 @@ class Team:
     @int_property_decorator
     def goals_differential(self):
         """
-        Returns an ``int`` of the difference in the number of goals scored and against
-        during the season.
+        Returns an ``int`` of the difference in the number of goals scored
+        and against during the season.
         """
         return self._goal_diff
 
@@ -235,7 +236,8 @@ class Teams:
         Parameters
         ----------
         abbreviation : string
-            An MLS team's short name (ie. 'Columbus-Crew' for the Columbus Crew).
+            An MLS team's short name (ie. 'Columbus-Crew' for the
+            Columbus Crew).
 
         Returns
         -------
@@ -262,7 +264,8 @@ class Teams:
         Parameters
         ----------
         abbreviation : string
-            An MLS team's short name (ie. 'Columbus-Crew' for the Columbus Crew).
+            An MLS team's short name (ie. 'Columbus-Crew' for the Columbus
+            Crew).
 
         Returns
         -------
@@ -346,9 +349,12 @@ class Teams:
             url = MLS_SEASON_URL % (mls_season_id, year)
 
         doc = pq(url)
-        regular_season_teams_list = utils._get_stats_table(doc, f'table#results{mls_season_id}1')
-        eastern_conf_teams_list = utils._get_stats_table(doc, f'table#results{mls_season_id}1Eastern-Conference')
-        western_conf_teams_list = utils._get_stats_table(doc, f'table#results{mls_season_id}1Western-Conference')
+        table_id = 'table#results' + mls_season_id + '1'
+        regular_season_teams_list = utils._get_stats_table(doc, table_id)
+        table_id = 'table#results' + mls_season_id + '1Eastern-Conference'
+        eastern_conf_teams_list = utils._get_stats_table(doc, table_id)
+        table_id = 'table#results' + mls_season_id + '1Western-Conference'
+        western_conf_teams_list = utils._get_stats_table(doc, table_id)
 
         list_to_process = []
 

@@ -44,8 +44,7 @@ ID_MAP = {
     '2019': 2798  # TODO
 }
 
-
-MLS_CURRENT_SEASON_URL = 'https://fbref.com/en/comps/22/Major-League-Soccer-Stats'
-MLS_SEASON_URL = ('https://fbref.com/en/comps/22/'
-                          '%s/%s-Major-League-Soccer-Stats')
-
+FBREF_URL = 'https://fbref.com'
+MLS_CURRENT_SEASON_URL = FBREF_URL + '/en/comps/22/Major-League-Soccer-Stats'
+MLS_SEASON_URL = (FBREF_URL + '/en/comps/22/'
+                  '%s/%s-Major-League-Soccer-Stats')
