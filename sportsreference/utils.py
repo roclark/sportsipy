@@ -145,6 +145,7 @@ def _parse_abbreviation(uri_link):
     abbr = re.sub(r'/[0-9]+\..*htm.*', '', uri_link('a').attr('href'))
     abbr = re.sub(r'/.*/schools/', '', abbr)
     abbr = re.sub(r'/teams/', '', abbr)
+    abbr = re.sub(r'/.*/squads/.*/', '', abbr)
     return abbr.upper()
 
 
