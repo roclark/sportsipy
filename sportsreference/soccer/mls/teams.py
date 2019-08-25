@@ -7,7 +7,7 @@ from pyquery import PyQuery as pq
 from sportsreference.decorators import float_property_decorator, \
     int_property_decorator
 from sportsreference import utils
-from sportsreference.soccer import utils as soccer_utils
+from sportsreference.soccer.utils import _parse_field_link, _parse_club_id
 
 
 class Team:
@@ -71,11 +71,11 @@ class Team:
             if field == '_year':
                 continue
             if field == '_id':
-                value = soccer_utils._parse_field_link(PARSING_SCHEME,
-                                           team_data,
-                                           # Remove the '_' from the name
-                                           str(field)[1:])
-                value = soccer_utils._parse_club_id(value)
+                value = _parse_field_link(PARSING_SCHEME,
+                                          team_data,
+                                          # Remove the '_' from the name
+                                          str(field)[1:])
+                value = _parse_club_id(value)
             else:
                 value = utils._parse_field(PARSING_SCHEME,
                                            team_data,
