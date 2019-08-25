@@ -7,6 +7,7 @@ from pyquery import PyQuery as pq
 from sportsreference.decorators import float_property_decorator, \
     int_property_decorator
 from sportsreference import utils
+from sportsreference.soccer import utils as soccer_utils
 
 
 class Team:
@@ -27,11 +28,13 @@ class Team:
         The requested year to pull stats from.
     """
     def __init__(self, team_data, year=None):
+        self._id = None
         self._year = year
         self._abbreviation = None
         self._name = None
         self._games = None
         self._wins = None
+        self._wins_so = None
         self._draws = None
         self._losses = None
         self._goals_for = None
@@ -67,10 +70,17 @@ class Team:
         for field in self.__dict__:
             if field == '_year':
                 continue
-            value = utils._parse_field(PARSING_SCHEME,
-                                       team_data,
-                                       # Remove the '_' from the name
-                                       str(field)[1:])
+            if field == '_id':
+                value = soccer_utils._parse_field_link(PARSING_SCHEME,
+                                           team_data,
+                                           # Remove the '_' from the name
+                                           str(field)[1:])
+                value = soccer_utils._parse_club_id(value)
+            else:
+                value = utils._parse_field(PARSING_SCHEME,
+                                           team_data,
+                                           # Remove the '_' from the name
+                                           str(field)[1:])
             setattr(self, field, value)
 
     @property
@@ -105,6 +115,13 @@ class Team:
         return self._abbreviation
 
     @property
+    def id(self):
+        """
+        Returns a ``string`` of the team's fbref id.
+        """
+        return self._id
+
+    @property
     def name(self):
         """
         Returns a ``string`` of the team's full name, such as 'Columbus Crew'.
@@ -124,6 +141,14 @@ class Team:
         """
         Returns an ``int`` of the total number of games the team won during the
         season.
+        """
+        return self._wins
+
+    @int_property_decorator
+    def wins_shootout(self):
+        """
+        Returns an ``int`` of the total number of games the team won in a
+        shootout during the season.
         """
         return self._wins
 
