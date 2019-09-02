@@ -1,6 +1,7 @@
 import pandas as pd
 import re
 from functools import wraps
+from lxml.etree import ParserError
 from pyquery import PyQuery as pq
 from urllib.error import HTTPError
 from .. import utils
@@ -133,7 +134,7 @@ class Player(AbstractPlayer):
         url = PLAYER_URL % self._player_id
         try:
             url_data = pq(url)
-        except HTTPError:
+        except (HTTPError, ParserError):
             return None
         return pq(utils._remove_html_comment_tags(url_data))
 
@@ -760,7 +761,7 @@ class Roster:
         url = self._create_url(year)
         page = self._pull_team_page(url)
         if not page:
-            output = ("Can't pull requested team page. Ensure the follow "
+            output = ("Can't pull requested team page. Ensure the following "
                       "URL exists: %s" % url)
             raise ValueError(output)
         players = page('table#roster tbody tr').items()
