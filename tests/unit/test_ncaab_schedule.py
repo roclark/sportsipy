@@ -1,3 +1,4 @@
+from datetime import datetime
 from flexmock import flexmock
 from mock import PropertyMock
 from pyquery import PyQuery as pq
@@ -126,6 +127,22 @@ class TestNCAABSchedule:
         type(self.game)._overtimes = fake_overtime
 
         assert self.game.overtimes == 0
+
+    def test_none_time_defaults_to_set_time_in_datetime(self):
+        fake_date = PropertyMock(return_value='Thu, Dec 13, 2018')
+        fake_time = PropertyMock(return_value=None)
+        type(self.game)._date = fake_date
+        type(self.game)._time = fake_time
+
+        assert self.game.datetime == datetime(2018, 12, 13, 19, 0)
+
+    def test_blank_time_defaults_to_set_time_in_datetime(self):
+        fake_date = PropertyMock(return_value='Thu, Dec 13, 2018')
+        fake_time = PropertyMock(return_value='')
+        type(self.game)._date = fake_date
+        type(self.game)._time = fake_time
+
+        assert self.game.datetime == datetime(2018, 12, 13, 19, 0)
 
     def test_empty_schedule_class_returns_dataframe_of_none(self):
         fake_points = PropertyMock(return_value=None)

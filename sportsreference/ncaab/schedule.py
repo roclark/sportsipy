@@ -197,7 +197,17 @@ class Game:
         Returns a datetime object to indicate the month, day, year, and time
         the requested game took place.
         """
-        date_string = '%s %s' % (self._date, self._time.upper())
+        # Sometimes, the time isn't displayed on the game page. In this case,
+        # the time property will be empty, causing the time parsing to fail as
+        # it can't match the expected format. To prevent the issue, and since
+        # the time can't properly be parsed, a default start time of 7:00PM
+        # should be used in this scenario as 7:00PM appears to be the average
+        # start time for NCAAB games.
+        if not self._time or self._time.upper() == '':
+            time = '7:00P'
+        else:
+            time = self._time.upper()
+        date_string = '%s %s' % (self._date, time)
         date_string = re.sub(r'/.*', '', date_string)
         date_string = re.sub(r' ET', '', date_string)
         date_string += 'M'
