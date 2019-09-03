@@ -16,7 +16,7 @@ pandas==0.25.1
 pluggy==0.12.0
 py==1.8.0
 pycodestyle==2.5.0
-pyparsing==2.4.0
+pyparsing==2.4.2
 pyquery==1.4.0
 pytest==5.0.0
 pytest-cov==2.7.1
