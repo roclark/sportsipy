@@ -3,7 +3,7 @@ attrs==19.1.0
 certifi==2019.6.16
 chardet==3.0.4
 coverage==4.5.4
-cssselect==1.0.3
+cssselect==1.1.0
 flexmock==0.10.4
 idna==2.8
 importlib-metadata==0.20
