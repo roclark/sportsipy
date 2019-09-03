@@ -451,7 +451,7 @@ class Teams:
     """
     def __init__(self, year=None):
         self._teams = []
-        self._conferences_dict = Conferences(year).team_conference
+        self._conferences_dict = Conferences(year, True).team_conference
 
         self._retrieve_all_teams(year)
 
@@ -591,9 +591,11 @@ class Teams:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 
         for team_name, team_data in team_data_dict.items():
-            team = Team(team_data['data'],
-                        self._conferences_dict[team_name.lower()],
-                        year)
+            if team_name.lower() not in self._conferences_dict:
+                conference = None
+            else:
+                conference = self._conferences_dict[team_name.lower()]
+            team = Team(team_data['data'], conference, year)
             self._teams.append(team)
 
     @property
