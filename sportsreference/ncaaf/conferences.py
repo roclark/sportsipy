@@ -1,5 +1,7 @@
-from pyquery import PyQuery as pq
 import re
+import warnings
+from lxml.etree import ParserError
+from pyquery import PyQuery as pq
 from urllib.error import HTTPError
 from .. import utils
 from .constants import CONFERENCE_URL, CONFERENCES_URL
@@ -20,9 +22,15 @@ class Conference:
     year : string (optional)
         A string of the requested year to pull conference information from.
         Defaults to the most recent season.
+    ignore_missing : boolean (optional)
+        A boolean which, when True, doesn't throw an error if the requested
+        conference has an incomplete or empty page on www.sports-reference.com,
+        preventing the parsing from completing successfully.
     """
-    def __init__(self, conference_abbreviation, year=None):
+    def __init__(self, conference_abbreviation, year=None,
+                 ignore_missing=False):
         self._teams = {}
+        self._ignore_missing = ignore_missing
 
         self._find_conference_teams(conference_abbreviation, year)
 
@@ -43,7 +51,7 @@ class Conference:
         """
         try:
             return pq(CONFERENCE_URL % (conference_abbreviation, year))
-        except HTTPError:
+        except (HTTPError, ParserError):
             return None
 
     def _get_team_abbreviation(self, team):
@@ -100,7 +108,11 @@ class Conference:
             url = CONFERENCE_URL % (conference_abbreviation, year)
             output = ("Can't pull requested conference page. Ensure the "
                       "following URL exists: %s" % url)
-            raise ValueError(output)
+            if self._ignore_missing:
+                warnings.warn(output)
+                return
+            else:
+                raise ValueError(output)
         conference = page('table#standings tbody tr').items()
         for team in conference:
             team_abbreviation = self._get_team_abbreviation(team)
@@ -134,10 +146,15 @@ class Conferences:
     year : string (optional)
         A string of the requested year to pull conferences from. Defaults to
         the most recent season.
+    ignore_missing : boolean (optional)
+        A boolean which, when True, doesn't throw an error if the any
+        conference has an incomplete or empty page on www.sports-reference.com,
+        preventing the parsing from completing successfully.
     """
-    def __init__(self, year=None):
+    def __init__(self, year=None, ignore_missing=False):
         self._conferences = {}
         self._team_conference = {}
+        self._ignore_missing = ignore_missing
 
         self._find_conferences(year)
 
@@ -220,7 +237,9 @@ class Conferences:
         for conference in conferences:
             conference_abbreviation = self._get_conference_id(conference)
             conference_name = conference('td[data-stat="conf_name"]').text()
-            teams_dict = Conference(conference_abbreviation, year).teams
+            teams_dict = Conference(conference_abbreviation,
+                                    year,
+                                    self._ignore_missing).teams
             conference_dict = {
                     'name': conference_name,
                     'teams': teams_dict

@@ -180,3 +180,8 @@ class TestNCAAFConferences:
         conference = Conference('acc')
 
         assert len(conference._teams) == 14
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('requests.head', side_effect=mock_request)
+    def test_invalid_conference_page_skips_error(self, *args, **kwargs):
+        conference = Conference('BAD', ignore_missing=True)
