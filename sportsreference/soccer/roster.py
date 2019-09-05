@@ -2,7 +2,7 @@ import pandas as pd
 import re
 from pyquery import PyQuery as pq
 from urllib.error import HTTPError
-from .constants import PLAYER_SCHEME, ROSTER_URL
+from .constants import PLAYER_SCHEME, CURRENT_ROSTER_URL, ROSTER_URL
 from .player import AbstractPlayer
 from sportsreference import utils
 from sportsreference.decorators import int_property_decorator, \
@@ -515,7 +515,10 @@ class Roster:
             Returns a string of the team's season page for the requested team
             and year.
         """
-        return ROSTER_URL % (self._team_id, year)
+        if not year:
+            return CURRENT_ROSTER_URL % (self._team_id)
+        else:
+            return ROSTER_URL % (self._team_id, year)
 
     def _get_id(self, player):
         """
@@ -576,15 +579,7 @@ class Roster:
             The 4-digit string representing the year to pull the team's roster
             from.
         """
-        if not year:
-            year = utils._find_year_for_season('ncaab')
-            # If stats for the requested season do not exist yet (as is the
-            # case right before a new season begins), attempt to pull the
-            # previous year's stats. If it exists, use the previous year
-            # instead.
-            if not utils._url_exists(self._create_url(year)) and \
-               utils._url_exists(self._create_url(str(int(year) - 1))):
-                year = str(int(year) - 1)
+
         url = self._create_url(year)
         page = self._pull_team_page(url)
         if not page:
