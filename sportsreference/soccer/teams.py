@@ -1,13 +1,14 @@
 import pandas as pd
-from .constants import (MLS_CURRENT_SEASON_URL,
+from sportsreference.soccer.constants import (
+                        MLS_CURRENT_SEASON_URL,
                         MLS_SEASON_URL,
                         ID_MAP,
                         PARSING_SCHEME)
 from pyquery import PyQuery as pq
-from sportsreference.decorators import float_property_decorator, \
-    int_property_decorator
+from sportsreference.decorators import int_property_decorator
 from sportsreference import utils
 from sportsreference.soccer.utils import _parse_field_link, _parse_club_id
+from .roster import Roster
 
 
 class Team:
@@ -120,6 +121,14 @@ class Team:
         Returns a ``string`` of the team's fbref id.
         """
         return self._id
+
+    @property
+    def roster(self):
+        """
+        Returns an instance of the Roster class containing all players for the
+        team during the season with all career stats.
+        """
+        return Roster(self._id, self._abbreviation, self._year)
 
     @property
     def name(self):
