@@ -134,7 +134,7 @@ class TestNCAABSchedule:
         type(self.game)._date = fake_date
         type(self.game)._time = fake_time
 
-        assert self.game.datetime == datetime(2018, 12, 13, 19, 0)
+        assert self.game.datetime == datetime(2018, 12, 13, 0, 0)
 
     def test_blank_time_defaults_to_set_time_in_datetime(self):
         fake_date = PropertyMock(return_value='Thu, Dec 13, 2018')
@@ -142,7 +142,7 @@ class TestNCAABSchedule:
         type(self.game)._date = fake_date
         type(self.game)._time = fake_time
 
-        assert self.game.datetime == datetime(2018, 12, 13, 19, 0)
+        assert self.game.datetime == datetime(2018, 12, 13, 0, 0)
 
     def test_empty_schedule_class_returns_dataframe_of_none(self):
         fake_points = PropertyMock(return_value=None)
