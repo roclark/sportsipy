@@ -1,6 +1,7 @@
 import pandas as pd
 import re
-from .constants import PARSING_SCHEME, OFFENSIVE_STATS_URL, SEASON_PAGE_URL
+from .constants import (PARSING_SCHEME, OFFENSIVE_STATS_URL,
+                        DEFENSIVE_STATS_URL, SEASON_PAGE_URL)
 from pyquery import PyQuery as pq
 from ..decorators import float_property_decorator, int_property_decorator
 from .. import utils
@@ -65,6 +66,27 @@ class Team:
         self._first_downs = None
         self._penalties = None
         self._yards_from_penalties = None
+        self._opponents_pass_completions = None
+        self._opponents_pass_attempts = None
+        self._opponents_pass_completion_percentage = None
+        self._opponents_pass_yards = None
+        self._opponents_interceptions = None
+        self._opponents_pass_touchdowns = None
+        self._opponents_rush_attempts = None
+        self._opponents_rush_yards = None
+        self._opponents_rush_yards_per_attempt = None
+        self._opponents_rush_touchdowns = None
+        self._opponents_plays = None
+        self._opponents_yards = None
+        self._opponents_turnovers = None
+        self._opponents_fumbles_lost = None
+        self._opponents_yards_per_play = None
+        self._opponents_pass_first_downs = None
+        self._opponents_rush_first_downs = None
+        self._opponents_first_downs_from_penalties = None
+        self._opponents_first_downs = None
+        self._opponents_penalties = None
+        self._opponents_yards_from_penalties = None
 
         self._parse_team_data(team_data)
 
@@ -110,35 +132,60 @@ class Team:
             'conference_win_percentage': self.conference_win_percentage,
             'conference_wins': self.conference_wins,
             'first_downs': self.first_downs,
+            'opponents_first_downs': self.opponents_first_downs,
             'first_downs_from_penalties': self.first_downs_from_penalties,
+            'opponents_first_downs_from_penalties':
+                self.opponents_first_downs_from_penalties,
             'fumbles_lost': self.fumbles_lost,
+            'opponents_fumbles_lost': self.opponents_fumbles_lost,
             'games': self.games,
             'interceptions': self.interceptions,
+            'opponents_interceptions': self.opponents_interceptions,
             'losses': self.losses,
             'name': self.name,
             'pass_attempts': self.pass_attempts,
+            'opponents_pass_attempts': self.opponents_pass_attempts,
             'pass_completion_percentage': self.pass_completion_percentage,
+            'opponents_pass_completion_percentage':
+                self.opponents_pass_completion_percentage,
             'pass_completions': self.pass_completions,
+            'opponents_pass_completions': self.opponents_pass_completions,
             'pass_first_downs': self.pass_first_downs,
+            'opponents_pass_first_downs': self.opponents_pass_first_downs,
             'pass_touchdowns': self.pass_touchdowns,
+            'opponents_pass_touchdowns': self.opponents_pass_touchdowns,
             'pass_yards': self.pass_yards,
+            'opponents_pass_yards': self.opponents_pass_yards,
             'penalties': self.penalties,
+            'opponents_penalties': self.opponents_penalties,
             'plays': self.plays,
+            'opponents_plays': self.opponents_plays,
             'points_against_per_game': self.points_against_per_game,
             'points_per_game': self.points_per_game,
             'rush_attempts': self.rush_attempts,
+            'opponents_rush_attempts': self.opponents_rush_attempts,
             'rush_first_downs': self.rush_first_downs,
+            'opponents_rush_first_downs': self.opponents_rush_first_downs,
             'rush_touchdowns': self.rush_touchdowns,
+            'opponents_rush_touchdowns': self.opponents_rush_touchdowns,
             'rush_yards': self.rush_yards,
+            'opponents_rush_yards': self.opponents_rush_yards,
             'rush_yards_per_attempt': self.rush_yards_per_attempt,
+            'opponents_rush_yards_per_attempt':
+                self.opponents_rush_yards_per_attempt,
             'simple_rating_system': self.simple_rating_system,
             'strength_of_schedule': self.strength_of_schedule,
             'turnovers': self.turnovers,
+            'opponents_turnovers': self.opponents_turnovers,
             'win_percentage': self.win_percentage,
             'wins': self.wins,
             'yards': self.yards,
+            'opponents_yards': self.opponents_yards,
             'yards_from_penalties': self.yards_from_penalties,
-            'yards_per_play': self.yards_per_play
+            'opponents_yards_from_penalties':
+                self.opponents_yards_from_penalties,
+            'yards_per_play': self.yards_per_play,
+            'opponents_yards_per_play': self.opponents_yards_per_play
         }
         return pd.DataFrame([fields_to_include], index=[self._abbreviation])
 
@@ -282,12 +329,28 @@ class Team:
         return self._pass_completions
 
     @float_property_decorator
+    def opponents_pass_completions(self):
+        """
+        Returns a ``float`` of the opponents' average number of completed
+        passes per game.
+        """
+        return self._opponents_pass_completions
+
+    @float_property_decorator
     def pass_attempts(self):
         """
         Returns a ``float`` of the average number of passes that are attempted
         per game.
         """
         return self._pass_attempts
+
+    @float_property_decorator
+    def opponents_pass_attempts(self):
+        """
+        Returns a ``float`` of the opponents' average number of passes that
+        are attempted per game.
+        """
+        return self._opponents_pass_attempts
 
     @float_property_decorator
     def pass_completion_percentage(self):
@@ -298,12 +361,28 @@ class Team:
         return self._pass_completion_percentage
 
     @float_property_decorator
+    def opponents_pass_completion_percentage(self):
+        """
+        Returns a ``float`` of the opponents' percentage of completed passes
+        per game. Percentage ranges from 0-100.
+        """
+        return self._opponents_pass_completion_percentage
+
+    @float_property_decorator
     def pass_yards(self):
         """
         Returns a ``float`` of the average number of yards gained from passing
         per game.
         """
         return self._pass_yards
+
+    @float_property_decorator
+    def opponents_pass_yards(self):
+        """
+        Returns a ``float`` of the opponents' average number of yards gained
+        from passing per game.
+        """
+        return self._opponents_pass_yards
 
     @float_property_decorator
     def interceptions(self):
@@ -314,6 +393,14 @@ class Team:
         return self._interceptions
 
     @float_property_decorator
+    def opponents_interceptions(self):
+        """
+        Returns a ``float`` of the opponents' average number of interceptions
+        thrown per game.
+        """
+        return self._opponents_interceptions
+
+    @float_property_decorator
     def pass_touchdowns(self):
         """
         Returns a ``float`` of the average number of passing touchdowns scored
@@ -322,11 +409,27 @@ class Team:
         return self._pass_touchdowns
 
     @float_property_decorator
+    def opponents_pass_touchdowns(self):
+        """
+        Returns a ``float`` of the opponents' average number of passing
+        touchdowns scored per game.
+        """
+        return self._opponents_pass_touchdowns
+
+    @float_property_decorator
     def rush_attempts(self):
         """
         Returns a ``float`` of the average number of rushing plays per game.
         """
         return self._rush_attempts
+
+    @float_property_decorator
+    def opponents_rush_attempts(self):
+        """
+        Returns a ``float`` of the opponents' average number of rushing plays
+        per game.
+        """
+        return self._opponents_rush_attempts
 
     @float_property_decorator
     def rush_yards(self):
@@ -337,12 +440,28 @@ class Team:
         return self._rush_yards
 
     @float_property_decorator
+    def opponents_rush_yards(self):
+        """
+        Returns a ``float`` of the opponents' average number of yards gained
+        from rushing per game.
+        """
+        return self._opponents_rush_yards
+
+    @float_property_decorator
     def rush_yards_per_attempt(self):
         """
         Returns a ``float`` of the average number of yards gained per rushing
         attempt per game.
         """
         return self._rush_yards_per_attempt
+
+    @float_property_decorator
+    def opponents_rush_yards_per_attempt(self):
+        """
+        Returns a ``float`` of the opponents' average number of yards gained
+        per rushing attempt per game.
+        """
+        return self._opponents_rush_yards_per_attempt
 
     @float_property_decorator
     def rush_touchdowns(self):
@@ -353,11 +472,27 @@ class Team:
         return self._rush_touchdowns
 
     @float_property_decorator
+    def opponents_rush_touchdowns(self):
+        """
+        Returns a ``float`` of the opponents' average number of rushing
+        touchdowns scored per game.
+        """
+        return self._opponents_rush_touchdowns
+
+    @float_property_decorator
     def plays(self):
         """
         Returns a ``float`` of the average number of offensive plays per game.
         """
         return self._plays
+
+    @float_property_decorator
+    def opponents_plays(self):
+        """
+        Returns a ``float`` of the opponents' average number of offensive plays
+        per game.
+        """
+        return self._opponents_plays
 
     @float_property_decorator
     def yards(self):
@@ -367,11 +502,27 @@ class Team:
         return self._yards
 
     @float_property_decorator
+    def opponents_yards(self):
+        """
+        Returns a ``float`` of the opponents' average number of yards gained
+        per game.
+        """
+        return self._opponents_yards
+
+    @float_property_decorator
     def turnovers(self):
         """
         Returns a ``float`` of the average number of turnovers per game.
         """
         return self._turnovers
+
+    @float_property_decorator
+    def opponents_turnovers(self):
+        """
+        Returns a ``float`` of the opponents' average number of turnovers
+        per game.
+        """
+        return self._opponents_turnovers
 
     @float_property_decorator
     def fumbles_lost(self):
@@ -381,11 +532,27 @@ class Team:
         return self._fumbles_lost
 
     @float_property_decorator
+    def opponents_fumbles_lost(self):
+        """
+        Returns a ``float`` of the opponents' average number of fumbles
+        per game.
+        """
+        return self._opponents_fumbles_lost
+
+    @float_property_decorator
     def yards_per_play(self):
         """
         Returns a ``float`` of the average number of yards gained per play.
         """
         return self._yards_per_play
+
+    @float_property_decorator
+    def opponents_yards_per_play(self):
+        """
+        Returns a ``float`` of the opponents' average number of yards gained
+        per play.
+        """
+        return self._opponents_yards_per_play
 
     @float_property_decorator
     def pass_first_downs(self):
@@ -396,12 +563,28 @@ class Team:
         return self._pass_first_downs
 
     @float_property_decorator
+    def opponents_pass_first_downs(self):
+        """
+        Returns a ``float`` of the opponents' average number of first downs
+        from passing plays per game.
+        """
+        return self._opponents_pass_first_downs
+
+    @float_property_decorator
     def rush_first_downs(self):
         """
         Returns a ``float`` of the average number of first downs from rushing
         plays per game.
         """
         return self._rush_first_downs
+
+    @float_property_decorator
+    def opponents_rush_first_downs(self):
+        """
+        Returns a ``float`` of the opponents' average number of first downs
+        from rushing plays per game.
+        """
+        return self._opponents_rush_first_downs
 
     @float_property_decorator
     def first_downs_from_penalties(self):
@@ -412,6 +595,14 @@ class Team:
         return self._first_downs_from_penalties
 
     @float_property_decorator
+    def opponents_first_downs_from_penalties(self):
+        """
+        Returns a ``float`` of the opponents' average number of first downs
+        from an opponent's penalties per game.
+        """
+        return self._opponents_first_downs_from_penalties
+
+    @float_property_decorator
     def first_downs(self):
         """
         Returns a ``float`` of the total number of first downs achieved per
@@ -420,11 +611,28 @@ class Team:
         return self._first_downs
 
     @float_property_decorator
+    def opponents_first_downs(self):
+        """
+        Returns a ``float`` of the opponents' total number of first downs
+        achieved per game.
+        """
+        return self._opponents_first_downs
+
+    @float_property_decorator
     def penalties(self):
         """
-        Returns a ``float`` the average number of penalties conceded per game.
+        Returns a ``float`` of the average number of penalties conceded per
+        game.
         """
         return self._penalties
+
+    @float_property_decorator
+    def opponents_penalties(self):
+        """
+        Returns a ``float`` of the opponents' average number of penalties
+        conceded per game.
+        """
+        return self._opponents_penalties
 
     @float_property_decorator
     def yards_from_penalties(self):
@@ -433,6 +641,14 @@ class Team:
         opponent's penalties per game.
         """
         return self._yards_from_penalties
+
+    @float_property_decorator
+    def opponents_yards_from_penalties(self):
+        """
+        Returns a ``float`` of the opponents' average number of yards gained
+        from an opponent's penalties per game.
+        """
+        return self._opponents_yards_from_penalties
 
 
 class Teams:
@@ -584,10 +800,12 @@ class Teams:
         teams_list = utils._get_stats_table(doc, 'div#div_standings')
         offense_doc = pq(OFFENSIVE_STATS_URL % year)
         offense_list = utils._get_stats_table(offense_doc, 'table#offense')
-        if not teams_list and not offense_list:
+        defense_doc = pq(DEFENSIVE_STATS_URL % year)
+        defense_list = utils._get_stats_table(defense_doc, 'table#defense')
+        if not teams_list and not offense_list and not defense_list:
             utils._no_data_found()
             return
-        for stats_list in [teams_list, offense_list]:
+        for stats_list in [teams_list, offense_list, defense_list]:
             team_data_dict = self._add_stats_data(stats_list, team_data_dict)
 
         for team_name, team_data in team_data_dict.items():

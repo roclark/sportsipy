@@ -16,26 +16,50 @@ PARSING_SCHEME = {
     'preseason_rank': 'td[data-stat="rank_pre"]:first',
     'highest_rank': 'td[data-stat="rank_min"]:first',
     'pass_completions': 'td[data-stat="pass_cmp"]:first',
+    'opponents_pass_completions': 'td[data-stat="opp_pass_cmp"]:first',
     'pass_attempts': 'td[data-stat="pass_att"]:first',
+    'opponents_pass_attempts': 'td[data-stat="opp_pass_att"]:first',
     'pass_completion_percentage': 'td[data-stat="pass_cmp_pct"]:first',
+    'opponents_pass_completion_percentage':
+        'td[data-stat="opp_pass_cmp_pct"]:first',
     'pass_yards': 'td[data-stat="pass_yds"]:first',
+    'opponents_pass_yards': 'td[data-stat="opp_pass_yds"]:first',
     'interceptions': 'td[data-stat="pass_int"]:first',
+    'opponents_interceptions': 'td[data-stat="opp_pass_int"]:first',
     'pass_touchdowns': 'td[data-stat="pass_td"]:first',
+    'opponents_pass_touchdowns': 'td[data-stat="opp_pass_td"]:first',
     'rush_attempts': 'td[data-stat="rush_att"]:first',
+    'opponents_rush_attempts': 'td[data-stat="opp_rush_att"]:first',
     'rush_yards': 'td[data-stat="rush_yds"]:first',
+    'opponents_rush_yards': 'td[data-stat="opp_rush_yds"]:first',
     'rush_yards_per_attempt': 'td[data-stat="rush_yds_per_att"]:first',
+    'opponents_rush_yards_per_attempt':
+        'td[data-stat="opp_rush_yds_per_att"]:first',
     'rush_touchdowns': 'td[data-stat="rush_td"]:first',
+    'opponents_rush_touchdowns': 'td[data-stat="opp_rush_td"]:first',
     'plays': 'td[data-stat="tot_plays"]:first',
+    'opponents_plays': 'td[data-stat="opp_tot_plays"]:first',
     'yards': 'td[data-stat="tot_yds"]:first',
+    'opponents_yards': 'td[data-stat="opp_tot_yds"]:first',
     'turnovers': 'td[data-stat="turnovers"]:first',
+    'opponents_turnovers': 'td[data-stat="opp_turnovers"]:first',
     'fumbles_lost': 'td[data-stat="fumbles_lost"]:first',
+    'opponents_fumbles_lost': 'td[data-stat="opp_fumbles_lost"]:first',
     'yards_per_play': 'td[data-stat="tot_yds_per_play"]:first',
+    'opponents_yards_per_play': 'td[data-stat="opp_tot_yds_per_play"]:first',
     'pass_first_downs': 'td[data-stat="first_down_pass"]:first',
+    'opponents_pass_first_downs': 'td[data-stat="opp_first_down_pass"]:first',
     'rush_first_downs': 'td[data-stat="first_down_rush"]:first',
+    'opponents_rush_first_downs': 'td[data-stat="opp_first_down_rush"]:first',
     'first_downs_from_penalties': 'td[data-stat="first_down_penalty"]:first',
+    'opponents_first_downs_from_penalties':
+        'td[data-stat="opp_first_down_penalty"]:first',
     'first_downs': 'td[data-stat="first_down"]:first',
+    'opponents_first_downs': 'td[data-stat="opp_first_down"]:first',
     'penalties': 'td[data-stat="penalty"]:first',
-    'yards_from_penalties': 'td[data-stat="penalty_yds"]:first'
+    'opponents_penalties': 'td[data-stat="opp_penalty"]:first',
+    'yards_from_penalties': 'td[data-stat="penalty_yds"]:first',
+    'opponents_yards_from_penalties': 'td[data-stat="opp_penalty_yds"]:first'
 }
 
 SCHEDULE_SCHEME = {
@@ -309,6 +333,8 @@ SEASON_PAGE_URL = 'http://www.sports-reference.com/cfb/years/%s-standings.html'
 
 OFFENSIVE_STATS_URL = ('https://www.sports-reference.com/cfb/years/'
                        '%s-team-offense.html')
+DEFENSIVE_STATS_URL = ('https://www.sports-reference.com/cfb/years/'
+                       '%s-team-defense.html')
 
 SCHEDULE_URL = ('https://www.sports-reference.com/cfb/schools/%s/'
                 '%s-schedule.html')
