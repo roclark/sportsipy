@@ -304,6 +304,7 @@ NATIONALITY = {
     'bg': 'Bulgaria',
     'cm': 'Cameroon',
     'ca': 'Canada',
+    'td': 'Chad',
     'co': 'Colombia',
     'cv': 'Cape Verde',
     'cn': 'China',
