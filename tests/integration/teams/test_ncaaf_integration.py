@@ -6,6 +6,7 @@ from flexmock import flexmock
 from sportsreference import utils
 from sportsreference.ncaaf.conferences import Conferences
 from sportsreference.ncaaf.constants import (OFFENSIVE_STATS_URL,
+                                             DEFENSIVE_STATS_URL,
                                              SEASON_PAGE_URL)
 from sportsreference.ncaaf.teams import Teams
 
@@ -29,13 +30,18 @@ def mock_pyquery(url):
         def __call__(self, div):
             if div == 'table#offense':
                 return read_file('%s-team-offense_offense.html' % YEAR)
+            elif div == 'table#defense':
+                return read_file('%s-team-defense_defense.html' % YEAR)
             else:
                 return read_file('%s-standings_standings.html' % YEAR)
 
     offensive_contents = read_file('%s-team-offense.html' % YEAR)
+    defensive_contents = read_file('%s-team-defense.html' % YEAR)
     standings_contents = read_file('%s-standings.html' % YEAR)
     if url == OFFENSIVE_STATS_URL % YEAR:
         return MockPQ(offensive_contents)
+    elif url == DEFENSIVE_STATS_URL % YEAR:
+        return MockPQ(defensive_contents)
     elif url == SEASON_PAGE_URL % YEAR:
         return MockPQ(standings_contents)
 
@@ -97,7 +103,28 @@ class TestNCAAFIntegration:
             'first_downs_from_penalties': 1.8,
             'first_downs': 21.7,
             'penalties': 5.9,
-            'yards_from_penalties': 50.6
+            'yards_from_penalties': 50.6,
+            'opponents_pass_completions': 19.1,
+            'opponents_pass_attempts': 33.6,
+            'opponents_pass_completion_percentage': 56.8,
+            'opponents_pass_yards': 242.5,
+            'opponents_interceptions': 0.8,
+            'opponents_pass_touchdowns': 1.6,
+            'opponents_rush_attempts': 37.4,
+            'opponents_rush_yards': 133.2,
+            'opponents_rush_yards_per_attempt': 3.6,
+            'opponents_rush_touchdowns': 0.8,
+            'opponents_plays': 71.0,
+            'opponents_yards': 375.8,
+            'opponents_turnovers': 1.6,
+            'opponents_fumbles_lost': 0.8,
+            'opponents_yards_per_play': 5.3,
+            'opponents_pass_first_downs': 10.6,
+            'opponents_rush_first_downs': 6.8,
+            'opponents_first_downs_from_penalties': 1.8,
+            'opponents_first_downs': 19.2,
+            'opponents_penalties': 6.9,
+            'opponents_yards_from_penalties': 59.8
         }
         self.schools = [
             'UCF', 'Memphis', 'Oklahoma', 'Oklahoma State', 'Arizona',
