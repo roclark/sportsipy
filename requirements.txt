@@ -6,7 +6,7 @@ coverage==4.5.4
 cssselect==1.1.0
 flexmock==0.10.4
 idna==2.8
-importlib-metadata==0.20
+importlib-metadata==0.23
 lxml==4.4.1
 mock==3.0.5
 more-itertools==7.2.0
