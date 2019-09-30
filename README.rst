@@ -1,7 +1,7 @@
 Sportsreference: A free sports API written for python
 ######################################################
-.. image:: https://travis-ci.org/roclark/sportsreference.svg?branch=master
-    :target: https://travis-ci.org/roclark/sportsreference
+.. image:: https://github.com/roclark/sportsreference/workflows/Sportsreference%20push%20tests/badge.svg
+    :target: https://github.com/roclark/sportsreference/actions
 .. image:: https://readthedocs.org/projects/sportsreference/badge/?version=latest
     :target: https://sportsreference.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
