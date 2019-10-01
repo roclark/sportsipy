@@ -1,7 +1,7 @@
 Sportsreference: A free sports API written for python
 ######################################################
-.. image:: https://travis-ci.org/roclark/sportsreference.svg?branch=master
-    :target: https://travis-ci.org/roclark/sportsreference
+.. image:: https://github.com/roclark/sportsreference/workflows/Sportsreference%20push%20tests/badge.svg
+    :target: https://github.com/roclark/sportsreference/actions
 .. image:: https://readthedocs.org/projects/sportsreference/badge/?version=latest
     :target: https://sportsreference.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
@@ -158,7 +158,7 @@ Next, start the tests by running py.test while optionally including coverage
 flags which identify the amount of production code covered by the testing
 framework::
 
-    py.test --cov=sportsreference --cov-report term-missing tests/
+    py.test --cov=sportsreference --cov-report term-missing tests/integration/ tests/unit/
 
 If the tests were successful, it will return a green line will show a message at
 the end of the output similar to the following::
