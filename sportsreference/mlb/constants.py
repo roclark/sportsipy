@@ -479,6 +479,7 @@ NATIONALITY = {
     'ni': 'Nicaragua',
     'no': 'Norway',
     'pa': 'Panama',
+    'pe': 'Peru',
     'ph': 'Philippines',
     'pl': 'Poland',
     'pt': 'Portugal',
