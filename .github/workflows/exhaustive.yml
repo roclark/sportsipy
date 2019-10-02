@@ -7,10 +7,11 @@ on:
 
 jobs:
   test:
-    name: Test ${{ matrix.sport }}
+    name: Test ${{ matrix.sport }} (${{ matrix.operating-system }}, ${{ matrix.python-version}})
     runs-on: ${{ matrix.operating-system }}
     strategy:
-      max-parallel: 54
+      # Prevent the entire workflow from failing if a singular test fails.
+      fail-fast: false
       matrix:
         python-version: [3.5, 3.6, 3.7]
         operating-system: [ubuntu-latest, macOS-latest, windows-latest]
