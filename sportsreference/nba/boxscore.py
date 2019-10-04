@@ -360,8 +360,8 @@ class Boxscore:
         Find all tables with boxscore information on the page.
 
         Iterate through all tables on the page and see if any of them are
-        boxscore pages by checking if the ID is prefixed with 'box_'. If so,
-        add it to a list and return the final list at the end.
+        boxscore pages by checking if the ID is prefixed with 'box_' or 'box-'.
+        If so, add it to a list and return the final list at the end.
 
         Parameters
         ----------
@@ -378,7 +378,7 @@ class Boxscore:
 
         for table in boxscore('table').items():
             try:
-                if 'box_' in table.attr['id']:
+                if 'box_' in table.attr['id'] or 'box-' in table.attr['id']:
                     tables.append(table)
             except (KeyError, TypeError):
                 continue
