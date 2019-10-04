@@ -652,8 +652,9 @@ class Boxscore:
         values. The index for the DataFrame is the string URI that is used to
         instantiate the class, such as '201802040nwe'.
         """
-        if self._away_points is None and self._home_points is None:
-            return None
+        for points in [self._away_points, self._home_points]:
+            if points is None or points == '':
+                return None
         fields_to_include = {
             'attendance': self.attendance,
             'away_first_downs': self.away_first_downs,
