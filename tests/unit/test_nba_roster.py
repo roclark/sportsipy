@@ -37,10 +37,7 @@ class TestNBAPlayer:
             .should_receive('_parse_player_data') \
             .and_return(None)
         flexmock(Player) \
-            .should_receive('_pull_player_data') \
-            .and_return(None)
-        flexmock(Player) \
-            .should_receive('_find_initial_index') \
+            .should_receive('__init__') \
             .and_return(None)
 
     def test_no_float_returns_default_value_abstract_class(self):
@@ -105,3 +102,14 @@ class TestNBAPlayer:
         result = player._parse_contract(player_info)
 
         assert player._contract is None
+
+
+class TestInvalidNBAPlayer:
+    def test_no_player_data_returns_no_stats(self):
+        flexmock(Player) \
+            .should_receive('_retrieve_html_page') \
+            .and_return(None)
+
+        stats = Player(None)._pull_player_data()
+
+        assert stats is None

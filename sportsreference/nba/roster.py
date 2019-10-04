@@ -168,6 +168,8 @@ class Player(AbstractPlayer):
         self._contract = None
 
         player_data = self._pull_player_data()
+        if not player_data:
+            return
         self._find_initial_index()
         AbstractPlayer.__init__(self, player_id, self._name, player_data)
 
@@ -484,6 +486,8 @@ class Player(AbstractPlayer):
             stats.
         """
         player_info = self._retrieve_html_page()
+        if not player_info:
+            return
         self._parse_player_information(player_info)
         self._parse_nationality(player_info)
         self._parse_birth_date(player_info)
