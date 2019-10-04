@@ -22,7 +22,7 @@ of wins a team has secured during the season, and many, many more metrics that
 paint a more detailed picture of how a team has performed during a game or
 throughout a season.
 
-# Installation
+Installation
 ============
 
 The easiest way to install `sportsreference` is by downloading the latest
