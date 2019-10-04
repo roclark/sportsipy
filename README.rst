@@ -1,4 +1,4 @@
-# Sportsreference: A free sports API written for python
+Sportsreference: A free sports API written for python
 ######################################################
 .. image:: https://github.com/roclark/sportsreference/workflows/Sportsreference%20push%20tests/badge.svg
     :target: https://github.com/roclark/sportsreference/actions
@@ -126,7 +126,7 @@ Get a Pandas DataFrame of all stats for a MLB game
     game = Boxscore('BOS201806070')
     df = game.dataframe
 
-# Documentation
+Documentation
 =============
 
 Two blog posts detailing the creation and basic usage of `sportsreference` can
@@ -145,7 +145,7 @@ the documentation for a full list of all metrics and information exposed by
 sportsreference. The documentation is auto-generated using Sphinx based on the
 docstrings in the sportsreference package.
 
-# Testing
+Testing
 =======
 
 Sportsreference contains a testing suite which aims to test all major portions
