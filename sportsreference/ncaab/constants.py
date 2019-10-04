@@ -305,18 +305,18 @@ PLAYER_SCHEME = {
     'defensive_rating': 'td[data-stat="def_rtg"]'
 }
 
-BASIC_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'
+BASIC_STATS_URL = ('https://www.sports-reference.com/cbb/seasons/'
                    '%s-school-stats.html')
-BASIC_OPPONENT_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'
+BASIC_OPPONENT_STATS_URL = ('https://www.sports-reference.com/cbb/seasons/'
                             '%s-opponent-stats.html')
-ADVANCED_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'
+ADVANCED_STATS_URL = ('https://www.sports-reference.com/cbb/seasons/'
                       '%s-advanced-school-stats.html')
-ADVANCED_OPPONENT_STATS_URL = ('http://www.sports-reference.com/cbb/seasons/'
+ADVANCED_OPPONENT_STATS_URL = ('https://www.sports-reference.com/cbb/seasons/'
                                '%s-advanced-opponent-stats.html')
 
-SCHEDULE_URL = ('http://www.sports-reference.com/cbb/schools/%s/'
+SCHEDULE_URL = ('https://www.sports-reference.com/cbb/schools/%s/'
                 '%s-schedule.html')
-BOXSCORE_URL = 'http://www.sports-reference.com/cbb/boxscores/%s.html'
+BOXSCORE_URL = 'https://www.sports-reference.com/cbb/boxscores/%s.html'
 BOXSCORES_URL = ('https://www.sports-reference.com/cbb/boxscores/index.cgi?'
                  'month=%s&day=%s&year=%s')
 RANKINGS_URL = 'https://www.sports-reference.com/cbb/seasons/%s-polls-old.html'
