@@ -1320,6 +1320,8 @@ class Roster:
         players = page('table#roster tbody tr').items()
         for player in players:
             player_id = self._get_id(player)
+            if not player_id or player_id == '':
+                continue  # pragma: no cover
             if self._slim:
                 name = self._get_name(player)
                 self._players[player_id] = name

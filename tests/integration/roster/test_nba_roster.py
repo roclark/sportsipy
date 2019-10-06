@@ -1259,3 +1259,16 @@ class TestNBARoster:
         for player in roster.players:
             assert player.name in ['James Harden', 'Tarik Black',
                                    'Ryan Anderson', 'Trevor Ariza']
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_empty_rows_are_skipped(self, *args, **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        flexmock(Roster) \
+            .should_receive('_get_id') \
+            .and_return(None)
+
+        roster = Roster('HOU')
+
+        assert len(roster.players) == 0
