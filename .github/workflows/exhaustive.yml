@@ -30,24 +30,24 @@ jobs:
     - name: Test MLB
       if: matrix.sport == 'MLB'
       run:
-        python tests/exhaustive/test_mlb.py
+        python tests/exhaustive/mlb_tests.py
     - name: Test NBA
       if: matrix.sport == 'NBA'
       run:
-        python tests/exhaustive/test_nba.py
+        python tests/exhaustive/nba_tests.py
     - name: Test NCAAB
       if: matrix.sport == 'NCAAB'
       run:
-        python tests/exhaustive/test_ncaab.py
+        python tests/exhaustive/ncaab_tests.py
     - name: Test NCAAF
       if: matrix.sport == 'NCAAF'
       run:
-        python tests/exhaustive/test_ncaaf.py
+        python tests/exhaustive/ncaaf_tests.py
     - name: Test NFL
       if: matrix.sport == 'NFL'
       run:
-        python tests/exhaustive/test_nfl.py
+        python tests/exhaustive/nfl_tests.py
     - name: Test NHL
       if: matrix.sport == 'NHL'
       run:
-        python tests/exhaustive/test_nhl.py
+        python tests/exhaustive/nhl_tests.py
