@@ -8,6 +8,7 @@ from pyquery import PyQuery as pq
 from sportsreference import utils
 from sportsreference.constants import (WIN,
                                        LOSS,
+                                       TIE,
                                        HOME,
                                        AWAY,
                                        NEUTRAL,
@@ -282,11 +283,19 @@ class Game:
     def result(self):
         """
         Returns a ``string`` constant indicating whether the team won or lost
-        the game.
+        the game.  
+        NFL games may end in a tie if the score is even at the end of OT.  
+        If a game has no result (canceled, yet to be played, etc.) return 
+        ``None``
         """
         if self._result.lower() == 'l':
             return LOSS
-        return WIN
+        elif self._result.lower() == 'w':
+            return WIN
+        elif self._result.lower() == 't':
+            return TIE
+        else:
+            return None
 
     @property
     def overtime(self):
