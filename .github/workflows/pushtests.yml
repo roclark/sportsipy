@@ -1,6 +1,6 @@
 name: Sportsreference push tests
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   test:
