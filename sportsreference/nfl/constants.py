@@ -352,7 +352,7 @@ PLAYER_SCHEME = {
     'punt_return_touchdowns': 'td[data-stat="punt_ret_td"]'
 }
 
-SEASON_PAGE_URL = 'http://www.pro-football-reference.com/years/%s.html'
+SEASON_PAGE_URL = 'http://www.pro-football-reference.com/years/%s/'
 
 SCHEDULE_URL = 'https://www.pro-football-reference.com/teams/%s/%s/gamelog/'
 
