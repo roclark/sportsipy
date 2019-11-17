@@ -283,10 +283,9 @@ class Game:
     def result(self):
         """
         Returns a ``string`` constant indicating whether the team won or lost
-        the game.  
-        NFL games may end in a tie if the score is even at the end of OT.  
-        If a game has no result (canceled, yet to be played, etc.) return 
-        ``None``
+        the game. NFL games may end in a tie if the score is even at the end of
+        OT. If a game has no result (canceled, yet to be played, etc.) return 
+        ``None``.
         """
         if self._result.lower() == 'l':
             return LOSS
