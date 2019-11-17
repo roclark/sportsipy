@@ -66,7 +66,7 @@ class TestNFLSchedule:
         fake_result = PropertyMock(return_value='')
         type(self.game)._result = fake_result
 
-        assert self.game.result == None
+        assert self.game.result is None
 
     def test_overtime_returns_overtime(self):
         fake_overtime = PropertyMock(return_value='OT')
