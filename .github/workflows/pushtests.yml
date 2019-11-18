@@ -7,7 +7,6 @@ jobs:
     name: Test and lint code
     runs-on: ${{ matrix.operating-system }}
     strategy:
-      max-parallel: 12
       matrix:
         python-version: [3.5, 3.6, 3.7]
         operating-system: [ubuntu-latest, macOS-latest, windows-latest, windows-2016]
