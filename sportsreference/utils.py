@@ -148,7 +148,7 @@ def _parse_abbreviation(uri_link):
     return abbr.upper()
 
 
-def _parse_field(parsing_scheme, html_data, field, index=0):
+def _parse_field(parsing_scheme, html_data, field, index=0, strip=False):
     """
     Parse an HTML table to find the requested field's value.
 
@@ -177,6 +177,11 @@ def _parse_field(parsing_scheme, html_data, field, index=0):
         hit, or the number of home runs a pitcher has given up. The index
         aligns with the order in which the attributes are recevied in the
         html_data parameter.
+    strip : boolean (optional)
+        An optional boolean value which will remove any empty or invalid
+        elements which might show up during list comprehensions. Specify True
+        if the invalid elements should be removed from lists, which can help
+        with reverse indexing.
 
     Returns
     -------
@@ -187,7 +192,10 @@ def _parse_field(parsing_scheme, html_data, field, index=0):
     if field == 'abbreviation':
         return _parse_abbreviation(html_data)
     scheme = parsing_scheme[field]
-    items = [i.text() for i in html_data(scheme).items()]
+    if strip:
+        items = [i.text() for i in html_data(scheme).items() if i.text()]
+    else:
+        items = [i.text() for i in html_data(scheme).items()]
     # Stats can be added and removed on a yearly basis. If not stats are found,
     # return None and have the be the value.
     if len(items) == 0:
