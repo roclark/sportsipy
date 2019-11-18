@@ -3,6 +3,7 @@ from mock import PropertyMock
 from sportsreference.constants import (AWAY,
                                        HOME,
                                        LOSS,
+                                       TIE,
                                        NEUTRAL,
                                        POST_SEASON,
                                        REGULAR_SEASON,
@@ -54,6 +55,18 @@ class TestNFLSchedule:
         type(self.game)._result = fake_result
 
         assert self.game.result == LOSS
+
+    def test_tied_result_returns_tie(self):
+        fake_result = PropertyMock(return_value='T')
+        type(self.game)._result = fake_result
+
+        assert self.game.result == TIE
+
+    def test_no_result_returns_none(self):
+        fake_result = PropertyMock(return_value='')
+        type(self.game)._result = fake_result
+
+        assert self.game.result is None
 
     def test_overtime_returns_overtime(self):
         fake_overtime = PropertyMock(return_value='OT')
