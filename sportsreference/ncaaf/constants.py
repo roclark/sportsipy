@@ -143,6 +143,7 @@ BOXSCORE_SCHEME = {
     'date': 'div[class="scorebox_meta"]:first',
     'time': 'div[class="scorebox_meta"]:first',
     'stadium': 'div[class="scorebox_meta"]:first',
+    'summary': 'table[class="linescore nohover stats_table no_freeze"]:first',
     'home_name': 'a[itemprop="name"]:last',
     'away_name': 'a[itemprop="name"]:first',
     'away_points': 'div[class="scorebox"] div[class="score"]',
