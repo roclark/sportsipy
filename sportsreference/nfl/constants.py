@@ -78,6 +78,7 @@ SCHEDULE_SCHEME = {
 BOXSCORE_SCHEME = {
     'game_info': 'div[class="scorebox_meta"]:first',
     'home_name': 'a[itemprop="name"]:first',
+    'summary': 'table[class="linescore nohover stats_table no_freeze"]:first',
     'away_name': 'a[itemprop="name"]:last',
     'away_points': 'div[class="scorebox"] div[class="score"]',
     'away_first_downs': 'td[data-stat="vis_stat"]',

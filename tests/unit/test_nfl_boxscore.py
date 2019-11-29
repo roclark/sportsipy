@@ -177,6 +177,26 @@ class TestNFLBoxscore:
 
         assert self.boxscore.losing_abbr == expected_name
 
+    def test_game_summary_with_no_scores_returns_none(self):
+        result = Boxscore(None)._parse_summary(pq(
+            """<table class="linescore nohover stats_table no_freeze">
+    <tbody>
+        <tr>
+            <td class="center"></td>
+            <td class="center"></td>
+        </tr>
+        <tr>
+            <td class="center"></td>
+            <td class="center"></td>
+        </tr>
+    </tbody>
+</table>"""))
+
+        assert result == {
+            'away': [None],
+            'home': [None]
+        }
+
     @patch('requests.get', side_effect=mock_pyquery)
     def test_invalid_url_returns_none(self, *args, **kwargs):
         result = Boxscore(None)._retrieve_html_page('bad')
