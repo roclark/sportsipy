@@ -137,6 +137,10 @@ class TestNBABoxscore:
     def test_nba_boxscore_returns_requested_boxscore(self):
         for attribute, value in self.results.items():
             assert getattr(self.boxscore, attribute) == value
+        assert getattr(self.boxscore, 'summary') == {
+            'away': [22, 23, 27, 21],
+            'home': [25, 33, 29, 26]
+        }
 
     def test_invalid_url_yields_empty_class(self):
         flexmock(Boxscore) \
