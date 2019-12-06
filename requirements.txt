@@ -9,7 +9,7 @@ idna==2.8
 importlib-metadata==0.23
 lxml==4.4.1
 mock==3.0.5
-more-itertools==7.2.0
+more-itertools==8.0.1
 numpy==1.17.4
 pandas==0.25.3
 packaging==19.2
