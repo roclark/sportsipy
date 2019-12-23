@@ -552,17 +552,25 @@ class Teams:
         """
         return self.__getitem__(abbreviation)
 
+    def __str__(self):
+        """Returns all NFL teams name and Abbreviations for the given season."""
+        msg = "Team Name (Abr.)\n"
+        msg += "----------------\n"
+        msg += '\n'.join(["{0} ({1})".format(team.name, team.abbreviation)
+                          for team in self._teams])
+        return msg
+
     def __repr__(self):
         """Returns a ``list`` of all NFL teams for the given season."""
-        return self._teams
+        return str(self._teams)
 
     def __iter__(self):
         """Returns an iterator of all of the NFL teams for a given season."""
-        return iter(self.__repr__())
+        return iter(self._teams)
 
     def __len__(self):
         """Returns the number of NFL teams for a given season."""
-        return len(self.__repr__())
+        return len(self._teams)
 
     def _add_stats_data(self, teams_list, team_data_dict):
         """

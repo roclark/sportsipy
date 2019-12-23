@@ -441,17 +441,25 @@ class Teams:
         """
         return self.__getitem__(abbreviation)
 
+    def __str__(self):
+        """Returns all NHL teams name and Abbreviations for the given season."""
+        msg = "Team Name (Abr.)\n"
+        msg += "----------------\n"
+        msg += '\n'.join(["{0} ({1})".format(team.name, team.abbreviation)
+                          for team in self._teams])
+        return msg
+
     def __repr__(self):
         """Returns a ``list`` of all NHL teams for the given season."""
-        return self._teams
+        return str(self._teams)
 
     def __iter__(self):
         """Returns an iterator of all of the NHL teams for a given season."""
-        return iter(self.__repr__())
+        return iter(self._teams)
 
     def __len__(self):
         """Returns the number of NHL teams for a given season."""
-        return len(self.__repr__())
+        return len(self._teams)
 
     def _retrieve_all_teams(self, year):
         """
