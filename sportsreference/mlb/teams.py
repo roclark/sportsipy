@@ -1209,7 +1209,8 @@ class Teams:
         return self.__getitem__(abbreviation)
 
     def __str__(self):
-        """Returns all MLB teams name and Abbreviations for the given season."""
+        """Returns all MLB team's names and abbreviations for the given season.
+        """
         msg = "Team Name (Abr.)\n"
         msg += "----------------\n"
         msg += '\n'.join(["{0} ({1})".format(team.name, team.abbreviation)
