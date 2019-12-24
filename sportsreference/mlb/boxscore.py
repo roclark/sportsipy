@@ -351,6 +351,7 @@ class Boxscore:
         self._duration = None
         self._away_name = None
         self._home_name = None
+        self._summary = None
         self._winner = None
         self._winning_name = None
         self._winning_abbr = None
@@ -501,6 +502,50 @@ class Boxscore:
         setattr(self, '_time', time)
         setattr(self, '_time_of_day', time_of_day)
         setattr(self, '_venue', venue)
+
+    def _parse_summary(self, boxscore):
+        """
+        Find the game summary including score in each inning.
+
+        The game summary provides further information on the points scored
+        during each inning, including the final score and any extra innings if
+        applicable. The final output will be in a dictionary with two keys,
+        'away' and 'home'. The value of each key will be a list for each
+        respective team's score by order of the inning, with the first element
+        belonging to the first inning, similar to the following:
+
+        {
+            'away': [0, 0, 0, 0, 0, 0, 0, 3, 1, 2],
+            'home': [0, 1, 0, 0, 1, 0, 0, 0, 0, 0]
+        }
+
+        Parameters
+        ----------
+        boxscore : PyQuery object
+            A PyQuery object containing all of the HTML from the boxscore.
+
+        Returns
+        -------
+        dict
+            Returns a ``dictionary`` representing the score for each team in
+            each quarter of the game.
+        """
+        team = ['away', 'home']
+        summary = {'away': [], 'home': []}
+        game_summary = boxscore(BOXSCORE_SCHEME['summary'])
+        for ind, team_info in enumerate(game_summary('tr').items()):
+            ind = (ind + 1) % 2
+            # Only pull the first N-1 items as the last three elements are the
+            # total runs, hits, and errors for each team which is already
+            # stored in an attribute, and shouldn't be duplicated.
+            for inning in list(team_info('td[class="center"]').items())[:-3]:
+                if inning('div'):
+                    continue
+                try:
+                    summary[team[ind]].append(int(inning.text()))
+                except ValueError:
+                    summary[team[ind]].append(None)
+        return summary
 
     def _parse_name(self, field, boxscore):
         """
@@ -765,6 +810,10 @@ class Boxscore:
                 value = self._parse_name(short_field, boxscore)
                 setattr(self, field, value)
                 continue
+            if short_field == 'summary':
+                value = self._parse_summary(boxscore)
+                setattr(self, field, value)
+                continue
             index = 0
             if short_field in BOXSCORE_ELEMENT_INDEX.keys():
                 index = BOXSCORE_ELEMENT_INDEX[short_field]
@@ -937,6 +986,21 @@ class Boxscore:
         if 'night' in self._time_of_day.lower():
             return NIGHT
         return DAY
+
+    @property
+    def summary(self):
+        """
+        Returns a ``dictionary`` with two keys, 'away' and 'home'. The value of
+        each key will be a list for each respective team's score by order of
+        the inning, with the first element belonging to the first inning,
+        similar to the following:
+
+        {
+            'away': [5, 0, 1, 0, 0, 0, 0, 1, 0],
+            'home': [1, 0, 0, 0, 1, 0, 0, 0, 0]
+        }
+        """
+        return self._summary
 
     @property
     def winner(self):
