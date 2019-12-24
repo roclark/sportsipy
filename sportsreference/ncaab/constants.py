@@ -116,6 +116,7 @@ BOXSCORE_SCHEME = {
     'winning_abbr': '',
     'losing_name': '',
     'losing_abbr': '',
+    'summary': 'table#line-score',
     'pace': 'td[data-stat="pace"]:first',
     'away_record': 'div#boxes div[class="section_heading"] h2',
     'away_minutes_played': 'tfoot td[data-stat="mp"]',
