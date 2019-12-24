@@ -144,6 +144,10 @@ class TestNCAABBoxscore:
     def test_ncaab_boxscore_returns_requested_boxscore(self):
         for attribute, value in self.results.items():
             assert getattr(self.boxscore, attribute) == value
+        assert getattr(self.boxscore, 'summary') == {
+            'away': [33, 31],
+            'home': [50, 39]
+        }
 
     def test_invalid_url_yields_empty_class(self):
         flexmock(Boxscore) \

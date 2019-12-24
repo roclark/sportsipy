@@ -146,6 +146,7 @@ class Boxscore:
         self._losing_name = None
         self._losing_abbr = None
         self._pace = None
+        self._summary = None
         self._away_ranking = None
         self._away_record = None
         self._away_minutes_played = None
@@ -568,6 +569,48 @@ class Boxscore:
         away_players, home_players = self._instantiate_players(player_dict)
         return away_players, home_players
 
+    def _parse_summary(self, boxscore):
+        """
+        Find the game summary including score in each quarter.
+
+        The game summary provides further information on the points scored
+        during each half, including the final score and any overtimes if
+        applicable. The final output will be in a dictionary with two keys,
+        'away' and 'home'. The value of each key will be a list for each
+        respective team's score by order of the half, with the first element
+        belonging to the first half, similar to the following:
+
+        {
+            'away': [22, 31],
+            'home': [40, 41]
+        }
+
+        Parameters
+        ----------
+        boxscore : PyQuery object
+            A PyQuery object containing all of the HTML from the boxscore.
+
+        Returns
+        -------
+        dict
+            Returns a ``dictionary`` representing the score for each team in
+            each quarter of the game.
+        """
+        team = ['away', 'home']
+        summary = {'away': [], 'home': []}
+        game_summary = boxscore(BOXSCORE_SCHEME['summary'])
+        for ind, team_info in enumerate(game_summary('tr').items()):
+            # Only pull the first N-1 items as the last element is the final
+            # score for each team which is already stored in an attribute, and
+            # shouldn't be duplicated.
+            for half in list(team_info('td[class="right"]').items())[:-1]:
+                ind = ind % 2
+                try:
+                    summary[team[ind]].append(int(half.text()))
+                except ValueError:
+                    summary[team[ind]].append(None)
+        return summary
+
     def _parse_game_data(self, uri):
         """
         Parses a value for every attribute.
@@ -613,6 +656,10 @@ class Boxscore:
             if short_field == 'away_ranking' or \
                short_field == 'home_ranking':
                 value = self._parse_ranking(short_field, boxscore)
+                setattr(self, field, value)
+                continue
+            if short_field == 'summary':
+                value = self._parse_summary(boxscore)
                 setattr(self, field, value)
                 continue
             index = 0
@@ -779,6 +826,21 @@ class Boxscore:
         played.
         """
         return self._location
+
+    @property
+    def summary(self):
+        """
+        Returns a ``dictionary`` with two keys, 'away' and 'home'. The value of
+        each key will be a list for each respective team's score by order of
+        the half, with the first element belonging to the first half, similar
+        to the following:
+
+        {
+            'away': [22, 31],
+            'home': [40, 41]
+        }
+        """
+        return self._summary
 
     @property
     def winner(self):

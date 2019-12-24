@@ -312,6 +312,27 @@ class TestNCAABBoxscore:
 
         assert self.boxscore.home_losses == 0
 
+    def test_game_summary_with_no_scores_returns_none(self):
+        result = Boxscore(None)._parse_summary(pq(
+            """<table id="line-score">
+    <tbody>
+        <tr>
+            <td class="right"></td>
+            <td class="right"></td>
+        </tr>
+        <tr>
+            <td class="right"></td>
+            <td class="right"></td>
+        </tr>
+    </tbody>
+</table>"""
+        ))
+
+        assert result == {
+            'away': [None],
+            'home': [None]
+        }
+
     def test_invalid_url_returns_none(self):
         result = Boxscore(None)._retrieve_html_page('')
 
