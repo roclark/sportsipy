@@ -144,6 +144,7 @@ BOXSCORE_SCHEME = {
     'away_name': 'a[itemprop="name"]:first',
     'home_name': 'a[itemprop="name"]:last',
     'winner': 'td[data-stat=""]',
+    'summary': 'table[class="linescore nohover stats_table no_freeze"]',
     'winning_name': 'td[data-stat=""]',
     'winning_abbr': 'td[data-stat=""]',
     'losing_name': 'td[data-stat=""]',
