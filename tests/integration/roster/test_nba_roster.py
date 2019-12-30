@@ -157,7 +157,24 @@ class TestNBAPlayer:
                 '2020-21': '$40,824,000',
                 '2021-22': '$43,848,000',
                 '2022-23': '$46,872,000'
-            }
+            },
+            'field_goals_per_poss': 10.0,
+            'field_goal_attempts_per_poss': 22.5,
+            'three_pointers_per_poss': 3.5,
+            'three_point_attempts_per_poss': 9.7,
+            'two_pointers_per_poss': 6.5,
+            'two_point_attempts_per_poss': 12.8,
+            'free_throws_per_poss': 10.4,
+            'free_throw_attempts_per_poss': 12.2,
+            'offensive_rebounds_per_poss': 1.1,
+            'defensive_rebounds_per_poss': 6.4,
+            'total_rebounds_per_poss': 7.5,
+            'assists_per_poss': 8.9,
+            'steals_per_poss': 2.2,
+            'blocks_per_poss': 0.7,
+            'turnovers_per_poss': 5.1,
+            'personal_fouls_per_poss': 3.7,
+            'points_per_poss': 33.9
         }
 
         self.results_2018 = {
@@ -259,7 +276,24 @@ class TestNBAPlayer:
                 '2020-21': '$40,824,000',
                 '2021-22': '$43,848,000',
                 '2022-23': '$46,872,000'
-            }
+            },
+            'field_goals_per_poss': 12.6,
+            'field_goal_attempts_per_poss': 27.9,
+            'three_pointers_per_poss': 5.1,
+            'three_point_attempts_per_poss': 13.9,
+            'two_pointers_per_poss': 7.4,
+            'two_point_attempts_per_poss': 14.0,
+            'free_throws_per_poss': 12.0,
+            'free_throw_attempts_per_poss': 14.0,
+            'offensive_rebounds_per_poss': 0.8,
+            'defensive_rebounds_per_poss': 6.7,
+            'total_rebounds_per_poss': 7.5,
+            'assists_per_poss': 12.2,
+            'steals_per_poss': 2.4,
+            'blocks_per_poss': 1.0,
+            'turnovers_per_poss': 6.1,
+            'personal_fouls_per_poss': 3.3,
+            'points_per_poss': 42.3
         }
 
         self.player = Player('hardeja01')

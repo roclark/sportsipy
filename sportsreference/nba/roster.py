@@ -167,6 +167,23 @@ class Player(AbstractPlayer):
         self._shots_blocked = None
         self._salary = None
         self._contract = None
+        self._field_goals_per_poss = None
+        self._field_goal_attempts_per_poss = None
+        self._three_pointers_per_poss = None
+        self._three_point_attempts_per_poss = None
+        self._two_pointers_per_poss = None
+        self._two_point_attempts_per_poss = None
+        self._free_throws_per_poss = None
+        self._free_throw_attempts_per_poss = None
+        self._offensive_rebounds_per_poss = None
+        self._defensive_rebounds_per_poss = None
+        self._total_rebounds_per_poss = None
+        self._assists_per_poss = None
+        self._steals_per_poss = None
+        self._blocks_per_poss = None
+        self._turnovers_per_poss = None
+        self._personal_fouls_per_poss = None
+        self._points_per_poss = None
 
         player_data = self._pull_player_data()
         if not player_data:
@@ -300,8 +317,8 @@ class Player(AbstractPlayer):
         """
         all_stats_dict = {}
 
-        for table_id in ['totals', 'advanced', 'shooting', 'advanced_pbp',
-                         'all_salaries']:
+        for table_id in ['totals', 'per_poss', 'advanced', 'shooting',
+                         'advanced_pbp', 'all_salaries']:
             table_items = utils._get_stats_table(player_info,
                                                  'table#%s' % table_id)
             career_items = utils._get_stats_table(player_info,
@@ -561,19 +578,23 @@ class Player(AbstractPlayer):
             'and_ones': self.and_ones,
             'assist_percentage': self.assist_percentage,
             'assists': self.assists,
+            'assists_per_poss': self.assists_per_poss,
             'block_percentage': self.block_percentage,
             'blocking_fouls': self.blocking_fouls,
             'blocks': self.blocks,
+            'blocks_per_poss': self.blocks_per_poss,
             'box_plus_minus': self.box_plus_minus,
             'center_percentage': self.center_percentage,
             'defensive_box_plus_minus': self.defensive_box_plus_minus,
             'defensive_rebound_percentage': self.defensive_rebound_percentage,
             'defensive_rebounds': self.defensive_rebounds,
+            'defensive_rebounds_per_poss': self.defensive_rebounds_per_poss,
             'defensive_win_shares': self.defensive_win_shares,
             'dunks': self.dunks,
             'effective_field_goal_percentage':
             self.effective_field_goal_percentage,
             'field_goal_attempts': self.field_goal_attempts,
+            'field_goal_attempts_per_poss': self.field_goal_attempts_per_poss,
             'field_goal_perc_sixteen_foot_plus_two_pointers':
             self.field_goal_perc_sixteen_foot_plus_two_pointers,
             'field_goal_perc_ten_to_sixteen_feet':
@@ -584,10 +605,13 @@ class Player(AbstractPlayer):
             self.field_goal_perc_zero_to_three_feet,
             'field_goal_percentage': self.field_goal_percentage,
             'field_goals': self.field_goals,
+            'field_goals_per_poss': self.field_goals_per_poss,
             'free_throw_attempt_rate': self.free_throw_attempt_rate,
             'free_throw_attempts': self.free_throw_attempts,
+            'free_throw_attempts_per_poss': self.free_throw_attempts_per_poss,
             'free_throw_percentage': self.free_throw_percentage,
             'free_throws': self.free_throws,
+            'free_throws_per_poss': self.free_throws_per_poss,
             'games_played': self.games_played,
             'games_started': self.games_started,
             'half_court_heaves': self.half_court_heaves,
@@ -601,6 +625,7 @@ class Player(AbstractPlayer):
             'offensive_fouls': self.offensive_fouls,
             'offensive_rebound_percentage': self.offensive_rebound_percentage,
             'offensive_rebounds': self.offensive_rebounds,
+            'offensive_rebounds_per_poss': self.offensive_rebounds_per_poss,
             'offensive_win_shares': self.offensive_win_shares,
             'on_court_plus_minus': self.on_court_plus_minus,
             'other_turnovers': self.other_turnovers,
@@ -622,10 +647,12 @@ class Player(AbstractPlayer):
             'percentage_zero_to_three_footers':
             self.percentage_zero_to_three_footers,
             'personal_fouls': self.personal_fouls,
+            'personal_fouls_per_poss': self.personal_fouls_per_poss,
             'player_efficiency_rating': self.player_efficiency_rating,
             'player_id': self.player_id,
             'point_guard_percentage': self.point_guard_percentage,
             'points': self.points,
+            'points_per_poss': self.points_per_poss,
             'points_generated_by_assists': self.points_generated_by_assists,
             'position': self.position,
             'power_forward_percentage': self.power_forward_percentage,
@@ -638,24 +665,32 @@ class Player(AbstractPlayer):
             'small_forward_percentage': self.small_forward_percentage,
             'steal_percentage': self.steal_percentage,
             'steals': self.steals,
+            'steals_per_poss': self.steals_per_poss,
             'take_fouls': self.take_fouls,
             'team_abbreviation': self.team_abbreviation,
             'three_point_attempt_rate': self.three_point_attempt_rate,
             'three_point_attempts': self.three_point_attempts,
+            'three_point_attempts_per_poss':
+            self.three_point_attempts_per_poss,
             'three_point_percentage': self.three_point_percentage,
             'three_point_shot_percentage_from_corner':
             self.three_point_shot_percentage_from_corner,
             'three_pointers': self.three_pointers,
             'three_pointers_assisted_percentage':
             self.three_pointers_assisted_percentage,
+            'three_pointers_per_poss': self.three_pointers_per_poss,
             'total_rebound_percentage': self.total_rebound_percentage,
             'total_rebounds': self.total_rebounds,
+            'total_rebounds_per_poss': self.total_rebounds_per_poss,
             'true_shooting_percentage': self.true_shooting_percentage,
             'turnover_percentage': self.turnover_percentage,
             'turnovers': self.turnovers,
+            'turnovers_per_poss': self.turnovers_per_poss,
             'two_point_attempts': self.two_point_attempts,
+            'two_point_attempts_per_poss': self.two_point_attempts_per_poss,
             'two_point_percentage': self.two_point_percentage,
             'two_pointers': self.two_pointers,
+            'two_pointers_per_poss': self.two_pointers_per_poss,
             'two_pointers_assisted_percentage':
             self.two_pointers_assisted_percentage,
             'usage_percentage': self.usage_percentage,
@@ -756,6 +791,38 @@ class Player(AbstractPlayer):
         """
         return self._games_started
 
+    @_float_property_decorator
+    def field_goals_per_poss(self):
+        """
+        Returns a ``float`` of the total number of field goals the player
+        scored per 100 posessions.
+        """
+        return self._field_goals_per_poss
+
+    @_float_property_decorator
+    def field_goal_attempts_per_poss(self):
+        """
+        Returns a ``float`` of the total number of field goals the player
+        attempted per 100 posessions.
+        """
+        return self._field_goal_attempts_per_poss
+
+    @_float_property_decorator
+    def three_pointers_per_poss(self):
+        """
+        Returns a ``float`` of the total number of three point field goals the
+        player made per 100 posessions.
+        """
+        return self._three_pointers_per_poss
+
+    @_float_property_decorator
+    def three_point_attempts_per_poss(self):
+        """
+        Returns a ``float`` of the total number of three point field goals the
+        player attempted per 100 posessions.
+        """
+        return self._three_point_attempts_per_poss
+
     @_int_property_decorator
     def two_pointers(self):
         """
@@ -773,12 +840,116 @@ class Player(AbstractPlayer):
         return self._two_point_attempts
 
     @_float_property_decorator
+    def two_pointers_per_poss(self):
+        """
+        Returns a ``float`` of the total number of two point field goals the
+        player made per 100 posessions.
+        """
+        return self._two_pointers_per_poss
+
+    @_float_property_decorator
+    def two_point_attempts_per_poss(self):
+        """
+        Returns a ``float`` of the total number of two point field goals the
+        player attempted per 100 posessions.
+        """
+        return self._two_point_attempts_per_poss
+
+    @_float_property_decorator
     def two_point_percentage(self):
         """
         Returns a ``float`` of the player's two point field goal percentage
         during the season. Percentage ranges from 0-1.
         """
         return self._two_point_percentage
+
+    @_float_property_decorator
+    def free_throws_per_poss(self):
+        """
+        Returns a ``float`` of the total number of free throws the player made
+        per 100 posessions.
+        """
+        return self._free_throws_per_poss
+
+    @_float_property_decorator
+    def free_throw_attempts_per_poss(self):
+        """
+        Returns a ``float`` of the total number of free throws the player
+        attempted per 100 posessions.
+        """
+        return self._free_throw_attempts_per_poss
+
+    @_float_property_decorator
+    def offensive_rebounds_per_poss(self):
+        """
+        Returns a ``float`` of the total number of offensive rebounds the
+        player grabbed per 100 posessions.
+        """
+        return self._offensive_rebounds_per_poss
+
+    @_float_property_decorator
+    def defensive_rebounds_per_poss(self):
+        """
+        Returns a ``float`` of the total number of defensive rebounds the
+        player grabbed per 100 posessions.
+        """
+        return self._defensive_rebounds_per_poss
+
+    @_float_property_decorator
+    def total_rebounds_per_poss(self):
+        """
+        Returns a ``float`` of the total number of offensive and defensive
+        rebounds the player grabbed per 100 posessions.
+        """
+        return self._total_rebounds_per_poss
+
+    @_float_property_decorator
+    def assists_per_poss(self):
+        """
+        Returns a ``float`` of the total number of assists the player tallied
+        per 100 posessions.
+        """
+        return self._assists_per_poss
+
+    @_float_property_decorator
+    def steals_per_poss(self):
+        """
+        Returns a ``float`` of the total number of steals the player tallied
+        per 100 posessions.
+        """
+        return self._steals_per_poss
+
+    @_float_property_decorator
+    def blocks_per_poss(self):
+        """
+        Returns a ``float`` of the total number of shots the player blocked
+        per 100 posessions.
+        """
+        return self._blocks_per_poss
+
+    @_float_property_decorator
+    def turnovers_per_poss(self):
+        """
+        Returns a ``float`` of the total number of times the player turned the
+        ball over per 100 posessions.
+        """
+        return self._turnovers_per_poss
+
+    @_float_property_decorator
+    def personal_fouls_per_poss(self):
+        """
+        Returns a ``float`` of the total number of personal fouls the player
+        committed per 100 posessions.
+        """
+        return self._personal_fouls_per_poss
+
+    @_float_property_decorator
+    def points_per_poss(self):
+        """
+        Returns a ``float`` of the total number of points the player scored
+        per 100 posessions.
+        """
+        return self._points_per_poss
 
     @_float_property_decorator
     def player_efficiency_rating(self):
