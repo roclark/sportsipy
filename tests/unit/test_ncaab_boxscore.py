@@ -312,6 +312,13 @@ class TestNCAABBoxscore:
 
         assert self.boxscore.home_losses == 0
 
+    def test_no_game_record_returns_default(self):
+        result = self.boxscore._parse_record('home_record',
+                                             pq('<div></div>'),
+                                             0)
+
+        assert result is None
+
     def test_game_summary_with_no_scores_returns_none(self):
         result = Boxscore(None)._parse_summary(pq(
             """<table id="line-score">
