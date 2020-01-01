@@ -1,7 +1,18 @@
 import pandas as pd
 import re
-from .constants import PARSING_SCHEME, SEASON_PAGE_URL
+from .constants import (CONF_CHAMPIONSHIP,
+                        DIVISION,
+                        LOST_CONF_CHAMPS,
+                        LOST_DIVISIONAL,
+                        LOST_SUPER_BOWL,
+                        LOST_WILD_CARD,
+                        PARSING_SCHEME,
+                        SEASON_PAGE_URL,
+                        SUPER_BOWL,
+                        WILD_CARD,
+                        WON_SUPER_BOWL)
 from pyquery import PyQuery as pq
+from ..constants import LOSS, WIN
 from ..decorators import float_property_decorator, int_property_decorator
 from .. import utils
 from .roster import Roster
@@ -139,6 +150,7 @@ class Team:
             self.points_contributed_by_offense,
             'points_difference': self.points_difference,
             'points_for': self.points_for,
+            'post_season_result': self.post_season_result,
             'rank': self.rank,
             'rush_attempts': self.rush_attempts,
             'rush_first_downs': self.rush_first_downs,
@@ -226,6 +238,28 @@ class Team:
         Returns an ``int`` of the number of games played during the season.
         """
         return self._games_played
+
+    @property
+    def post_season_result(self):
+        """
+        Returns a ``string constant`` denoting how far the team made it in the
+        post-season.
+        """
+        final_game = self.schedule[-1]
+        result = final_game.result
+        if result == LOSS and final_game.week in [WILD_CARD, 18]:
+            return LOST_WILD_CARD
+        if result == LOSS and final_game.week in [DIVISION, 19]:
+            return LOST_DIVISIONAL
+        if result == LOSS and final_game.week in [CONF_CHAMPIONSHIP, 20]:
+            return LOST_CONF_CHAMPS
+        if result == LOSS and final_game.week in [SUPER_BOWL, 21]:
+            return LOST_SUPER_BOWL
+        if result == WIN and final_game.week in [SUPER_BOWL, 21]:
+            return WON_SUPER_BOWL
+        # If none of the above conditions are true, the team failed to qualify
+        # for the post-season.
+        return None
 
     @int_property_decorator
     def points_for(self):

@@ -367,3 +367,9 @@ WILD_CARD = 100
 DIVISION = 101
 CONF_CHAMPIONSHIP = 102
 SUPER_BOWL = 103
+
+LOST_WILD_CARD = 'Lost WC'
+LOST_DIVISIONAL = 'Lost Divisional'
+LOST_CONF_CHAMPS = 'Lost Conference Championship'
+LOST_SUPER_BOWL = 'Lost Super Bowl'
+WON_SUPER_BOWL = 'Won Super Bowl'

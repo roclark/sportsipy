@@ -4,7 +4,7 @@ import pandas as pd
 import pytest
 from flexmock import flexmock
 from sportsreference import utils
-from sportsreference.nfl.constants import SEASON_PAGE_URL
+from sportsreference.nfl.constants import LOST_WILD_CARD, SEASON_PAGE_URL
 from sportsreference.nfl.teams import Teams
 
 
@@ -65,6 +65,7 @@ class TestNFLIntegration:
             'wins': 10,
             'losses': 6,
             'win_percentage': .625,
+            'post_season_result': LOST_WILD_CARD,
             'games_played': 16,
             'points_for': 415,
             'points_against': 339,
