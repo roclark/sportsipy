@@ -3,6 +3,7 @@ from .constants import SQUAD_URL
 from ..decorators import float_property_decorator, int_property_decorator
 from .fb_utils import _lookup_team
 from pyquery import PyQuery as pq
+from .schedule import Schedule
 from .squad_ids import SQUAD_IDS
 from .. import utils
 
@@ -279,6 +280,7 @@ class Team:
         goals, manager, league results, and more.
         """
         doc = pq(SQUAD_URL % self.squad_id)
+        self._doc = doc
         self._parse_name(doc)
         self._parse_header(doc)
 
@@ -297,6 +299,14 @@ class Team:
         Hotspur'.
         """
         return self._name
+
+    @property
+    def schedule(self):
+        """
+        Returns an instance of the Schedule class containing the team's
+        complete schedule for the season.
+        """
+        return Schedule(self.squad_id, self._doc)
 
     @property
     def season(self):

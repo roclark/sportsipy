@@ -1,5 +1,6 @@
 WIN = 'Win'
 LOSS = 'Loss'
+DRAW = 'Draw'
 TIE = 'Tie'
 HOME = 'Home'
 AWAY = 'Away'

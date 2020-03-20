@@ -32,3 +32,37 @@ example of pulling information on Tottenham Hotspur.
     :members:
     :undoc-members:
     :show-inheritance:
+
+Schedule
+--------
+The Schedule module can be used to iterate over all games in a team's schedule
+to get high-level game information such as the date, score, result, and more.
+Either the full team name or, preferably, the team's 8-digit squad ID can be
+used to pull a specific team's schedule. The following is an example of pulling
+the schedule and iterating over the games for Tottenham Hotspur.
+
+.. code-block:: python
+
+    from sportsreference.fb.schedule import Schedule
+
+    tottenham_schedule = Schedule('Tottenham Hotspur')
+    print(len(tottenham_schedule))  # Prints 52 for the total number of games
+    for game in tottenham_schedule:
+        print(game.datetime)  # Prints the datetime for each game
+        print(game.goals_scored)  # Prints the number of goals the team scored
+        print(game.captain)  # Prints the primary captain's name for the game
+
+The Schedule module can also be accessed from the Team class.
+
+.. code-block:: python
+
+    from sportsreference.fb.team import Team
+
+    tottenham = Schedule('Tottenham Hotspur')
+    for game in tottenham.schedule:
+        print(game.datetime)  # Prints the datetime for each game
+
+.. automodule:: sportsreference.fb.schedule
+    :members:
+    :undoc-members:
+    :show-inheritance:

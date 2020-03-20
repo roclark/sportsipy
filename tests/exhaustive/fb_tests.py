@@ -6,3 +6,5 @@ from sportsreference.fb.squad_ids import SQUAD_IDS
 for team in list(set(SQUAD_IDS.values())):
     squad = Team(team)
     print(squad.name)
+    for game in squad.schedule:
+        print(game.date)
