@@ -16,11 +16,12 @@ applications, especially ones involving data analytics and machine learning.
 
 Sportsreference exposes a plethora of sports information from major sports
 leagues in North America, such as the MLB, NBA, College Football and Basketball,
-NFL, and NHL. Every sport has its own set of valid API queries ranging from the
-list of teams in a league, to the date and time of a game, to the total number
-of wins a team has secured during the season, and many, many more metrics that
-paint a more detailed picture of how a team has performed during a game or
-throughout a season.
+NFL, and NHL. Sportsreference also now supports Professional Football (or
+Soccer) for thousands of teams from leagues around the world. Every sport has
+its own set of valid API queries ranging from the list of teams in a league, to
+the date and time of a game, to the total number of wins a team has secured
+during the season, and many, many more metrics that paint a more detailed
+picture of how a team has performed during a game or throughout a season.
 
 Installation
 ============
@@ -125,6 +126,16 @@ Get a Pandas DataFrame of all stats for a MLB game
 
     game = Boxscore('BOS201806070')
     df = game.dataframe
+
+Find the number of goals a football team has scored
+---------------------------------------------------
+
+.. code-block:: python
+
+    from sportsreference.fb.team import Team
+
+    tottenham = Team('Tottenham Hotspur')
+    print(tottenham.goals_scored)
 
 Documentation
 =============
