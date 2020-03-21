@@ -3,6 +3,7 @@ from .constants import SQUAD_URL
 from ..decorators import float_property_decorator, int_property_decorator
 from .fb_utils import _lookup_team
 from pyquery import PyQuery as pq
+from .roster import Roster
 from .schedule import Schedule
 from .squad_ids import SQUAD_IDS
 from .. import utils
@@ -307,6 +308,14 @@ class Team:
         complete schedule for the season.
         """
         return Schedule(self.squad_id, self._doc)
+
+    @property
+    def roster(self):
+        """
+        Returns an instance of the Roster class containing instances of every
+        player on the team.
+        """
+        return Roster(self._squad_id, self._doc)
 
     @property
     def season(self):

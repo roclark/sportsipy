@@ -8,3 +8,5 @@ for team in list(set(SQUAD_IDS.values())):
     print(squad.name)
     for game in squad.schedule:
         print(game.date)
+    for player in squad.roster:
+        print(player.name)

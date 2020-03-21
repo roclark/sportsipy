@@ -1,5 +1,6 @@
 import pytest
 from flexmock import flexmock
+from sportsreference.fb.roster import Roster
 from sportsreference.fb.schedule import Schedule
 from sportsreference.fb.team import Team
 
@@ -11,6 +12,9 @@ class TestFBTeam:
             .and_return(None)
         flexmock(Schedule) \
             .should_receive('_pull_schedule') \
+            .and_return(None)
+        flexmock(Roster) \
+            .should_receive('_pull_stats') \
             .and_return(None)
         self.team = Team('Tottenham Hotspur')
 
@@ -147,3 +151,8 @@ class TestFBTeam:
         self.team._doc = None
 
         assert len(self.team.schedule) == 0
+
+    def test_fb_roster_returns_roster(self):
+        self.team._doc = None
+
+        assert len(self.team.roster) == 0

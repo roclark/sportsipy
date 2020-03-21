@@ -66,3 +66,40 @@ The Schedule module can also be accessed from the Team class.
     :members:
     :undoc-members:
     :show-inheritance:
+
+Roster
+------
+The Roster module contains detailed player information for every player on a
+team's roster, allowing each player to be queried by either their name or
+their unique player ID. Every player instantiates the ``SquadPlayer`` class
+which includes further individual statistics, such as goals, shots, assists,
+playtime, and much more. The following is an example on pulling the roster
+for Tottenham Hotspur and querying stats:
+
+.. code-block:: python
+
+    from sportsreference.fb.roster import Roster
+
+    tottenham = Roster('Tottenham Hotspur')
+    for player in tottenham:
+        print(player.name)  # Prints the name of each player on the roster
+        print(player.goals)  # Prints the number of goals the player scored
+        print(player.assists)  # Prints the number of assists for the player
+
+A specific player can also be called from a ``Roster`` instance instead of
+iterating through every member of the team by using either the player's name
+or unique player ID:
+
+.. code-block:: python
+
+    from sportsreference.fb.roster import Roster
+
+    tottenham = Roster('Tottenham Hotspur')
+    harry_kane = tottenham('Harry Kane')  # Pulls Harry Kane's stats
+    print(harry_kane.goals)  # Prints Harry's goals
+    print(harry_kane.assists)  # Prints Harry's assists
+
+.. automodule:: sportsreference.fb.roster
+    :members:
+    :undoc-members:
+    :show-inheritance:
