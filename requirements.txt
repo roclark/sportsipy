@@ -14,7 +14,7 @@ numpy==1.17.4
 pandas==0.25.3
 packaging==19.2
 pluggy==0.13.0
-py==1.8.0
+py==1.8.1
 pycodestyle==2.5.0
 pyparsing==2.4.5
 pyquery==1.4.0
