@@ -3,6 +3,7 @@ API Documentation
 
 .. toctree::
 
+    fb
     mlb
     nba
     ncaab
