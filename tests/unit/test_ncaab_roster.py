@@ -99,3 +99,12 @@ class TestNCAABPlayer:
         result = player._combine_season_stats(None, None, {})
 
         assert result == {}
+
+    def test_player_with_no_weight_returns_none(self):
+        mock_weight = PropertyMock(return_value=None)
+        player = Player(None)
+        type(player)._weight = mock_weight
+
+        result = player.weight
+
+        assert result is None
