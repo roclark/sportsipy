@@ -206,7 +206,7 @@ class Player(AbstractPlayer):
         url = self._build_url()
         try:
             url_data = pq(url)
-        except HTTPError:
+        except (HTTPError, ParserError):
             return None
         return pq(utils._remove_html_comment_tags(url_data))
 
