@@ -254,7 +254,8 @@ class Player(AbstractPlayer):
         """
         all_stats_dict = {}
 
-        for table_id in ['passing', 'rushing', 'defense', 'scoring']:
+        for table_id in ['passing', 'rushing', 'defense', 'scoring',
+                         'receiving']:
             table_items = utils._get_stats_table(player_info,
                                                  'table#%s' % table_id)
             career_items = utils._get_stats_table(player_info,
