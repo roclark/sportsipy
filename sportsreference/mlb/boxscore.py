@@ -165,10 +165,12 @@ class BoxscorePlayer(AbstractPlayer):
         """
         return self._earned_runs_against
 
-    @_int_property_decorator
+    @_float_property_decorator
     def innings_pitched(self):
         """
-        Returns an ``int`` of the number of innings the player pitched in.
+        Returns a ``float`` of the number of innings the player pitched in.
+        Numbers ending in '.0' indicate complete innings, while numbers ending
+        in '.1' are for 1/3 of an inning, and '.2' is for 2/3 of an inning.
         """
         return self._innings_pitched
 
