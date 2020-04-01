@@ -671,6 +671,21 @@ class TestNCAABIntegration:
 
         assert len(teams) == 0
 
+    def test_ncaab_no_conference_info_skips_team(self):
+        flexmock(utils) \
+            .should_receive('_todays_date') \
+            .and_return(MockDateTime(YEAR, MONTH))
+        flexmock(Conferences) \
+            .should_receive('team_conference') \
+            .and_return({})
+        flexmock(Conferences) \
+            .should_receive('_find_conferences') \
+            .and_return(None)
+
+        teams = Teams()
+
+        assert len(teams) == 0
+
 
 class TestNCAABIntegrationInvalidYear:
     @mock.patch('requests.get', side_effect=mock_pyquery)
