@@ -754,11 +754,11 @@ class Boxscore:
 
         tables = self._find_boxscore_tables(boxscore)
         for table in tables:
-            home_or_away = HOME
+            home_or_away = AWAY
             # There are two tables per team with the odd tables belonging to
-            # the away team.
+            # the home team.
             if table_count % 2 == 1:
-                home_or_away = AWAY
+                home_or_away = HOME
             player_dict = self._extract_player_stats(table,
                                                      player_dict,
                                                      home_or_away)
