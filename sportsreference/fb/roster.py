@@ -7,6 +7,7 @@ from pyquery import PyQuery as pq
 from sportsreference.utils import (_get_stats_table,
                                    _parse_field,
                                    _remove_html_comment_tags)
+from urllib.error import HTTPError
 
 
 class SquadPlayer:
@@ -1620,8 +1621,11 @@ class Roster:
             the string version of the row data for the matched player.
         """
         if not doc:
-            doc = pq(SQUAD_URL % self._squad_id)
-            doc = pq(_remove_html_comment_tags(doc))
+            try:
+                doc = pq(SQUAD_URL % self._squad_id)
+                doc = pq(_remove_html_comment_tags(doc))
+            except HTTPError:
+                return None
         stats_table = []
         player_data_dict = {}
 

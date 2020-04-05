@@ -12,6 +12,7 @@ from sportsreference.constants import (AWAY,
                                        LOSS,
                                        NEUTRAL,
                                        WIN)
+from urllib.error import HTTPError
 
 
 class Game:
@@ -591,7 +592,10 @@ class Schedule:
         """
         if not doc:
             squad_id = _lookup_team(team_id)
-            doc = pq(SQUAD_URL % squad_id)
+            try:
+                doc = pq(SQUAD_URL % squad_id)
+            except HTTPError:
+                return
         # Most leagues use the 'ks_sched_all' tag for competitions, but some,
         # like the MLS in North America, use a different table ID.
         for table_id in ['table#ks_sched_all', 'table#ks_sched_10090']:

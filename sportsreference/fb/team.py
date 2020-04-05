@@ -6,6 +6,7 @@ from pyquery import PyQuery as pq
 from .roster import Roster
 from .schedule import Schedule
 from .squad_ids import SQUAD_IDS
+from urllib.error import HTTPError
 from .. import utils
 
 
@@ -280,7 +281,10 @@ class Team:
         the header for relevant information on the team including records,
         goals, manager, league results, and more.
         """
-        doc = pq(SQUAD_URL % self.squad_id)
+        try:
+            doc = pq(SQUAD_URL % self.squad_id)
+        except HTTPError:
+            return
         self._doc = doc
         self._parse_name(doc)
         self._parse_header(doc)

@@ -1,3 +1,4 @@
+import mock
 from datetime import datetime
 from flexmock import flexmock
 from pyquery import PyQuery as pq
@@ -7,7 +8,21 @@ from sportsreference.constants import (AWAY,
                                        LOSS,
                                        NEUTRAL,
                                        WIN)
-from sportsreference.fb.schedule import Game
+from sportsreference.fb.schedule import Game, Schedule
+from urllib.error import HTTPError
+
+
+def mock_httperror(url):
+    class MockPQ:
+        def __init__(self, html_contents):
+            self.status_code = 504
+            self.html_contents = html_contents
+            self.text = html_contents
+            self.url = url
+            self.reason = HTTPError
+            self.headers = None
+
+    return MockPQ(None)
 
 
 class TestFBSchedule:
@@ -159,3 +174,15 @@ class TestFBSchedule:
         output = self.game.shootout_against
 
         assert output == 4
+
+    @mock.patch('requests.get', side_effect=mock_httperror)
+    def test_invalid_http_page_error(self, *args, **kwargs):
+        flexmock(Schedule) \
+            .should_receive('__init__') \
+            .and_return(None)
+        schedule = Schedule(None)
+        schedule._squad_id = ''
+
+        output = schedule._pull_schedule('Tottenham Hotspur', None)
+
+        assert not output
