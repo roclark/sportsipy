@@ -274,9 +274,14 @@ class Game:
         """
         Returns a datetime object representing the date the game was played.
         """
+        year = self._year
+        # Check if the first word of the date (the month) is either january or
+        # february, and increase the year by 1.
+        if self._date.split(' ')[0].lower() in ['january', 'february']:
+            year = int(year) + 1
         date_string = '%s %s %s' % (self._day,
                                     self._date,
-                                    self._year)
+                                    year)
         return datetime.strptime(date_string, '%a %B %d %Y')
 
     @property
