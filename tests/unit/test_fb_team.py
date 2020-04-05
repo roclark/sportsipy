@@ -1,8 +1,23 @@
+import mock
 import pytest
 from flexmock import flexmock
 from sportsreference.fb.roster import Roster
 from sportsreference.fb.schedule import Schedule
 from sportsreference.fb.team import Team
+from urllib.error import HTTPError
+
+
+def mock_httperror(url):
+    class MockPQ:
+        def __init__(self, html_contents):
+            self.status_code = 504
+            self.html_contents = html_contents
+            self.text = html_contents
+            self.url = url
+            self.reason = HTTPError
+            self.headers = None
+
+    return MockPQ(None)
 
 
 class TestFBTeam:
@@ -156,3 +171,17 @@ class TestFBTeam:
         self.team._doc = None
 
         assert len(self.team.roster) == 0
+
+
+class TestFBTeamInvalidPage:
+    @mock.patch('requests.get', side_effect=mock_httperror)
+    def test_invalid_http_page_error(self, *args, **kwargs):
+        flexmock(Team) \
+            .should_receive('__init__') \
+            .and_return(None)
+        team = Team(None)
+        team._squad_id = ''
+
+        output = team._pull_team_page()
+
+        assert not output

@@ -1,7 +1,9 @@
+import mock
 import pytest
 from flexmock import flexmock
 from pyquery import PyQuery as pq
 from sportsreference.fb.roster import SquadPlayer, Roster
+from urllib.error import HTTPError
 
 
 class MockSquadPlayer:
@@ -11,6 +13,19 @@ class MockSquadPlayer:
 
     def __call__(self, obj):
         return pq('<tr></tr>')
+
+
+def mock_httperror(url):
+    class MockPQ:
+        def __init__(self, html_contents):
+            self.status_code = 504
+            self.html_contents = html_contents
+            self.text = html_contents
+            self.url = url
+            self.reason = HTTPError
+            self.headers = None
+
+    return MockPQ(None)
 
 
 class TestFBRoster:
@@ -44,3 +59,15 @@ class TestFBRoster:
         result = self.roster._add_stats_data([MockSquadPlayer()], {})
 
         assert result == {}
+
+    @mock.patch('requests.get', side_effect=mock_httperror)
+    def test_invalid_http_page_error(self, *args, **kwargs):
+        flexmock(Roster) \
+            .should_receive('__init__') \
+            .and_return(None)
+        roster = Roster(None)
+        roster._squad_id = ''
+
+        output = roster._pull_stats(None)
+
+        assert not output
