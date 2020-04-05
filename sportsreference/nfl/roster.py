@@ -238,7 +238,7 @@ class Player(AbstractPlayer):
         url = self._build_url()
         try:
             url_data = pq(url)
-        except HTTPError:
+        except (HTTPError, ParserError):
             return None
         # For NFL, a 404 page doesn't actually raise a 404 error, so it needs
         # to be manually checked.
