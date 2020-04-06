@@ -68,6 +68,7 @@ class AbstractPlayer:
         page. If the player appears in multiple tables, all of their
         information will appear in one single string concatenated together.
     """
+
     def __init__(self, player_id, player_name, player_data):
         self._player_id = player_id
         self._name = player_name
@@ -113,8 +114,13 @@ class AbstractPlayer:
         self._punt_return_touchdowns = None
         self._kickoff_return_touchdowns = None
         self._total_touchdowns = None
+        # Kicking stats
         self._extra_points_made = None
+        self._extra_points_attempted = None
+        self._extra_point_percentage = None
         self._field_goals_made = None
+        self._field_goals_attempted = None
+        self._field_goal_percentage = None
 
         self._parse_player_data(player_data)
 
@@ -502,9 +508,41 @@ class AbstractPlayer:
         return self._extra_points_made
 
     @_int_property_decorator
+    def extra_points_attempted(self):
+        """
+        Returns an ``int`` of the total number of extra points the player
+        attempted.
+        """
+        return self._extra_points_attempted
+
+    @_float_property_decorator
+    def extra_point_percentage(self):
+        """
+        Returns a ``float`` of the percentage (0.0 to 100.0) of extra points
+        the player made.
+        """
+        return self._extra_point_percentage
+
+    @_int_property_decorator
     def field_goals_made(self):
         """
         Returns an ``int`` of the total number of field goals the player made
         from any distance.
         """
         return self._field_goals_made
+
+    @_int_property_decorator
+    def field_goals_attempted(self):
+        """
+        Returns an ``int`` of the total number of field goals the player
+        attempted from any distance.
+        """
+        return self._field_goals_attempted
+
+    @_float_property_decorator
+    def field_goal_percentage(self):
+        """
+        Returns a ``float`` of the percentage (0.0 to 100.0) of field goals
+        the player made from any distance.
+        """
+        return self._field_goal_percentage

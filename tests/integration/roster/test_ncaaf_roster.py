@@ -30,6 +30,8 @@ def mock_pyquery(url):
         return MockPQ(None, 404)
     if 'brycen-hopkins' in url:
         return MockPQ(read_file('brycen-hopkins-1'))
+    if 'jd-dillinger' in url:
+        return MockPQ(read_file('jd-dillinger-1'))
     if '2018-roster' in url:
         return MockPQ(read_file('2018-roster'))
     return MockPQ(read_file('david-blough-1'))
@@ -459,6 +461,22 @@ class TestNCAAFPlayer:
 
         assert player.name == 'Brycen Hopkins'
         assert player.dataframe is not None
+
+    def test_ncaaf_kicker_returns_expected_kicking_stats(self):
+        stats = {
+            'extra_points_made': 91,
+            'extra_points_attempted': 92,
+            'extra_point_percentage': 98.9,
+            'field_goals_made': 33,
+            'field_goals_attempted': 45,
+            'field_goal_percentage': 73.3,
+        }
+
+        player = Player('jd-dillinger-1')
+
+        assert player.name == 'J.D. Dillinger'
+        for attribute, value in stats.items():
+            assert getattr(player, attribute) == value
 
     def test_ncaaf_404_returns_none_with_no_errors(self):
         player = Player('bad')
