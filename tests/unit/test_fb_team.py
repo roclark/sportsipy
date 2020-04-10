@@ -167,10 +167,30 @@ class TestFBTeam:
 
         assert len(self.team.schedule) == 0
 
+    def test_fb_no_doc_returns_schedule(self):
+        flexmock(Team) \
+            .should_receive('__init__') \
+            .and_return(None)
+
+        team = Team('Tottenham Hotspur')
+        team._squad_id = '361ca564'
+
+        assert len(team.schedule) == 0
+
     def test_fb_roster_returns_roster(self):
         self.team._doc = None
 
         assert len(self.team.roster) == 0
+
+    def test_fb_no_doc_returns_roster(self):
+        flexmock(Team) \
+            .should_receive('__init__') \
+            .and_return(None)
+
+        team = Team('Tottenham Hotspur')
+        team._squad_id = '361ca564'
+
+        assert len(team.roster) == 0
 
 
 class TestFBTeamInvalidPage:
