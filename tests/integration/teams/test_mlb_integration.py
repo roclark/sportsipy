@@ -5,7 +5,7 @@ import pytest
 from flexmock import flexmock
 from sportsreference import utils
 from sportsreference.mlb.constants import STANDINGS_URL, TEAM_STATS_URL
-from sportsreference.mlb.teams import Teams
+from sportsreference.mlb.teams import Team, Teams
 
 
 MONTH = 4
@@ -233,6 +233,13 @@ class TestMLBIntegration:
 
         assert len(result) == len(self.abbreviations)
         assert set(result.columns.values) == set(self.results.keys())
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_pulling_team_directly(self, *args, **kwargs):
+        hou = Team('HOU')
+
+        for attribute, value in self.results.items():
+            assert getattr(hou, attribute) == value
 
     @mock.patch('requests.get', side_effect=mock_pyquery)
     def test_mlb_invalid_team_name_raises_value_error(self, *args, **kwargs):
