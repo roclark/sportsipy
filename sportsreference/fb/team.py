@@ -311,6 +311,8 @@ class Team:
         Returns an instance of the Schedule class containing the team's
         complete schedule for the season.
         """
+        if not hasattr(self, '_doc'):
+            self._doc = None
         return Schedule(self.squad_id, self._doc)
 
     @property
@@ -319,6 +321,8 @@ class Team:
         Returns an instance of the Roster class containing instances of every
         player on the team.
         """
+        if not hasattr(self, '_doc'):
+            self._doc = None
         return Roster(self._squad_id, self._doc)
 
     @property
