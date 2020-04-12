@@ -1,6 +1,5 @@
 import pandas as pd
 import re
-import warnings
 from functools import wraps
 from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
@@ -523,17 +522,6 @@ class Player(AbstractPlayer):
         Returns an ``int`` of the number of completed passes the player threw.
         """
         return self._completed_passes
-
-    @_int_property_decorator
-    def attempted_passes(self):
-        """
-        Returns an ``int`` of the number of passes the player attempted.
-        """
-        warnings.warn('Warning: "attempted_passes" is deprecated and will '
-                      'be removed in a future release. Please use '
-                      '"pass_attempts" instead for identical functionality.',
-                      DeprecationWarning)
-        return self._pass_attempts
 
     @_int_property_decorator
     def pass_attempts(self):

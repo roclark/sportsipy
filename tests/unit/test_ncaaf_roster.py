@@ -49,16 +49,3 @@ class TestNCAAFPlayer:
         result = player.weight
 
         assert result is None
-
-    @patch('requests.get', side_effect=mock_pyquery)
-    def test_attempted_passes_has_deprecation_warning(self, *args, **kwargs):
-        mock_passes = PropertyMock(return_value=[32])
-        mock_index = PropertyMock(return_value=0)
-        player = Player(None)
-        type(player)._pass_attempts = mock_passes
-        type(player)._index = mock_index
-
-        with pytest.deprecated_call():
-            result = player.attempted_passes
-
-            assert result == 32
