@@ -663,6 +663,8 @@ class Player(AbstractPlayer):
         """
         Returns an ``int`` of the player's weight in pounds.
         """
+        if not self._weight:
+            return None
         return int(self._weight.replace('lb', ''))
 
     @property

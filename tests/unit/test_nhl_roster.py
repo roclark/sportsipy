@@ -38,3 +38,11 @@ class TestNHLPlayer:
         result = player._retrieve_html_page()
 
         assert result is None
+
+    @patch('requests.get', side_effect=mock_pyquery)
+    def test_missing_weight_returns_none(self, *args, **kwargs):
+        mock_weight = PropertyMock(return_value=None)
+        player = Player(None)
+        type(player)._weight = mock_weight
+
+        assert not player.weight

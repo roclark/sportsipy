@@ -84,3 +84,11 @@ class TestMLBPlayer:
         result = _cleanup_player(None)
 
         assert result == ''
+
+    @patch('requests.get', side_effect=mock_pyquery)
+    def test_missing_weight_returns_none(self, *args, **kwargs):
+        mock_weight = PropertyMock(return_value=None)
+        player = Player(None)
+        type(player)._weight = mock_weight
+
+        assert not player.weight
