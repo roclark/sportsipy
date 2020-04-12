@@ -720,7 +720,11 @@ class Player(AbstractPlayer):
         """
         Returns an ``int`` of the player's weight in pounds.
         """
-        return int(self._weight.replace('lb', ''))
+        try:
+            result = int(self._weight.replace('lb', ''))
+        except AttributeError:
+            result = None
+        return result
 
     @property
     def birth_date(self):

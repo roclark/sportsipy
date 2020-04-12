@@ -49,6 +49,7 @@ class BoxscorePlayer(AbstractPlayer):
         page. If the player appears in multiple tables, all of their
         information will appear in one single string concatenated together.
     """
+
     def __init__(self, player_id, player_name, player_data):
         self._index = 0
         self._player_id = player_id
@@ -195,6 +196,7 @@ class Boxscore:
         The relative link to the boxscore HTML page, such as
         '201710310LAL'.
     """
+
     def __init__(self, uri):
         self._uri = uri
         self._date = None
@@ -958,7 +960,11 @@ class Boxscore:
         Returns an ``int`` of the total number of two point field goals made
         by the away team.
         """
-        return self.away_field_goals - self.away_three_point_field_goals
+        try:
+            result = self.away_field_goals - self.away_three_point_field_goals
+        except TypeError:
+            result = None
+        return result
 
     @int_property_decorator
     def away_two_point_field_goal_attempts(self):
@@ -966,8 +972,12 @@ class Boxscore:
         Returns an ``int`` of the total number of two point field goal attempts
         by the away team.
         """
-        return self.away_field_goal_attempts - \
-            self.away_three_point_field_goal_attempts
+        try:
+            result = self.away_field_goal_attempts - \
+                self.away_three_point_field_goal_attempts
+        except TypeError:
+            result = None
+        return result
 
     @float_property_decorator
     def away_two_point_field_goal_percentage(self):
@@ -976,9 +986,14 @@ class Boxscore:
         by the number of two point field goal attempts by the away team.
         Percentage ranges from 0-1.
         """
-        result = float(self.away_two_point_field_goals) / \
-            float(self.away_two_point_field_goal_attempts)
-        return round(float(result), 3)
+        try:
+            result = float(self.away_two_point_field_goals) / \
+                float(self.away_two_point_field_goal_attempts)
+        except TypeError:
+            result = None
+        else:
+            result = round(float(result), 3)
+        return result
 
     @int_property_decorator
     def away_free_throws(self):
@@ -1263,7 +1278,11 @@ class Boxscore:
         Returns an ``int`` of the total number of two point field goals made
         by the home team.
         """
-        return self.home_field_goals - self.home_three_point_field_goals
+        try:
+            result = self.home_field_goals - self.home_three_point_field_goals
+        except TypeError:
+            result = None
+        return result
 
     @int_property_decorator
     def home_two_point_field_goal_attempts(self):
@@ -1271,8 +1290,12 @@ class Boxscore:
         Returns an ``int`` of the total number of two point field goal attempts
         by the home team.
         """
-        return self.home_field_goal_attempts - \
-            self.home_three_point_field_goal_attempts
+        try:
+            result = self.home_field_goal_attempts - \
+                self.home_three_point_field_goal_attempts
+        except TypeError:
+            result = None
+        return result
 
     @float_property_decorator
     def home_two_point_field_goal_percentage(self):
@@ -1281,9 +1304,14 @@ class Boxscore:
         by the number of two point field goal attempts by the home team.
         Percentage ranges from 0-1.
         """
-        result = float(self.home_two_point_field_goals) / \
-            float(self.home_two_point_field_goal_attempts)
-        return round(float(result), 3)
+        try:
+            result = float(self.home_two_point_field_goals) / \
+                float(self.home_two_point_field_goal_attempts)
+        except TypeError:
+            result = None
+        else:
+            result = round(float(result), 3)
+        return result
 
     @int_property_decorator
     def home_free_throws(self):
@@ -1502,6 +1530,7 @@ class Boxscores:
         empty, or if 'end_date' is prior to 'date', only the games from the day
         specified in the 'date' parameter will be saved.
     """
+
     def __init__(self, date, end_date=None):
         self._boxscores = {}
 
