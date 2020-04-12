@@ -47,6 +47,7 @@ class TestNFLBoxscore:
         self.results = {
             'date': 'Sunday Feb 4, 2018',
             'time': '6:30pm',
+            'datetime': datetime(2018, 2, 4, 18, 30),
             'stadium': 'U.S. Bank Stadium',
             'attendance': 67612,
             'duration': '3:46',
