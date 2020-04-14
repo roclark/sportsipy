@@ -189,6 +189,142 @@ class TestNBABoxscore:
 
         assert self.boxscore.home_losses == 0
 
+    def test_away_two_point_field_goals_calc(self):
+        fake_none = PropertyMock(return_value=None)
+        fake_int = PropertyMock(return_value=5)
+
+        type(self.boxscore)._away_field_goals = fake_none
+        type(self.boxscore)._away_three_point_field_goals = fake_none
+
+        assert self.boxscore.away_two_point_field_goals is None
+
+        type(self.boxscore)._away_three_point_field_goals = fake_int
+        assert self.boxscore.away_two_point_field_goals is None
+
+        type(self.boxscore)._away_field_goals = fake_int
+        type(self.boxscore)._away_three_point_field_goals = fake_none
+
+        assert self.boxscore.away_two_point_field_goals is None
+
+        type(self.boxscore)._away_field_goals = fake_int
+        type(self.boxscore)._away_three_point_field_goals = fake_int
+
+        assert isinstance(self.boxscore.away_two_point_field_goals, int)
+
+    def test_away_two_point_field_goal_attempts_calc(self):
+        fake_none = PropertyMock(return_value=None)
+        fake_int = PropertyMock(return_value=5)
+
+        type(self.boxscore)._away_field_goal_attempts = fake_none
+        type(self.boxscore)._away_three_point_field_goal_attempts = fake_none
+
+        assert self.boxscore.away_two_point_field_goal_attempts is None
+
+        type(self.boxscore)._away_three_point_field_goal_attempts = fake_int
+        assert self.boxscore.away_two_point_field_goal_attempts is None
+
+        type(self.boxscore)._away_field_goal_attempts = fake_int
+        type(self.boxscore)._away_three_point_field_goal_attempts = fake_none
+
+        assert self.boxscore.away_two_point_field_goal_attempts is None
+
+        type(self.boxscore)._away_field_goal_attempts = fake_int
+        type(self.boxscore)._away_three_point_field_goal_attempts = fake_int
+
+        assert isinstance(
+            self.boxscore.away_two_point_field_goal_attempts, int)
+
+    def test_away_two_point_field_goal_percentage_calc(self):
+        fake_none = PropertyMock(return_value=None)
+        fake_int = PropertyMock(return_value=5)
+
+        type(self.boxscore).away_two_point_field_goals = fake_none
+        type(self.boxscore).away_two_point_field_goal_attempts = fake_none
+
+        assert self.boxscore.away_two_point_field_goal_percentage is None
+
+        type(self.boxscore).away_two_point_field_goal_attempts = fake_int
+        assert self.boxscore.away_two_point_field_goal_percentage is None
+
+        type(self.boxscore).away_two_point_field_goals = fake_int
+        type(self.boxscore).away_two_point_field_goal_attempts = fake_none
+
+        assert self.boxscore.away_two_point_field_goal_percentage is None
+
+        type(self.boxscore).away_two_point_field_goals = fake_int
+        type(self.boxscore).away_two_point_field_goal_attempts = fake_int
+
+        assert isinstance(
+            self.boxscore.away_two_point_field_goal_percentage, float)
+
+    def test_home_to_point_field_goals_calc(self):
+        fake_none = PropertyMock(return_value=None)
+        fake_int = PropertyMock(return_vzalue=5)
+
+        type(self.boxscore)._home_field_goals = fake_none
+        type(self.boxscore)._home_three_point_field_goals = fake_none
+
+        assert self.boxscore.home_two_point_field_goals is None
+
+        type(self.boxscore)._home_three_point_field_goals = fake_int
+        assert self.boxscore.home_two_point_field_goals is None
+
+        type(self.boxscore)._home_field_goals = fake_int
+        type(self.boxscore)._home_three_point_field_goals = fake_none
+
+        assert self.boxscore.home_two_point_field_goals is None
+
+        type(self.boxscore)._home_field_goals = fake_int
+        type(self.boxscore)._home_three_point_field_goals = fake_int
+
+        assert isinstance(self.boxscore.home_two_point_field_goals, int)
+
+    def test_home_two_point_field_goal_attempts_calc(self):
+        fake_none = PropertyMock(return_value=None)
+        fake_int = PropertyMock(return_value=5)
+
+        type(self.boxscore)._home_field_goal_attempts = fake_none
+        type(self.boxscore)._home_three_point_field_goal_attempts = fake_none
+
+        assert self.boxscore.home_two_point_field_goal_attempts is None
+
+        type(self.boxscore)._home_three_point_field_goal_attempts = fake_int
+        assert self.boxscore.home_two_point_field_goal_attempts is None
+
+        type(self.boxscore)._home_field_goal_attempts = fake_int
+        type(self.boxscore)._home_three_point_field_goal_attempts = fake_none
+
+        assert self.boxscore.home_two_point_field_goal_attempts is None
+
+        type(self.boxscore)._home_field_goal_attempts = fake_int
+        type(self.boxscore)._home_three_point_field_goal_attempts = fake_int
+
+        assert isinstance(
+            self.boxscore.home_two_point_field_goal_attempts, int)
+
+    def test_home_two_point_field_goal_percentage_calc(self):
+        fake_none = PropertyMock(return_value=None)
+        fake_int = PropertyMock(return_value=5)
+
+        type(self.boxscore).home_two_point_field_goals = fake_none
+        type(self.boxscore).home_two_point_field_goal_attempts = fake_none
+
+        assert self.boxscore.home_two_point_field_goal_percentage is None
+
+        type(self.boxscore).home_two_point_field_goal_attempts = fake_int
+        assert self.boxscore.home_two_point_field_goal_percentage is None
+
+        type(self.boxscore).home_two_point_field_goals = fake_int
+        type(self.boxscore).home_two_point_field_goal_attempts = fake_none
+
+        assert self.boxscore.home_two_point_field_goal_percentage is None
+
+        type(self.boxscore).home_two_point_field_goals = fake_int
+        type(self.boxscore).home_two_point_field_goal_attempts = fake_int
+
+        assert isinstance(
+            self.boxscore.home_two_point_field_goal_percentage, float)
+
     def test_game_summary_with_no_scores_returns_none(self):
         result = Boxscore(None)._parse_summary(pq(
             """<table id="line_score">
