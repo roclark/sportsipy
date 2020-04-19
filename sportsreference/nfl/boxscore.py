@@ -1,6 +1,6 @@
 import pandas as pd
 import re
-from datetime import timedelta
+from datetime import datetime
 from pyquery import PyQuery as pq
 from urllib.error import HTTPError
 from .. import utils
@@ -732,6 +732,7 @@ class Boxscore:
             'away_yards_from_penalties': self.away_yards_from_penalties,
             'away_yards_lost_from_sacks': self.away_yards_lost_from_sacks,
             'date': self.date,
+            'datetime': self.datetime,
             'duration': self.duration,
             'home_first_downs': self.home_first_downs,
             'home_fourth_down_attempts': self.home_fourth_down_attempts,
@@ -814,6 +815,19 @@ class Boxscore:
         Returns a ``string`` of the time the game started.
         """
         return self._time
+
+    @property
+    def datetime(self):
+        """
+        Returns a ``datetime`` object of the date and time the game took place.
+        """
+        dt = None
+        if self._date and self._time:
+            date = '%s %s' % (self._date, self._time)
+            dt = datetime.strptime(date, '%A %b %d, %Y %I:%M%p')
+        elif self._date:
+            dt = datetime.strptime(self._date, '%A %b %d, %Y')
+        return dt
 
     @property
     def stadium(self):

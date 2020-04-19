@@ -435,22 +435,6 @@ Logos via Sports Logos.net / About logos
 
         assert self.boxscore.away_rush_attempts is None
 
-    @patch('requests.get', side_effect=mock_pyquery)
-    def test_attempted_passes_has_deprecation_warning(self, *args, **kwargs):
-        flexmock(AbstractPlayer) \
-            .should_receive('__init__') \
-            .and_return(None)
-        mock_passes = PropertyMock(return_value=[32])
-        mock_index = PropertyMock(return_value=0)
-        player = AbstractPlayer(None, None, None)
-        type(player)._pass_attempts = mock_passes
-        type(player)._index = mock_index
-
-        with pytest.deprecated_call():
-            result = player.attempted_passes
-
-            assert result == 32
-
 
 class TestNCAABBoxscores:
     @patch('requests.get', side_effect=mock_pyquery)

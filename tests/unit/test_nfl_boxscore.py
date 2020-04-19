@@ -1,3 +1,4 @@
+from datetime import datetime
 from flexmock import flexmock
 from mock import patch, PropertyMock
 from pyquery import PyQuery as pq
@@ -284,6 +285,14 @@ itemprop="name">New England Patriots</a>')
         type(self.boxscore)._home_name = home_name
 
         assert self.boxscore.home_abbreviation == 'nwe'
+
+    def test_nfl_datetime_missing_time(self):
+        date = PropertyMock(return_value='Sunday Oct 7, 2018')
+        time = PropertyMock(return_value=None)
+        type(self.boxscore)._date = date
+        type(self.boxscore)._time = time
+
+        assert self.boxscore.datetime == datetime(2018, 10, 7)
 
 
 class TestNFLBoxscores:
