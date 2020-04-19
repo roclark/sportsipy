@@ -104,6 +104,7 @@ class Player(AbstractPlayer):
         'NN' is a number starting at '01' for the first time that player ID has
         been used and increments by 1 for every successive player.
     """
+
     def __init__(self, player_id):
         self._most_recent_season = ''
         self._index = None
@@ -720,9 +721,11 @@ class Player(AbstractPlayer):
         """
         Returns an ``int`` of the player's weight in pounds.
         """
-        if not self._weight:
-            return None
-        return int(self._weight.replace('lb', ''))
+        try:
+            result = int(self._weight.replace('lb', ''))
+        except AttributeError:
+            result = None
+        return result
 
     @property
     def birth_date(self):
@@ -1194,6 +1197,7 @@ class Roster:
         respective stats which greatly reduces the time to return a response if
         just the names and IDs are desired. Defaults to False.
     """
+
     def __init__(self, team, year=None, slim=False):
         self._team = team
         self._slim = slim
