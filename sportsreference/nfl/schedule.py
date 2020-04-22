@@ -42,6 +42,7 @@ class Game:
         2017 season took place in early Feburary 2018, but 2017 should be
         passed as that was the year the bulk of the season was played in.
     """
+
     def __init__(self, game_data, game_type, year):
         self._year = year
         self._week = None
@@ -563,6 +564,7 @@ class Schedule:
     year : string (optional)
         The requested year to pull stats from.
     """
+
     def __init__(self, abbreviation, year=None):
         self._games = []
         self._pull_schedule(abbreviation, year)

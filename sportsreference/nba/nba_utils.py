@@ -3,7 +3,52 @@ from pyquery import PyQuery as pq
 from sportsreference import utils
 
 
-def _add_stats_data(teams_list, team_data_dict):
+def _determine_leagues_from_year(year):
+    """Determines the potential leagues from the year.
+
+    Parameters
+    ----------
+    year: string
+        A ``string`` representing the year that the data is relevant for.
+
+
+    Returns
+    -------
+    list
+        A ``list`` of strings referencing the leagues present in that year.
+    """
+    year = int(year)
+    if 1950 <= year <= 1967:
+        leagues = ['NBA']
+    elif 1968 <= year <= 1976:
+        leagues = ['NBA', 'ABA']
+    elif 1947 <= year <= 1949:
+        leagues = ['BAA']
+    else:
+        leagues = ['NBA']
+    return leagues
+
+
+def _generate_season_page_url(year, league):
+    """Generates the URL representing a particular league
+
+    Parameters
+    ----------
+    year: string
+        A ``string`` representing the year that the data is relevant for.
+
+    league: string
+        A ``string`` representing the league to search for teams.
+
+    Returns
+    -------
+    PyQuery Object
+        A PyQuery Object reprenting the url for the particular league and year.
+    """
+    return pq(SEASON_PAGE_URL.replace('NBA', league) % year)
+
+
+def _add_stats_data(teams_list, team_data_dict, league):
     """
     Add a team's stats row to a dictionary.
 
@@ -33,12 +78,14 @@ def _add_stats_data(teams_list, team_data_dict):
         try:
             team_data_dict[abbr]['data'] += team_data
         except KeyError:
-            team_data_dict[abbr] = {'data': team_data, 'rank': rank}
+            team_data_dict[abbr] = {'data': team_data,
+                                    'rank': rank,
+                                    'league': league}
         rank += 1
     return team_data_dict
 
 
-def _retrieve_all_teams(year):
+def _retrieve_all_teams(year, leagues=None):
     """
     Find and create Team instances for all teams in the given season.
 
@@ -62,19 +109,28 @@ def _retrieve_all_teams(year):
     team_data_dict = {}
 
     if not year:
-        year = utils._find_year_for_season('nba')
-        # If stats for the requested season do not exist yet (as is the case
-        # right before a new season begins), attempt to pull the previous
-        # year's stats. If it exists, use the previous year instead.
+        year = str(utils._find_year_for_season('nba'))
+        # If stats for the requested season do not exist yet (as is the
+        # case right before a new season begins), attempt to pull the
+        # previous year's stats. If it exists, use the previous year
+        # instead.
         if not utils._url_exists(SEASON_PAGE_URL % year) and \
-           utils._url_exists(SEASON_PAGE_URL % str(int(year) - 1)):
+                utils._url_exists(SEASON_PAGE_URL % str(int(year) - 1)):
             year = str(int(year) - 1)
-    doc = pq(SEASON_PAGE_URL % year)
-    teams_list = utils._get_stats_table(doc, 'div#all_team-stats-base')
-    opp_teams_list = utils._get_stats_table(doc, 'div#all_opponent-stats-base')
-    if not teams_list and not opp_teams_list:
-        utils._no_data_found()
-        return None, None
-    for stats_list in [teams_list, opp_teams_list]:
-        team_data_dict = _add_stats_data(stats_list, team_data_dict)
+
+    if not leagues:
+        leagues = _determine_leagues_from_year(year)
+
+    for league in leagues:
+        doc = _generate_season_page_url(year, league)
+        teams_list = utils._get_stats_table(doc, 'div#all_team-stats-base')
+        opp_teams_list = utils._get_stats_table(doc,
+                                                'div#all_opponent-stats-base')
+        if not teams_list and not opp_teams_list:
+            utils._no_data_found()
+            return None, None
+        for stats_list in [teams_list, opp_teams_list]:
+            team_data_dict = _add_stats_data(
+                stats_list, team_data_dict, league)
+
     return team_data_dict, year

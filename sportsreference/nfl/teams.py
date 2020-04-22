@@ -1,5 +1,4 @@
 import pandas as pd
-import re
 from .constants import (CONF_CHAMPIONSHIP,
                         DIVISION,
                         LOST_CONF_CHAMPS,
@@ -42,10 +41,17 @@ class Team:
         A team's position in the league based on the number of points they
         obtained during the season. Is only used when called directly from the
         Teams class.
+    league: string (optional)
+        The league to consider for the team. Some years, especially earlier
+        years, have multiple football leagues (like the AFL, etc.) If None is
+        specified, all teams from all leagues are returned.
     """
-    def __init__(self, team_name=None, team_data=None, rank=None, year=None):
+
+    def __init__(self, team_name=None, team_data=None, rank=None, year=None,
+                 league=None):
         self._year = year
         self._rank = rank
+        self._league = league
         self._abbreviation = None
         self._name = None
         self._wins = None
@@ -86,10 +92,10 @@ class Team:
         self._points_contributed_by_offense = None
 
         if team_name:
-            team_data = self._retrieve_team_data(year, team_name)
+            team_data = self._retrieve_team_data(year, team_name, league)
         self._parse_team_data(team_data)
 
-    def _retrieve_team_data(self, year, team_name):
+    def _retrieve_team_data(self, year, team_name, league):
         """
         Pull all stats for a specific team.
 
@@ -115,6 +121,7 @@ class Team:
         self._year = year
         team_data = team_data_dict[team_name]['data']
         self._rank = team_data_dict[team_name]['rank']
+        self._league = team_data_dict[team_name]['league']
         return team_data
 
     def _parse_team_data(self, team_data):
@@ -139,8 +146,7 @@ class Team:
         for field in self.__dict__:
             # The rank attribute is passed directly to the class during
             # instantiation.
-            if field == '_rank' or \
-               field == '_year':
+            if field in ['_rank', '_year', '_league']:
                 continue
             value = utils._parse_field(PARSING_SCHEME,
                                        team_data,
@@ -163,6 +169,7 @@ class Team:
             'fumbles': self.fumbles,
             'games_played': self.games_played,
             'interceptions': self.interceptions,
+            'league': self.league,
             'losses': self.losses,
             'margin_of_victory': self.margin_of_victory,
             'name': self.name,
@@ -185,6 +192,7 @@ class Team:
             'points_difference': self.points_difference,
             'points_for': self.points_for,
             'post_season_result': self.post_season_result,
+
             'rank': self.rank,
             'rush_attempts': self.rush_attempts,
             'rush_first_downs': self.rush_first_downs,
@@ -241,6 +249,13 @@ class Team:
         Chiefs'.
         """
         return self._name
+
+    @property
+    def league(self):
+        """
+        Returns a ``string`` of the team's league, such as 'NFL' or 'AFL'
+        """
+        return self._league
 
     @int_property_decorator
     def wins(self):
@@ -566,11 +581,16 @@ class Teams:
     ----------
     year : string (optional)
         The requested year to pull stats from.
+    leagues: list [string] (optional)
+        The requested leagues to consider. Some years, especially earlier
+        years, have multiple football leagues (like the AFL, etc.) If None is
+        specified, all teams from all leagues are returned.
     """
-    def __init__(self, year=None):
+
+    def __init__(self, year=None, leagues=None):
         self._teams = []
 
-        team_data_dict, year = _retrieve_all_teams(year)
+        team_data_dict, year = _retrieve_all_teams(year, leagues)
         self._instantiate_teams(team_data_dict, year)
 
     def __getitem__(self, abbreviation):
@@ -654,7 +674,8 @@ class Teams:
         for team_data in team_data_dict.values():
             team = Team(team_data=team_data['data'],
                         rank=team_data['rank'],
-                        year=year)
+                        year=year,
+                        league=team_data['league'])
             self._teams.append(team)
 
     @property

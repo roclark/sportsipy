@@ -16,6 +16,8 @@ from .player import (AbstractPlayer,
                      _int_property_decorator)
 from functools import wraps
 
+from .nfl_utils import _determine_leagues_from_year
+
 
 def nfl_int_property_sub_index(func):
     # Decorator dedicated to properties with sub-indices, such as pass yards
@@ -75,6 +77,7 @@ class BoxscorePlayer(AbstractPlayer):
         page. If the player appears in multiple tables, all of their
         information will appear in one single string concatenated together.
     """
+
     def __init__(self, player_id, player_name, player_data):
         self._index = 0
         self._yards_lost_from_sacks = None
@@ -223,6 +226,7 @@ class Boxscore:
         The relative link to the boxscore HTML page, such as
         '201802040nwe'.
     """
+
     def __init__(self, uri):
         self._uri = uri
         self._date = None
@@ -1302,11 +1306,18 @@ class Boxscores:
         boxscores specified in the 'end_week' parameter will be pulled. If left
         empty, or if 'end_week' is prior to 'week', only the games from the day
         specified in the 'date' parameter will be saved.
+    leagues : list [string] (optional)
+        An optional list of leagues to consider to pull. For some years, there
+        may be a combination of different American footbal leagues to consider,
+        like the NFL and AFL. Specifying the leagues will only consider leagues
+        within the list. Leaving this as None will pull for all leagues in that
+        year.
     """
-    def __init__(self, week, year, end_week=None):
+
+    def __init__(self, week, year, end_week=None, leagues=None):
         self._boxscores = {}
 
-        self._find_games(week, year, end_week)
+        self._find_games(week, year, end_week, leagues)
 
     @property
     def games(self):
@@ -1346,12 +1357,12 @@ class Boxscores:
         """
         return self._boxscores
 
-    def _create_url(self, week, year):
+    def _create_urls(self, week, year, leagues=None):
         """
-        Build the URL based on the passed week number.
+        Build the URL(s) based on the passed week number and leagues.
 
         In order to get the proper boxscore page, the URL needs to include the
-        requested week number.
+        requested week number and league which it is referring to.
 
         Parameters
         ----------
@@ -1359,14 +1370,36 @@ class Boxscores:
             The week number to pull games from.
         year : int
             The 4-digit year to pull games from.
+        leagues: list [string] (optional)
+            The name of the leagues to consider, for instance ['NFL', 'AFL']
+            Defaults to None, which will use all leagues present in that year.
 
         Returns
         -------
-        string
-            Returns a ``string`` of the boxscore URL including the requested
-            date.
+        list
+            Returns a ``list`` of ``dictionaries`` containing the league and
+            boxscore URL(s) for the requested date and leagues.
         """
-        return BOXSCORES_URL % (year, week)
+        if not leagues:
+            leagues = _determine_leagues_from_year(int(year))
+        urls = []
+
+        for league in leagues:
+            if league == 'NFL':
+                url = BOXSCORES_URL % (year, week)
+            else:
+                format_first = '{year}_{league}'.format(
+                    **dict(year=year, league=league))
+                url = BOXSCORES_URL % (
+                    (format_first, week))
+
+            result_dict = dict(
+                league=league,
+                url=url
+            )
+            urls.append(result_dict)
+
+        return urls
 
     def _get_requested_page(self, url):
         """
@@ -1507,6 +1540,7 @@ class Boxscores:
         if len(scores) == 2:
             away_score = self._get_score(scores[0])
             home_score = self._get_score(scores[1])
+
         away_name, away_abbr = self._get_name(away)
         home_name, home_abbr = self._get_name(home)
         return (away_name, away_abbr, away_score, home_name, home_abbr,
@@ -1607,13 +1641,13 @@ class Boxscores:
             all_boxscores.append(game_info)
         return all_boxscores
 
-    def _find_games(self, week, year, end_week):
+    def _find_games(self, week, year, end_week, leagues):
         """
         Retrieve all major games played for a given week.
 
-        Builds a URL based on the requested date and downloads the HTML
-        contents before parsing any and all games played during that week. Any
-        games that are found are added to the boxscores dictionary with
+        Builds URL(s) based on the requested league and date and downloads the
+        HTML contents before parsing any and all games played during that week.
+        Any games that are found are added to the boxscores dictionary with
         high-level game information such as the home and away team names and a
         link to the boxscore page.
 
@@ -1630,14 +1664,24 @@ class Boxscores:
             be pulled. If left empty, or if 'end_week' is prior to 'week', only
             the games from the day specified in the 'date' parameter will be
             saved.
+        leagues: list [string] (optional)
+            The name of the leagues to consider, for instance ['NFL', 'AFL']
+            Defaults to None, which will use all leagues present in that year.
+
+
         """
         if not end_week or week > end_week:
             end_week = week
         while week <= end_week:
-            url = self._create_url(week, year)
-            page = self._get_requested_page(url)
-            games = page('table[class="teams"]').items()
-            boxscores = self._extract_game_info(games)
+            urls = self._create_urls(week, year, leagues)
+            boxscores = []
+            for url in urls:
+                page = self._get_requested_page(url['url'])
+                games = page('table[class="teams"]').items()
+                extracted = self._extract_game_info(games)
+                for e in extracted:
+                    e['league'] = url['league']
+                boxscores += extracted
             timestamp = '%s-%s' % (week, year)
             self._boxscores[timestamp] = boxscores
             week += 1

@@ -30,7 +30,7 @@ def mock_request(url):
         return MockRequest('bad', status_code=404)
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, *args, **kwargs):
     class MockPQ:
         def __init__(self, html_contents):
             self.status_code = 200
@@ -44,6 +44,7 @@ def mock_pyquery(url):
                 return read_file('%s_opponent.html' % YEAR)
 
     html_contents = read_file('NBA_%s.html' % YEAR)
+
     return MockPQ(html_contents)
 
 
@@ -81,6 +82,7 @@ class TestNBAIntegration:
             'steals': 574,
             'blocks': 310,
             'turnovers': 973,
+            'league': 'NBA',
             'personal_fouls': 1467,
             'points': 8309,
             'opp_field_goals': 3144,
@@ -172,6 +174,27 @@ class TestNBAIntegration:
 
         for attribute, value in self.results.items():
             assert getattr(detroit, attribute) == value
+
+    def test_league_specifications(self, *args, **kwargs):
+        year_to_leagues = {
+            1961: ['NBA'],
+            1947: ['BAA'],
+            1970: ['NBA', 'ABA'],
+            2000: ['NBA']
+        }
+
+        for year, leagues in year_to_leagues.items():
+            month = 12
+            flexmock(utils)\
+                .should_receive('_todays_date')\
+                .and_return(MockDateTime(year, month))
+            teams = Teams()
+
+            assert all(t.league in leagues for t in teams._teams)
+
+            teams_one_league = Teams(leagues=[leagues[0]])
+
+            assert all(t.league == leagues[0] for t in teams_one_league._teams)
 
 
 class TestNBAIntegrationInvalidDate:

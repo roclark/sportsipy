@@ -18,7 +18,7 @@ def read_file(filename):
     return open('%s' % filepath, 'r', encoding='utf8').read()
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, *args, **kwargs):
     class MockPQ:
         def __init__(self, html_contents):
             self.status_code = 200
@@ -85,6 +85,7 @@ class TestNFLIntegration:
             'simple_rating_system': 3.4,
             'offensive_simple_rating_system': 3.8,
             'defensive_simple_rating_system': -0.3,
+            'league': 'NFL',
             'yards': 6007,
             'plays': 985,
             'yards_per_play': 6.1,
@@ -185,6 +186,29 @@ class TestNFLIntegration:
         for attribute, value in self.results.items():
             assert getattr(kansas, attribute) == value
 
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_league_specifications(self, *args, **kwargs):
+        year_to_leagues = {
+            '1961': ['NFL', 'AFL'],
+            '1947': ['NFL', 'AAFC'],
+            '1951': ['NFL'],
+            '1921': ['APFA'],
+            '2000': ['NFL']
+        }
+
+        for year, leagues in year_to_leagues.items():
+            month = 12
+            flexmock(utils)\
+                .should_receive('_todays_date')\
+                .and_return(MockDateTime(year, month))
+            teams = Teams()
+
+            assert all(t.league in leagues for t in teams._teams)
+
+            teams_one_league = Teams(leagues=[leagues[0]])
+
+            assert all(t.league == leagues[0] for t in teams_one_league._teams)
+
 
 class TestNFLIntegrationInvalidYear:
     @mock.patch('requests.get', side_effect=mock_pyquery)
@@ -192,8 +216,8 @@ class TestNFLIntegrationInvalidYear:
     def test_invalid_default_year_reverts_to_previous_year(self,
                                                            *args,
                                                            **kwargs):
-        flexmock(utils) \
-            .should_receive('_find_year_for_season') \
+        flexmock(utils)\
+            .should_receive('_find_year_for_season')\
             .and_return(2018)
 
         teams = Teams()

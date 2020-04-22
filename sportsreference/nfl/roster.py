@@ -76,6 +76,7 @@ class Player(AbstractPlayer):
         is a number starting at '00' for the first time that player ID has been
         used and increments by 1 for every successive player.
     """
+
     def __init__(self, player_id):
         self._most_recent_season = ''
         self._index = None
@@ -217,7 +218,7 @@ class Player(AbstractPlayer):
         """
         # The first letter of the player's last name is used to sort the player
         # list and is a part of the URL.
-        first_character = self._player_id[0]
+        first_character = self._player_id[0].upper()
         return PLAYER_URL % (first_character, self._player_id)
 
     def _retrieve_html_page(self):
@@ -1492,6 +1493,7 @@ class Roster:
         respective stats which greatly reduces the time to return a response if
         just the names and IDs are desired. Defaults to False.
     """
+
     def __init__(self, team, year=None, slim=False):
         self._team = team
         self._slim = slim

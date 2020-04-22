@@ -7,7 +7,7 @@ from sportsreference import utils
 from sportsreference.constants import AWAY
 from sportsreference.nfl.constants import BOXSCORE_URL, BOXSCORES_URL
 from sportsreference.nfl.boxscore import Boxscore, Boxscores
-
+from copy import deepcopy
 
 MONTH = 10
 YEAR = 2017
@@ -31,6 +31,8 @@ def mock_pyquery(url):
         return MockPQ(read_file('boxscores-7-2017.html'))
     if url == BOXSCORES_URL % (YEAR, 8):
         return MockPQ(read_file('boxscores-8-2017.html'))
+    if 'years' in url:
+        return MockPQ(read_file('boxscores-7-2017.html'))
     boxscore = read_file('%s.html' % BOXSCORE)
     return MockPQ(boxscore)
 
@@ -162,6 +164,7 @@ class TestNFLBoxscores:
         self.expected = {
             '7-2017': [
                 {'boxscore': '201710190rai',
+                 'league': 'NFL',
                  'away_name': 'Kansas City Chiefs',
                  'away_abbr': 'kan',
                  'away_score': 30,
@@ -173,6 +176,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Kansas City Chiefs',
                  'losing_abbr': 'kan'},
                 {'boxscore': '201710220chi',
+                 'league': 'NFL',
                  'away_name': 'Carolina Panthers',
                  'away_abbr': 'car',
                  'away_score': 3,
@@ -184,6 +188,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Carolina Panthers',
                  'losing_abbr': 'car'},
                 {'boxscore': '201710220buf',
+                 'league': 'NFL',
                  'away_name': 'Tampa Bay Buccaneers',
                  'away_abbr': 'tam',
                  'away_score': 27,
@@ -195,6 +200,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Tampa Bay Buccaneers',
                  'losing_abbr': 'tam'},
                 {'boxscore': '201710220ram',
+                 'league': 'NFL',
                  'away_name': 'Arizona Cardinals',
                  'away_abbr': 'crd',
                  'away_score': 0,
@@ -206,6 +212,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Arizona Cardinals',
                  'losing_abbr': 'crd'},
                 {'boxscore': '201710220min',
+                 'league': 'NFL',
                  'away_name': 'Baltimore Ravens',
                  'away_abbr': 'rav',
                  'away_score': 16,
@@ -217,6 +224,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Baltimore Ravens',
                  'losing_abbr': 'rav'},
                 {'boxscore': '201710220mia',
+                 'league': 'NFL',
                  'away_name': 'New York Jets',
                  'away_abbr': 'nyj',
                  'away_score': 28,
@@ -228,6 +236,7 @@ class TestNFLBoxscores:
                  'losing_name': 'New York Jets',
                  'losing_abbr': 'nyj'},
                 {'boxscore': '201710220gnb',
+                 'league': 'NFL',
                  'away_name': 'New Orleans Saints',
                  'away_abbr': 'nor',
                  'away_score': 26,
@@ -239,6 +248,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Green Bay Packers',
                  'losing_abbr': 'gnb'},
                 {'boxscore': '201710220clt',
+                 'league': 'NFL',
                  'away_name': 'Jacksonville Jaguars',
                  'away_abbr': 'jax',
                  'away_score': 27,
@@ -250,6 +260,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Indianapolis Colts',
                  'losing_abbr': 'clt'},
                 {'boxscore': '201710220cle',
+                 'league': 'NFL',
                  'away_name': 'Tennessee Titans',
                  'away_abbr': 'oti',
                  'away_score': 12,
@@ -261,6 +272,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Cleveland Browns',
                  'losing_abbr': 'cle'},
                 {'boxscore': '201710220sfo',
+                 'league': 'NFL',
                  'away_name': 'Dallas Cowboys',
                  'away_abbr': 'dal',
                  'away_score': 40,
@@ -272,6 +284,7 @@ class TestNFLBoxscores:
                  'losing_name': 'San Francisco 49ers',
                  'losing_abbr': 'sfo'},
                 {'boxscore': '201710220sdg',
+                 'league': 'NFL',
                  'away_name': 'Denver Broncos',
                  'away_abbr': 'den',
                  'away_score': 0,
@@ -283,6 +296,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Denver Broncos',
                  'losing_abbr': 'den'},
                 {'boxscore': '201710220pit',
+                 'league': 'NFL',
                  'away_name': 'Cincinnati Bengals',
                  'away_abbr': 'cin',
                  'away_score': 14,
@@ -294,6 +308,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Cincinnati Bengals',
                  'losing_abbr': 'cin'},
                 {'boxscore': '201710220nyg',
+                 'league': 'NFL',
                  'away_name': 'Seattle Seahawks',
                  'away_abbr': 'sea',
                  'away_score': 24,
@@ -305,6 +320,7 @@ class TestNFLBoxscores:
                  'losing_name': 'New York Giants',
                  'losing_abbr': 'nyg'},
                 {'boxscore': '201710220nwe',
+                 'league': 'NFL',
                  'away_name': 'Atlanta Falcons',
                  'away_abbr': 'atl',
                  'away_score': 7,
@@ -316,6 +332,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Atlanta Falcons',
                  'losing_abbr': 'atl'},
                 {'boxscore': '201710230phi',
+                 'league': 'NFL',
                  'away_name': 'Washington Redskins',
                  'away_abbr': 'was',
                  'away_score': 24,
@@ -342,10 +359,34 @@ class TestNFLBoxscores:
         assert result == self.expected
 
     @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_boxscores_leagues(self, *args, **kwargs):
+        year_to_leagues = {
+            1961: ['NFL', 'AFL'],
+            1948: ['NFL', 'AAFC'],
+            1955: ['NFL'],
+            1921: ['APFA'],
+            2019: ['NFL']
+        }
+
+        for year, leagues in year_to_leagues.items():
+            test_bss = Boxscores(1, year).games
+            month_year = '1-{year}'.format(**dict(year=year))
+            exp = {month_year: []}
+            for l in leagues:
+                e = {
+                    month_year: deepcopy(self.expected['7-2017'])
+                }
+                for e_i in e[month_year]:
+                    e_i['league'] = l
+                exp[month_year] += e[month_year]
+            assert test_bss == exp
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
     def test_boxscores_search_multiple_weeks(self, *args, **kwargs):
         expected = {
             '7-2017': [
                 {'boxscore': '201710190rai',
+                 'league': 'NFL',
                  'away_name': 'Kansas City Chiefs',
                  'away_abbr': 'kan',
                  'away_score': 30,
@@ -357,6 +398,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Kansas City Chiefs',
                  'losing_abbr': 'kan'},
                 {'boxscore': '201710220chi',
+                 'league': 'NFL',
                  'away_name': 'Carolina Panthers',
                  'away_abbr': 'car',
                  'away_score': 3,
@@ -368,6 +410,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Carolina Panthers',
                  'losing_abbr': 'car'},
                 {'boxscore': '201710220buf',
+                 'league': 'NFL',
                  'away_name': 'Tampa Bay Buccaneers',
                  'away_abbr': 'tam',
                  'away_score': 27,
@@ -379,6 +422,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Tampa Bay Buccaneers',
                  'losing_abbr': 'tam'},
                 {'boxscore': '201710220ram',
+                 'league': 'NFL',
                  'away_name': 'Arizona Cardinals',
                  'away_abbr': 'crd',
                  'away_score': 0,
@@ -390,6 +434,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Arizona Cardinals',
                  'losing_abbr': 'crd'},
                 {'boxscore': '201710220min',
+                 'league': 'NFL',
                  'away_name': 'Baltimore Ravens',
                  'away_abbr': 'rav',
                  'away_score': 16,
@@ -401,6 +446,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Baltimore Ravens',
                  'losing_abbr': 'rav'},
                 {'boxscore': '201710220mia',
+                 'league': 'NFL',
                  'away_name': 'New York Jets',
                  'away_abbr': 'nyj',
                  'away_score': 28,
@@ -412,6 +458,7 @@ class TestNFLBoxscores:
                  'losing_name': 'New York Jets',
                  'losing_abbr': 'nyj'},
                 {'boxscore': '201710220gnb',
+                 'league': 'NFL',
                  'away_name': 'New Orleans Saints',
                  'away_abbr': 'nor',
                  'away_score': 26,
@@ -423,6 +470,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Green Bay Packers',
                  'losing_abbr': 'gnb'},
                 {'boxscore': '201710220clt',
+                 'league': 'NFL',
                  'away_name': 'Jacksonville Jaguars',
                  'away_abbr': 'jax',
                  'away_score': 27,
@@ -434,6 +482,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Indianapolis Colts',
                  'losing_abbr': 'clt'},
                 {'boxscore': '201710220cle',
+                 'league': 'NFL',
                  'away_name': 'Tennessee Titans',
                  'away_abbr': 'oti',
                  'away_score': 12,
@@ -445,6 +494,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Cleveland Browns',
                  'losing_abbr': 'cle'},
                 {'boxscore': '201710220sfo',
+                 'league': 'NFL',
                  'away_name': 'Dallas Cowboys',
                  'away_abbr': 'dal',
                  'away_score': 40,
@@ -456,6 +506,7 @@ class TestNFLBoxscores:
                  'losing_name': 'San Francisco 49ers',
                  'losing_abbr': 'sfo'},
                 {'boxscore': '201710220sdg',
+                 'league': 'NFL',
                  'away_name': 'Denver Broncos',
                  'away_abbr': 'den',
                  'away_score': 0,
@@ -467,6 +518,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Denver Broncos',
                  'losing_abbr': 'den'},
                 {'boxscore': '201710220pit',
+                 'league': 'NFL',
                  'away_name': 'Cincinnati Bengals',
                  'away_abbr': 'cin',
                  'away_score': 14,
@@ -478,6 +530,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Cincinnati Bengals',
                  'losing_abbr': 'cin'},
                 {'boxscore': '201710220nyg',
+                 'league': 'NFL',
                  'away_name': 'Seattle Seahawks',
                  'away_abbr': 'sea',
                  'away_score': 24,
@@ -489,6 +542,7 @@ class TestNFLBoxscores:
                  'losing_name': 'New York Giants',
                  'losing_abbr': 'nyg'},
                 {'boxscore': '201710220nwe',
+                 'league': 'NFL',
                  'away_name': 'Atlanta Falcons',
                  'away_abbr': 'atl',
                  'away_score': 7,
@@ -500,6 +554,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Atlanta Falcons',
                  'losing_abbr': 'atl'},
                 {'boxscore': '201710230phi',
+                 'league': 'NFL',
                  'away_name': 'Washington Redskins',
                  'away_abbr': 'was',
                  'away_score': 24,
@@ -513,6 +568,7 @@ class TestNFLBoxscores:
             ],
             '8-2017': [
                 {'boxscore': '201710260rav',
+                 'league': 'NFL',
                  'away_name': 'Miami Dolphins',
                  'away_abbr': 'mia',
                  'away_score': 0,
@@ -524,6 +580,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Miami Dolphins',
                  'losing_abbr': 'mia'},
                 {'boxscore': '201710290cle',
+                 'league': 'NFL',
                  'away_name': 'Minnesota Vikings',
                  'away_abbr': 'min',
                  'away_score': 33,
@@ -535,6 +592,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Cleveland Browns',
                  'losing_abbr': 'cle'},
                 {'boxscore': '201710290buf',
+                 'league': 'NFL',
                  'away_name': 'Oakland Raiders',
                  'away_abbr': 'rai',
                  'away_score': 14,
@@ -546,6 +604,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Oakland Raiders',
                  'losing_abbr': 'rai'},
                 {'boxscore': '201710290tam',
+                 'league': 'NFL',
                  'away_name': 'Carolina Panthers',
                  'away_abbr': 'car',
                  'away_score': 17,
@@ -557,6 +616,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Tampa Bay Buccaneers',
                  'losing_abbr': 'tam'},
                 {'boxscore': '201710290phi',
+                 'league': 'NFL',
                  'away_name': 'San Francisco 49ers',
                  'away_abbr': 'sfo',
                  'away_score': 10,
@@ -568,6 +628,7 @@ class TestNFLBoxscores:
                  'losing_name': 'San Francisco 49ers',
                  'losing_abbr': 'sfo'},
                 {'boxscore': '201710290nyj',
+                 'league': 'NFL',
                  'away_name': 'Atlanta Falcons',
                  'away_abbr': 'atl',
                  'away_score': 25,
@@ -579,6 +640,7 @@ class TestNFLBoxscores:
                  'losing_name': 'New York Jets',
                  'losing_abbr': 'nyj'},
                 {'boxscore': '201710290nwe',
+                 'league': 'NFL',
                  'away_name': 'Los Angeles Chargers',
                  'away_abbr': 'sdg',
                  'away_score': 13,
@@ -590,6 +652,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Los Angeles Chargers',
                  'losing_abbr': 'sdg'},
                 {'boxscore': '201710290nor',
+                 'league': 'NFL',
                  'away_name': 'Chicago Bears',
                  'away_abbr': 'chi',
                  'away_score': 12,
@@ -601,6 +664,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Chicago Bears',
                  'losing_abbr': 'chi'},
                 {'boxscore': '201710290cin',
+                 'league': 'NFL',
                  'away_name': 'Indianapolis Colts',
                  'away_abbr': 'clt',
                  'away_score': 23,
@@ -612,6 +676,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Indianapolis Colts',
                  'losing_abbr': 'clt'},
                 {'boxscore': '201710290sea',
+                 'league': 'NFL',
                  'away_name': 'Houston Texans',
                  'away_abbr': 'htx',
                  'away_score': 38,
@@ -623,6 +688,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Houston Texans',
                  'losing_abbr': 'htx'},
                 {'boxscore': '201710290was',
+                 'league': 'NFL',
                  'away_name': 'Dallas Cowboys',
                  'away_abbr': 'dal',
                  'away_score': 33,
@@ -634,6 +700,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Washington Redskins',
                  'losing_abbr': 'was'},
                 {'boxscore': '201710290det',
+                 'league': 'NFL',
                  'away_name': 'Pittsburgh Steelers',
                  'away_abbr': 'pit',
                  'away_score': 20,
@@ -645,6 +712,7 @@ class TestNFLBoxscores:
                  'losing_name': 'Detroit Lions',
                  'losing_abbr': 'det'},
                 {'boxscore': '201710300kan',
+                 'league': 'NFL',
                  'away_name': 'Denver Broncos',
                  'away_abbr': 'den',
                  'away_score': 19,
