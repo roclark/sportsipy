@@ -8,7 +8,7 @@ from sportsreference.ncaaf.conferences import Conferences
 from sportsreference.ncaaf.constants import (OFFENSIVE_STATS_URL,
                                              DEFENSIVE_STATS_URL,
                                              SEASON_PAGE_URL)
-from sportsreference.ncaaf.teams import Teams
+from sportsreference.ncaaf.teams import Team, Teams
 
 
 MONTH = 9
@@ -357,6 +357,13 @@ class TestNCAAFIntegration:
         teams = Teams()
 
         assert len(teams) == 0
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_pulling_team_directly(self, *args, **kwargs):
+        purdue = Team('PURDUE')
+
+        for attribute, value in self.results.items():
+            assert getattr(purdue, attribute) == value
 
 
 class TestNCAAFIntegrationInvalidYear:

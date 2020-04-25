@@ -1,11 +1,10 @@
 import pandas as pd
 import re
-from .constants import (PARSING_SCHEME, OFFENSIVE_STATS_URL,
-                        DEFENSIVE_STATS_URL, SEASON_PAGE_URL)
-from pyquery import PyQuery as pq
+from .constants import PARSING_SCHEME
 from ..decorators import float_property_decorator, int_property_decorator
 from .. import utils
 from .conferences import Conferences
+from .ncaaf_utils import _retrieve_all_teams
 from .roster import Roster
 from .schedule import Schedule
 
@@ -18,9 +17,14 @@ class Team:
     and short names, and sets them as properties which can be directly read
     from for easy reference.
 
+    If calling directly, the team's abbreviation needs to be passed. Otherwise,
+    the Teams class will handle all arguments.
+
     Parameters
     ----------
-    team_data : string
+    team_name : string (optional)
+        The name of the team to pull if being called directly.
+    team_data : string (optional)
         A string containing all of the rows of stats for a given team. If
         multiple tables are being referenced, this will be comprised of
         multiple rows in a single string.
@@ -29,7 +33,8 @@ class Team:
     year : string (optional)
         The requested year to pull stats from.
     """
-    def __init__(self, team_data, team_conference=None, year=None):
+    def __init__(self, team_name=None, team_data=None, team_conference=None,
+                 year=None):
         self._team_conference = team_conference
         self._year = year
         self._abbreviation = None
@@ -88,7 +93,38 @@ class Team:
         self._opponents_penalties = None
         self._opponents_yards_from_penalties = None
 
+        if team_name:
+            team_data = self._retrieve_team_data(year, team_name)
+            conferences_dict = Conferences(year).team_conference
+            self._team_conference = conferences_dict[team_name.lower()]
         self._parse_team_data(team_data)
+
+    def _retrieve_team_data(self, year, team_name):
+        """
+        Pull all stats for a specific team.
+
+        By first retrieving a dictionary containing all information for all
+        teams in the league, only select the desired team for a specific year
+        and return only their relevant results.
+
+        Parameters
+        ----------
+        year : string
+            A ``string`` of the requested year to pull stats from.
+        team_name : string
+            A ``string`` of the team's abbreviation, such as 'PURDUE' for the
+            Purdue Boilermakers.
+
+        Returns
+        -------
+        PyQuery object
+            Returns a PyQuery object containing all stats and information for
+            the specified team.
+        """
+        team_data_dict, year = _retrieve_all_teams(year)
+        self._year = year
+        team_data = team_data_dict[team_name]['data']
+        return team_data
 
     def _parse_team_data(self, team_data):
         """
@@ -669,7 +705,8 @@ class Teams:
         self._teams = []
         self._conferences_dict = Conferences(year, True).team_conference
 
-        self._retrieve_all_teams(year)
+        team_data_dict, year = _retrieve_all_teams(year)
+        self._instantiate_teams(team_data_dict, year)
 
     def __getitem__(self, abbreviation):
         """
@@ -731,89 +768,32 @@ class Teams:
         """Returns the number of NCAAF teams for a given season."""
         return len(self.__repr__())
 
-    def _add_stats_data(self, teams_list, team_data_dict):
+    def _instantiate_teams(self, team_data_dict, year):
         """
-        Add a team's stats row to a dictionary.
+        Create a Team instance for all teams.
 
-        Pass table contents and a stats dictionary of all teams to accumulate
-        all stats for each team in a single variable.
+        Once all team information has been pulled from the various webpages,
+        create a Team instance for each team and append it to a larger list of
+        team instances for later use.
 
         Parameters
         ----------
-        teams_list : generator
-            A generator of all row items in a given table.
-        team_data_dict : {str: {'data': str}} dictionary
-            A dictionary where every key is the team's abbreviation and every
-            value is another dictionary with a 'data' key which contains the
-            string version of the row data for the matched team.
-
-        Returns
-        -------
-        dictionary
-            An updated version of the team_data_dict with the passed table row
-            information included.
-        """
-        for team_data in teams_list:
-            # Skip the sub-header rows
-            if 'class="over_header thead"' in str(team_data) or \
-               'class="thead"' in str(team_data):
-                continue
-            abbr = utils._parse_field(PARSING_SCHEME,
-                                      team_data,
-                                      'abbreviation')
-            try:
-                team_data_dict[abbr]['data'] += team_data
-            except KeyError:
-                team_data_dict[abbr] = {'data': team_data}
-        return team_data_dict
-
-    def _retrieve_all_teams(self, year):
-        """
-        Find and create Team instances for all teams in the given season.
-
-        For a given season, parses the specified NCAAF stats table and finds
-        all requested stats. Each team then has a Team instance created which
-        includes all requested stats and a few identifiers, such as the team's
-        name and abbreviation. All of the individual Team instances are added
-        to a list.
-
-        Note that this method is called directly once Teams is invoked and does
-        not need to be called manually.
-
-        Parameters
-        ----------
+        team_data_dict : dictionary
+            A ``dictionary`` containing all stats information in HTML format as
+            well as team rankings, indexed by team abbreviation.
         year : string
-            The requested year to pull stats from.
+            A ``string`` of the requested year to pull stats from.
         """
-        team_data_dict = {}
-
-        if not year:
-            year = utils._find_year_for_season('ncaaf')
-            # If stats for the requested season do not exist yet (as is the
-            # case right before a new season begins), attempt to pull the
-            # previous year's stats. If it exists, use the previous year
-            # instead.
-            if not utils._url_exists(SEASON_PAGE_URL % year) and \
-               utils._url_exists(SEASON_PAGE_URL % str(int(year) - 1)):
-                year = str(int(year) - 1)
-        doc = pq(SEASON_PAGE_URL % year)
-        teams_list = utils._get_stats_table(doc, 'div#div_standings')
-        offense_doc = pq(OFFENSIVE_STATS_URL % year)
-        offense_list = utils._get_stats_table(offense_doc, 'table#offense')
-        defense_doc = pq(DEFENSIVE_STATS_URL % year)
-        defense_list = utils._get_stats_table(defense_doc, 'table#defense')
-        if not teams_list and not offense_list and not defense_list:
-            utils._no_data_found()
+        if not team_data_dict:
             return
-        for stats_list in [teams_list, offense_list, defense_list]:
-            team_data_dict = self._add_stats_data(stats_list, team_data_dict)
-
         for team_name, team_data in team_data_dict.items():
             if team_name.lower() not in self._conferences_dict:
                 conference = None
             else:
                 conference = self._conferences_dict[team_name.lower()]
-            team = Team(team_data['data'], conference, year)
+            team = Team(team_data=team_data['data'],
+                        team_conference=conference,
+                        year=year)
             self._teams.append(team)
 
     @property

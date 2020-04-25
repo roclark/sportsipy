@@ -247,6 +247,17 @@ number of pass yards, and much more.
         print(team.name)  # Prints the team's name
         print(team.pass_yards)  # Prints the team's total passing yards
 
+A team can also be requested directly by calling the ``Team`` class which
+returns a Team instance identical to the one in each element in the loop above.
+To request a specific team, use the team's abbreviation while calling the Team
+class.
+
+.. code-block:: python
+
+    from sportsreference.ncaaf.teams import Team
+
+    purdue = Team('PURDUE')
+
 Each Team instance contains a link to the ``Schedule`` class which enables easy
 iteration over all games for a particular team. A Pandas DataFrame can also be
 queried to easily grab all stats for all games.
