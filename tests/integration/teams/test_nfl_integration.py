@@ -4,8 +4,9 @@ import pandas as pd
 import pytest
 from flexmock import flexmock
 from sportsreference import utils
+from sportsreference.constants import LOSS
 from sportsreference.nfl.constants import LOST_WILD_CARD, SEASON_PAGE_URL
-from sportsreference.nfl.teams import Teams
+from sportsreference.nfl.teams import Team, Teams
 
 
 MONTH = 9
@@ -53,6 +54,15 @@ class MockDateTime:
     def __init__(self, year, month):
         self.year = year
         self.month = month
+
+
+class MockSchedule:
+    def __init__(self, abbreviation, year):
+        self.result = LOSS
+        self.week = 18
+
+    def __getitem__(self, index):
+        return self
 
 
 class TestNFLIntegration:
@@ -161,6 +171,19 @@ class TestNFLIntegration:
         teams = Teams()
 
         assert len(teams) == 0
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_pulling_team_directly(self, *args, **kwargs):
+        schedule = MockSchedule(None, None)
+
+        flexmock(Team) \
+            .should_receive('schedule') \
+            .and_return(schedule)
+
+        kansas = Team('KAN')
+
+        for attribute, value in self.results.items():
+            assert getattr(kansas, attribute) == value
 
 
 class TestNFLIntegrationInvalidYear:
