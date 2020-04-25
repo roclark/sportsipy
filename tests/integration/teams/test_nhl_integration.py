@@ -5,7 +5,7 @@ import pytest
 from flexmock import flexmock
 from sportsreference import utils
 from sportsreference.nhl.constants import SEASON_PAGE_URL
-from sportsreference.nhl.teams import Teams
+from sportsreference.nhl.teams import Team, Teams
 
 
 MONTH = 1
@@ -146,6 +146,13 @@ class TestNHLIntegration:
         teams = Teams()
 
         assert len(teams) == 0
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_pulling_team_directly(self, *args, **kwargs):
+        detroit = Team('DET')
+
+        for attribute, value in self.results.items():
+            assert getattr(detroit, attribute) == value
 
 
 class TestNHLIntegrationInvalidYear:

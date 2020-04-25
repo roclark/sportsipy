@@ -180,6 +180,17 @@ number of shots on goal, and much more.
         print(team.name)  # Prints the team's name
         print(team.shots_on_goal)  # Prints the team's total shots on goal
 
+A team can also be requested directly by calling the ``Team`` class which
+returns a Team instance identical to the one in each element in the loop above.
+To request a specific team, use the 3-letter abbreviation for the team while
+calling Team class.
+
+.. code-block:: python
+
+    from sportsreference.nhl.teams import Team
+
+    detroit = Team('DET')
+
 Each Team instance contains a link to the ``Schedule`` class which enables easy
 iteration over all games for a particular team. A Pandas DataFrame can also be
 queried to easily grab all stats for all games.
