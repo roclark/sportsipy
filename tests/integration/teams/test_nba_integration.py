@@ -5,7 +5,7 @@ import pytest
 from flexmock import flexmock
 from sportsreference import utils
 from sportsreference.nba.constants import SEASON_PAGE_URL
-from sportsreference.nba.teams import Teams
+from sportsreference.nba.teams import Team, Teams
 
 
 MONTH = 1
@@ -166,6 +166,12 @@ class TestNBAIntegration:
         teams = Teams()
 
         assert len(teams) == 0
+
+    def test_pulling_team_directly(self):
+        detroit = Team('DET')
+
+        for attribute, value in self.results.items():
+            assert getattr(detroit, attribute) == value
 
 
 class TestNBAIntegrationInvalidDate:
