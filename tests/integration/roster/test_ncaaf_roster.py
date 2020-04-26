@@ -515,7 +515,7 @@ class TestNCAAFRoster:
         flexmock(Team) \
             .should_receive('_parse_team_data') \
             .and_return(None)
-        team = Team(None, 1, '2018')
+        team = Team(team_data=None, team_conference=None, year='2018')
         mock_abbreviation = mock.PropertyMock(return_value='PURDUE')
         type(team)._abbreviation = mock_abbreviation
 
