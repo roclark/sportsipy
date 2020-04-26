@@ -1,9 +1,9 @@
 import pandas as pd
 import re
 from .constants import PARSING_SCHEME, SEASON_PAGE_URL
-from pyquery import PyQuery as pq
 from ..decorators import float_property_decorator, int_property_decorator
 from .. import utils
+from .nhl_utils import _retrieve_all_teams
 from .roster import Roster
 from .schedule import Schedule
 
@@ -16,19 +16,27 @@ class Team:
     name, and abbreviation, and sets them as properties which can be directly
     read from for easy reference.
 
+    If calling directly, the team's abbreviation needs to be passed. Otherwise,
+    the Teams class will handle all arguments.
+
     Parameters
     ----------
-    team_data : string
+    team_name : string (optional)
+        The name of the team to pull if being called directly.
+    team_data : string (optional)
         A string containing all of the rows of stats for a given team. If
         multiple tables are being referenced, this will be comprised of
-        multiple rows in a single string.
-    rank : int
+        multiple rows in a single string.  Is only used when called directly
+        from the Teams class.
+    rank : int (optional)
         A team's position in the league based on the number of points they
-        obtained during the season.
+        obtained during the season.  Is only used when called directly from the
+        Teams class.
     year : string (optional)
-        The requested year to pull stats from.
+        The requested year to pull stats from. Is only used when called
+        directly from the Teams class.
     """
-    def __init__(self, team_data, rank, year=None):
+    def __init__(self, team_name=None, team_data=None, rank=None, year=None):
         self._year = year
         self._rank = rank
         self._abbreviation = None
@@ -59,7 +67,38 @@ class Team:
         self._save_percentage = None
         self._pdo_at_even_strength = None
 
+        if team_name:
+            team_data = self._retrieve_team_data(year, team_name)
         self._parse_team_data(team_data)
+
+    def _retrieve_team_data(self, year, team_name):
+        """
+        Pull all stats for a specific team.
+
+        By first retrieving a dictionary containing all information for all
+        teams in the league, only select the desired team for a specific year
+        and return only their relevant results.
+
+        Parameters
+        ----------
+        year : string
+            A ``string`` of the requested year to pull stats from.
+        team_name : string
+            A ``string`` of the team's 3-letter abbreviation, such as 'DET' for
+            the Detroit Red Wings.
+        """
+        teams_list, year = _retrieve_all_teams(year)
+        self._year = year
+        # Teams are listed in terms of rank with the first team being #1
+        rank = 1
+        for team_data in teams_list:
+            name = utils._parse_field(PARSING_SCHEME,
+                                      team_data,
+                                      'abbreviation')
+            if name == team_name:
+                self._rank = rank
+                return team_data
+            rank += 1
 
     def _parse_team_data(self, team_data):
         """
@@ -391,7 +430,8 @@ class Teams:
     def __init__(self, year=None):
         self._teams = []
 
-        self._retrieve_all_teams(year)
+        teams_list, year = _retrieve_all_teams(year)
+        self._instantiate_teams(teams_list, year)
 
     def __getitem__(self, abbreviation):
         """
@@ -453,42 +493,28 @@ class Teams:
         """Returns the number of NHL teams for a given season."""
         return len(self.__repr__())
 
-    def _retrieve_all_teams(self, year):
+    def _instantiate_teams(self, teams_list, year):
         """
-        Find and create Team instances for all teams in the given season.
-
-        For a given season, parses the specified NHL stats table and finds all
-        requested stats. Each team then has a Team instance created which
-        includes all requested stats and a few identifiers, such as the team's
-        name and abbreviation. All of the individual Team instances are added
-        to a list.
-
-        Note that this method is called directly once Teams is invoked and does
-        not need to be called manually.
-
+        Create a Team instance for all teams.
+        Once all team information has been pulled from the various webpages,
+        create a Team instance for each team and append it to a larger list of
+        team instances for later use.
         Parameters
         ----------
+        teams_list : list
+            A ``list`` containing all stats information in HTML format for all
+            NHL teams.
         year : string
-            The requested year to pull stats from.
+            A ``string`` of the requested year to pull stats from.
         """
-        if not year:
-            year = utils._find_year_for_season('nhl')
-            # If stats for the requested season do not exist yet (as is the
-            # case right before a new season begins), attempt to pull the
-            # previous year's stats. If it exists, use the previous year
-            # instead.
-            if not utils._url_exists(SEASON_PAGE_URL % year) and \
-               utils._url_exists(SEASON_PAGE_URL % str(int(year) - 1)):
-                year = str(int(year) - 1)
-        doc = pq(SEASON_PAGE_URL % year)
-        teams_list = utils._get_stats_table(doc, 'div#all_stats')
         # Teams are listed in terms of rank with the first team being #1
         rank = 1
         if not teams_list:
-            utils._no_data_found()
             return
         for team_data in teams_list:
-            team = Team(team_data, rank, year)
+            team = Team(team_data=team_data,
+                        rank=rank,
+                        year=year)
             self._teams.append(team)
             rank += 1
 

@@ -700,7 +700,7 @@ class TestNHLRoster:
         flexmock(Team) \
             .should_receive('_parse_team_data') \
             .and_return(None)
-        team = Team(None, 1, '2018')
+        team = Team(team_data=None, rank=1, year='2018')
         mock_abbreviation = mock.PropertyMock(return_value='DET')
         type(team)._abbreviation = mock_abbreviation
 
