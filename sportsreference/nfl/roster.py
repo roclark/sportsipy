@@ -5,7 +5,7 @@ from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
 from urllib.error import HTTPError
 from .. import utils
-from .constants import PLAYER_SCHEME, PLAYER_URL, ROSTER_URL
+from .constants import PLAYER_SCHEME, PLAYER_URL, ROSTER_URL, DETAILED_STATS
 from .player import AbstractPlayer
 
 
@@ -25,10 +25,13 @@ def _int_property_decorator(func):
     @property
     @wraps(func)
     def wrapper(*args):
-        index = args[0]._index
+        if func.__name__ in DETAILED_STATS:
+            index = args[0]._detailed_stats_index
+        else:
+            index = args[0]._index
         prop = func(*args)
-        value = _cleanup(prop[index])
         try:
+            value = _cleanup(prop[index])
             return int(value)
         except (ValueError, TypeError, IndexError):
             # If there is no value, default to None
@@ -40,10 +43,13 @@ def _float_property_decorator(func):
     @property
     @wraps(func)
     def wrapper(*args):
-        index = args[0]._index
+        if func.__name__ in DETAILED_STATS:
+            index = args[0]._detailed_stats_index
+        else:
+            index = args[0]._index
         prop = func(*args)
-        value = _cleanup(prop[index])
         try:
+            value = _cleanup(prop[index])
             return float(value)
         except (ValueError, TypeError, IndexError):
             # If there is no value, default to None
@@ -78,7 +84,9 @@ class Player(AbstractPlayer):
     """
     def __init__(self, player_id):
         self._most_recent_season = ''
+        self._detailed_stats_seasons = None
         self._index = None
+        self._detailed_stats_index = None
         self._player_id = player_id
         self._season = None
         self._name = None
@@ -131,6 +139,14 @@ class Player(AbstractPlayer):
         self._rush_yards_per_attempt = None
         self._rush_yards_per_game = None
         self._rush_attempts_per_game = None
+        # Advanced rushing stats
+        self._first_downs_rushing = None
+        self._rush_yards_before_contact = None
+        self._rush_yards_before_contact_per_attempt = None
+        self._rush_yards_after_contact = None
+        self._rush_yards_after_contact_per_attempt = None
+        self._rush_broken_tackles = None
+        self._rush_attempts_per_broken_tackle = None
         # Receiving-specific stats
         self._times_pass_target = None
         self._receptions = None
@@ -141,6 +157,16 @@ class Player(AbstractPlayer):
         self._receptions_per_game = None
         self._receiving_yards_per_game = None
         self._catch_percentage = None
+        # Advanced receiving stats
+        self._first_downs_receiving = None
+        self._receiving_yards_before_catch = None
+        self._receiving_yards_before_catch_per_reception = None
+        self._receiving_yards_after_catch = None
+        self._receiving_yards_after_catch_per_reception = None
+        self._receiving_broken_tackles = None
+        self._receptions_per_broken_tackle = None
+        self._dropped_passes = None
+        self._drop_percentage = None
         # Combined receiving and rushing stats
         self._touches = None
         self._yards_per_touch = None
@@ -268,7 +294,8 @@ class Player(AbstractPlayer):
         season = utils._parse_field(PLAYER_SCHEME, row, 'season')
         return season.replace('*', '').replace('+', '')
 
-    def _combine_season_stats(self, table_rows, career_stats, all_stats_dict):
+    def _combine_season_stats(self, table_rows, career_stats, all_stats_dict,
+                              detailed):
         """
         Combine all stats for each season.
 
@@ -288,6 +315,9 @@ class Player(AbstractPlayer):
             season ``string``, such as '2017', and the value is a
             ``dictionary`` with a ``string`` of 'data' and ``string``
             containing all of the data.
+        detailed : boolean
+            A boolean which evaluates to True if the passed table is one of the
+            advanced stats tables which is labeled as 'detailed' on the site.
 
         Returns
         -------
@@ -296,6 +326,7 @@ class Player(AbstractPlayer):
             includes more metrics from the provided table.
         """
         most_recent_season = self._most_recent_season
+        detailed_stats_seasons = []
         if not table_rows:
             table_rows = []
         for row in table_rows:
@@ -304,8 +335,17 @@ class Player(AbstractPlayer):
                 all_stats_dict[season]['data'] += str(row)
             except KeyError:
                 all_stats_dict[season] = {'data': str(row)}
-            most_recent_season = season
+            # Create a list of detailed stats which aren't populated for all
+            # seasons a player has been active.
+            if detailed:
+                detailed_stats_seasons.append(season)
+            # Ignore the detailed stats tables as those might throw off the
+            # most recent season as they are not always populated.
+            else:
+                most_recent_season = season
         self._most_recent_season = most_recent_season
+        if detailed:
+            self._detailed_stats_seasons = detailed_stats_seasons
         if not career_stats:
             return all_stats_dict
         try:
@@ -317,6 +357,8 @@ class Player(AbstractPlayer):
             # their page in error.
             except StopIteration:
                 return all_stats_dict
+        except StopIteration:
+            return all_stats_dict
         return all_stats_dict
 
     def _combine_all_stats(self, player_info):
@@ -343,6 +385,8 @@ class Player(AbstractPlayer):
 
         for table_id in ['passing', 'passing_advanced',
                          'rushing_and_receiving', 'receiving_and_rushing',
+                         'detailed_rushing_and_receiving',
+                         'detailed_receiving_and_rushing',
                          'defense', 'returns', 'kicking']:
             table_items = utils._get_stats_table(player_info,
                                                  'table#%s' % table_id)
@@ -351,7 +395,8 @@ class Player(AbstractPlayer):
                                                   footer=True)
             all_stats_dict = self._combine_season_stats(table_items,
                                                         career_items,
-                                                        all_stats_dict)
+                                                        all_stats_dict,
+                                                        'detailed' in table_id)
         return all_stats_dict
 
     def _parse_player_information(self, player_info):
@@ -457,6 +502,14 @@ class Player(AbstractPlayer):
                 self._index = index
                 break
             index += 1
+        detailed_index = 0
+        if not self._detailed_stats_seasons:
+            return self
+        for season in self._detailed_stats_seasons:
+            if season == requested_season:
+                self._detailed_stats_index = detailed_index
+                break
+            detailed_index += 1
         return self
 
     def _dataframe_fields(self):
@@ -491,6 +544,8 @@ class Player(AbstractPlayer):
             'catch_percentage': self.catch_percentage,
             'completed_passes': self.completed_passes,
             'completion_percentage_index': self.completion_percentage_index,
+            'drop_percentage': self.drop_percentage,
+            'dropped_passes': self.dropped_passes,
             'espn_qbr': self.espn_qbr,
             'extra_point_percentage': self.extra_point_percentage,
             'extra_points_attempted': self.extra_points_attempted,
@@ -502,6 +557,8 @@ class Player(AbstractPlayer):
             self.fifty_plus_yard_field_goal_attempts,
             'fifty_plus_yard_field_goals_made':
             self.fifty_plus_yard_field_goals_made,
+            'first_downs_receiving': self.first_downs_receiving,
+            'first_downs_rushing': self.first_downs_rushing,
             'fourth_quarter_comebacks': self.fourth_quarter_comebacks,
             'fourty_to_fourty_nine_yard_field_goal_attempts':
             self.fourty_to_fourty_nine_yard_field_goal_attempts,
@@ -556,17 +613,34 @@ class Player(AbstractPlayer):
             'punts': self.punts,
             'qb_record': self.qb_record,
             'quarterback_rating': self.quarterback_rating,
+            'receiving_broken_tackles': self.receiving_broken_tackles,
             'receiving_touchdowns': self.receiving_touchdowns,
             'receiving_yards': self.receiving_yards,
+            'receiving_yards_after_catch': self.receiving_yards_after_catch,
+            'receiving_yards_after_catch_per_reception':
+            self.receiving_yards_after_catch_per_reception,
+            'receiving_yards_before_catch': self.receiving_yards_before_catch,
+            'receiving_yards_before_catch_per_reception':
+            self.receiving_yards_before_catch_per_reception,
             'receiving_yards_per_game': self.receiving_yards_per_game,
             'receiving_yards_per_reception':
             self.receiving_yards_per_reception,
             'receptions': self.receptions,
+            'receptions_per_broken_tackle': self.receptions_per_broken_tackle,
             'receptions_per_game': self.receptions_per_game,
             'rush_attempts': self.rush_attempts,
+            'rush_attempts_per_broken_tackle':
+            self.rush_attempts_per_broken_tackle,
             'rush_attempts_per_game': self.rush_attempts_per_game,
+            'rush_broken_tackles': self.rush_broken_tackles,
             'rush_touchdowns': self.rush_touchdowns,
             'rush_yards': self.rush_yards,
+            'rush_yards_after_contact': self.rush_yards_after_contact,
+            'rush_yards_after_contact_per_attempt':
+            self.rush_yards_after_contact_per_attempt,
+            'rush_yards_before_contact': self.rush_yards_before_contact,
+            'rush_yards_before_contact_per_attempt':
+            self.rush_yards_before_contact_per_attempt,
             'rush_yards_per_attempt': self.rush_yards_per_attempt,
             'rush_yards_per_game': self.rush_yards_per_game,
             'rushing_and_receiving_touchdowns':
@@ -1014,6 +1088,61 @@ class Player(AbstractPlayer):
         return self._rush_attempts_per_game
 
     @_int_property_decorator
+    def first_downs_rushing(self):
+        """
+        Returns an ``int`` of the number of first downs the player has gained
+        from rush attempts.
+        """
+        return self._first_downs_rushing
+
+    @_int_property_decorator
+    def rush_yards_before_contact(self):
+        """
+        Returns an ``int`` of the total number of yards the player has gained
+        prior to receiving contact on a rush.
+        """
+        return self._rush_yards_before_contact
+
+    @_float_property_decorator
+    def rush_yards_before_contact_per_attempt(self):
+        """
+        Returns a ``float`` of the number of yards the player gains on average
+        prior to receiving contact on a rush.
+        """
+        return self._rush_yards_before_contact_per_attempt
+
+    @_int_property_decorator
+    def rush_yards_after_contact(self):
+        """
+        Returns an ``int`` of the total number of yards the player has gained
+        after receiving contact on a rush.
+        """
+        return self._rush_yards_after_contact
+
+    @_float_property_decorator
+    def rush_yards_after_contact_per_attempt(self):
+        """
+        Returns a ``float`` of the number of yards the player gains on average
+        after receiving contact on a rush.
+        """
+        return self._rush_yards_after_contact_per_attempt
+
+    @_int_property_decorator
+    def rush_broken_tackles(self):
+        """
+        Returns an ``int`` of the number of tackles the player broke while
+        rushing.
+        """
+        return self._rush_broken_tackles
+
+    @_float_property_decorator
+    def rush_attempts_per_broken_tackle(self):
+        """
+        Returns a ``float`` of the number of tackles the player broke per rush.
+        """
+        return self._rush_attempts_per_broken_tackle
+
+    @_int_property_decorator
     def times_pass_target(self):
         """
         Returns an ``int`` of the number of times the player was the target of
@@ -1082,6 +1211,78 @@ class Player(AbstractPlayer):
         being the target of a pass. Percentage ranges from 0-100.
         """
         return self._catch_percentage
+
+    @_int_property_decorator
+    def first_downs_receiving(self):
+        """
+        Returns an ``int`` of the number of first downs the player has gained
+        from pass attempts.
+        """
+        return self._first_downs_receiving
+
+    @_int_property_decorator
+    def receiving_yards_before_catch(self):
+        """
+        Returns an ``int`` of the total number of yards the player has gained
+        prior to catching a pass.
+        """
+        return self._receiving_yards_before_catch
+
+    @_float_property_decorator
+    def receiving_yards_before_catch_per_reception(self):
+        """
+        Returns a ``float`` of the number of yards the player gains on average
+        prior to catching a pass.
+        """
+        return self._receiving_yards_before_catch_per_reception
+
+    @_int_property_decorator
+    def receiving_yards_after_catch(self):
+        """
+        Returns an ``int`` of the total number of yards the player has gained
+        after catching a pass.
+        """
+        return self._receiving_yards_after_catch
+
+    @_float_property_decorator
+    def receiving_yards_after_catch_per_reception(self):
+        """
+        Returns a ``float`` of the number of yards the player gains on average
+        after catching a pass.
+        """
+        return self._receiving_yards_after_catch_per_reception
+
+    @_int_property_decorator
+    def receiving_broken_tackles(self):
+        """
+        Returns an ``int`` of the number of tackles the player has broken after
+        catching a pass.
+        """
+        return self._receiving_broken_tackles
+
+    @_float_property_decorator
+    def receptions_per_broken_tackle(self):
+        """
+        Returns a ``float`` of the number of receptions the player made per
+        broken tackle.
+        """
+        return self._receptions_per_broken_tackle
+
+    @_int_property_decorator
+    def dropped_passes(self):
+        """
+        Returns an ``int`` of the number of times the player has dropped a
+        pass.
+        """
+        return self._dropped_passes
+
+    @_float_property_decorator
+    def drop_percentage(self):
+        """
+        Returns a ``float`` of the percentage of passes the player has dropped.
+        Percentage ranges from 0-100.
+        """
+        return self._drop_percentage
 
     @_int_property_decorator
     def touches(self):

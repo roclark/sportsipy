@@ -191,7 +191,9 @@ class AbstractPlayer:
                short_field == 'weight' or \
                short_field == 'height' or \
                short_field == 'birth_date' or \
-               short_field == 'season':
+               short_field == 'season' or \
+               short_field == 'detailed_stats_seasons' or \
+               short_field == 'detailed_stats_index':
                 continue
             field_stats = []
             if type(player_data) == dict:
