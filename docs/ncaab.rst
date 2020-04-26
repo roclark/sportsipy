@@ -247,6 +247,17 @@ number of shots they've blocked, and much more.
         print(team.name)  # Prints the team's name
         print(team.blocks)  # Prints the number of shots the team blocked
 
+A team can also be requested directly by calling the ``Team`` class which
+returns a Team instance identical to the one in each element in the loop above.
+To request a specific team, use the team's abbreviation while calling the Team
+class.
+
+.. code-block:: python
+
+    from sportsreference.ncaab.teams import Team
+
+    purdue = Team('PURDUE')
+
 Each Team instance contains a link to the ``Schedule`` class which enables easy
 iteration over all games for a particular team. A Pandas DataFrame can also be
 queried to easily grab all stats for all games.

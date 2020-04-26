@@ -9,7 +9,7 @@ from sportsreference.ncaab.constants import (ADVANCED_OPPONENT_STATS_URL,
                                              ADVANCED_STATS_URL,
                                              BASIC_OPPONENT_STATS_URL,
                                              BASIC_STATS_URL)
-from sportsreference.ncaab.teams import Teams
+from sportsreference.ncaab.teams import Team, Teams
 
 
 MONTH = 1
@@ -685,6 +685,13 @@ class TestNCAABIntegration:
         teams = Teams()
 
         assert len(teams) == 0
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_pulling_team_directly(self, *args, **kwargs):
+        purdue = Team('PURDUE')
+
+        for attribute, value in self.results.items():
+            assert getattr(purdue, attribute) == value
 
 
 class TestNCAABIntegrationInvalidYear:
