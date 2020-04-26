@@ -76,7 +76,7 @@ class TestFBSchedule:
 
     def test_no_games_for_date_raises_value_error(self):
         with pytest.raises(ValueError):
-            self.schedule(datetime.now())
+            self.schedule(datetime(2020, 7, 1))
 
     def test_empty_page_return_no_games(self):
         flexmock(utils) \
