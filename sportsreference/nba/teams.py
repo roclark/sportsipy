@@ -722,7 +722,3 @@ class Teams:
         for team in self.__iter__():
             frames.append(team.dataframe)
         return pd.concat(frames)
-
-
-if __name__ == '__main__':
-    tm = Teams()
