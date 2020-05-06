@@ -756,3 +756,6 @@ Henrik Zetterberg (zettehe01)"""
         roster = Roster('DET')
 
         assert roster.__repr__() == expected
+
+    def test_coach(self):
+        assert "Jeff Blashill" == Roster('DET', year=YEAR).coach

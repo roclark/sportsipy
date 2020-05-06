@@ -1326,3 +1326,6 @@ James Harden (hardeja01)"""
         roster = Roster('HOU')
 
         assert roster.__repr__() == expected
+
+    def test_coach(self):
+        assert "Mike D'Antoni" == Roster('HOU').coach

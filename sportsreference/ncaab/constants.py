@@ -247,6 +247,7 @@ RANKINGS_SCHEME = {
 }
 
 PLAYER_SCHEME = {
+    'summary': '[data-template="Partials/Teams/Summary"]',
     'conference': 'td[data-stat="conf_abbr"]',
     'season': 'th[data-stat="season"]:first',
     'name': 'h1',

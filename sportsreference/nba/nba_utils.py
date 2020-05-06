@@ -84,6 +84,7 @@ def _retrieve_all_teams(year, season_file=None):
     doc = utils._pull_page(SEASON_PAGE_URL % year, season_file)
     teams_list = utils._get_stats_table(doc, 'div#all_team-stats-base')
     opp_teams_list = utils._get_stats_table(doc, 'div#all_opponent-stats-base')
+
     if not teams_list and not opp_teams_list:
         utils._no_data_found()
         return None, None
