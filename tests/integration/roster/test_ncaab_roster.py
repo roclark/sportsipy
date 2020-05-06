@@ -426,3 +426,6 @@ class TestNCAABRoster:
         for player in roster.players:
             assert player.name in ['Carsen Edwards', 'Isaac Haas',
                                    'Vince Edwards']
+
+    def test_coach(self):
+        assert "Matt Painter" == Roster('PURDUE', year=YEAR).coach

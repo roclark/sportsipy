@@ -1272,3 +1272,6 @@ class TestNBARoster:
         roster = Roster('HOU')
 
         assert len(roster.players) == 0
+
+    def test_coach(self):
+        assert "Mike D'Antoni" == Roster('HOU').coach

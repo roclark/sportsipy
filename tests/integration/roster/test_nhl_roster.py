@@ -738,3 +738,6 @@ class TestNHLRoster:
 
         for player in roster.players:
             assert player.name in ['Jimmy Howard', 'Henrik Zetterberg']
+
+    def test_coach(self):
+        assert "Jeff Blashill" == Roster('DET', year=YEAR).coach

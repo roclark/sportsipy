@@ -1232,3 +1232,6 @@ class TestMLBRoster:
         for player in roster.players:
             assert player.name in [u'José Altuve', 'Justin Verlander',
                                    'Charlie Morton']
+
+    def test_coach(self):
+        assert "AJ Hinch" == Roster('HOU', year=YEAR).coach

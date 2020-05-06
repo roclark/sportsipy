@@ -86,6 +86,7 @@ class Team:
 
         if team_name:
             team_data = self._retrieve_team_data(year, team_name)
+
         self._parse_team_data(team_data)
 
     def _retrieve_team_data(self, year, team_name):
@@ -721,3 +722,6 @@ class Teams:
         for team in self.__iter__():
             frames.append(team.dataframe)
         return pd.concat(frames)
+
+if __name__ == '__main__':
+    tm = Teams()

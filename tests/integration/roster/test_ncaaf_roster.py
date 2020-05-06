@@ -552,3 +552,6 @@ class TestNCAAFRoster:
         assert len(roster.players) == 2
         for player in roster.players:
             assert player.name in ['David Blough', 'Rondale Moore']
+
+    def test_coach(self):
+        assert "Troy Calhoun" == Roster('air-force', year=YEAR).coach

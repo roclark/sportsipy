@@ -1206,7 +1206,8 @@ class Roster:
         else:
             self._players = []
 
-        self._find_players(year)
+        self.coach = None
+        self._find_players_with_coach(year)
 
     def _pull_team_page(self, url):
         """
@@ -1292,7 +1293,7 @@ class Roster:
         name_tag = player('td[data-stat="player"] a')
         return name_tag.text()
 
-    def _find_players(self, year):
+    def _find_players_with_coach(self, year):
         """
         Find all player IDs for the requested team.
 
@@ -1335,6 +1336,12 @@ class Roster:
                 player_instance = Player(player_id)
                 self._players.append(player_instance)
 
+        for p in page('*[data-template="Partials/Teams/Summary"]').find('p'):
+            s = p.find('strong')
+            if hasattr(s, 'text'):
+                if s.text == 'Coach:':
+                    self.coach = p.find('a').text
+
     @property
     def players(self):
         """
@@ -1345,3 +1352,5 @@ class Roster:
         first and last name as listed on the roster page.
         """
         return self._players
+
+

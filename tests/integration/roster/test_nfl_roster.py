@@ -1241,3 +1241,6 @@ class TestNFLRoster:
             assert player.name in ['Drew Brees', 'Demario Davis',
                                    'Tommylee Lewis', 'Wil Lutz',
                                    'Thomas Morstead']
+
+    def test_coach(self):
+        assert "Sean Payton" == Roster('NOR', year=YEAR).coach
