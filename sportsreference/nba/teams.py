@@ -723,5 +723,6 @@ class Teams:
             frames.append(team.dataframe)
         return pd.concat(frames)
 
+
 if __name__ == '__main__':
     tm = Teams()

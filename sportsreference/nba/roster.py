@@ -1352,5 +1352,3 @@ class Roster:
         first and last name as listed on the roster page.
         """
         return self._players
-
-
