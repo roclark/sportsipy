@@ -28,8 +28,8 @@ jobs:
       run: |
         pycodestyle sportsreference/ tests/integration/ tests/unit/
     - name: Upload coverage to Codecov
-      if: matrix.operating-system == 'ubuntu-latest' && matrix.python-version == '3.7'
-      uses: codecov/codecov-action@v1.0.6
+      if: matrix.operating-system == 'ubuntu-latest' && matrix.python-version == '3.8'
+      uses: codecov/codecov-action@v1.0.13
 
   publish:
     name: Publish package to PyPI
