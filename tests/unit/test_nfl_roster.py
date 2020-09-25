@@ -46,3 +46,22 @@ class TestNFLPlayer:
         type(player)._weight = mock_weight
 
         assert not player.weight
+
+    @patch('requests.get', side_effect=mock_pyquery)
+    def test_requesting_detailed_season_returns_proper_index(self,
+                                                             *args,
+                                                             **kwargs):
+        mock_detailed_seasons = PropertyMock(return_value=['2017',
+                                                           '2018',
+                                                           'Career'])
+        mock_seasons = PropertyMock(return_value=['2015',
+                                                  '2016',
+                                                  '2017',
+                                                  '2018',
+                                                  'Career'])
+        player = Player(None)
+        type(player)._detailed_stats_seasons = mock_detailed_seasons
+        type(player)._season = mock_seasons
+        player = player('2018')
+
+        assert player._detailed_stats_index == 1

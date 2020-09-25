@@ -350,8 +350,49 @@ PLAYER_SCHEME = {
     'average_kickoff_return_yards': 'td[data-stat="kick_ret_yds_per_ret"]',
     'kickoff_return_touchdowns': 'td[data-stat="kick_ret_td"]',
     'average_punt_return_yards': 'td[data-stat="punt_ret_yds_per_ret"]',
-    'punt_return_touchdowns': 'td[data-stat="punt_ret_td"]'
+    'punt_return_touchdowns': 'td[data-stat="punt_ret_td"]',
+    'first_downs_rushing': 'td[data-stat="rush_first_down"]',
+    'rush_yards_before_contact': 'td[data-stat="rush_yds_before_contact"]',
+    'rush_yards_before_contact_per_attempt':
+    'td[data-stat="rush_yds_bc_per_rush"]',
+    'rush_yards_after_contact': 'td[data-stat="rush_yac"]',
+    'rush_yards_after_contact_per_attempt':
+    'td[data-stat="rush_yac_per_rush"]',
+    'rush_broken_tackles': 'td[data-stat="rush_broken_tackles"]',
+    'rush_attempts_per_broken_tackle':
+    'td[data-stat="rush_broken_tackles_per_rush"]',
+    'first_downs_receiving': 'td[data-stat="rec_first_down"]',
+    'receiving_yards_before_catch': 'td[data-stat="rec_air_yds"]',
+    'receiving_yards_before_catch_per_reception':
+    'td[data-stat="rec_air_yds_per_rec"]',
+    'receiving_yards_after_catch': 'td[data-stat="rec_yac"]',
+    'receiving_yards_after_catch_per_reception':
+    'td[data-stat="rec_yac_per_rec"]',
+    'receiving_broken_tackles': 'td[data-stat="rec_broken_tackles"]',
+    'receptions_per_broken_tackle':
+    'td[data-stat="rec_broken_tackles_per_rec"]',
+    'dropped_passes': 'td[data-stat="rec_drops"]',
+    'drop_percentage': 'td[data-stat="rec_drop_pct"]',
 }
+
+DETAILED_STATS = [
+    'first_downs_rushing',
+    'rush_yards_before_contact',
+    'rush_yards_before_contact_per_attempt',
+    'rush_yards_after_contact',
+    'rush_yards_after_contact_per_attempt',
+    'rush_broken_tackles',
+    'rush_attempts_per_broken_tackle',
+    'first_downs_receiving',
+    'receiving_yards_before_catch',
+    'receiving_yards_before_catch_per_reception',
+    'receiving_yards_after_catch',
+    'receiving_yards_after_catch_per_reception',
+    'receiving_broken_tackles',
+    'receptions_per_broken_tackle',
+    'dropped_passes',
+    'drop_percentage'
+]
 
 SEASON_PAGE_URL = 'http://www.pro-football-reference.com/years/%s/'
 
