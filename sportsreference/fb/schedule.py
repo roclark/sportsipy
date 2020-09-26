@@ -52,6 +52,18 @@ class Game:
 
         self._parse_game_data(game_data)
 
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        return f'{self.date} - {self.opponent}'
+
+    def __repr__(self):
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
+
     def _parse_opponent_id(self, game_data):
         """
         Parse the opponent's squad ID.
@@ -532,23 +544,31 @@ class Schedule:
                 return game
         raise ValueError('No games found for requested date')
 
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        games = [f'{game.date} - {game.opponent}'.strip()
+                 for game in self._games]
+        return '\n'.join(games)
+
     def __repr__(self):
         """
-        Returns a ``list`` of all games scheduled for the given team.
+        Return the string representation of the class.
         """
-        return self._games
+        return self.__str__()
 
     def __iter__(self):
         """
         Returns an iterator of all of the games scheduled for the given team.
         """
-        return iter(self.__repr__())
+        return iter(self._games)
 
     def __len__(self):
         """
         Returns the number of scheduled games for the given team.
         """
-        return len(self.__repr__())
+        return len(self._games)
 
     def _add_games_to_schedule(self, schedule):
         """

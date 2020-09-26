@@ -2041,3 +2041,9 @@ class TestCFPNCAAFRankings:
         assert rankings.current_extended == self.results_extended
         assert rankings.current == self.results
         assert rankings.complete == self.results_complete
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_rankings_string_representation(self, *args, **kwargs):
+        rankings = Rankings()
+
+        assert rankings.__repr__() == 'NCAAF Rankings'

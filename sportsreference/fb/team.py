@@ -64,6 +64,18 @@ class Team:
         self._squad_id = _lookup_team(team_id)
         self._pull_team_page()
 
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        return f'{self.name} ({self.squad_id}) - {self.season}'
+
+    def __repr__(self):
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
+
     def _parse_name(self, doc):
         """
         Parse the team's name and season.

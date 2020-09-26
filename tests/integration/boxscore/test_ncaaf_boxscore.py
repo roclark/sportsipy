@@ -137,6 +137,13 @@ class TestNCAAFBoxscore:
         for player in boxscore.away_players:
             assert not player.dataframe.empty
 
+    def test_ncaaf_boxscore_string_representation(self):
+        expected = ('Boxscore for Alabama at Georgia (Monday Jan 8, 2018)')
+
+        boxscore = Boxscore(BOXSCORE)
+
+        assert boxscore.__repr__() == expected
+
 
 class TestNCAAFBoxscores:
     def setup_method(self):
@@ -4038,3 +4045,9 @@ class TestNCAAFBoxscores:
         result = Boxscores(datetime(2017, 8, 30), datetime(2017, 8, 31)).games
 
         assert result == expected
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_boxscores_search_string_representation(self, *args, **kwargs):
+        result = Boxscores(datetime(2017, 8, 30))
+
+        assert result.__repr__() == 'NCAAF games for 8-30-2017'

@@ -31,8 +31,21 @@ class Conference:
                  ignore_missing=False):
         self._teams = {}
         self._ignore_missing = ignore_missing
+        self._conference_abbreviation = conference_abbreviation
 
         self._find_conference_teams(conference_abbreviation, year)
+
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        return f'{self._conference_abbreviation} - NCAAF'
+
+    def __repr__(self):
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
 
     def _pull_conference_page(self, conference_abbreviation, year):
         """
@@ -157,6 +170,18 @@ class Conferences:
         self._ignore_missing = ignore_missing
 
         self._find_conferences(year)
+
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        return 'NCAAF Conferences'
+
+    def __repr__(self):
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
 
     def _pull_conference_page(self, year):
         """

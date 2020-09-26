@@ -491,6 +491,12 @@ class TestNCAAFPlayer:
         assert player.name is None
         assert player.dataframe is None
 
+    def test_ncaaf_player_string_representation(self):
+        # Request the career stats
+        player = self.player('')
+
+        assert player.__repr__() == 'David Blough (david-blough-1)'
+
 
 class TestNCAAFRoster:
     @mock.patch('requests.get', side_effect=mock_pyquery)
@@ -552,3 +558,15 @@ class TestNCAAFRoster:
         assert len(roster.players) == 2
         for player in roster.players:
             assert player.name in ['David Blough', 'Rondale Moore']
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_string_representation(self, *args, **kwargs):
+        expected = """David Blough (david-blough-1)
+David Blough (rondale-moore-1)"""
+
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('PURDUE')
+
+        assert roster.__repr__() == expected

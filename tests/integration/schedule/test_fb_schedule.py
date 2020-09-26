@@ -110,3 +110,64 @@ class TestFBSchedule:
         df1 = pd.concat(frames).drop_duplicates(keep=False)
 
         assert df1.empty
+
+    def test_fb_schedule_string_representation(self):
+        expected = """2019-08-10 - Aston Villa
+2019-08-17 - Manchester City
+2019-08-25 - Newcastle Utd
+2019-09-01 - Arsenal
+2019-09-14 - Crystal Palace
+2019-09-18 - gr Olympiacos
+2019-09-21 - Leicester City
+2019-09-24 - Colchester Utd
+2019-09-28 - Southampton
+2019-10-01 - de Bayern Munich
+2019-10-05 - Brighton
+2019-10-19 - Watford
+2019-10-22 - rs Red Star
+2019-10-27 - Liverpool
+2019-11-03 - Everton
+2019-11-06 - rs Red Star
+2019-11-09 - Sheffield Utd
+2019-11-23 - West Ham
+2019-11-26 - gr Olympiacos
+2019-11-30 - Bournemouth
+2019-12-04 - Manchester Utd
+2019-12-07 - Burnley
+2019-12-11 - de Bayern Munich
+2019-12-15 - Wolves
+2019-12-22 - Chelsea
+2019-12-26 - Brighton
+2019-12-28 - Norwich City
+2020-01-01 - Southampton
+2020-01-05 - Middlesbrough
+2020-01-11 - Liverpool
+2020-01-14 - Middlesbrough
+2020-01-18 - Watford
+2020-01-22 - Norwich City
+2020-01-25 - Southampton
+2020-02-02 - Manchester City
+2020-02-05 - Southampton
+2020-02-16 - Aston Villa
+2020-02-19 - de RB Leipzig
+2020-02-22 - Chelsea
+2020-03-01 - Wolves
+2020-03-04 - Norwich City
+2020-03-07 - Burnley
+2020-03-10 - de RB Leipzig
+2020-03-15 - Manchester Utd
+2020-03-20 - West Ham
+2020-04-04 - Sheffield Utd
+2020-04-11 - Everton
+2020-04-18 - Bournemouth
+2020-04-26 - Arsenal
+2020-05-02 - Newcastle Utd
+2020-05-09 - Leicester City
+2020-05-17 - Crystal Palace"""
+
+        assert self.schedule.__repr__() == expected
+
+    def test_fb_game_string_representation(self):
+        game = self.schedule[0]
+
+        assert game.__repr__() == '2019-08-10 - Aston Villa'

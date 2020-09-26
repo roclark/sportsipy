@@ -99,6 +99,18 @@ class Team:
             self._team_conference = conferences_dict[team_name.lower()]
         self._parse_team_data(team_data)
 
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        return f'{self.name} ({self.abbreviation}) - {self._year}'
+
+    def __repr__(self):
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
+
     def _retrieve_team_data(self, year, team_name):
         """
         Pull all stats for a specific team.
@@ -756,17 +768,27 @@ class Teams:
         """
         return self.__getitem__(abbreviation)
 
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        teams = [f'{team.name} ({team.abbreviation})'.strip()
+                 for team in self._teams]
+        return '\n'.join(teams)
+
     def __repr__(self):
-        """Returns a ``list`` of all NCAAF teams for the given season."""
-        return self._teams
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
 
     def __iter__(self):
         """Returns an iterator of all of the NCAAF teams for a given season."""
-        return iter(self.__repr__())
+        return iter(self._teams)
 
     def __len__(self):
         """Returns the number of NCAAF teams for a given season."""
-        return len(self.__repr__())
+        return len(self._teams)
 
     def _instantiate_teams(self, team_data_dict, year):
         """

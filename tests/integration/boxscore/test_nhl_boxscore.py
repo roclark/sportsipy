@@ -136,6 +136,14 @@ class TestNHLBoxscore:
         for player in boxscore.away_players:
             assert not player.dataframe.empty
 
+    def test_nhl_boxscore_string_representation(self):
+        expected = ('Boxscore for Washington Capitals at Vegas Golden Knights '
+                    '(June 7, 2018)')
+
+        boxscore = Boxscore(BOXSCORE)
+
+        assert boxscore.__repr__() == expected
+
 
 class TestNHLBoxscores:
     def setup_method(self):
@@ -486,3 +494,9 @@ class TestNHLBoxscores:
         result = Boxscores(datetime(2017, 2, 4), datetime(2017, 2, 5)).games
 
         assert result == expected
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_boxscores_search_string_representation(self, *args, **kwargs):
+        result = Boxscores(datetime(2017, 2, 4))
+
+        assert result.__repr__() == 'NHL games for 2-4-2017'

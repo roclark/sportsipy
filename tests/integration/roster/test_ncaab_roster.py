@@ -360,6 +360,12 @@ class TestNCAABPlayer:
         frames = [df, player.dataframe]
         df1 = pd.concat(frames).drop_duplicates(keep=False)
 
+    def test_ncaab_player_string_representation(self):
+        # Request the career stats
+        player = self.player('')
+
+        assert player.__repr__() == 'Carsen Edwards (carsen-edwards-1)'
+
 
 class TestNCAABRoster:
     @mock.patch('requests.get', side_effect=mock_pyquery)
@@ -426,3 +432,16 @@ class TestNCAABRoster:
         for player in roster.players:
             assert player.name in ['Carsen Edwards', 'Isaac Haas',
                                    'Vince Edwards']
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_string_representation(self, *args, **kwargs):
+        expected = """Carsen Edwards (carsen-edwards-1)
+Isaac Haas (isaac-haas-1)
+Vince Edwards (vince-edwards-2)"""
+
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('PURDUE')
+
+        assert roster.__repr__() == expected

@@ -173,6 +173,18 @@ class SquadPlayer:
 
         self._parse_player_stats(player_data)
 
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        return f'{self.name} ({self.player_id})'
+
+    def __repr__(self):
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
+
     def _parse_nationality(self, player_data):
         """
         Parse the player's nationality.
@@ -1518,23 +1530,30 @@ class Roster:
                 return player_instance
         raise ValueError('No player found with the requested name or ID')
 
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        players = [f'{x.name} ({x.player_id})'.strip() for x in self._players]
+        return '\n'.join(players)
+
     def __repr__(self):
         """
-        Returns a ``list`` of all players for the given team.
+        Return the string representation of the class.
         """
-        return self._players
+        return self.__str__()
 
     def __iter__(self):
         """
         Returns an iterator of all of the players on the given team's roster.
         """
-        return iter(self.__repr__())
+        return iter(self._players)
 
     def __len__(self):
         """
         Returns the number of player on the given team's roster.
         """
-        return len(self.__repr__())
+        return len(self._players)
 
     def _player_id(self, player_data):
         """

@@ -342,3 +342,46 @@ class TestFBRoster:
         df1 = pd.concat(frames).drop_duplicates(keep=False)
 
         assert df1.empty
+
+    def test_fb_roster_string_representation(self):
+        expected = """Toby Alderweireld (f7d50789)
+Davinson Sánchez (da7b447d)
+Serge Aurier (5c2b4f07)
+Dele Alli (cea4ee8f)
+Lucas Moura (2b622f01)
+Son Heung-min (92e7e919)
+Harry Winks (2f7acede)
+Paulo Gazzaniga (63d17038)
+Harry Kane (21a66f6a)
+Jan Vertonghen (ba23a904)
+Moussa Sissoko (2acd49b9)
+Eric Dier (ac861941)
+Christian Eriksen (980522ec)
+Hugo Lloris (8f62b6ee)
+Giovani Lo Celso (d7553721)
+Érik Lamela (abe66106)
+Tanguy Ndombele (5cdddffa)
+Danny Rose (89d10e53)
+Ben Davies (44781702)
+Japhet Tanganga (e9971f2d)
+Ryan Sessegnon (6aa3e78b)
+Steven Bergwijn (a29b1131)
+Kyle Walker-Peters (984a5a64)
+Oliver Skipp (6250083a)
+Gedson Fernandes (e2dde94c)
+Juan Foyth (6c7762c3)
+Victor Wanyama (e0900238)
+Michel Vorm (1bebde9d)
+Troy Parrott (4357f557)
+Georges-Kévin N'Koudou (76c131da)
+Malachi Fagan-Walcott (8263d615)
+Brandon Austin (5e253986)
+Alfie Whiteman (3f2587ee)
+Dennis Cirken (307ea3b6)"""
+
+        assert self.roster.__repr__() == expected
+
+    def test_fb_player_string_representation(self):
+        player = self.roster('Harry Kane')
+
+        assert player.__repr__() == 'Harry Kane (21a66f6a)'

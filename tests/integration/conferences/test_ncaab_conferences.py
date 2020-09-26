@@ -162,3 +162,15 @@ class TestNCAABConferences:
         conference = Conference('big-12')
 
         assert len(conference._teams) == 10
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_conferences_string_representation(self, *args, **kwargs):
+        conferences = Conferences()
+
+        assert conferences.__repr__() == 'NCAAB Conferences'
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_conference_string_representation(self, *args, **kwargs):
+        conference = Conference('big-12')
+
+        assert conference.__repr__() == 'big-12 - NCAAB'

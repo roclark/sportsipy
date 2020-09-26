@@ -159,6 +159,54 @@ class TestNCAABSchedule:
 
         assert len(schedule) == 0
 
+    def test_game_string_representation(self):
+        game = self.schedule[0]
+
+        assert game.__repr__() == 'Fri, Nov 10, 2017 - tennessee-state'
+
+    def test_schedule_string_representation(self):
+        expected = """Fri, Nov 10, 2017 - tennessee-state
+Tue, Nov 14, 2017 - kentucky
+Fri, Nov 17, 2017 - south-dakota-state
+Tue, Nov 21, 2017 - texas-southern
+Fri, Nov 24, 2017 - oakland
+Tue, Nov 28, 2017 - toledo
+Sat, Dec 2, 2017 - syracuse
+Wed, Dec 6, 2017 - washington
+Sun, Dec 10, 2017 - arizona-state
+Sat, Dec 16, 2017 - nebraska
+Mon, Dec 18, 2017 - nebraska-omaha
+Thu, Dec 21, 2017 - stanford
+Fri, Dec 29, 2017 - texas
+Tue, Jan 2, 2018 - texas-tech
+Sat, Jan 6, 2018 - texas-christian
+Tue, Jan 9, 2018 - iowa-state
+Sat, Jan 13, 2018 - kansas-state
+Mon, Jan 15, 2018 - west-virginia
+Sat, Jan 20, 2018 - baylor
+Tue, Jan 23, 2018 - oklahoma
+Sat, Jan 27, 2018 - texas-am
+Mon, Jan 29, 2018 - kansas-state
+Sat, Feb 3, 2018 - oklahoma-state
+Tue, Feb 6, 2018 - texas-christian
+Sat, Feb 10, 2018 - baylor
+Tue, Feb 13, 2018 - iowa-state
+Sat, Feb 17, 2018 - west-virginia
+Mon, Feb 19, 2018 - oklahoma
+Sat, Feb 24, 2018 - texas-tech
+Mon, Feb 26, 2018 - texas
+Sat, Mar 3, 2018 - oklahoma-state
+Thu, Mar 8, 2018 - oklahoma-state
+Fri, Mar 9, 2018 - kansas-state
+Sat, Mar 10, 2018 - west-virginia
+Thu, Mar 15, 2018 - pennsylvania
+Sat, Mar 17, 2018 - seton-hall
+Fri, Mar 23, 2018 - clemson
+Sun, Mar 25, 2018 - duke
+Sat, Mar 31, 2018 - villanova"""
+
+        assert self.schedule.__repr__() == expected
+
 
 class TestNCAABScheduleInvalidYear:
     @mock.patch('requests.get', side_effect=mock_pyquery)

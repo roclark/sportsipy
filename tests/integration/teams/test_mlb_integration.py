@@ -273,3 +273,44 @@ class TestMLBIntegration:
         teams = Teams()
 
         assert len(teams) == 0
+
+    def test_mlb_team_string_representation(self):
+        hou = Team('HOU')
+
+        assert hou.__repr__() == 'Houston Astros (HOU) - 2017'
+
+    def test_mlb_teams_string_representation(self):
+        expected = """Los Angeles Dodgers (LAD)
+Cleveland Indians (CLE)
+Houston Astros (HOU)
+Washington Nationals (WSN)
+Boston Red Sox (BOS)
+Arizona Diamondbacks (ARI)
+Chicago Cubs (CHC)
+New York Yankees (NYY)
+Colorado Rockies (COL)
+Milwaukee Brewers (MIL)
+Minnesota Twins (MIN)
+St. Louis Cardinals (STL)
+Los Angeles Angels (LAA)
+Tampa Bay Rays (TBR)
+Kansas City Royals (KCR)
+Seattle Mariners (SEA)
+Texas Rangers (TEX)
+Miami Marlins (MIA)
+Toronto Blue Jays (TOR)
+Pittsburgh Pirates (PIT)
+Baltimore Orioles (BAL)
+Oakland Athletics (OAK)
+Atlanta Braves (ATL)
+San Diego Padres (SDP)
+New York Mets (NYM)
+Cincinnati Reds (CIN)
+Chicago White Sox (CHW)
+Philadelphia Phillies (PHI)
+San Francisco Giants (SFG)
+Detroit Tigers (DET)"""
+
+        teams = Teams()
+
+        assert teams.__repr__() == expected

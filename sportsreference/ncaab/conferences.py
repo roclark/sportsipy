@@ -23,8 +23,21 @@ class Conference:
     """
     def __init__(self, conference_abbreviation, year=None):
         self._teams = {}
+        self._conference_abbreviation = conference_abbreviation
 
         self._find_conference_teams(conference_abbreviation, year)
+
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        return f'{self._conference_abbreviation} - NCAAB'
+
+    def __repr__(self):
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
 
     def _pull_conference_page(self, conference_abbreviation, year):
         """
@@ -140,6 +153,18 @@ class Conferences:
         self._team_conference = {}
 
         self._find_conferences(year)
+
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        return 'NCAAB Conferences'
+
+    def __repr__(self):
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
 
     def _pull_conference_page(self, year):
         """

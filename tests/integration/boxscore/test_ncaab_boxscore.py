@@ -186,6 +186,13 @@ class TestNCAABBoxscore:
         for player in boxscore.away_players:
             assert not player.dataframe.empty
 
+    def test_ncaab_boxscore_string_representation(self):
+        expected = ('Boxscore for Arizona at Purdue (November 24, 2017)')
+
+        boxscore = Boxscore(BOXSCORE)
+
+        assert boxscore.__repr__() == expected
+
 
 class TestNCAABBoxscores:
     def setup_method(self):
@@ -2135,3 +2142,9 @@ class TestNCAABBoxscores:
                  'losing_abbr': 'pacific'}
                 ]
             }
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_boxscores_search_string_representation(self, *args, **kwargs):
+        result = Boxscores(datetime(2017, 11, 11))
+
+        assert result.__repr__() == 'NCAAB games for 11-11-2017'
