@@ -289,7 +289,24 @@ PLAYER_SCHEME = {
     'shooting_fouls_drawn': 'td[data-stat="drawn_shooting"]',
     'and_ones': 'td[data-stat="and1s"]',
     'shots_blocked': 'td[data-stat="fga_blkd"]',
-    'salary': 'td[data-stat="salary"]'
+    'salary': 'td[data-stat="salary"]',
+    'field_goals_per_poss': 'td[data-stat="fg_per_poss"]',
+    'field_goal_attempts_per_poss': 'td[data-stat="fga_per_poss"]',
+    'three_pointers_per_poss': 'td[data-stat="fg3_per_poss"]',
+    'three_point_attempts_per_poss': 'td[data-stat="fg3a_per_poss"]',
+    'two_pointers_per_poss': 'td[data-stat="fg2_per_poss"]',
+    'two_point_attempts_per_poss': 'td[data-stat="fg2a_per_poss"]',
+    'free_throws_per_poss': 'td[data-stat="ft_per_poss"]',
+    'free_throw_attempts_per_poss': 'td[data-stat="fta_per_poss"]',
+    'offensive_rebounds_per_poss': 'td[data-stat="orb_per_poss"]',
+    'defensive_rebounds_per_poss': 'td[data-stat="drb_per_poss"]',
+    'total_rebounds_per_poss': 'td[data-stat="trb_per_poss"]',
+    'assists_per_poss': 'td[data-stat="ast_per_poss"]',
+    'steals_per_poss': 'td[data-stat="stl_per_poss"]',
+    'blocks_per_poss': 'td[data-stat="blk_per_poss"]',
+    'turnovers_per_poss': 'td[data-stat="tov_per_poss"]',
+    'personal_fouls_per_poss': 'td[data-stat="pf_per_poss"]',
+    'points_per_poss': 'td[data-stat="pts_per_poss"]'
 }
 
 NATIONALITY = {
