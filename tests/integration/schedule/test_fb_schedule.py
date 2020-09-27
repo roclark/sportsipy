@@ -4,6 +4,7 @@ from datetime import datetime
 from flexmock import flexmock
 from mock import patch
 from os import path
+from pyquery import PyQuery as pq
 from sportsreference import utils
 from sportsreference.constants import AWAY, DRAW
 from sportsreference.fb.schedule import Schedule
@@ -46,8 +47,8 @@ class TestFBSchedule:
             'shootout_against': None,
             'opponent': 'Manchester City',
             'opponent_id': 'b8fd03ef',
-            'expected_goals': 0.2,
-            'expected_goals_against': 3.0,
+            'expected_goals': 0.3,
+            'expected_goals_against': 2.9,
             'attendance': 54503,
             'captain': 'Hugo Lloris',
             'captain_id': '8f62b6ee',
@@ -111,6 +112,20 @@ class TestFBSchedule:
 
         assert df1.empty
 
+    def test_no_captain_returns_default(self):
+        table_item = '<td data-stat="captain"><a></a></td>'
+
+        captain = self.schedule[0]._parse_captain_id(pq(table_item))
+
+        assert not captain
+
+    def test_no_match_report_returns_default(self):
+        table_item = '<td data-stat="match_report"><a></a></td>'
+
+        report = self.schedule[0]._parse_match_report(pq(table_item))
+
+        assert not report
+
     def test_fb_schedule_string_representation(self):
         expected = """2019-08-10 - Aston Villa
 2019-08-17 - Manchester City
@@ -155,15 +170,15 @@ class TestFBSchedule:
 2020-03-04 - Norwich City
 2020-03-07 - Burnley
 2020-03-10 - de RB Leipzig
-2020-03-15 - Manchester Utd
-2020-03-20 - West Ham
-2020-04-04 - Sheffield Utd
-2020-04-11 - Everton
-2020-04-18 - Bournemouth
-2020-04-26 - Arsenal
-2020-05-02 - Newcastle Utd
-2020-05-09 - Leicester City
-2020-05-17 - Crystal Palace"""
+2020-06-19 - Manchester Utd
+2020-06-23 - West Ham
+2020-07-02 - Sheffield Utd
+2020-07-06 - Everton
+2020-07-09 - Bournemouth
+2020-07-12 - Arsenal
+2020-07-15 - Newcastle Utd
+2020-07-19 - Leicester City
+2020-07-26 - Crystal Palace"""
 
         assert self.schedule.__repr__() == expected
 

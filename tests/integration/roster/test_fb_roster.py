@@ -1,6 +1,8 @@
 import mock
 import pandas as pd
+from flexmock import flexmock
 from os import path
+from pyquery import PyQuery as pq
 from sportsreference.fb.roster import Roster
 
 
@@ -342,6 +344,13 @@ class TestFBRoster:
         df1 = pd.concat(frames).drop_duplicates(keep=False)
 
         assert df1.empty
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_fb_invalid_tables_returns_nothing(self, *args, **kwargs):
+        roster = Roster('Tottenham Hotspur')
+        stats = roster._pull_stats(pq('<div></div>'))
+
+        assert stats == {}
 
     def test_fb_roster_string_representation(self):
         expected = """Toby Alderweireld (f7d50789)
