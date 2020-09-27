@@ -171,6 +171,97 @@ class TestNHLSchedule:
 
         assert len(schedule) == 0
 
+    def test_game_string_representation(self):
+        game = self.schedule[0]
+
+        assert game.__repr__() == '2016-10-13 - NYI'
+
+    def test_schedule_string_representation(self):
+        expected = """2016-10-13 - NYI
+2016-10-15 - STL
+2016-10-17 - SJS
+2016-10-19 - DET
+2016-10-22 - WSH
+2016-10-23 - ARI
+2016-10-26 - BOS
+2016-10-28 - CAR
+2016-10-30 - TBL
+2016-11-01 - STL
+2016-11-03 - EDM
+2016-11-05 - BOS
+2016-11-06 - WPG
+2016-11-08 - VAN
+2016-11-12 - CGY
+2016-11-13 - EDM
+2016-11-15 - VAN
+2016-11-18 - CBJ
+2016-11-20 - FLA
+2016-11-21 - PIT
+2016-11-23 - PIT
+2016-11-25 - PHI
+2016-11-27 - OTT
+2016-11-29 - CAR
+2016-12-01 - BUF
+2016-12-03 - CAR
+2016-12-06 - NYI
+2016-12-08 - WPG
+2016-12-09 - CHI
+2016-12-11 - NJD
+2016-12-13 - CHI
+2016-12-15 - DAL
+2016-12-17 - NSH
+2016-12-18 - NJD
+2016-12-20 - PIT
+2016-12-23 - MIN
+2016-12-27 - OTT
+2016-12-29 - ARI
+2016-12-31 - COL
+2017-01-03 - BUF
+2017-01-04 - PHI
+2017-01-07 - CBJ
+2017-01-13 - TOR
+2017-01-14 - MTL
+2017-01-17 - DAL
+2017-01-19 - TOR
+2017-01-22 - DET
+2017-01-23 - LAK
+2017-01-25 - PHI
+2017-01-31 - CBJ
+2017-02-02 - BUF
+2017-02-05 - CGY
+2017-02-07 - ANA
+2017-02-09 - NSH
+2017-02-11 - COL
+2017-02-13 - CBJ
+2017-02-16 - NYI
+2017-02-19 - WSH
+2017-02-21 - MTL
+2017-02-23 - TOR
+2017-02-25 - NJD
+2017-02-26 - CBJ
+2017-02-28 - WSH
+2017-03-02 - BOS
+2017-03-04 - MTL
+2017-03-06 - TBL
+2017-03-07 - FLA
+2017-03-09 - CAR
+2017-03-12 - DET
+2017-03-13 - TBL
+2017-03-17 - FLA
+2017-03-18 - MIN
+2017-03-21 - NJD
+2017-03-22 - NYI
+2017-03-25 - LAK
+2017-03-26 - ANA
+2017-03-28 - SJS
+2017-03-31 - PIT
+2017-04-02 - PHI
+2017-04-05 - WSH
+2017-04-08 - OTT
+2017-04-09 - PIT"""
+
+        assert self.schedule.__repr__() == expected
+
 
 class TestNHLScheduleInvalidYear:
     @mock.patch('requests.get', side_effect=mock_pyquery)

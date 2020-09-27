@@ -24,6 +24,18 @@ class Rankings:
 
         self._find_rankings(year)
 
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        return 'NCAAB Rankings'
+
+    def __repr__(self):
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
+
     def _pull_rankings_page(self, year):
         """
         Download the rankings page.

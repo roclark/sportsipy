@@ -157,6 +157,28 @@ class TestNCAAFSchedule:
 
         assert len(schedule) == 0
 
+    def test_game_string_representation(self):
+        game = self.schedule[0]
+
+        assert game.__repr__() == 'Sep 2, 2017 - florida'
+
+    def test_schedule_string_representation(self):
+        expected = """Sep 2, 2017 - florida
+Sep 9, 2017 - cincinnati
+Sep 16, 2017 - air-force
+Sep 23, 2017 - purdue
+Oct 7, 2017 - michigan-state
+Oct 14, 2017 - indiana
+Oct 21, 2017 - penn-state
+Oct 28, 2017 - rutgers
+Nov 4, 2017 - minnesota
+Nov 11, 2017 - maryland
+Nov 18, 2017 - wisconsin
+Nov 25, 2017 - ohio-state
+Jan 1, 2018 - south-carolina"""
+
+        assert self.schedule.__repr__() == expected
+
 
 class TestNCAAFScheduleInvalidYear:
     @mock.patch('requests.get', side_effect=mock_pyquery)

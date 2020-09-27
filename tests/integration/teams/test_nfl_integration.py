@@ -185,6 +185,51 @@ class TestNFLIntegration:
         for attribute, value in self.results.items():
             assert getattr(kansas, attribute) == value
 
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_team_string_representation(self, *args, **kwargs):
+        kansas = Team('KAN')
+
+        assert kansas.__repr__() == 'Kansas City Chiefs (KAN) - 2017'
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_teams_string_representation(self, *args, **kwargs):
+        expected = """Los Angeles Rams (RAM)
+New England Patriots (NWE)
+Philadelphia Eagles (PHI)
+New Orleans Saints (NOR)
+Jacksonville Jaguars (JAX)
+Kansas City Chiefs (KAN)
+Detroit Lions (DET)
+Pittsburgh Steelers (PIT)
+Baltimore Ravens (RAV)
+Minnesota Vikings (MIN)
+Seattle Seahawks (SEA)
+Carolina Panthers (CAR)
+Los Angeles Chargers (SDG)
+Dallas Cowboys (DAL)
+Atlanta Falcons (ATL)
+Washington Redskins (WAS)
+Houston Texans (HTX)
+Tampa Bay Buccaneers (TAM)
+Tennessee Titans (OTI)
+San Francisco 49ers (SFO)
+Green Bay Packers (GNB)
+Buffalo Bills (BUF)
+Oakland Raiders (RAI)
+New York Jets (NYJ)
+Arizona Cardinals (CRD)
+Cincinnati Bengals (CIN)
+Denver Broncos (DEN)
+Miami Dolphins (MIA)
+Chicago Bears (CHI)
+Indianapolis Colts (CLT)
+New York Giants (NYG)
+Cleveland Browns (CLE)"""
+
+        teams = Teams()
+
+        assert teams.__repr__() == expected
+
 
 class TestNFLIntegrationInvalidYear:
     @mock.patch('requests.get', side_effect=mock_pyquery)

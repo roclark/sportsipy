@@ -1404,6 +1404,12 @@ class TestNFLPlayer:
 
         assert player.name == 'Dominique Hatfield'
 
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nfl_player_string_representation(self, *args, **kwargs):
+        player = Player('BreeDr00')
+
+        assert player.__repr__() == 'Drew Brees (BreeDr00)'
+
 
 class TestNFLRoster:
     @mock.patch('requests.get', side_effect=mock_pyquery)
@@ -1475,3 +1481,18 @@ class TestNFLRoster:
             assert player.name in ['Drew Brees', 'Demario Davis',
                                    'Tommylee Lewis', 'Wil Lutz',
                                    'Thomas Morstead']
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_string_representation(self, *args, **kwargs):
+        expected = """Drew Brees (BreeDr00)
+Demario Davis (DaviDe00)
+Tommylee Lewis (LewiTo00)
+Wil Lutz (LutzWi00)
+Thomas Morstead (MorsTh00)"""
+
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('NOR')
+
+        assert roster.__repr__() == expected

@@ -154,6 +154,49 @@ class TestNHLIntegration:
         for attribute, value in self.results.items():
             assert getattr(detroit, attribute) == value
 
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_team_string_representation(self, *args, **kwargs):
+        detroit = Team('DET')
+
+        assert detroit.__repr__() == 'Detroit Red Wings (DET) - 2017'
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_teams_string_representation(self, *args, **kwargs):
+        expected = """Washington Capitals (WSH)
+Pittsburgh Penguins (PIT)
+Chicago Blackhawks (CHI)
+Columbus Blue Jackets (CBJ)
+Minnesota Wild (MIN)
+Anaheim Ducks (ANA)
+Montreal Canadiens (MTL)
+Edmonton Oilers (EDM)
+New York Rangers (NYR)
+St. Louis Blues (STL)
+San Jose Sharks (SJS)
+Ottawa Senators (OTT)
+Toronto Maple Leafs (TOR)
+Boston Bruins (BOS)
+Tampa Bay Lightning (TBL)
+New York Islanders (NYI)
+Nashville Predators (NSH)
+Calgary Flames (CGY)
+Philadelphia Flyers (PHI)
+Winnipeg Jets (WPG)
+Carolina Hurricanes (CAR)
+Los Angeles Kings (LAK)
+Florida Panthers (FLA)
+Dallas Stars (DAL)
+Detroit Red Wings (DET)
+Buffalo Sabres (BUF)
+Arizona Coyotes (ARI)
+New Jersey Devils (NJD)
+Vancouver Canucks (VAN)
+Colorado Avalanche (COL)"""
+
+        teams = Teams()
+
+        assert teams.__repr__() == expected
+
 
 class TestNHLIntegrationInvalidYear:
     @mock.patch('requests.get', side_effect=mock_pyquery)

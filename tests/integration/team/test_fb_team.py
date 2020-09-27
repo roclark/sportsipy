@@ -57,3 +57,9 @@ class TestFBTeam:
 
         for attribute, value in self.results.items():
             assert getattr(tottenham, attribute) == value
+
+    @patch('requests.get', side_effect=mock_pyquery)
+    def test_team_name(self, *args, **kwargs):
+        team = Team('Tottenham Hotspur')
+
+        assert team.__repr__() == 'Tottenham Hotspur (361ca564) - 2019-2020'

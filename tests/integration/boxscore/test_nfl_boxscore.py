@@ -156,6 +156,14 @@ class TestNFLBoxscore:
         for player in boxscore.away_players:
             assert not player.dataframe.empty
 
+    def test_nfl_boxscore_string_representation(self):
+        expected = ('Boxscore for Philadelphia Eagles at New England Patriots '
+                    '(Sunday Feb 4, 2018)')
+
+        boxscore = Boxscore(BOXSCORE)
+
+        assert boxscore.__repr__() == expected
+
 
 class TestNFLBoxscores:
     def setup_method(self):
@@ -660,3 +668,16 @@ class TestNFLBoxscores:
         result = Boxscores(7, 2017, 8).games
 
         assert result == expected
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_boxscores_search_string_representation(self, *args, **kwargs):
+        result = Boxscores(7, 2017)
+
+        assert result.__repr__() == 'NFL games for week 7'
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_boxscores_search_string_representation_multi_week(self, *args,
+                                                               **kwargs):
+        result = Boxscores(7, 2017, 8)
+
+        assert result.__repr__() == 'NFL games for weeks 7, 8'

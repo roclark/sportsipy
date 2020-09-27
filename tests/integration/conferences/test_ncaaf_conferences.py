@@ -185,3 +185,15 @@ class TestNCAAFConferences:
     @mock.patch('requests.head', side_effect=mock_request)
     def test_invalid_conference_page_skips_error(self, *args, **kwargs):
         conference = Conference('BAD', ignore_missing=True)
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_conferences_string_representation(self, *args, **kwargs):
+        conferences = Conferences()
+
+        assert conferences.__repr__() == 'NCAAF Conferences'
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_conference_string_representation(self, *args, **kwargs):
+        conference = Conference('acc')
+
+        assert conference.__repr__() == 'acc - NCAAF'

@@ -173,6 +173,47 @@ class TestNBAIntegration:
         for attribute, value in self.results.items():
             assert getattr(detroit, attribute) == value
 
+    def test_team_string_representation(self):
+        detroit = Team('DET')
+
+        assert detroit.__repr__() == 'Detroit Pistons (DET) - 2017'
+
+    def test_teams_string_representation(self):
+        expected = """Golden State Warriors (GSW)
+Houston Rockets (HOU)
+Denver Nuggets (DEN)
+Cleveland Cavaliers (CLE)
+Washington Wizards (WAS)
+Los Angeles Clippers (LAC)
+Boston Celtics (BOS)
+Portland Trail Blazers (POR)
+Phoenix Suns (PHO)
+Toronto Raptors (TOR)
+Oklahoma City Thunder (OKC)
+Brooklyn Nets (BRK)
+Minnesota Timberwolves (MIN)
+San Antonio Spurs (SAS)
+Indiana Pacers (IND)
+Charlotte Hornets (CHO)
+Los Angeles Lakers (LAL)
+New Orleans Pelicans (NOP)
+New York Knicks (NYK)
+Milwaukee Bucks (MIL)
+Miami Heat (MIA)
+Atlanta Hawks (ATL)
+Chicago Bulls (CHI)
+Sacramento Kings (SAC)
+Philadelphia 76ers (PHI)
+Detroit Pistons (DET)
+Orlando Magic (ORL)
+Utah Jazz (UTA)
+Memphis Grizzlies (MEM)
+Dallas Mavericks (DAL)"""
+
+        teams = Teams()
+
+        assert teams.__repr__() == expected
+
 
 class TestNBAIntegrationInvalidDate:
     @mock.patch('requests.get', side_effect=mock_pyquery)

@@ -1225,6 +1225,12 @@ class TestNBAPlayer:
 
         assert player.name == 'Trae Young'
 
+    def test_nba_player_string_representation(self):
+        # Request the career stats
+        player = self.player('')
+
+        assert player.__repr__() == 'James Harden (hardeja01)'
+
 
 class TestNBARoster:
     @mock.patch('requests.get', side_effect=mock_pyquery)
@@ -1306,3 +1312,17 @@ class TestNBARoster:
         roster = Roster('HOU')
 
         assert len(roster.players) == 0
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_string_representation(self, *args, **kwargs):
+        expected = """Ryan Anderson (anderry01)
+Trevor Ariza (arizatr01)
+Tarik Black (blackta01)
+James Harden (hardeja01)"""
+
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('HOU')
+
+        assert roster.__repr__() == expected

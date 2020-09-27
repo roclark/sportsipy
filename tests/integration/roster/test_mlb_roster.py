@@ -575,6 +575,12 @@ class TestMLBPlayer:
 
         assert contract == expected
 
+    def test_mlb_player_string_representation(self):
+        # Request the career stats
+        player = self.player('')
+
+        assert player.__repr__() == 'José Altuve (altuvjo01)'
+
 
 class TestMLBPitcher:
     @mock.patch('requests.get', side_effect=mock_pyquery)
@@ -1232,3 +1238,16 @@ class TestMLBRoster:
         for player in roster.players:
             assert player.name in [u'José Altuve', 'Justin Verlander',
                                    'Charlie Morton']
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_string_representation(self, *args, **kwargs):
+        expected = """José Altuve (altuvjo01)
+Justin Verlander (verlaju01)
+José Altuve (mortoch02)"""
+
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('HOU')
+
+        assert roster.__repr__() == expected

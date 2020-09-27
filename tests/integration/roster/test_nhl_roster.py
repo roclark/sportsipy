@@ -676,6 +676,12 @@ class TestNHLPlayer:
         assert player.name is None
         assert player.dataframe is None
 
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_nhl_player_string_representation(self, *args, **kwargs):
+        player = Player('zettehe01')
+
+        assert player.__repr__() == 'Henrik Zetterberg (zettehe01)'
+
 
 class TestNHLRoster:
     @mock.patch('requests.get', side_effect=mock_pyquery)
@@ -738,3 +744,15 @@ class TestNHLRoster:
 
         for player in roster.players:
             assert player.name in ['Jimmy Howard', 'Henrik Zetterberg']
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_roster_class_string_representation(self, *args, **kwargs):
+        expected = """Jimmy Howard (howarja02)
+Henrik Zetterberg (zettehe01)"""
+
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return('2018')
+        roster = Roster('DET')
+
+        assert roster.__repr__() == expected

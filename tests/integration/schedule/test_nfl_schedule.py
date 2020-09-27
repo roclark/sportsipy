@@ -179,6 +179,34 @@ class TestNFLSchedule:
 
         assert len(schedule) == 0
 
+    def test_game_string_representation(self):
+        game = self.schedule[0]
+
+        assert game.__repr__() == 'September 7 - KAN'
+
+    def test_schedule_string_representation(self):
+        expected = """September 7 - KAN
+September 17 - NOR
+September 24 - HTX
+October 1 - CAR
+October 5 - TAM
+October 15 - NYJ
+October 22 - ATL
+October 29 - SDG
+November 12 - DEN
+November 19 - RAI
+November 26 - MIA
+December 3 - BUF
+December 11 - MIA
+December 17 - PIT
+December 24 - BUF
+December 31 - NYJ
+January 13 - OTI
+January 21 - JAX
+February 4 - PHI"""
+
+        assert self.schedule.__repr__() == expected
+
 
 class TestNFLScheduleInvalidYear:
     @mock.patch('requests.get', side_effect=mock_pyquery)

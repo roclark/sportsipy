@@ -118,6 +118,18 @@ class Player(AbstractPlayer):
         self._find_initial_index()
         AbstractPlayer.__init__(self, player_id, self._name, player_data)
 
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        return f'{self.name} ({self.player_id})'
+
+    def __repr__(self):
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
+
     def _retrieve_html_page(self):
         """
         Download the requested player's stats page.
@@ -650,6 +662,20 @@ class Roster:
             self._players = []
 
         self._find_players(year)
+
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        players = [f'{player.name} ({player.player_id})'.strip()
+                   for player in self._players]
+        return '\n'.join(players)
+
+    def __repr__(self):
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
 
     def _pull_team_page(self, url):
         """

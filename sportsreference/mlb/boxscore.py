@@ -433,6 +433,19 @@ class Boxscore:
 
         self._parse_game_data(uri)
 
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        return (f'Boxscore for {self._away_name.text()} at '
+                f'{self._home_name.text()} ({self.date})')
+
+    def __repr__(self):
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
+
     def _retrieve_html_page(self, uri):
         """
         Download the requested HTML page.
@@ -1628,6 +1641,18 @@ class Boxscores:
         self._boxscores = {}
 
         self._find_games(date, end_date)
+
+    def __str__(self):
+        """
+        Return the string representation of the class.
+        """
+        return f"MLB games for {', '.join(self._boxscores.keys())}"
+
+    def __repr__(self):
+        """
+        Return the string representation of the class.
+        """
+        return self.__str__()
 
     @property
     def games(self):
