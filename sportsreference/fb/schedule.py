@@ -247,7 +247,7 @@ class Game:
     @property
     def date(self):
         """
-        Returns a ``string`` of the ddate the game was played in the format
+        Returns a ``string`` of the date the game was played in the format
         'YYYY-MM-DD'.
         """
         return self._date
@@ -616,12 +616,8 @@ class Schedule:
                 doc = pq(SQUAD_URL % squad_id)
             except HTTPError:
                 return
-        # Most leagues use the 'ks_sched_all' tag for competitions, but some,
-        # like the MLS in North America, use a different table ID.
-        for table_id in ['table#ks_sched_all', 'table#ks_sched_10090']:
-            schedule = utils._get_stats_table(doc, table_id)
-            if schedule:
-                break
+        schedule = utils._get_stats_table(doc, 'table#matchlogs_all')
+
         if not schedule:
             utils._no_data_found()
             return

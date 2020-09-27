@@ -3,6 +3,7 @@ import re
 from .constants import ROSTER_SCHEME, SQUAD_URL
 from ..decorators import float_property_decorator, int_property_decorator
 from .fb_utils import _lookup_team
+from .league_ids import LEAGUE_IDS
 from pyquery import PyQuery as pq
 from sportsreference.utils import (_get_stats_table,
                                    _parse_field,
@@ -1648,25 +1649,22 @@ class Roster:
         stats_table = []
         player_data_dict = {}
 
-        # Most leagues use the 'stats_*_ks_combined' tag for competitions, but
-        # some, like the MLS in North America, use a different table ID.
-        for table_id in ['table#stats_standard_ks_combined',
-                         'table#stats_keeper_ks_combined',
-                         'table#stats_keeper_adv_ks_combined',
-                         'table#stats_shooting_ks_combined',
-                         'table#stats_passing_ks_combined',
-                         'table#stats_playing_time_ks_combined',
-                         'table#stats_misc_ks_combined',
-                         'table#stats_standard_10090',
-                         'table#stats_keeper_10090',
-                         'table#stats_keeper_adv_10090',
-                         'table#stats_shooting_10090',
-                         'table#stats_passing_10090',
-                         'table#stats_playing_time_10090',
-                         'table#stats_misc_10090']:
-            table = _get_stats_table(doc, table_id)
+        # Some leagues have a special ID for the tables. First lookup that ID
+        # if it exists, but if not, use 'ks_combined' as the default.
+        postfix = LEAGUE_IDS.get(self._squad_id, 'ks_combined')
+
+        for table_id in ['table#stats_standard_',
+                         'table#stats_keeper_',
+                         'table#stats_keeper_adv_',
+                         'table#stats_shooting_',
+                         'table#stats_passing_',
+                         'table#stats_playing_time_',
+                         'table#stats_misc_']:
+            table = _get_stats_table(doc, table_id + 'ks_combined')
             if not table:
-                continue
+                table = _get_stats_table(doc, table_id + postfix)
+                if not table:
+                    continue
             player_data_dict = self._add_stats_data(table, player_data_dict)
         return player_data_dict
 
