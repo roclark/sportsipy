@@ -77,6 +77,7 @@ SCHEDULE_SCHEME = {
 
 BOXSCORE_SCHEME = {
     'game_info': 'div[class="scorebox_meta"]:first',
+    'game_details': 'table#game_info tr',
     'home_name': 'a[itemprop="name"]:first',
     'summary': 'table[class="linescore nohover stats_table no_freeze"]:first',
     'away_name': 'a[itemprop="name"]:last',

@@ -238,6 +238,12 @@ class Boxscore:
         self._losing_name = None
         self._losing_abbr = None
         self._summary = None
+        self._won_toss = None
+        self._roof = None
+        self._surface = None
+        self._weather = None
+        self._vegas_line = None
+        self._over_under = None
         self._away_points = None
         self._away_first_downs = None
         self._away_rush_attempts = None
@@ -332,6 +338,50 @@ class Boxscore:
         if '404 error' in str(url_data):
             return None
         return pq(utils._remove_html_comment_tags(url_data))
+
+    def _parse_game_details(self, boxscore):
+        """
+        Retrieve the game's extra information from kickoff.
+
+        The games' extra information, such as weather, vegas lines, coin toss,
+        and roof, follow a complex parsing scheme that changes based on the
+        layout of the page. The information should be able to be parsed and set
+        regardless of the order and how much information is included. To do
+        this, the meta information should be iterated through line-by-line and
+        fields should be determined by the values that are found in each line.
+
+        Parameters
+        ----------
+        boxscore : PyQuery object
+            A PyQuery object containing all of the HTML data from the boxscore.
+        """
+        scheme = BOXSCORE_SCHEME["game_details"]
+        won_toss = None
+        roof = None
+        surface = None
+        weather = None
+        vegas_line = None
+        over_under = None
+
+        for line in boxscore(scheme).items():
+            if 'won toss' in str(line).lower():
+                won_toss = line('td').text()
+            elif 'roof' in str(line).lower():
+                roof = line('td').text().title()
+            elif 'surface' in str(line).lower():
+                surface = line('td').text().title()
+            elif 'weather' in str(line).lower():
+                weather = line('td').text()
+            elif 'vegas line' in str(line).lower():
+                vegas_line = line('td').text()
+            elif 'over/under' in str(line).lower():
+                over_under = line('td').text()
+        setattr(self, '_won_toss', won_toss)
+        setattr(self, '_roof', roof)
+        setattr(self, '_surface', surface)
+        setattr(self, '_weather', weather)
+        setattr(self, '_vegas_line', vegas_line)
+        setattr(self, '_over_under', over_under)
 
     def _parse_game_date_and_location(self, boxscore):
         """
@@ -686,7 +736,13 @@ class Boxscore:
                short_field == 'time' or \
                short_field == 'stadium' or \
                short_field == 'attendance' or \
-               short_field == 'duration':
+               short_field == 'duration' or \
+               short_field == 'won_toss' or \
+               short_field == 'roof' or \
+               short_field == 'surface' or \
+               short_field == 'weather' or \
+               short_field == 'vegas_line' or \
+               short_field == 'over_under':
                 continue
             if short_field == 'away_name' or \
                short_field == 'home_name':
@@ -706,6 +762,7 @@ class Boxscore:
                                        index)
             setattr(self, field, value)
         self._parse_game_date_and_location(boxscore)
+        self._parse_game_details(boxscore)
         self._away_players, self._home_players = self._find_players(boxscore)
 
     @property
@@ -773,11 +830,17 @@ class Boxscore:
             'home_yards_lost_from_sacks': self.home_yards_lost_from_sacks,
             'losing_abbr': self.losing_abbr,
             'losing_name': self.losing_name,
+            'over_under': self.over_under,
+            'roof': self.roof,
             'stadium': self.stadium,
+            'surface': self.surface,
             'time': self.time,
+            'vegas_line': self.vegas_line,
+            'weather': self.weather,
             'winner': self.winner,
             'winning_abbr': self.winning_abbr,
-            'winning_name': self.winning_name
+            'winning_name': self.winning_name,
+            'won_toss': self.won_toss
         }
         return pd.DataFrame([fields_to_include], index=[self._uri])
 
@@ -863,6 +926,51 @@ class Boxscore:
         Returns a ``string`` of the game's duration in the format 'H:MM'.
         """
         return self._duration
+
+    @property
+    def won_toss(self):
+        """
+        Returns a ``string`` of the team that won the coin toss, such as
+        'Chiefs'.
+        """
+        return self._won_toss
+
+    @property
+    def roof(self):
+        """
+        Returns a ``string`` of the stadium type and whether or not the game
+        was played outdoors.
+        """
+        return self._roof
+
+    @property
+    def surface(self):
+        """
+        Returns a ``string`` of the type of field the game was played on.
+        """
+        return self._surface
+
+    @property
+    def weather(self):
+        """
+        Returns a ``string`` of the weather reading at kickoff.
+        """
+        return self._weather
+
+    @property
+    def vegas_line(self):
+        """
+        Returns a ``string`` of the Vegas Line including the projected winner
+        and the spread.
+        """
+        return self._vegas_line
+
+    @property
+    def over_under(self):
+        """
+        Returns a ``string`` of the listed over under, and the actual result.
+        """
+        return self._over_under
 
     @property
     def summary(self):
