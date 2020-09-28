@@ -24,10 +24,13 @@ def read_file(filename):
 
 def mock_pyquery(url):
     class MockPQ:
-        def __init__(self, html_contents):
-            self.status_code = 200
+        def __init__(self, html_contents, status_code=200):
+            self.status_code = status_code
             self.html_contents = html_contents
             self.text = html_contents
+            self.url = url
+            self.reason = 'Invalid'
+            self.headers = {}
 
         def __call__(self, div):
             if 'playoff' in div:
@@ -35,7 +38,12 @@ def mock_pyquery(url):
             return read_file('table.html')
 
     schedule = read_file('%s_games.html' % YEAR)
-    return MockPQ(schedule)
+    if '2021' in url:
+        return MockPQ(schedule, status_code=404)
+    if '2020' in url:
+        return MockPQ(schedule)
+    else:
+        return MockPQ(schedule)
 
 
 def mock_request(url):
@@ -301,3 +309,16 @@ class TestNBAScheduleInvalidError:
 
         for attribute, value in results.items():
             assert getattr(schedule[1], attribute) == value
+
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('requests.head', side_effect=mock_request)
+    def test_invalid_2020_default_reverts_to_previous_year(self,
+                                                           *args,
+                                                           **kwargs):
+        flexmock(utils) \
+            .should_receive('_find_year_for_season') \
+            .and_return(2021)
+
+        schedule = Schedule('2017')
+
+        assert 'Tue, Oct 25, 2016' in str(schedule)

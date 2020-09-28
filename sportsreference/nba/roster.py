@@ -1507,6 +1507,15 @@ class Roster:
         """
         if not year:
             year = utils._find_year_for_season('nba')
+            # Given the delays to the NBA season in 2020, the default season
+            # selection logic is no longer valid after the original season
+            # should have concluded. In this case, the previous season should
+            # be pulled instead.
+            if year == 2021:
+                try:
+                    doc = pq(self._create_url(year))
+                except HTTPError:
+                    year = str(int(year) - 1)
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
