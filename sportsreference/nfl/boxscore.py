@@ -1595,7 +1595,7 @@ class Boxscores:
                 home_score = details
             boxscore_url = game('td[class="right gamelink"] a')
             boxscore_uri = self._get_boxscore_uri(boxscore_url)
-            losers = [l for l in game('tr[class="loser"]').items()]
+            losers = [loser for loser in game('tr[class="loser"]').items()]
             winner = self._get_team_results(game('tr[class="winner"]'))
             loser = self._get_team_results(game('tr[class="loser"]'))
             # Occurs when the boxscore format is invalid and the game should be
