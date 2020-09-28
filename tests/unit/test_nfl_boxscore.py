@@ -294,6 +294,36 @@ itemprop="name">New England Patriots</a>')
 
         assert self.boxscore.datetime == datetime(2018, 10, 7)
 
+    def test_nfl_game_details(self):
+        fields = {
+            'won_toss':	'Dolphins',
+            'roof': 'Outdoors',
+            'surface': 'Fieldturf',
+            'weather': '87 degrees, wind 4 mph',
+            'vegas_line': 'Cincinnati Bengals -6.5',
+            'over_under': '47.5 (under)'
+        }
+
+        mock_field = """<table id="game_info">
+<tr><th data-stat="info">Won Toss</th><td data-stat="stat">Dolphins</td></tr>
+<tr><th data-stat="info">Roof</th><td data-stat="stat">outdoors</td></tr>
+<tr><th data-stat="info">Surface</th><td data-stat="stat">fieldturf </td></tr>
+<tr><th data-stat="info">Duration</th><td data-stat="stat">3:02</td></tr>
+<tr><th data-stat="info">Attendance</th><td data-stat="stat">52,708</td></tr>
+<tr><th data-stat="info">Weather</th>
+    <td data-stat="stat">87 degrees, wind 4 mph</td></tr>
+<tr><th data-stat="info">Vegas Line</th>
+    <td data-stat="stat">Cincinnati Bengals -6.5</td></tr>
+<tr><th data-stat="info">Over/Under</th>
+    <td data-stat="stat">47.5 <b>(under)</b></td></tr>
+</table>
+"""
+
+        self.boxscore._parse_game_details(pq(mock_field))
+
+        for field, value in fields.items():
+            assert getattr(self.boxscore, field) == value
+
 
 class TestNFLBoxscores:
     @patch('requests.get', side_effect=mock_pyquery)
