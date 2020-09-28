@@ -9,7 +9,7 @@ lxml==4.5.0
 mock==3.0.5
 more-itertools==8.2.0
 numpy==1.18.2
-pandas==0.25.3
+pandas==1.1.2
 packaging==20.3
 pluggy==0.13.1
 py==1.8.1
