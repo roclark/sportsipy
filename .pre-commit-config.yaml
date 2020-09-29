@@ -5,6 +5,10 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.3
+    hooks:
+      - id: flake8
   - repo: https://github.com/ambv/black
     rev: stable
     hooks:
