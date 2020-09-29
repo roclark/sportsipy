@@ -45,6 +45,7 @@ repository using git and install all of the package requirements with PIP::
     git clone https://github.com/roclark/sportsreference
     cd sportsreference
     pip install -r requirements.txt
+    pre-commit install
 
 Once complete, create a Python wheel for your default version of Python by
 running the following command::
