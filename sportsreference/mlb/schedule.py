@@ -1,20 +1,19 @@
 import pandas as pd
 import re
 from ..decorators import int_property_decorator
-from .constants import (DAY,
-                        NIGHT,
-                        SCHEDULE_SCHEME,
-                        SCHEDULE_URL)
+from .constants import DAY, NIGHT, SCHEDULE_SCHEME, SCHEDULE_URL
 from datetime import datetime
 from pyquery import PyQuery as pq
 from sportsreference import utils
-from sportsreference.constants import (WIN,
-                                       LOSS,
-                                       HOME,
-                                       AWAY,
-                                       NEUTRAL,
-                                       REGULAR_SEASON,
-                                       CONFERENCE_TOURNAMENT)
+from sportsreference.constants import (
+    WIN,
+    LOSS,
+    HOME,
+    AWAY,
+    NEUTRAL,
+    REGULAR_SEASON,
+    CONFERENCE_TOURNAMENT,
+)
 from sportsreference.mlb.boxscore import Boxscore
 
 
@@ -32,6 +31,7 @@ class Game:
     year : string
         The year of the current season.
     """
+
     def __init__(self, game_data, year):
         self._game = None
         self._date = None
@@ -61,7 +61,7 @@ class Game:
         """
         Return the string representation of the class.
         """
-        return f'{self.date} - {self.opponent_abbr}'
+        return f"{self.date} - {self.opponent_abbr}"
 
     def __repr__(self):
         """
@@ -82,9 +82,9 @@ class Game:
             A PyQuery object containing the information specific to a game.
         """
         boxscore = game_data('td[data-stat="boxscore"]:first')
-        boxscore = re.sub(r'.*/boxes/', '', str(boxscore))
-        boxscore = re.sub(r'\.shtml.*', '', boxscore)
-        setattr(self, '_boxscore', boxscore)
+        boxscore = re.sub(r".*/boxes/", "", str(boxscore))
+        boxscore = re.sub(r"\.shtml.*", "", boxscore)
+        setattr(self, "_boxscore", boxscore)
 
     def _parse_game_data(self, game_data):
         """
@@ -107,10 +107,9 @@ class Game:
         for field in self.__dict__:
             # Remove the leading '_' from the name
             short_name = str(field)[1:]
-            if short_name == 'datetime' or \
-               short_name == 'year':
+            if short_name == "datetime" or short_name == "year":
                 continue
-            elif short_name == 'boxscore':
+            elif short_name == "boxscore":
                 self._parse_boxscore(game_data)
                 continue
             value = utils._parse_field(SCHEDULE_SCHEME, game_data, short_name)
@@ -127,27 +126,27 @@ class Game:
         if self._runs_allowed is None and self._runs_scored is None:
             return None
         fields_to_include = {
-            'attendance': self.attendance,
-            'boxscore_index': self.boxscore_index,
-            'date': self.date,
-            'datetime': self.datetime,
-            'game_number_for_day': self.game_number_for_day,
-            'day_or_night': self.day_or_night,
-            'game': self.game,
-            'game_duration': self.game_duration,
-            'games_behind': self.games_behind,
-            'innings': self.innings,
-            'location': self.location,
-            'loser': self.loser,
-            'opponent_abbr': self.opponent_abbr,
-            'rank': self.rank,
-            'record': self.record,
-            'result': self.result,
-            'runs_allowed': self.runs_allowed,
-            'runs_scored': self.runs_scored,
-            'save': self.save,
-            'streak': self.streak,
-            'winner': self.winner
+            "attendance": self.attendance,
+            "boxscore_index": self.boxscore_index,
+            "date": self.date,
+            "datetime": self.datetime,
+            "game_number_for_day": self.game_number_for_day,
+            "day_or_night": self.day_or_night,
+            "game": self.game,
+            "game_duration": self.game_duration,
+            "games_behind": self.games_behind,
+            "innings": self.innings,
+            "location": self.location,
+            "loser": self.loser,
+            "opponent_abbr": self.opponent_abbr,
+            "rank": self.rank,
+            "record": self.record,
+            "result": self.result,
+            "runs_allowed": self.runs_allowed,
+            "runs_scored": self.runs_scored,
+            "save": self.save,
+            "streak": self.streak,
+            "winner": self.winner,
         }
         return pd.DataFrame([fields_to_include], index=[self._boxscore])
 
@@ -186,9 +185,9 @@ class Game:
         Returns a datetime object of the month, day, year, and time the game
         was played.
         """
-        date_string = '%s %s' % (self._date, self._year)
-        date_string = re.sub(r' \(\d+\)', '', date_string)
-        return datetime.strptime(date_string, '%A, %b %d %Y')
+        date_string = "%s %s" % (self._date, self._year)
+        date_string = re.sub(r" \(\d+\)", "", date_string)
+        return datetime.strptime(date_string, "%A, %b %d %Y")
 
     @property
     def game_number_for_day(self):
@@ -199,10 +198,10 @@ class Game:
         if a team has a double header one day, the first game of the day will
         return 1 while the second game will return 2.
         """
-        game_number = re.findall(r'\(\d+\)', self._date)
+        game_number = re.findall(r"\(\d+\)", self._date)
         if len(game_number) == 0:
             return 1
-        game_number = re.findall(r'\d+', game_number[0])
+        game_number = re.findall(r"\d+", game_number[0])
         return int(game_number[0])
 
     @property
@@ -227,7 +226,7 @@ class Game:
         Returns a ``string`` constant to indicate whether the game was played
         at home or away.
         """
-        if self._location == '@':
+        if self._location == "@":
             return AWAY
         return HOME
 
@@ -244,7 +243,7 @@ class Game:
         """
         Returns a ``string`` constant to indicate whether the team won or lost.
         """
-        if self._result.lower() == 'w':
+        if self._result.lower() == "w":
             return WIN
         return LOSS
 
@@ -294,13 +293,13 @@ class Game:
         is. 0.0 indicates the team is tied for first. Negative numbers indicate
         the number of games a team is ahead of the second place team.
         """
-        if 'up' in self._games_behind.lower():
-            games_behind = re.sub('up *', '', self._games_behind.lower())
+        if "up" in self._games_behind.lower():
+            games_behind = re.sub("up *", "", self._games_behind.lower())
             try:
                 return float(games_behind) * -1.0
             except ValueError:
                 return None
-        if 'tied' in self._games_behind.lower():
+        if "tied" in self._games_behind.lower():
             return 0.0
         try:
             return float(self._games_behind)
@@ -327,7 +326,7 @@ class Game:
         Returns a ``string`` of the name of the pitcher credited with the save
         if applicable. If no saves, returns None.
         """
-        if self._save == '':
+        if self._save == "":
             return None
         return self._save
 
@@ -344,7 +343,7 @@ class Game:
         Returns a ``string`` constant to indicate whether the game was played
         during the day or night.
         """
-        if self._day_or_night.lower() == 'n':
+        if self._day_or_night.lower() == "n":
             return NIGHT
         return DAY
 
@@ -353,7 +352,7 @@ class Game:
         """
         Returns an ``int`` of the total listed attendance for the game.
         """
-        return self._attendance.replace(',', '')
+        return self._attendance.replace(",", "")
 
     @property
     def streak(self):
@@ -380,6 +379,7 @@ class Schedule:
     year : string (optional)
         The requested year to pull stats from.
     """
+
     def __init__(self, abbreviation, year=None):
         self._games = []
         self._pull_schedule(abbreviation, year)
@@ -434,20 +434,21 @@ class Schedule:
             schedule.
         """
         for game in self._games:
-            if game.datetime.year == date.year and \
-               game.datetime.month == date.month and \
-               game.datetime.day == date.day and \
-               game.game_number_for_day == game_number:
+            if (
+                game.datetime.year == date.year
+                and game.datetime.month == date.month
+                and game.datetime.day == date.day
+                and game.game_number_for_day == game_number
+            ):
                 return game
-        raise ValueError('No games found for requested date')
+        raise ValueError("No games found for requested date")
 
     def __str__(self):
         """
         Return the string representation of the class.
         """
-        games = [f'{game.date} - {game.opponent_abbr}'.strip()
-                 for game in self._games]
-        return '\n'.join(games)
+        games = [f"{game.date} - {game.opponent_abbr}".strip() for game in self._games]
+        return "\n".join(games)
 
     def __repr__(self):
         """
@@ -482,18 +483,17 @@ class Schedule:
             The requested year to pull stats from.
         """
         if not year:
-            year = utils._find_year_for_season('mlb')
+            year = utils._find_year_for_season("mlb")
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(SCHEDULE_URL % (abbreviation,
-                                                     year)) and \
-               utils._url_exists(SCHEDULE_URL % (abbreviation,
-                                                 str(int(year) - 1))):
+            if not utils._url_exists(
+                SCHEDULE_URL % (abbreviation, year)
+            ) and utils._url_exists(SCHEDULE_URL % (abbreviation, str(int(year) - 1))):
                 year = str(int(year) - 1)
         doc = pq(SCHEDULE_URL % (abbreviation, year))
-        schedule = utils._get_stats_table(doc, 'table#team_schedule')
+        schedule = utils._get_stats_table(doc, "table#team_schedule")
         if not schedule:
             utils._no_data_found()
             return

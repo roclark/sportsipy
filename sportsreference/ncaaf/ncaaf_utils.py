@@ -1,9 +1,11 @@
 from pyquery import PyQuery as pq
 from sportsreference import utils
-from .constants import (DEFENSIVE_STATS_URL,
-                        OFFENSIVE_STATS_URL,
-                        PARSING_SCHEME,
-                        SEASON_PAGE_URL)
+from .constants import (
+    DEFENSIVE_STATS_URL,
+    OFFENSIVE_STATS_URL,
+    PARSING_SCHEME,
+    SEASON_PAGE_URL,
+)
 
 
 def _add_stats_data(teams_list, team_data_dict):
@@ -32,14 +34,15 @@ def _add_stats_data(teams_list, team_data_dict):
         return team_data_dict
     for team_data in teams_list:
         # Skip the sub-header rows
-        if 'class="over_header thead"' in str(team_data) or \
-           'class="thead"' in str(team_data):
+        if 'class="over_header thead"' in str(team_data) or 'class="thead"' in str(
+            team_data
+        ):
             continue
-        abbr = utils._parse_field(PARSING_SCHEME, team_data, 'abbreviation')
+        abbr = utils._parse_field(PARSING_SCHEME, team_data, "abbreviation")
         try:
-            team_data_dict[abbr]['data'] += team_data
+            team_data_dict[abbr]["data"] += team_data
         except KeyError:
-            team_data_dict[abbr] = {'data': team_data}
+            team_data_dict[abbr] = {"data": team_data}
     return team_data_dict
 
 
@@ -71,19 +74,20 @@ def _retrieve_all_teams(year):
     team_data_dict = {}
 
     if not year:
-        year = utils._find_year_for_season('ncaaf')
+        year = utils._find_year_for_season("ncaaf")
         # If stats for the requested season do not exist yet (as is the case
         # right before a new season begins), attempt to pull the previous
         # year's stats. If it exists, use the previous year instead.
-        if not utils._url_exists(SEASON_PAGE_URL % year) and \
-           utils._url_exists(SEASON_PAGE_URL % str(int(year) - 1)):
+        if not utils._url_exists(SEASON_PAGE_URL % year) and utils._url_exists(
+            SEASON_PAGE_URL % str(int(year) - 1)
+        ):
             year = str(int(year) - 1)
     doc = pq(SEASON_PAGE_URL % year)
-    teams_list = utils._get_stats_table(doc, 'div#div_standings')
+    teams_list = utils._get_stats_table(doc, "div#div_standings")
     offense_doc = pq(OFFENSIVE_STATS_URL % year)
-    offense_list = utils._get_stats_table(offense_doc, 'table#offense')
+    offense_list = utils._get_stats_table(offense_doc, "table#offense")
     defense_doc = pq(DEFENSIVE_STATS_URL % year)
-    defense_list = utils._get_stats_table(defense_doc, 'table#defense')
+    defense_list = utils._get_stats_table(defense_doc, "table#defense")
     if not teams_list and not offense_list and not defense_list:
         utils._no_data_found()
     for stats_list in [teams_list, offense_list, defense_list]:

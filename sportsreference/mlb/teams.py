@@ -1,9 +1,6 @@
 import pandas as pd
 import re
-from .constants import (ELEMENT_INDEX,
-                        PARSING_SCHEME,
-                        TEAM_ELEMENT,
-                        TEAM_STATS_URL)
+from .constants import ELEMENT_INDEX, PARSING_SCHEME, TEAM_ELEMENT, TEAM_STATS_URL
 from functools import wraps
 from .. import utils
 from ..decorators import float_property_decorator, int_property_decorator
@@ -20,13 +17,14 @@ def mlb_int_property_decorator(func):
         # Equivalent to the calling property's method name
         field = func.__name__
         try:
-            record = value.split('-')
+            record = value.split("-")
         except AttributeError:
             return None
         try:
             return int(record[TEAM_ELEMENT[field]])
         except (TypeError, ValueError, IndexError):
             return None
+
     return wrapper
 
 
@@ -57,6 +55,7 @@ class Team:
     year : string (optional)
         The requested year to pull stats from.
     """
+
     def __init__(self, team_name=None, team_data=None, rank=None, year=None):
         self._year = year
         self._rank = rank
@@ -150,7 +149,7 @@ class Team:
         """
         Return the string representation of the class.
         """
-        return f'{self.name} ({self.abbreviation}) - {self._year}'
+        return f"{self.name} ({self.abbreviation}) - {self._year}"
 
     def __repr__(self):
         """
@@ -182,8 +181,8 @@ class Team:
         """
         team_data_dict, year = _retrieve_all_teams(year)
         self._year = year
-        team_data = team_data_dict[team_name]['data']
-        self._rank = team_data_dict[team_name]['rank']
+        team_data = team_data_dict[team_name]["data"]
+        self._rank = team_data_dict[team_name]["rank"]
         return team_data
 
     def _parse_name(self, team_data):
@@ -205,9 +204,9 @@ class Team:
             multiple rows in a single string.
         """
         name = team_data('td[data-stat="team_ID"]:first')
-        name = re.sub(r'.*title="', '', str(name))
-        name = re.sub(r'".*', '', name)
-        setattr(self, '_name', name)
+        name = re.sub(r'.*title="', "", str(name))
+        name = re.sub(r'".*', "", name)
+        setattr(self, "_name", name)
 
     def _parse_team_data(self, team_data):
         """
@@ -233,10 +232,9 @@ class Team:
             short_field = str(field)[1:]
             # The rank attribute is passed directly to the class during
             # instantiation.
-            if field == '_rank' or \
-               field == '_year':
+            if field == "_rank" or field == "_year":
                 continue
-            elif field == '_name':
+            elif field == "_name":
                 self._parse_name(team_data)
                 continue
             # Default to returning the first element returned unless a
@@ -246,10 +244,7 @@ class Team:
             index = 0
             if short_field in ELEMENT_INDEX.keys():
                 index = ELEMENT_INDEX[short_field]
-            value = utils._parse_field(PARSING_SCHEME,
-                                       team_data,
-                                       short_field,
-                                       index)
+            value = utils._parse_field(PARSING_SCHEME, team_data, short_field, index)
             setattr(self, field, value)
 
     @property
@@ -260,119 +255,109 @@ class Team:
         team, such as 'HOU'.
         """
         fields_to_include = {
-            'abbreviation': self.abbreviation,
-            'at_bats': self.at_bats,
-            'average_batter_age': self.average_batter_age,
-            'average_pitcher_age': self.average_pitcher_age,
-            'away_losses': self.away_losses,
-            'away_record': self.away_record,
-            'away_wins': self.away_wins,
-            'balks': self.balks,
-            'bases_on_balls': self.bases_on_balls,
-            'bases_on_walks_given': self.bases_on_walks_given,
-            'bases_on_walks_given_per_nine_innings':
-            self.bases_on_walks_given_per_nine_innings,
-            'batters_faced': self.batters_faced,
-            'batting_average': self.batting_average,
-            'complete_game_shutouts': self.complete_game_shutouts,
-            'complete_games': self.complete_games,
-            'doubles': self.doubles,
-            'earned_runs_against': self.earned_runs_against,
-            'earned_runs_against_plus': self.earned_runs_against_plus,
-            'extra_inning_losses': self.extra_inning_losses,
-            'extra_inning_record': self.extra_inning_record,
-            'extra_inning_wins': self.extra_inning_wins,
-            'fielding_independent_pitching':
-            self.fielding_independent_pitching,
-            'games': self.games,
-            'games_finished': self.games_finished,
-            'grounded_into_double_plays': self.grounded_into_double_plays,
-            'hit_pitcher': self.hit_pitcher,
-            'hits': self.hits,
-            'hits_allowed': self.hits_allowed,
-            'hits_per_nine_innings': self.hits_per_nine_innings,
-            'home_losses': self.home_losses,
-            'home_record': self.home_record,
-            'home_runs': self.home_runs,
-            'home_runs_against': self.home_runs_against,
-            'home_runs_per_nine_innings': self.home_runs_per_nine_innings,
-            'home_wins': self.home_wins,
-            'innings_pitched': self.innings_pitched,
-            'intentional_bases_on_balls': self.intentional_bases_on_balls,
-            'interleague_record': self.interleague_record,
-            'last_ten_games_record': self.last_ten_games_record,
-            'last_thirty_games_record': self.last_thirty_games_record,
-            'last_twenty_games_record': self.last_twenty_games_record,
-            'league': self.league,
-            'losses': self.losses,
-            'losses_last_ten_games': self.losses_last_ten_games,
-            'losses_last_thirty_games': self.losses_last_thirty_games,
-            'losses_last_twenty_games': self.losses_last_twenty_games,
-            'losses_vs_left_handed_pitchers':
-            self.losses_vs_left_handed_pitchers,
-            'losses_vs_right_handed_pitchers':
-            self.losses_vs_right_handed_pitchers,
-            'losses_vs_teams_over_500': self.losses_vs_teams_over_500,
-            'losses_vs_teams_under_500': self.losses_vs_teams_under_500,
-            'luck': self.luck,
-            'name': self.name,
-            'number_of_pitchers': self.number_of_pitchers,
-            'number_players_used': self.number_players_used,
-            'on_base_percentage': self.on_base_percentage,
-            'on_base_plus_slugging_percentage':
-            self.on_base_plus_slugging_percentage,
-            'on_base_plus_slugging_percentage_plus':
-            self.on_base_plus_slugging_percentage_plus,
-            'opposing_runners_left_on_base':
-            self.opposing_runners_left_on_base,
-            'plate_appearances': self.plate_appearances,
-            'pythagorean_win_loss': self.pythagorean_win_loss,
-            'rank': self.rank,
-            'record_vs_left_handed_pitchers':
-            self.record_vs_left_handed_pitchers,
-            'record_vs_right_handed_pitchers':
-            self.record_vs_right_handed_pitchers,
-            'record_vs_teams_over_500': self.record_vs_teams_over_500,
-            'record_vs_teams_under_500': self.record_vs_teams_under_500,
-            'run_difference': self.run_difference,
-            'runners_left_on_base': self.runners_left_on_base,
-            'runs': self.runs,
-            'runs_against': self.runs_against,
-            'runs_allowed_per_game': self.runs_allowed_per_game,
-            'runs_batted_in': self.runs_batted_in,
-            'sacrifice_flies': self.sacrifice_flies,
-            'sacrifice_hits': self.sacrifice_hits,
-            'saves': self.saves,
-            'shutouts': self.shutouts,
-            'simple_rating_system': self.simple_rating_system,
-            'single_run_losses': self.single_run_losses,
-            'single_run_record': self.single_run_record,
-            'single_run_wins': self.single_run_wins,
-            'slugging_percentage': self.slugging_percentage,
-            'stolen_bases': self.stolen_bases,
-            'streak': self.streak,
-            'strength_of_schedule': self.strength_of_schedule,
-            'strikeouts': self.strikeouts,
-            'strikeouts_per_base_on_balls': self.strikeouts_per_base_on_balls,
-            'strikeouts_per_nine_innings': self.strikeouts_per_nine_innings,
-            'times_caught_stealing': self.times_caught_stealing,
-            'times_hit_by_pitch': self.times_hit_by_pitch,
-            'times_struck_out': self.times_struck_out,
-            'total_bases': self.total_bases,
-            'total_runs': self.total_runs,
-            'triples': self.triples,
-            'whip': self.whip,
-            'wild_pitches': self.wild_pitches,
-            'win_percentage': self.win_percentage,
-            'wins': self.wins,
-            'wins_last_ten_games': self.wins_last_ten_games,
-            'wins_last_thirty_games': self.wins_last_thirty_games,
-            'wins_last_twenty_games': self.wins_last_twenty_games,
-            'wins_vs_left_handed_pitchers': self.wins_vs_left_handed_pitchers,
-            'wins_vs_right_handed_pitchers':
-            self.wins_vs_right_handed_pitchers,
-            'wins_vs_teams_over_500': self.wins_vs_teams_over_500,
-            'wins_vs_teams_under_500': self.wins_vs_teams_under_500
+            "abbreviation": self.abbreviation,
+            "at_bats": self.at_bats,
+            "average_batter_age": self.average_batter_age,
+            "average_pitcher_age": self.average_pitcher_age,
+            "away_losses": self.away_losses,
+            "away_record": self.away_record,
+            "away_wins": self.away_wins,
+            "balks": self.balks,
+            "bases_on_balls": self.bases_on_balls,
+            "bases_on_walks_given": self.bases_on_walks_given,
+            "bases_on_walks_given_per_nine_innings": self.bases_on_walks_given_per_nine_innings,
+            "batters_faced": self.batters_faced,
+            "batting_average": self.batting_average,
+            "complete_game_shutouts": self.complete_game_shutouts,
+            "complete_games": self.complete_games,
+            "doubles": self.doubles,
+            "earned_runs_against": self.earned_runs_against,
+            "earned_runs_against_plus": self.earned_runs_against_plus,
+            "extra_inning_losses": self.extra_inning_losses,
+            "extra_inning_record": self.extra_inning_record,
+            "extra_inning_wins": self.extra_inning_wins,
+            "fielding_independent_pitching": self.fielding_independent_pitching,
+            "games": self.games,
+            "games_finished": self.games_finished,
+            "grounded_into_double_plays": self.grounded_into_double_plays,
+            "hit_pitcher": self.hit_pitcher,
+            "hits": self.hits,
+            "hits_allowed": self.hits_allowed,
+            "hits_per_nine_innings": self.hits_per_nine_innings,
+            "home_losses": self.home_losses,
+            "home_record": self.home_record,
+            "home_runs": self.home_runs,
+            "home_runs_against": self.home_runs_against,
+            "home_runs_per_nine_innings": self.home_runs_per_nine_innings,
+            "home_wins": self.home_wins,
+            "innings_pitched": self.innings_pitched,
+            "intentional_bases_on_balls": self.intentional_bases_on_balls,
+            "interleague_record": self.interleague_record,
+            "last_ten_games_record": self.last_ten_games_record,
+            "last_thirty_games_record": self.last_thirty_games_record,
+            "last_twenty_games_record": self.last_twenty_games_record,
+            "league": self.league,
+            "losses": self.losses,
+            "losses_last_ten_games": self.losses_last_ten_games,
+            "losses_last_thirty_games": self.losses_last_thirty_games,
+            "losses_last_twenty_games": self.losses_last_twenty_games,
+            "losses_vs_left_handed_pitchers": self.losses_vs_left_handed_pitchers,
+            "losses_vs_right_handed_pitchers": self.losses_vs_right_handed_pitchers,
+            "losses_vs_teams_over_500": self.losses_vs_teams_over_500,
+            "losses_vs_teams_under_500": self.losses_vs_teams_under_500,
+            "luck": self.luck,
+            "name": self.name,
+            "number_of_pitchers": self.number_of_pitchers,
+            "number_players_used": self.number_players_used,
+            "on_base_percentage": self.on_base_percentage,
+            "on_base_plus_slugging_percentage": self.on_base_plus_slugging_percentage,
+            "on_base_plus_slugging_percentage_plus": self.on_base_plus_slugging_percentage_plus,
+            "opposing_runners_left_on_base": self.opposing_runners_left_on_base,
+            "plate_appearances": self.plate_appearances,
+            "pythagorean_win_loss": self.pythagorean_win_loss,
+            "rank": self.rank,
+            "record_vs_left_handed_pitchers": self.record_vs_left_handed_pitchers,
+            "record_vs_right_handed_pitchers": self.record_vs_right_handed_pitchers,
+            "record_vs_teams_over_500": self.record_vs_teams_over_500,
+            "record_vs_teams_under_500": self.record_vs_teams_under_500,
+            "run_difference": self.run_difference,
+            "runners_left_on_base": self.runners_left_on_base,
+            "runs": self.runs,
+            "runs_against": self.runs_against,
+            "runs_allowed_per_game": self.runs_allowed_per_game,
+            "runs_batted_in": self.runs_batted_in,
+            "sacrifice_flies": self.sacrifice_flies,
+            "sacrifice_hits": self.sacrifice_hits,
+            "saves": self.saves,
+            "shutouts": self.shutouts,
+            "simple_rating_system": self.simple_rating_system,
+            "single_run_losses": self.single_run_losses,
+            "single_run_record": self.single_run_record,
+            "single_run_wins": self.single_run_wins,
+            "slugging_percentage": self.slugging_percentage,
+            "stolen_bases": self.stolen_bases,
+            "streak": self.streak,
+            "strength_of_schedule": self.strength_of_schedule,
+            "strikeouts": self.strikeouts,
+            "strikeouts_per_base_on_balls": self.strikeouts_per_base_on_balls,
+            "strikeouts_per_nine_innings": self.strikeouts_per_nine_innings,
+            "times_caught_stealing": self.times_caught_stealing,
+            "times_hit_by_pitch": self.times_hit_by_pitch,
+            "times_struck_out": self.times_struck_out,
+            "total_bases": self.total_bases,
+            "total_runs": self.total_runs,
+            "triples": self.triples,
+            "whip": self.whip,
+            "wild_pitches": self.wild_pitches,
+            "win_percentage": self.win_percentage,
+            "wins": self.wins,
+            "wins_last_ten_games": self.wins_last_ten_games,
+            "wins_last_thirty_games": self.wins_last_thirty_games,
+            "wins_last_twenty_games": self.wins_last_twenty_games,
+            "wins_vs_left_handed_pitchers": self.wins_vs_left_handed_pitchers,
+            "wins_vs_right_handed_pitchers": self.wins_vs_right_handed_pitchers,
+            "wins_vs_teams_over_500": self.wins_vs_teams_over_500,
+            "wins_vs_teams_under_500": self.wins_vs_teams_under_500,
         }
         return pd.DataFrame([fields_to_include], index=[self._abbreviation])
 
@@ -1204,6 +1189,7 @@ class Teams:
     year : string (optional)
         The requested year to pull stats from.
     """
+
     def __init__(self, year=None):
         self._teams = []
 
@@ -1214,9 +1200,8 @@ class Teams:
         """
         Return the string representation of the class.
         """
-        teams = [f'{team.name} ({team.abbreviation})'.strip()
-                 for team in self._teams]
-        return '\n'.join(teams)
+        teams = [f"{team.name} ({team.abbreviation})".strip() for team in self._teams]
+        return "\n".join(teams)
 
     def __repr__(self):
         """
@@ -1250,7 +1235,7 @@ class Teams:
         for team in self._teams:
             if team.abbreviation.upper() == abbreviation.upper():
                 return team
-        raise ValueError('Team abbreviation %s not found' % abbreviation)
+        raise ValueError("Team abbreviation %s not found" % abbreviation)
 
     def __call__(self, abbreviation):
         """
@@ -1299,9 +1284,7 @@ class Teams:
         if not team_data_dict:
             return
         for team_data in team_data_dict.values():
-            team = Team(team_data=team_data['data'],
-                        rank=team_data['rank'],
-                        year=year)
+            team = Team(team_data=team_data["data"], rank=team_data["rank"], year=year)
             self._teams.append(team)
 
     @property

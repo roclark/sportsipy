@@ -33,8 +33,8 @@ class Team:
     year : string (optional)
         The requested year to pull stats from.
     """
-    def __init__(self, team_name=None, team_data=None, team_conference=None,
-                 year=None):
+
+    def __init__(self, team_name=None, team_data=None, team_conference=None, year=None):
         self._team_conference = team_conference
         self._year = year
         self._abbreviation = None
@@ -130,7 +130,7 @@ class Team:
         """
         Return the string representation of the class.
         """
-        return f'{self.name} ({self.abbreviation}) - {self._year}'
+        return f"{self.name} ({self.abbreviation}) - {self._year}"
 
     def __repr__(self):
         """
@@ -162,7 +162,7 @@ class Team:
         """
         team_data_dict, year = _retrieve_all_teams(year)
         self._year = year
-        team_data = team_data_dict[team_name]['data']
+        team_data = team_data_dict[team_name]["data"]
         return team_data
 
     def _parse_team_data(self, team_data):
@@ -185,13 +185,14 @@ class Team:
             multiple rows in a single string.
         """
         for field in self.__dict__:
-            if field == '_year' or \
-               field == '_team_conference':
+            if field == "_year" or field == "_team_conference":
                 continue
-            value = utils._parse_field(PARSING_SCHEME,
-                                       team_data,
-                                       # Remove the '_' from the name
-                                       str(field)[1:])
+            value = utils._parse_field(
+                PARSING_SCHEME,
+                team_data,
+                # Remove the '_' from the name
+                str(field)[1:],
+            )
             setattr(self, field, value)
 
     @property
@@ -202,103 +203,90 @@ class Team:
         team, such as 'PURDUE'.
         """
         fields_to_include = {
-            'abbreviation': self.abbreviation,
-            'assist_percentage': self.assist_percentage,
-            'assists': self.assists,
-            'away_losses': self.away_losses,
-            'away_wins': self.away_wins,
-            'block_percentage': self.block_percentage,
-            'blocks': self.blocks,
-            'conference': self.conference,
-            'conference_losses': self.conference_losses,
-            'conference_wins': self.conference_wins,
-            'defensive_rebounds': self.defensive_rebounds,
-            'effective_field_goal_percentage':
-            self.effective_field_goal_percentage,
-            'field_goal_attempts': self.field_goal_attempts,
-            'field_goal_percentage': self.field_goal_percentage,
-            'field_goals': self.field_goals,
-            'free_throw_attempt_rate': self.free_throw_attempt_rate,
-            'free_throw_attempts': self.free_throw_attempts,
-            'free_throw_percentage': self.free_throw_percentage,
-            'free_throws': self.free_throws,
-            'free_throws_per_field_goal_attempt':
-            self.free_throws_per_field_goal_attempt,
-            'games_played': self.games_played,
-            'home_losses': self.home_losses,
-            'home_wins': self.home_wins,
-            'losses': self.losses,
-            'minutes_played': self.minutes_played,
-            'name': self.name,
-            'net_rating': self.net_rating,
-            'offensive_rating': self.offensive_rating,
-            'offensive_rebound_percentage': self.offensive_rebound_percentage,
-            'offensive_rebounds': self.offensive_rebounds,
-            'opp_assist_percentage': self.opp_assist_percentage,
-            'opp_assists': self.opp_assists,
-            'opp_block_percentage': self.opp_block_percentage,
-            'opp_blocks': self.opp_blocks,
-            'opp_defensive_rebounds': self.opp_defensive_rebounds,
-            'opp_effective_field_goal_percentage':
-            self.opp_effective_field_goal_percentage,
-            'opp_field_goal_attempts': self.opp_field_goal_attempts,
-            'opp_field_goal_percentage': self.opp_field_goal_percentage,
-            'opp_field_goals': self.opp_field_goals,
-            'opp_free_throw_attempt_rate': self.opp_free_throw_attempt_rate,
-            'opp_free_throw_attempts': self.opp_free_throw_attempts,
-            'opp_free_throw_percentage': self.opp_free_throw_percentage,
-            'opp_free_throws': self.opp_free_throws,
-            'opp_free_throws_per_field_goal_attempt':
-            self.opp_free_throws_per_field_goal_attempt,
-            'opp_offensive_rating': self.opp_offensive_rating,
-            'opp_offensive_rebound_percentage':
-            self.opp_offensive_rebound_percentage,
-            'opp_offensive_rebounds': self.opp_offensive_rebounds,
-            'opp_personal_fouls': self.opp_personal_fouls,
-            'opp_points': self.opp_points,
-            'opp_steal_percentage': self.opp_steal_percentage,
-            'opp_steals': self.opp_steals,
-            'opp_three_point_attempt_rate': self.opp_three_point_attempt_rate,
-            'opp_three_point_field_goal_attempts':
-            self.opp_three_point_field_goal_attempts,
-            'opp_three_point_field_goal_percentage':
-            self.opp_three_point_field_goal_percentage,
-            'opp_three_point_field_goals': self.opp_three_point_field_goals,
-            'opp_two_point_field_goal_attempts':
-            self.opp_two_point_field_goal_attempts,
-            'opp_two_point_field_goal_percentage':
-            self.opp_two_point_field_goal_percentage,
-            'opp_two_point_field_goals': self.opp_two_point_field_goals,
-            'opp_total_rebound_percentage': self.opp_total_rebound_percentage,
-            'opp_total_rebounds': self.opp_total_rebounds,
-            'opp_true_shooting_percentage': self.opp_true_shooting_percentage,
-            'opp_turnover_percentage': self.opp_turnover_percentage,
-            'opp_turnovers': self.opp_turnovers,
-            'pace': self.pace,
-            'personal_fouls': self.personal_fouls,
-            'points': self.points,
-            'simple_rating_system': self.simple_rating_system,
-            'steal_percentage': self.steal_percentage,
-            'steals': self.steals,
-            'strength_of_schedule': self.strength_of_schedule,
-            'three_point_attempt_rate': self.three_point_attempt_rate,
-            'three_point_field_goal_attempts':
-            self.three_point_field_goal_attempts,
-            'three_point_field_goal_percentage':
-            self.three_point_field_goal_percentage,
-            'three_point_field_goals': self.three_point_field_goals,
-            'two_point_field_goal_attempts':
-            self.two_point_field_goal_attempts,
-            'two_point_field_goal_percentage':
-            self.two_point_field_goal_percentage,
-            'two_point_field_goals': self.two_point_field_goals,
-            'total_rebound_percentage': self.total_rebound_percentage,
-            'total_rebounds': self.total_rebounds,
-            'true_shooting_percentage': self.true_shooting_percentage,
-            'turnover_percentage': self.turnover_percentage,
-            'turnovers': self.turnovers,
-            'win_percentage': self.win_percentage,
-            'wins': self.wins
+            "abbreviation": self.abbreviation,
+            "assist_percentage": self.assist_percentage,
+            "assists": self.assists,
+            "away_losses": self.away_losses,
+            "away_wins": self.away_wins,
+            "block_percentage": self.block_percentage,
+            "blocks": self.blocks,
+            "conference": self.conference,
+            "conference_losses": self.conference_losses,
+            "conference_wins": self.conference_wins,
+            "defensive_rebounds": self.defensive_rebounds,
+            "effective_field_goal_percentage": self.effective_field_goal_percentage,
+            "field_goal_attempts": self.field_goal_attempts,
+            "field_goal_percentage": self.field_goal_percentage,
+            "field_goals": self.field_goals,
+            "free_throw_attempt_rate": self.free_throw_attempt_rate,
+            "free_throw_attempts": self.free_throw_attempts,
+            "free_throw_percentage": self.free_throw_percentage,
+            "free_throws": self.free_throws,
+            "free_throws_per_field_goal_attempt": self.free_throws_per_field_goal_attempt,
+            "games_played": self.games_played,
+            "home_losses": self.home_losses,
+            "home_wins": self.home_wins,
+            "losses": self.losses,
+            "minutes_played": self.minutes_played,
+            "name": self.name,
+            "net_rating": self.net_rating,
+            "offensive_rating": self.offensive_rating,
+            "offensive_rebound_percentage": self.offensive_rebound_percentage,
+            "offensive_rebounds": self.offensive_rebounds,
+            "opp_assist_percentage": self.opp_assist_percentage,
+            "opp_assists": self.opp_assists,
+            "opp_block_percentage": self.opp_block_percentage,
+            "opp_blocks": self.opp_blocks,
+            "opp_defensive_rebounds": self.opp_defensive_rebounds,
+            "opp_effective_field_goal_percentage": self.opp_effective_field_goal_percentage,
+            "opp_field_goal_attempts": self.opp_field_goal_attempts,
+            "opp_field_goal_percentage": self.opp_field_goal_percentage,
+            "opp_field_goals": self.opp_field_goals,
+            "opp_free_throw_attempt_rate": self.opp_free_throw_attempt_rate,
+            "opp_free_throw_attempts": self.opp_free_throw_attempts,
+            "opp_free_throw_percentage": self.opp_free_throw_percentage,
+            "opp_free_throws": self.opp_free_throws,
+            "opp_free_throws_per_field_goal_attempt": self.opp_free_throws_per_field_goal_attempt,
+            "opp_offensive_rating": self.opp_offensive_rating,
+            "opp_offensive_rebound_percentage": self.opp_offensive_rebound_percentage,
+            "opp_offensive_rebounds": self.opp_offensive_rebounds,
+            "opp_personal_fouls": self.opp_personal_fouls,
+            "opp_points": self.opp_points,
+            "opp_steal_percentage": self.opp_steal_percentage,
+            "opp_steals": self.opp_steals,
+            "opp_three_point_attempt_rate": self.opp_three_point_attempt_rate,
+            "opp_three_point_field_goal_attempts": self.opp_three_point_field_goal_attempts,
+            "opp_three_point_field_goal_percentage": self.opp_three_point_field_goal_percentage,
+            "opp_three_point_field_goals": self.opp_three_point_field_goals,
+            "opp_two_point_field_goal_attempts": self.opp_two_point_field_goal_attempts,
+            "opp_two_point_field_goal_percentage": self.opp_two_point_field_goal_percentage,
+            "opp_two_point_field_goals": self.opp_two_point_field_goals,
+            "opp_total_rebound_percentage": self.opp_total_rebound_percentage,
+            "opp_total_rebounds": self.opp_total_rebounds,
+            "opp_true_shooting_percentage": self.opp_true_shooting_percentage,
+            "opp_turnover_percentage": self.opp_turnover_percentage,
+            "opp_turnovers": self.opp_turnovers,
+            "pace": self.pace,
+            "personal_fouls": self.personal_fouls,
+            "points": self.points,
+            "simple_rating_system": self.simple_rating_system,
+            "steal_percentage": self.steal_percentage,
+            "steals": self.steals,
+            "strength_of_schedule": self.strength_of_schedule,
+            "three_point_attempt_rate": self.three_point_attempt_rate,
+            "three_point_field_goal_attempts": self.three_point_field_goal_attempts,
+            "three_point_field_goal_percentage": self.three_point_field_goal_percentage,
+            "three_point_field_goals": self.three_point_field_goals,
+            "two_point_field_goal_attempts": self.two_point_field_goal_attempts,
+            "two_point_field_goal_percentage": self.two_point_field_goal_percentage,
+            "two_point_field_goals": self.two_point_field_goals,
+            "total_rebound_percentage": self.total_rebound_percentage,
+            "total_rebounds": self.total_rebounds,
+            "true_shooting_percentage": self.true_shooting_percentage,
+            "turnover_percentage": self.turnover_percentage,
+            "turnovers": self.turnovers,
+            "win_percentage": self.win_percentage,
+            "wins": self.wins,
         }
         return pd.DataFrame([fields_to_include], index=[self._abbreviation])
 
@@ -514,8 +502,9 @@ class Team:
         0-1.
         """
         try:
-            result = float(self.two_point_field_goals) / \
-                float(self.two_point_field_goal_attempts)
+            result = float(self.two_point_field_goals) / float(
+                self.two_point_field_goal_attempts
+            )
             return round(result, 3)
         except ZeroDivisionError:
             return 0.0
@@ -670,8 +659,7 @@ class Team:
         Returns an ``int`` of the total number of two point field goal attempts
         during the season by opponents.
         """
-        return self.opp_field_goal_attempts - \
-            self.opp_three_point_field_goal_attempts
+        return self.opp_field_goal_attempts - self.opp_three_point_field_goal_attempts
 
     @float_property_decorator
     def opp_two_point_field_goal_percentage(self):
@@ -681,8 +669,9 @@ class Team:
         ranges from 0-1.
         """
         try:
-            result = float(self.opp_two_point_field_goals) / \
-                float(self.opp_two_point_field_goal_attempts)
+            result = float(self.opp_two_point_field_goals) / float(
+                self.opp_two_point_field_goal_attempts
+            )
             return round(result, 3)
         except ZeroDivisionError:
             return 0.0
@@ -1037,6 +1026,7 @@ class Teams:
     year : string (optional)
         The requested year to pull stats from.
     """
+
     def __init__(self, year=None):
         self._teams = []
         self._conferences_dict = Conferences(year).team_conference
@@ -1070,7 +1060,7 @@ class Teams:
         for team in self._teams:
             if team.abbreviation.upper() == abbreviation.upper():
                 return team
-        raise ValueError('Team abbreviation %s not found' % abbreviation)
+        raise ValueError("Team abbreviation %s not found" % abbreviation)
 
     def __call__(self, abbreviation):
         """
@@ -1096,9 +1086,8 @@ class Teams:
         """
         Return the string representation of the class.
         """
-        teams = [f'{team.name} ({team.abbreviation})'.strip()
-                 for team in self._teams]
-        return '\n'.join(teams)
+        teams = [f"{team.name} ({team.abbreviation})".strip() for team in self._teams]
+        return "\n".join(teams)
 
     def __repr__(self):
         """
@@ -1139,9 +1128,9 @@ class Teams:
             if team_name.lower() not in self._conferences_dict:
                 continue
             conference = self._conferences_dict[team_name.lower()]
-            team = Team(team_data=team_data['data'],
-                        team_conference=conference,
-                        year=year)
+            team = Team(
+                team_data=team_data["data"], team_conference=conference, year=year
+            )
             self._teams.append(team)
 
     @property

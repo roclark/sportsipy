@@ -1,4 +1,5 @@
 import sys, os
+
 sys.path.append(os.path.dirname(os.path.dirname(sys.path[0])))
 from sportsreference.fb.team import Team
 from sportsreference.fb.squad_ids import SQUAD_IDS

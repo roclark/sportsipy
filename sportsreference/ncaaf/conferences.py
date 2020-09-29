@@ -27,8 +27,8 @@ class Conference:
         conference has an incomplete or empty page on www.sports-reference.com,
         preventing the parsing from completing successfully.
     """
-    def __init__(self, conference_abbreviation, year=None,
-                 ignore_missing=False):
+
+    def __init__(self, conference_abbreviation, year=None, ignore_missing=False):
         self._teams = {}
         self._ignore_missing = ignore_missing
         self._conference_abbreviation = conference_abbreviation
@@ -39,7 +39,7 @@ class Conference:
         """
         Return the string representation of the class.
         """
-        return f'{self._conference_abbreviation} - NCAAF'
+        return f"{self._conference_abbreviation} - NCAAF"
 
     def __repr__(self):
         """
@@ -87,8 +87,8 @@ class Conference:
             Returns a string of the team's abbreviation, such as 'PURDUE'.
         """
         name_tag = team('th[data-stat="school_name"] a')
-        team_abbreviation = re.sub(r'.*/cfb/schools/', '', str(name_tag))
-        team_abbreviation = re.sub(r'/.*', '', team_abbreviation)
+        team_abbreviation = re.sub(r".*/cfb/schools/", "", str(name_tag))
+        team_abbreviation = re.sub(r"/.*", "", team_abbreviation)
         return team_abbreviation
 
     def _find_conference_teams(self, conference_abbreviation, year):
@@ -108,28 +108,31 @@ class Conference:
             A string of the requested year to pull conference information from.
         """
         if not year:
-            year = utils._find_year_for_season('ncaaf')
+            year = utils._find_year_for_season("ncaaf")
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(CONFERENCES_URL % year) and \
-               utils._url_exists(CONFERENCES_URL % str(int(year) - 1)):
+            if not utils._url_exists(CONFERENCES_URL % year) and utils._url_exists(
+                CONFERENCES_URL % str(int(year) - 1)
+            ):
                 year = str(int(year) - 1)
         page = self._pull_conference_page(conference_abbreviation, year)
         if not page:
             url = CONFERENCE_URL % (conference_abbreviation, year)
-            output = ("Can't pull requested conference page. Ensure the "
-                      "following URL exists: %s" % url)
+            output = (
+                "Can't pull requested conference page. Ensure the "
+                "following URL exists: %s" % url
+            )
             if self._ignore_missing:
                 warnings.warn(output)
                 return
             else:
                 raise ValueError(output)
-        conference = page('table#standings tbody tr').items()
+        conference = page("table#standings tbody tr").items()
         for team in conference:
             team_abbreviation = self._get_team_abbreviation(team)
-            if team_abbreviation == '':
+            if team_abbreviation == "":
                 continue
             team_name = team('th[data-stat="school_name"]').text()
             self._teams[team_abbreviation] = team_name
@@ -164,6 +167,7 @@ class Conferences:
         conference has an incomplete or empty page on www.sports-reference.com,
         preventing the parsing from completing successfully.
     """
+
     def __init__(self, year=None, ignore_missing=False):
         self._conferences = {}
         self._team_conference = {}
@@ -175,7 +179,7 @@ class Conferences:
         """
         Return the string representation of the class.
         """
-        return 'NCAAF Conferences'
+        return "NCAAF Conferences"
 
     def __repr__(self):
         """
@@ -225,8 +229,8 @@ class Conferences:
             Returns a string of the conference abbreviation, such as 'big-12'.
         """
         name_tag = conference('td[data-stat="conf_name"] a')
-        conference_id = re.sub(r'.*/cfb/conferences/', '', str(name_tag))
-        conference_id = re.sub(r'/.*', '', conference_id)
+        conference_id = re.sub(r".*/cfb/conferences/", "", str(name_tag))
+        conference_id = re.sub(r"/.*", "", conference_id)
         return conference_id
 
     def _find_conferences(self, year):
@@ -245,30 +249,30 @@ class Conferences:
             A string of the requested year to pull conferences from.
         """
         if not year:
-            year = utils._find_year_for_season('ncaaf')
+            year = utils._find_year_for_season("ncaaf")
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(CONFERENCES_URL % year) and \
-               utils._url_exists(CONFERENCES_URL % str(int(year) - 1)):
+            if not utils._url_exists(CONFERENCES_URL % year) and utils._url_exists(
+                CONFERENCES_URL % str(int(year) - 1)
+            ):
                 year = str(int(year) - 1)
         page = self._pull_conference_page(year)
         if not page:
-            output = ("Can't pull requested conference page. Ensure the "
-                      "following URL exists: %s" % (CONFERENCES_URL % year))
+            output = (
+                "Can't pull requested conference page. Ensure the "
+                "following URL exists: %s" % (CONFERENCES_URL % year)
+            )
             raise ValueError(output)
-        conferences = page('table#conferences tbody tr').items()
+        conferences = page("table#conferences tbody tr").items()
         for conference in conferences:
             conference_abbreviation = self._get_conference_id(conference)
             conference_name = conference('td[data-stat="conf_name"]').text()
-            teams_dict = Conference(conference_abbreviation,
-                                    year,
-                                    self._ignore_missing).teams
-            conference_dict = {
-                    'name': conference_name,
-                    'teams': teams_dict
-                }
+            teams_dict = Conference(
+                conference_abbreviation, year, self._ignore_missing
+            ).teams
+            conference_dict = {"name": conference_name, "teams": teams_dict}
             for team in teams_dict.keys():
                 self._team_conference[team] = conference_abbreviation
             self._conferences[conference_abbreviation] = conference_dict

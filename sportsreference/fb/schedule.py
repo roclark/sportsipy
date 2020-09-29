@@ -6,12 +6,7 @@ from ..decorators import float_property_decorator, int_property_decorator
 from .fb_utils import _lookup_team
 from pyquery import PyQuery as pq
 from sportsreference import utils
-from sportsreference.constants import (AWAY,
-                                       DRAW,
-                                       HOME,
-                                       LOSS,
-                                       NEUTRAL,
-                                       WIN)
+from sportsreference.constants import AWAY, DRAW, HOME, LOSS, NEUTRAL, WIN
 from urllib.error import HTTPError
 
 
@@ -27,6 +22,7 @@ class Game:
     game_data : string
         The row containing the specified game information.
     """
+
     def __init__(self, game_data):
         self._competition = None
         self._matchweek = None
@@ -56,7 +52,7 @@ class Game:
         """
         Return the string representation of the class.
         """
-        return f'{self.date} - {self.opponent}'
+        return f"{self.date} - {self.opponent}"
 
     def __repr__(self):
         """
@@ -83,11 +79,11 @@ class Game:
         string
             Returns a ``string`` of the opponent's squad ID.
         """
-        opponent = game_data(SCHEDULE_SCHEME['opponent'])
-        opponent_id = opponent('a').attr('href')
+        opponent = game_data(SCHEDULE_SCHEME["opponent"])
+        opponent_id = opponent("a").attr("href")
         try:
-            opponent_id = re.sub(r'.*\/squads\/', '', opponent_id)
-            opponent_id = re.sub(r'\/.*', '', opponent_id)
+            opponent_id = re.sub(r".*\/squads\/", "", opponent_id)
+            opponent_id = re.sub(r"\/.*", "", opponent_id)
         except TypeError:
             opponent_id = None
         return opponent_id
@@ -111,11 +107,11 @@ class Game:
         string
             Returns a ``string`` of the player's unique ID.
         """
-        captain = game_data(SCHEDULE_SCHEME['captain'])
-        captain_id = captain('a').attr('href')
+        captain = game_data(SCHEDULE_SCHEME["captain"])
+        captain_id = captain("a").attr("href")
         try:
-            captain_id = re.sub(r'.*\/players\/', '', captain_id)
-            captain_id = re.sub(r'\/.*', '', captain_id)
+            captain_id = re.sub(r".*\/players\/", "", captain_id)
+            captain_id = re.sub(r"\/.*", "", captain_id)
         except TypeError:
             captain_id = None
         return captain_id
@@ -139,11 +135,11 @@ class Game:
         string
             Returns a ``string`` of the match report's unique ID.
         """
-        match_report = game_data(SCHEDULE_SCHEME['match_report'])
-        match_report_id = match_report('a').attr('href')
+        match_report = game_data(SCHEDULE_SCHEME["match_report"])
+        match_report_id = match_report("a").attr("href")
         try:
-            match_report_id = re.sub(r'.*\/matches\/', '', match_report_id)
-            match_report_id = re.sub(r'\/.*', '', match_report_id)
+            match_report_id = re.sub(r".*\/matches\/", "", match_report_id)
+            match_report_id = re.sub(r"\/.*", "", match_report_id)
         except TypeError:
             match_report_id = None
         return match_report_id
@@ -169,17 +165,17 @@ class Game:
         for field in self.__dict__:
             # Remove the leading '_' from the name
             short_name = str(field)[1:]
-            if short_name == 'datetime':
+            if short_name == "datetime":
                 continue
-            if short_name == 'opponent_id':
+            if short_name == "opponent_id":
                 value = self._parse_opponent_id(game_data)
                 setattr(self, field, value)
                 continue
-            if short_name == 'captain_id':
+            if short_name == "captain_id":
                 value = self._parse_captain_id(game_data)
                 setattr(self, field, value)
                 continue
-            if short_name == 'match_report':
+            if short_name == "match_report":
                 value = self._parse_match_report(game_data)
                 setattr(self, field, value)
                 continue
@@ -195,29 +191,29 @@ class Game:
         if self._goals_for is None and self._goals_against is None:
             return None
         fields_to_include = {
-            'competition': self.competition,
-            'matchweek': self.matchweek,
-            'day': self.day,
-            'date': self.date,
-            'time': self.time,
-            'datetime': self.datetime,
-            'venue': self.venue,
-            'result': self.result,
-            'goals_for': self.goals_for,
-            'goals_against': self.goals_against,
-            'shootout_scored': self.shootout_scored,
-            'shootout_against': self.shootout_against,
-            'opponent': self.opponent,
-            'opponent_id': self.opponent_id,
-            'expected_goals': self.expected_goals,
-            'expected_goals_against': self.expected_goals_against,
-            'attendance': self.attendance,
-            'captain': self.captain,
-            'captain_id': self.captain_id,
-            'formation': self.formation,
-            'referee': self.referee,
-            'match_report': self.match_report,
-            'notes': self.notes
+            "competition": self.competition,
+            "matchweek": self.matchweek,
+            "day": self.day,
+            "date": self.date,
+            "time": self.time,
+            "datetime": self.datetime,
+            "venue": self.venue,
+            "result": self.result,
+            "goals_for": self.goals_for,
+            "goals_against": self.goals_against,
+            "shootout_scored": self.shootout_scored,
+            "shootout_against": self.shootout_against,
+            "opponent": self.opponent,
+            "opponent_id": self.opponent_id,
+            "expected_goals": self.expected_goals,
+            "expected_goals_against": self.expected_goals_against,
+            "attendance": self.attendance,
+            "captain": self.captain,
+            "captain_id": self.captain_id,
+            "formation": self.formation,
+            "referee": self.referee,
+            "match_report": self.match_report,
+            "notes": self.notes,
         }
         return pd.DataFrame([fields_to_include], index=[self.match_report])
 
@@ -268,12 +264,12 @@ class Game:
         the given day will be used instead.
         """
         try:
-            date = self.date.split('-')
+            date = self.date.split("-")
         except AttributeError:
             return None
         try:
-            time = re.sub(' .*', '', self.time)
-            time = time.split(':')
+            time = re.sub(" .*", "", self.time)
+            time = time.split(":")
         except TypeError:
             time = None
         if len(date) != 3:
@@ -311,11 +307,11 @@ class Game:
         """
         if not self._venue:
             return None
-        if self._venue.upper() == 'HOME':
+        if self._venue.upper() == "HOME":
             return HOME
-        if self._venue.upper() == 'AWAY':
+        if self._venue.upper() == "AWAY":
             return AWAY
-        if self._venue.upper() == 'NEUTRAL':
+        if self._venue.upper() == "NEUTRAL":
             return NEUTRAL
 
     @property
@@ -326,11 +322,11 @@ class Game:
         """
         if not self._result:
             return None
-        if self._result.upper() == 'W':
+        if self._result.upper() == "W":
             return WIN
-        if self._result.upper() == 'D':
+        if self._result.upper() == "D":
             return DRAW
-        if self._result.upper() == 'L':
+        if self._result.upper() == "L":
             return LOSS
 
     @int_property_decorator
@@ -339,8 +335,8 @@ class Game:
         Returns an ``int`` of the number of goals the team scored.
         """
         # If the game went to a shootout, remove the penalties.
-        if '(' in self._goals_for and ')' in self._goals_for:
-            return re.sub(' .*', '', self._goals_for)
+        if "(" in self._goals_for and ")" in self._goals_for:
+            return re.sub(" .*", "", self._goals_for)
         return self._goals_for
 
     @int_property_decorator
@@ -349,8 +345,8 @@ class Game:
         Returns an ``int`` of the number of goals the team conceded.
         """
         # If the game went to a shootout, remove the penalties.
-        if '(' in self._goals_against and ')' in self._goals_against:
-            return re.sub(' .*', '', self._goals_against)
+        if "(" in self._goals_against and ")" in self._goals_against:
+            return re.sub(" .*", "", self._goals_against)
         return self._goals_against
 
     @int_property_decorator
@@ -359,9 +355,9 @@ class Game:
         Returns an ``int`` of the number of penalties the team scored if the
         game went to a shootout after normal play.
         """
-        penalties = re.findall(r'\(\d+\)', self._goals_for)
+        penalties = re.findall(r"\(\d+\)", self._goals_for)
         if penalties:
-            penalties = re.sub(r'\(|\)', '', penalties[0])
+            penalties = re.sub(r"\(|\)", "", penalties[0])
         return penalties
 
     @int_property_decorator
@@ -370,9 +366,9 @@ class Game:
         Returns an ``int`` of the number of penalties the team conceded if the
         game went to a shootout after normal play.
         """
-        penalties = re.findall(r'\(\d+\)', self._goals_against)
+        penalties = re.findall(r"\(\d+\)", self._goals_against)
         if penalties:
-            penalties = re.sub(r'\(|\)', '', penalties[0])
+            penalties = re.sub(r"\(|\)", "", penalties[0])
         return penalties
 
     @property
@@ -412,7 +408,7 @@ class Game:
         Returns an ``int`` of the recorded attendance at the game.
         """
         try:
-            return self._attendance.replace(',', '')
+            return self._attendance.replace(",", "")
         except AttributeError:
             return None
 
@@ -481,6 +477,7 @@ class Schedule:
         information instead of making another request to the website. If the
         document is not provided, it will be pulled during a later step.
     """
+
     def __init__(self, team_id, doc=None):
         self._games = []
         self._pull_schedule(team_id, doc)
@@ -538,19 +535,20 @@ class Schedule:
         for game in self._games:
             if not game.datetime:
                 continue  # pragma: no cover
-            if game.datetime.year == date.year and \
-               game.datetime.month == date.month and \
-               game.datetime.day == date.day:
+            if (
+                game.datetime.year == date.year
+                and game.datetime.month == date.month
+                and game.datetime.day == date.day
+            ):
                 return game
-        raise ValueError('No games found for requested date')
+        raise ValueError("No games found for requested date")
 
     def __str__(self):
         """
         Return the string representation of the class.
         """
-        games = [f'{game.date} - {game.opponent}'.strip()
-                 for game in self._games]
-        return '\n'.join(games)
+        games = [f"{game.date} - {game.opponent}".strip() for game in self._games]
+        return "\n".join(games)
 
     def __repr__(self):
         """
@@ -616,7 +614,7 @@ class Schedule:
                 doc = pq(SQUAD_URL % squad_id)
             except HTTPError:
                 return
-        schedule = utils._get_stats_table(doc, 'table#matchlogs_all')
+        schedule = utils._get_stats_table(doc, "table#matchlogs_all")
 
         if not schedule:
             utils._no_data_found()

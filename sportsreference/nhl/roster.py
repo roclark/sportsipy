@@ -19,6 +19,7 @@ def _int_property_decorator(func):
         except (ValueError, TypeError, IndexError):
             # If there is no value, default to None
             return None
+
     return wrapper
 
 
@@ -33,6 +34,7 @@ def _float_property_decorator(func):
         except (ValueError, TypeError, IndexError):
             # If there is no value, default to None
             return None
+
     return wrapper
 
 
@@ -60,8 +62,9 @@ class Player(AbstractPlayer):
         number starting at '01' for the first time that player ID has been used
         and increments by 1 for every successive player.
     """
+
     def __init__(self, player_id):
-        self._most_recent_season = ''
+        self._most_recent_season = ""
         self._index = None
         self._player_id = player_id
         self._season = None
@@ -168,7 +171,7 @@ class Player(AbstractPlayer):
         """
         Return the string representation of the class.
         """
-        return f'{self.name} ({self.player_id})'
+        return f"{self.name} ({self.player_id})"
 
     def __repr__(self):
         """
@@ -233,8 +236,8 @@ class Player(AbstractPlayer):
             A string representation of the season in the format 'YYYY-YY', such
             as '2017-18'.
         """
-        season = utils._parse_field(PLAYER_SCHEME, row, 'season')
-        return season.replace('*', '').replace('+', '')
+        season = utils._parse_field(PLAYER_SCHEME, row, "season")
+        return season.replace("*", "").replace("+", "")
 
     def _combine_season_stats(self, table_rows, career_stats, all_stats_dict):
         """
@@ -269,17 +272,17 @@ class Player(AbstractPlayer):
         for row in table_rows:
             season = self._parse_season(row)
             try:
-                all_stats_dict[season]['data'] += str(row)
+                all_stats_dict[season]["data"] += str(row)
             except KeyError:
-                all_stats_dict[season] = {'data': str(row)}
+                all_stats_dict[season] = {"data": str(row)}
             most_recent_season = season
         self._most_recent_season = most_recent_season
         if not career_stats:
             return all_stats_dict
         try:
-            all_stats_dict['Career']['data'] += str(next(career_stats))
+            all_stats_dict["Career"]["data"] += str(next(career_stats))
         except KeyError:
-            all_stats_dict['Career'] = {'data': str(next(career_stats))}
+            all_stats_dict["Career"] = {"data": str(next(career_stats))}
         return all_stats_dict
 
     def _combine_all_stats(self, player_info):
@@ -304,16 +307,19 @@ class Player(AbstractPlayer):
         """
         all_stats_dict = {}
 
-        for table_id in ['stats_basic_plus_nhl', 'skaters_advanced',
-                         'stats_misc_plus_nhl', 'stats_goalie_situational']:
-            table_items = utils._get_stats_table(player_info,
-                                                 'table#%s' % table_id)
-            career_items = utils._get_stats_table(player_info,
-                                                  'table#%s' % table_id,
-                                                  footer=True)
-            all_stats_dict = self._combine_season_stats(table_items,
-                                                        career_items,
-                                                        all_stats_dict)
+        for table_id in [
+            "stats_basic_plus_nhl",
+            "skaters_advanced",
+            "stats_misc_plus_nhl",
+            "stats_goalie_situational",
+        ]:
+            table_items = utils._get_stats_table(player_info, "table#%s" % table_id)
+            career_items = utils._get_stats_table(
+                player_info, "table#%s" % table_id, footer=True
+            )
+            all_stats_dict = self._combine_season_stats(
+                table_items, career_items, all_stats_dict
+            )
         return all_stats_dict
 
     def _parse_player_information(self, player_info):
@@ -329,7 +335,7 @@ class Player(AbstractPlayer):
         player_info : PyQuery object
             A PyQuery object containing the HTML from the player's stats page.
         """
-        for field in ['_height', '_weight', '_name']:
+        for field in ["_height", "_weight", "_name"]:
             short_field = str(field)[1:]
             value = utils._parse_field(PLAYER_SCHEME, player_info, short_field)
             setattr(self, field, value)
@@ -355,7 +361,7 @@ class Player(AbstractPlayer):
             return
         self._parse_player_information(player_info)
         all_stats = self._combine_all_stats(player_info)
-        setattr(self, '_season', list(all_stats.keys()))
+        setattr(self, "_season", list(all_stats.keys()))
         return all_stats
 
     def _find_initial_index(self):
@@ -367,13 +373,13 @@ class Player(AbstractPlayer):
         element should be the index value.
         """
         index = 0
-        for season in self._season or season == 'Career':
-            if season == 'Career':
+        for season in self._season or season == "Career":
+            if season == "Career":
                 self._index = index
                 break
             index += 1
 
-    def __call__(self, requested_season=''):
+    def __call__(self, requested_season=""):
         """
         Specify a different season to pull stats from.
 
@@ -392,9 +398,8 @@ class Player(AbstractPlayer):
         Player class instance
             Returns the class instance with the updated stats being referenced.
         """
-        if requested_season.lower() == 'career' or \
-           requested_season == '':
-            requested_season = 'Career'
+        if requested_season.lower() == "career" or requested_season == "":
+            requested_season = "Career"
         index = 0
         for season in self._season:
             if season == requested_season:
@@ -419,105 +424,97 @@ class Player(AbstractPlayer):
             attribute for the specified index.
         """
         fields_to_include = {
-            'adjusted_assists': self.adjusted_assists,
-            'adjusted_goals': self.adjusted_goals,
-            'adjusted_goals_against_average':
-            self.adjusted_goals_against_average,
-            'adjusted_goals_created': self.adjusted_goals_created,
-            'adjusted_points': self.adjusted_points,
-            'age': self.age,
-            'assists': self.assists,
-            'average_time_on_ice': self.average_time_on_ice,
-            'blocks_at_even_strength': self.blocks_at_even_strength,
-            'corsi_against': self.corsi_against,
-            'corsi_for': self.corsi_for,
-            'corsi_for_percentage': self.corsi_for_percentage,
-            'defensive_point_shares': self.defensive_point_shares,
-            'defensive_zone_start_percentage':
-            self.defensive_zone_start_percentage,
-            'even_strength_assists': self.even_strength_assists,
-            'even_strength_goals': self.even_strength_goals,
-            'even_strength_goals_allowed': self.even_strength_goals_allowed,
-            'even_strength_save_percentage':
-            self.even_strength_save_percentage,
-            'even_strength_shots_faced': self.even_strength_shots_faced,
-            'faceoff_losses': self.faceoff_losses,
-            'faceoff_percentage': self.faceoff_percentage,
-            'faceoff_wins': self.faceoff_wins,
-            'fenwick_against': self.fenwick_against,
-            'fenwick_for': self.fenwick_for,
-            'fenwick_for_percentage': self.fenwick_for_percentage,
-            'game_winning_goals': self.game_winning_goals,
-            'games_played': self.games_played,
-            'giveaways': self.giveaways,
-            'goal_against_percentage_relative':
-            self.goal_against_percentage_relative,
-            'goalie_point_shares': self.goalie_point_shares,
-            'goals': self.goals,
-            'goals_against': self.goals_against,
-            'goals_against_average': self.goals_against_average,
-            'goals_against_on_ice': self.goals_against_on_ice,
-            'goals_created': self.goals_created,
-            'goals_for_on_ice': self.goals_for_on_ice,
-            'goals_saved_above_average': self.goals_saved_above_average,
-            'height': self.height,
-            'hits_at_even_strength': self.hits_at_even_strength,
-            'league': self.league,
-            'losses': self.losses,
-            'minutes': self.minutes,
-            'name': self.name,
-            'offensive_point_shares': self.offensive_point_shares,
-            'offensive_zone_start_percentage':
-            self.offensive_zone_start_percentage,
-            'pdo': self.pdo,
-            'penalties_in_minutes': self.penalties_in_minutes,
-            'player_id': self.player_id,
-            'plus_minus': self.plus_minus,
-            'point_shares': self.point_shares,
-            'points': self.points,
-            'power_play_assists': self.power_play_assists,
-            'power_play_goals': self.power_play_goals,
-            'power_play_goals_against_on_ice':
-            self.power_play_goals_against_on_ice,
-            'power_play_goals_allowed': self.power_play_goals_allowed,
-            'power_play_goals_for_on_ice': self.power_play_goals_for_on_ice,
-            'power_play_save_percentage': self.power_play_save_percentage,
-            'power_play_shots_faced': self.power_play_shots_faced,
-            'quality_start_percentage': self.quality_start_percentage,
-            'quality_starts': self.quality_starts,
-            'really_bad_starts': self.really_bad_starts,
-            'relative_corsi_for_percentage':
-            self.relative_corsi_for_percentage,
-            'relative_fenwick_for_percentage':
-            self.relative_fenwick_for_percentage,
-            'save_percentage': self.save_percentage,
-            'save_percentage_on_ice': self.save_percentage_on_ice,
-            'saves': self.saves,
-            'season': self.season,
-            'shooting_percentage': self.shooting_percentage,
-            'shooting_percentage_on_ice': self.shooting_percentage_on_ice,
-            'shootout_attempts': self.shootout_attempts,
-            'shootout_goals': self.shootout_goals,
-            'shootout_misses': self.shootout_misses,
-            'shootout_percentage': self.shootout_percentage,
-            'short_handed_assists': self.short_handed_assists,
-            'short_handed_goals': self.short_handed_goals,
-            'short_handed_goals_allowed': self.short_handed_goals_allowed,
-            'short_handed_save_percentage': self.short_handed_save_percentage,
-            'short_handed_shots_faced': self.short_handed_shots_faced,
-            'shots_against': self.shots_against,
-            'shots_on_goal': self.shots_on_goal,
-            'shutouts': self.shutouts,
-            'takeaways': self.takeaways,
-            'team_abbreviation': self.team_abbreviation,
-            'ties_plus_overtime_loss': self.ties_plus_overtime_loss,
-            'time_on_ice': self.time_on_ice,
-            'time_on_ice_even_strength': self.time_on_ice_even_strength,
-            'total_goals_against_on_ice': self.total_goals_against_on_ice,
-            'total_goals_for_on_ice': self.total_goals_for_on_ice,
-            'total_shots': self.total_shots,
-            'weight': self.weight,
-            'wins': self.wins
+            "adjusted_assists": self.adjusted_assists,
+            "adjusted_goals": self.adjusted_goals,
+            "adjusted_goals_against_average": self.adjusted_goals_against_average,
+            "adjusted_goals_created": self.adjusted_goals_created,
+            "adjusted_points": self.adjusted_points,
+            "age": self.age,
+            "assists": self.assists,
+            "average_time_on_ice": self.average_time_on_ice,
+            "blocks_at_even_strength": self.blocks_at_even_strength,
+            "corsi_against": self.corsi_against,
+            "corsi_for": self.corsi_for,
+            "corsi_for_percentage": self.corsi_for_percentage,
+            "defensive_point_shares": self.defensive_point_shares,
+            "defensive_zone_start_percentage": self.defensive_zone_start_percentage,
+            "even_strength_assists": self.even_strength_assists,
+            "even_strength_goals": self.even_strength_goals,
+            "even_strength_goals_allowed": self.even_strength_goals_allowed,
+            "even_strength_save_percentage": self.even_strength_save_percentage,
+            "even_strength_shots_faced": self.even_strength_shots_faced,
+            "faceoff_losses": self.faceoff_losses,
+            "faceoff_percentage": self.faceoff_percentage,
+            "faceoff_wins": self.faceoff_wins,
+            "fenwick_against": self.fenwick_against,
+            "fenwick_for": self.fenwick_for,
+            "fenwick_for_percentage": self.fenwick_for_percentage,
+            "game_winning_goals": self.game_winning_goals,
+            "games_played": self.games_played,
+            "giveaways": self.giveaways,
+            "goal_against_percentage_relative": self.goal_against_percentage_relative,
+            "goalie_point_shares": self.goalie_point_shares,
+            "goals": self.goals,
+            "goals_against": self.goals_against,
+            "goals_against_average": self.goals_against_average,
+            "goals_against_on_ice": self.goals_against_on_ice,
+            "goals_created": self.goals_created,
+            "goals_for_on_ice": self.goals_for_on_ice,
+            "goals_saved_above_average": self.goals_saved_above_average,
+            "height": self.height,
+            "hits_at_even_strength": self.hits_at_even_strength,
+            "league": self.league,
+            "losses": self.losses,
+            "minutes": self.minutes,
+            "name": self.name,
+            "offensive_point_shares": self.offensive_point_shares,
+            "offensive_zone_start_percentage": self.offensive_zone_start_percentage,
+            "pdo": self.pdo,
+            "penalties_in_minutes": self.penalties_in_minutes,
+            "player_id": self.player_id,
+            "plus_minus": self.plus_minus,
+            "point_shares": self.point_shares,
+            "points": self.points,
+            "power_play_assists": self.power_play_assists,
+            "power_play_goals": self.power_play_goals,
+            "power_play_goals_against_on_ice": self.power_play_goals_against_on_ice,
+            "power_play_goals_allowed": self.power_play_goals_allowed,
+            "power_play_goals_for_on_ice": self.power_play_goals_for_on_ice,
+            "power_play_save_percentage": self.power_play_save_percentage,
+            "power_play_shots_faced": self.power_play_shots_faced,
+            "quality_start_percentage": self.quality_start_percentage,
+            "quality_starts": self.quality_starts,
+            "really_bad_starts": self.really_bad_starts,
+            "relative_corsi_for_percentage": self.relative_corsi_for_percentage,
+            "relative_fenwick_for_percentage": self.relative_fenwick_for_percentage,
+            "save_percentage": self.save_percentage,
+            "save_percentage_on_ice": self.save_percentage_on_ice,
+            "saves": self.saves,
+            "season": self.season,
+            "shooting_percentage": self.shooting_percentage,
+            "shooting_percentage_on_ice": self.shooting_percentage_on_ice,
+            "shootout_attempts": self.shootout_attempts,
+            "shootout_goals": self.shootout_goals,
+            "shootout_misses": self.shootout_misses,
+            "shootout_percentage": self.shootout_percentage,
+            "short_handed_assists": self.short_handed_assists,
+            "short_handed_goals": self.short_handed_goals,
+            "short_handed_goals_allowed": self.short_handed_goals_allowed,
+            "short_handed_save_percentage": self.short_handed_save_percentage,
+            "short_handed_shots_faced": self.short_handed_shots_faced,
+            "shots_against": self.shots_against,
+            "shots_on_goal": self.shots_on_goal,
+            "shutouts": self.shutouts,
+            "takeaways": self.takeaways,
+            "team_abbreviation": self.team_abbreviation,
+            "ties_plus_overtime_loss": self.ties_plus_overtime_loss,
+            "time_on_ice": self.time_on_ice,
+            "time_on_ice_even_strength": self.time_on_ice_even_strength,
+            "total_goals_against_on_ice": self.total_goals_against_on_ice,
+            "total_goals_for_on_ice": self.total_goals_for_on_ice,
+            "total_shots": self.total_shots,
+            "weight": self.weight,
+            "wins": self.wins,
         }
         return fields_to_include
 
@@ -563,7 +560,7 @@ class Player(AbstractPlayer):
         Detroit Red Wings.
         """
         # For career stats, skip the team abbreviation.
-        if self._season[self._index].lower() == 'career':
+        if self._season[self._index].lower() == "career":
             return None
         return self._team_abbreviation[self._index]
 
@@ -582,7 +579,7 @@ class Player(AbstractPlayer):
         """
         if not self._weight:
             return None
-        return int(self._weight.replace('lb', ''))
+        return int(self._weight.replace("lb", ""))
 
     @_int_property_decorator
     def age(self):
@@ -1102,6 +1099,7 @@ class Roster:
         respective stats which greatly reduces the time to return a response if
         just the names and IDs are desired. Defaults to False.
     """
+
     def __init__(self, team, year=None, slim=False):
         self._team = team
         self._slim = slim
@@ -1116,9 +1114,10 @@ class Roster:
         """
         Return the string representation of the class.
         """
-        players = [f'{player.name} ({player.player_id})'.strip()
-                   for player in self._players]
-        return '\n'.join(players)
+        players = [
+            f"{player.name} ({player.player_id})".strip() for player in self._players
+        ]
+        return "\n".join(players)
 
     def __repr__(self):
         """
@@ -1185,7 +1184,7 @@ class Roster:
         string
             Returns a string of the player ID.
         """
-        return player('td[data-stat="player"]').attr('data-append-csv')
+        return player('td[data-stat="player"]').attr("data-append-csv")
 
     def _get_name(self, player):
         """
@@ -1225,21 +1224,24 @@ class Roster:
             from.
         """
         if not year:
-            year = utils._find_year_for_season('nhl')
+            year = utils._find_year_for_season("nhl")
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(self._create_url(year)) and \
-               utils._url_exists(self._create_url(str(int(year) - 1))):
+            if not utils._url_exists(self._create_url(year)) and utils._url_exists(
+                self._create_url(str(int(year) - 1))
+            ):
                 year = str(int(year) - 1)
         url = self._create_url(year)
         page = self._pull_team_page(url)
         if not page:
-            output = ("Can't pull requested team page. Ensure the following "
-                      "URL exists: %s" % url)
+            output = (
+                "Can't pull requested team page. Ensure the following "
+                "URL exists: %s" % url
+            )
             raise ValueError(output)
-        for player in page('table#roster tbody tr').items():
+        for player in page("table#roster tbody tr").items():
             player_id = self._get_id(player)
             if self._slim:
                 name = self._get_name(player)

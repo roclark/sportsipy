@@ -1,15 +1,17 @@
 import pandas as pd
 import re
-from .constants import (CONF_CHAMPIONSHIP,
-                        DIVISION,
-                        LOST_CONF_CHAMPS,
-                        LOST_DIVISIONAL,
-                        LOST_SUPER_BOWL,
-                        LOST_WILD_CARD,
-                        PARSING_SCHEME,
-                        SUPER_BOWL,
-                        WILD_CARD,
-                        WON_SUPER_BOWL)
+from .constants import (
+    CONF_CHAMPIONSHIP,
+    DIVISION,
+    LOST_CONF_CHAMPS,
+    LOST_DIVISIONAL,
+    LOST_SUPER_BOWL,
+    LOST_WILD_CARD,
+    PARSING_SCHEME,
+    SUPER_BOWL,
+    WILD_CARD,
+    WON_SUPER_BOWL,
+)
 from ..constants import LOSS, WIN
 from ..decorators import float_property_decorator, int_property_decorator
 from .. import utils
@@ -43,6 +45,7 @@ class Team:
         obtained during the season. Is only used when called directly from the
         Teams class.
     """
+
     def __init__(self, team_name=None, team_data=None, rank=None, year=None):
         self._year = year
         self._rank = rank
@@ -93,7 +96,7 @@ class Team:
         """
         Return the string representation of the class.
         """
-        return f'{self.name} ({self.abbreviation}) - {self._year}'
+        return f"{self.name} ({self.abbreviation}) - {self._year}"
 
     def __repr__(self):
         """
@@ -125,8 +128,8 @@ class Team:
         """
         team_data_dict, year = _retrieve_all_teams(year)
         self._year = year
-        team_data = team_data_dict[team_name]['data']
-        self._rank = team_data_dict[team_name]['rank']
+        team_data = team_data_dict[team_name]["data"]
+        self._rank = team_data_dict[team_name]["rank"]
         return team_data
 
     def _parse_team_data(self, team_data):
@@ -151,12 +154,9 @@ class Team:
         for field in self.__dict__:
             # The rank attribute is passed directly to the class during
             # instantiation.
-            if field == '_rank' or \
-               field == '_year':
+            if field == "_rank" or field == "_year":
                 continue
-            value = utils._parse_field(PARSING_SCHEME,
-                                       team_data,
-                                       str(field)[1:])
+            value = utils._parse_field(PARSING_SCHEME, team_data, str(field)[1:])
             setattr(self, field, value)
 
     @property
@@ -167,50 +167,46 @@ class Team:
         team, such as 'KAN'.
         """
         fields_to_include = {
-            'abbreviation': self.abbreviation,
-            'defensive_simple_rating_system':
-            self.defensive_simple_rating_system,
-            'first_downs': self.first_downs,
-            'first_downs_from_penalties': self.first_downs_from_penalties,
-            'fumbles': self.fumbles,
-            'games_played': self.games_played,
-            'interceptions': self.interceptions,
-            'losses': self.losses,
-            'margin_of_victory': self.margin_of_victory,
-            'name': self.name,
-            'offensive_simple_rating_system':
-            self.offensive_simple_rating_system,
-            'pass_attempts': self.pass_attempts,
-            'pass_completions': self.pass_completions,
-            'pass_first_downs': self.pass_first_downs,
-            'pass_net_yards_per_attempt': self.pass_net_yards_per_attempt,
-            'pass_touchdowns': self.pass_touchdowns,
-            'pass_yards': self.pass_yards,
-            'penalties': self.penalties,
-            'percent_drives_with_points': self.percent_drives_with_points,
-            'percent_drives_with_turnovers':
-            self.percent_drives_with_turnovers,
-            'plays': self.plays,
-            'points_against': self.points_against,
-            'points_contributed_by_offense':
-            self.points_contributed_by_offense,
-            'points_difference': self.points_difference,
-            'points_for': self.points_for,
-            'post_season_result': self.post_season_result,
-            'rank': self.rank,
-            'rush_attempts': self.rush_attempts,
-            'rush_first_downs': self.rush_first_downs,
-            'rush_touchdowns': self.rush_touchdowns,
-            'rush_yards': self.rush_yards,
-            'rush_yards_per_attempt': self.rush_yards_per_attempt,
-            'simple_rating_system': self.simple_rating_system,
-            'strength_of_schedule': self.strength_of_schedule,
-            'turnovers': self.turnovers,
-            'win_percentage': self.win_percentage,
-            'wins': self.wins,
-            'yards': self.yards,
-            'yards_from_penalties': self.yards_from_penalties,
-            'yards_per_play': self.yards_per_play
+            "abbreviation": self.abbreviation,
+            "defensive_simple_rating_system": self.defensive_simple_rating_system,
+            "first_downs": self.first_downs,
+            "first_downs_from_penalties": self.first_downs_from_penalties,
+            "fumbles": self.fumbles,
+            "games_played": self.games_played,
+            "interceptions": self.interceptions,
+            "losses": self.losses,
+            "margin_of_victory": self.margin_of_victory,
+            "name": self.name,
+            "offensive_simple_rating_system": self.offensive_simple_rating_system,
+            "pass_attempts": self.pass_attempts,
+            "pass_completions": self.pass_completions,
+            "pass_first_downs": self.pass_first_downs,
+            "pass_net_yards_per_attempt": self.pass_net_yards_per_attempt,
+            "pass_touchdowns": self.pass_touchdowns,
+            "pass_yards": self.pass_yards,
+            "penalties": self.penalties,
+            "percent_drives_with_points": self.percent_drives_with_points,
+            "percent_drives_with_turnovers": self.percent_drives_with_turnovers,
+            "plays": self.plays,
+            "points_against": self.points_against,
+            "points_contributed_by_offense": self.points_contributed_by_offense,
+            "points_difference": self.points_difference,
+            "points_for": self.points_for,
+            "post_season_result": self.post_season_result,
+            "rank": self.rank,
+            "rush_attempts": self.rush_attempts,
+            "rush_first_downs": self.rush_first_downs,
+            "rush_touchdowns": self.rush_touchdowns,
+            "rush_yards": self.rush_yards,
+            "rush_yards_per_attempt": self.rush_yards_per_attempt,
+            "simple_rating_system": self.simple_rating_system,
+            "strength_of_schedule": self.strength_of_schedule,
+            "turnovers": self.turnovers,
+            "win_percentage": self.win_percentage,
+            "wins": self.wins,
+            "yards": self.yards,
+            "yards_from_penalties": self.yards_from_penalties,
+            "yards_per_play": self.yards_per_play,
         }
         return pd.DataFrame([fields_to_include], index=[self._abbreviation])
 
@@ -579,6 +575,7 @@ class Teams:
     year : string (optional)
         The requested year to pull stats from.
     """
+
     def __init__(self, year=None):
         self._teams = []
 
@@ -611,7 +608,7 @@ class Teams:
         for team in self._teams:
             if team.abbreviation.upper() == abbreviation.upper():
                 return team
-        raise ValueError('Team abbreviation %s not found' % abbreviation)
+        raise ValueError("Team abbreviation %s not found" % abbreviation)
 
     def __call__(self, abbreviation):
         """
@@ -637,9 +634,8 @@ class Teams:
         """
         Return the string representation of the class.
         """
-        teams = [f'{team.name} ({team.abbreviation})'.strip()
-                 for team in self._teams]
-        return '\n'.join(teams)
+        teams = [f"{team.name} ({team.abbreviation})".strip() for team in self._teams]
+        return "\n".join(teams)
 
     def __repr__(self):
         """
@@ -674,9 +670,7 @@ class Teams:
         if not team_data_dict:
             return
         for team_data in team_data_dict.values():
-            team = Team(team_data=team_data['data'],
-                        rank=team_data['rank'],
-                        year=year)
+            team = Team(team_data=team_data["data"], rank=team_data["rank"], year=year)
             self._teams.append(team)
 
     @property

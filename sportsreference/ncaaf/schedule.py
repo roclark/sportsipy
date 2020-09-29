@@ -1,19 +1,20 @@
 import pandas as pd
 import re
 from ..decorators import int_property_decorator
-from .constants import (SCHEDULE_SCHEME,
-                        SCHEDULE_URL)
+from .constants import SCHEDULE_SCHEME, SCHEDULE_URL
 from datetime import datetime
 from pyquery import PyQuery as pq
 from sportsreference import utils
-from sportsreference.constants import (WIN,
-                                       LOSS,
-                                       HOME,
-                                       AWAY,
-                                       NEUTRAL,
-                                       NON_DI,
-                                       REGULAR_SEASON,
-                                       CONFERENCE_TOURNAMENT)
+from sportsreference.constants import (
+    WIN,
+    LOSS,
+    HOME,
+    AWAY,
+    NEUTRAL,
+    NON_DI,
+    REGULAR_SEASON,
+    CONFERENCE_TOURNAMENT,
+)
 from sportsreference.ncaaf.boxscore import Boxscore
 
 
@@ -29,6 +30,7 @@ class Game:
     game_data : string
         The row containing the specified game information.
     """
+
     def __init__(self, game_data):
         self._game = None
         self._date = None
@@ -54,7 +56,7 @@ class Game:
         """
         Return the string representation of the class.
         """
-        return f'{self.date} - {self.opponent_abbr}'
+        return f"{self.date} - {self.opponent_abbr}"
 
     def __repr__(self):
         """
@@ -78,12 +80,12 @@ class Game:
         name = game_data('td[data-stat="opp_name"]:first')
         # Non-DI schools do not have abbreviations and should be handled
         # differently by just using the team's name as the abbreviation.
-        if 'cfb/schools' not in str(name):
-            setattr(self, '_opponent_abbr', name.text())
+        if "cfb/schools" not in str(name):
+            setattr(self, "_opponent_abbr", name.text())
             return
-        name = re.sub(r'.*/cfb/schools/', '', str(name))
-        name = re.sub('/.*', '', name)
-        setattr(self, '_opponent_abbr', name)
+        name = re.sub(r".*/cfb/schools/", "", str(name))
+        name = re.sub("/.*", "", name)
+        setattr(self, "_opponent_abbr", name)
 
     def _parse_boxscore(self, game_data):
         """
@@ -98,9 +100,9 @@ class Game:
             A PyQuery object containing the information specific to a game.
         """
         boxscore = game_data('td[data-stat="date_game"]:first')
-        boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
-        boxscore = re.sub(r'\.html.*', '', str(boxscore))
-        setattr(self, '_boxscore', boxscore)
+        boxscore = re.sub(r".*/boxscores/", "", str(boxscore))
+        boxscore = re.sub(r"\.html.*", "", str(boxscore))
+        setattr(self, "_boxscore", boxscore)
 
     def _parse_game_data(self, game_data):
         """
@@ -123,10 +125,10 @@ class Game:
         for field in self.__dict__:
             # Remove the leading '_' from the name
             short_name = str(field)[1:]
-            if short_name == 'opponent_abbr':
+            if short_name == "opponent_abbr":
                 self._parse_abbreviation(game_data)
                 continue
-            elif short_name == 'boxscore':
+            elif short_name == "boxscore":
                 self._parse_boxscore(game_data)
                 continue
             value = utils._parse_field(SCHEDULE_SCHEME, game_data, short_name)
@@ -141,24 +143,24 @@ class Game:
         if self._points_for is None and self._points_against is None:
             return None
         fields_to_include = {
-            'boxscore_index': self.boxscore_index,
-            'date': self.date,
-            'datetime': self.datetime,
-            'day_of_week': self.day_of_week,
-            'game': self.game,
-            'location': self.location,
-            'losses': self.losses,
-            'opponent_abbr': self.opponent_abbr,
-            'opponent_conference': self.opponent_conference,
-            'opponent_name': self.opponent_name,
-            'opponent_rank': self.opponent_rank,
-            'points_against': self.points_against,
-            'points_for': self.points_for,
-            'rank': self.rank,
-            'result': self.result,
-            'streak': self.streak,
-            'time': self.time,
-            'wins': self.wins
+            "boxscore_index": self.boxscore_index,
+            "date": self.date,
+            "datetime": self.datetime,
+            "day_of_week": self.day_of_week,
+            "game": self.game,
+            "location": self.location,
+            "losses": self.losses,
+            "opponent_abbr": self.opponent_abbr,
+            "opponent_conference": self.opponent_conference,
+            "opponent_name": self.opponent_name,
+            "opponent_rank": self.opponent_rank,
+            "points_against": self.points_against,
+            "points_for": self.points_for,
+            "rank": self.rank,
+            "result": self.result,
+            "streak": self.streak,
+            "time": self.time,
+            "wins": self.wins,
         }
         return pd.DataFrame([fields_to_include], index=[self._boxscore])
 
@@ -202,10 +204,10 @@ class Game:
         was played. If the game doesn't include a time, the default value of
         '00:00' will be used.
         """
-        if self._time == '' or not self._time:
-            return datetime.strptime(self._date, '%b %d, %Y')
-        date_string = '%s %s' % (self._date, self._time)
-        return datetime.strptime(date_string, '%b %d, %Y %I:%M %p')
+        if self._time == "" or not self._time:
+            return datetime.strptime(self._date, "%b %d, %Y")
+        date_string = "%s %s" % (self._date, self._time)
+        return datetime.strptime(date_string, "%b %d, %Y %I:%M %p")
 
     @property
     def boxscore(self):
@@ -237,9 +239,9 @@ class Game:
         Returns a ``string`` constant to indicate whether the game was played
         at home, away, or in a neutral location.
         """
-        if self._location.lower() == 'n':
+        if self._location.lower() == "n":
             return NEUTRAL
-        if self._location.lower() == '@':
+        if self._location.lower() == "@":
             return AWAY
         return HOME
 
@@ -248,7 +250,7 @@ class Game:
         """
         Returns an ``int`` of the team's rank at the time the game was played.
         """
-        rank = re.findall(r'\d+', self._rank)
+        rank = re.findall(r"\d+", self._rank)
         if len(rank) == 0:
             return None
         return rank[0]
@@ -259,7 +261,7 @@ class Game:
         Returns an ``int`` of the opponent's rank at the time the game was
         played.
         """
-        rank = re.findall(r'\d+', self._opponent_name)
+        rank = re.findall(r"\d+", self._opponent_name)
         if len(rank) == 0:
             return None
         return rank[0]
@@ -288,7 +290,7 @@ class Game:
         Division-I, a string constant for the non-major school will be
         returned.
         """
-        if self._opponent_conference.lower() == 'non-major':
+        if self._opponent_conference.lower() == "non-major":
             return NON_DI
         return self._opponent_conference
 
@@ -298,7 +300,7 @@ class Game:
         Returns a ``string`` constant to indicate whether the team won or lost
         the game.
         """
-        if self._result.lower() == 'l':
+        if self._result.lower() == "l":
             return LOSS
         return WIN
 
@@ -360,6 +362,7 @@ class Schedule:
     year : string (optional)
         The requested year to pull stats from.
     """
+
     def __init__(self, abbreviation, year=None):
         self._games = []
         self._pull_schedule(abbreviation, year)
@@ -410,19 +413,20 @@ class Schedule:
             schedule.
         """
         for game in self._games:
-            if game.datetime.year == date.year and \
-               game.datetime.month == date.month and \
-               game.datetime.day == date.day:
+            if (
+                game.datetime.year == date.year
+                and game.datetime.month == date.month
+                and game.datetime.day == date.day
+            ):
                 return game
-        raise ValueError('No games found for requested date')
+        raise ValueError("No games found for requested date")
 
     def __str__(self):
         """
         Return the string representation of the class.
         """
-        games = [f'{game.date} - {game.opponent_abbr}'.strip()
-                 for game in self._games]
-        return '\n'.join(games)
+        games = [f"{game.date} - {game.opponent_abbr}".strip() for game in self._games]
+        return "\n".join(games)
 
     def __repr__(self):
         """
@@ -458,18 +462,19 @@ class Schedule:
             The requested year to pull stats from.
         """
         if not year:
-            year = utils._find_year_for_season('ncaaf')
+            year = utils._find_year_for_season("ncaaf")
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(SCHEDULE_URL % (abbreviation.lower(),
-                                                     year)) and \
-               utils._url_exists(SCHEDULE_URL % (abbreviation.lower(),
-                                                 str(int(year) - 1))):
+            if not utils._url_exists(
+                SCHEDULE_URL % (abbreviation.lower(), year)
+            ) and utils._url_exists(
+                SCHEDULE_URL % (abbreviation.lower(), str(int(year) - 1))
+            ):
                 year = str(int(year) - 1)
         doc = pq(SCHEDULE_URL % (abbreviation.lower(), year))
-        schedule = utils._get_stats_table(doc, 'table#schedule')
+        schedule = utils._get_stats_table(doc, "table#schedule")
         if not schedule:
             utils._no_data_found()
             return

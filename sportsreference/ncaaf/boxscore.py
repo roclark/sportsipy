@@ -6,14 +6,14 @@ from urllib.error import HTTPError
 from .. import utils
 from ..constants import AWAY, HOME
 from ..decorators import int_property_decorator
-from .constants import (BOXSCORE_ELEMENT_INDEX,
-                        BOXSCORE_ELEMENT_SUB_INDEX,
-                        BOXSCORE_SCHEME,
-                        BOXSCORE_URL,
-                        BOXSCORES_URL)
-from .player import (AbstractPlayer,
-                     _float_property_decorator,
-                     _int_property_decorator)
+from .constants import (
+    BOXSCORE_ELEMENT_INDEX,
+    BOXSCORE_ELEMENT_SUB_INDEX,
+    BOXSCORE_SCHEME,
+    BOXSCORE_URL,
+    BOXSCORES_URL,
+)
+from .player import AbstractPlayer, _float_property_decorator, _int_property_decorator
 from functools import wraps
 
 
@@ -28,13 +28,14 @@ def ncaaf_int_property_sub_index(func):
         # Equivalent to the calling property's method name
         field = func.__name__
         try:
-            field_items = value.replace('--', '-').split('-')
+            field_items = value.replace("--", "-").split("-")
         except AttributeError:
             return None
         try:
             return int(field_items[BOXSCORE_ELEMENT_SUB_INDEX[field]])
         except (TypeError, ValueError, IndexError):
             return None
+
     return wrapper
 
 
@@ -74,6 +75,7 @@ class BoxscorePlayer(AbstractPlayer):
         page. If the player appears in multiple tables, all of their
         information will appear in one single string concatenated together.
     """
+
     def __init__(self, player_id, player_name, player_data):
         self._index = 0
         self._player_id = player_id
@@ -101,66 +103,59 @@ class BoxscorePlayer(AbstractPlayer):
         properties and value for the specified game.
         """
         fields_to_include = {
-            'completed_passes': self.completed_passes,
-            'pass_attempts': self.pass_attempts,
-            'passing_completion': self.passing_completion,
-            'passing_yards': self.passing_yards,
-            'pass_yards_per_attempt': self.pass_yards_per_attempt,
-            'adjusted_yards_per_attempt': self.adjusted_yards_per_attempt,
-            'passing_touchdowns': self.passing_touchdowns,
-            'interceptions_thrown': self.interceptions_thrown,
-            'quarterback_rating': self.quarterback_rating,
-            'rush_attempts': self.rush_attempts,
-            'rush_yards': self.rush_yards,
-            'rush_yards_per_attempt': self.rush_yards_per_attempt,
-            'rush_touchdowns': self.rush_touchdowns,
-            'receptions': self.receptions,
-            'receiving_yards': self.receiving_yards,
-            'receiving_yards_per_reception':
-            self.receiving_yards_per_reception,
-            'receiving_touchdowns': self.receiving_touchdowns,
-            'plays_from_scrimmage': self.plays_from_scrimmage,
-            'yards_from_scrimmage': self.yards_from_scrimmage,
-            'yards_from_scrimmage_per_play':
-            self.yards_from_scrimmage_per_play,
-            'rushing_and_receiving_touchdowns':
-            self.rushing_and_receiving_touchdowns,
-            'solo_tackles': self.solo_tackles,
-            'assists_on_tackles': self.assists_on_tackles,
-            'total_tackles': self.total_tackles,
-            'tackles_for_loss': self.tackles_for_loss,
-            'sacks': self.sacks,
-            'interceptions': self.interceptions,
-            'yards_returned_from_interceptions':
-            self.yards_returned_from_interceptions,
-            'yards_returned_per_interception':
-            self.yards_returned_per_interception,
-            'interceptions_returned_for_touchdown':
-            self.interceptions_returned_for_touchdown,
-            'passes_defended': self.passes_defended,
-            'fumbles_recovered': self.fumbles_recovered,
-            'yards_recovered_from_fumble': self.yards_recovered_from_fumble,
-            'fumbles_recovered_for_touchdown':
-            self.fumbles_recovered_for_touchdown,
-            'fumbles_forced': self.fumbles_forced,
-            'kickoff_returns': self.kickoff_returns,
-            'kickoff_return_yards': self.kickoff_return_yards,
-            'average_kickoff_return_yards': self.average_kickoff_return_yards,
-            'kickoff_return_touchdowns': self.kickoff_return_touchdowns,
-            'punt_returns': self.punt_returns,
-            'punt_return_yards': self.punt_return_yards,
-            'average_punt_return_yards': self.average_punt_return_yards,
-            'punt_return_touchdowns': self.punt_return_touchdowns,
-            'extra_points_made': self.extra_points_made,
-            'extra_points_attempted': self.extra_points_attempted,
-            'extra_point_percentage': self.extra_point_percentage,
-            'field_goals_made': self.field_goals_made,
-            'field_goals_attempted': self.field_goals_attempted,
-            'field_goal_percentage': self.field_goal_percentage,
-            'points_kicking': self.points_kicking,
-            'punts': self.punts,
-            'punting_yards': self.punting_yards,
-            'punting_yards_per_punt': self.punting_yards_per_attempt
+            "completed_passes": self.completed_passes,
+            "pass_attempts": self.pass_attempts,
+            "passing_completion": self.passing_completion,
+            "passing_yards": self.passing_yards,
+            "pass_yards_per_attempt": self.pass_yards_per_attempt,
+            "adjusted_yards_per_attempt": self.adjusted_yards_per_attempt,
+            "passing_touchdowns": self.passing_touchdowns,
+            "interceptions_thrown": self.interceptions_thrown,
+            "quarterback_rating": self.quarterback_rating,
+            "rush_attempts": self.rush_attempts,
+            "rush_yards": self.rush_yards,
+            "rush_yards_per_attempt": self.rush_yards_per_attempt,
+            "rush_touchdowns": self.rush_touchdowns,
+            "receptions": self.receptions,
+            "receiving_yards": self.receiving_yards,
+            "receiving_yards_per_reception": self.receiving_yards_per_reception,
+            "receiving_touchdowns": self.receiving_touchdowns,
+            "plays_from_scrimmage": self.plays_from_scrimmage,
+            "yards_from_scrimmage": self.yards_from_scrimmage,
+            "yards_from_scrimmage_per_play": self.yards_from_scrimmage_per_play,
+            "rushing_and_receiving_touchdowns": self.rushing_and_receiving_touchdowns,
+            "solo_tackles": self.solo_tackles,
+            "assists_on_tackles": self.assists_on_tackles,
+            "total_tackles": self.total_tackles,
+            "tackles_for_loss": self.tackles_for_loss,
+            "sacks": self.sacks,
+            "interceptions": self.interceptions,
+            "yards_returned_from_interceptions": self.yards_returned_from_interceptions,
+            "yards_returned_per_interception": self.yards_returned_per_interception,
+            "interceptions_returned_for_touchdown": self.interceptions_returned_for_touchdown,
+            "passes_defended": self.passes_defended,
+            "fumbles_recovered": self.fumbles_recovered,
+            "yards_recovered_from_fumble": self.yards_recovered_from_fumble,
+            "fumbles_recovered_for_touchdown": self.fumbles_recovered_for_touchdown,
+            "fumbles_forced": self.fumbles_forced,
+            "kickoff_returns": self.kickoff_returns,
+            "kickoff_return_yards": self.kickoff_return_yards,
+            "average_kickoff_return_yards": self.average_kickoff_return_yards,
+            "kickoff_return_touchdowns": self.kickoff_return_touchdowns,
+            "punt_returns": self.punt_returns,
+            "punt_return_yards": self.punt_return_yards,
+            "average_punt_return_yards": self.average_punt_return_yards,
+            "punt_return_touchdowns": self.punt_return_touchdowns,
+            "extra_points_made": self.extra_points_made,
+            "extra_points_attempted": self.extra_points_attempted,
+            "extra_point_percentage": self.extra_point_percentage,
+            "field_goals_made": self.field_goals_made,
+            "field_goals_attempted": self.field_goals_attempted,
+            "field_goal_percentage": self.field_goal_percentage,
+            "points_kicking": self.points_kicking,
+            "punts": self.punts,
+            "punting_yards": self.punting_yards,
+            "punting_yards_per_punt": self.punting_yards_per_attempt,
         }
         return pd.DataFrame([fields_to_include], index=[self._player_id])
 
@@ -298,6 +293,7 @@ class Boxscore:
         The relative link to the boxscore HTML page, such as
         '2018-01-08-georgia'.
     """
+
     def __init__(self, uri):
         self._uri = uri
         self._date = None
@@ -350,8 +346,10 @@ class Boxscore:
         """
         Return the string representation of the class.
         """
-        return (f'Boxscore for {self._away_name.text()} at '
-                f'{self._home_name.text()} ({self.date})')
+        return (
+            f"Boxscore for {self._away_name.text()} at "
+            f"{self._home_name.text()} ({self.date})"
+        )
 
     def __repr__(self):
         """
@@ -400,28 +398,35 @@ class Boxscore:
         boxscore : PyQuery object
             A PyQuery object containing all of the HTML data from the boxscore.
         """
-        scheme = BOXSCORE_SCHEME['time']
+        scheme = BOXSCORE_SCHEME["time"]
         items = [i.text() for i in boxscore(scheme).items()]
-        game_info = items[0].split('\n')
-        time = ''
-        date = ''
-        stadium = ''
+        game_info = items[0].split("\n")
+        time = ""
+        date = ""
+        stadium = ""
         for line in game_info:
-            time_match = re.findall(r'(\d:\d\d|\d\d:\d\d)', line.lower())
+            time_match = re.findall(r"(\d:\d\d|\d\d:\d\d)", line.lower())
             if len(time_match) > 0:
                 time = line
-            for day in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday',
-                        'saturday', 'sunday']:
+            for day in [
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday",
+                "saturday",
+                "sunday",
+            ]:
                 if day in line.lower():
                     date = line
             # In general, locations are in the format 'Stadium Name - City,
             # State'. Since the ' - ' characters seem to be unique to the
             # location line, it should be safe to use this as a matcher.
-            if ' - ' in line:
+            if " - " in line:
                 stadium = line
-        setattr(self, '_time', time)
-        setattr(self, '_date', date)
-        setattr(self, '_stadium', stadium)
+        setattr(self, "_time", time)
+        setattr(self, "_date", date)
+        setattr(self, "_stadium", stadium)
 
     def _parse_name(self, field, boxscore):
         """
@@ -473,17 +478,17 @@ class Boxscore:
             Returns a ``dictionary`` representing the score for each team in
             each quarter of the game.
         """
-        team = ['away', 'home']
-        summary = {'away': [], 'home': []}
-        game_summary = boxscore(BOXSCORE_SCHEME['summary'])
-        for ind, team_info in enumerate(game_summary('tbody tr').items()):
+        team = ["away", "home"]
+        summary = {"away": [], "home": []}
+        game_summary = boxscore(BOXSCORE_SCHEME["summary"])
+        for ind, team_info in enumerate(game_summary("tbody tr").items()):
             # Only pull the first N-1 items as the last element is the final
             # score for each team which is already stored in an attribute, and
             # shouldn't be duplicated.
             for quarter in list(team_info('td[class="center"]').items())[:-1]:
                 # The first element contains the logo and name of the teams,
                 # but not any score information, and should be skipped.
-                if quarter('div'):
+                if quarter("div"):
                     continue
                 try:
                     summary[team[ind]].append(int(quarter.text()))
@@ -511,11 +516,16 @@ class Boxscore:
             represents a boxscore table.
         """
         tables = []
-        valid_tables = ['passing', 'rushing_and_receiving', 'defense',
-                        'returns', 'kicking_and_punting']
+        valid_tables = [
+            "passing",
+            "rushing_and_receiving",
+            "defense",
+            "returns",
+            "kicking_and_punting",
+        ]
 
-        for table in boxscore('table').items():
-            if table.attr['id'] in valid_tables:
+        for table in boxscore("table").items():
+            if table.attr["id"] in valid_tables:
                 tables.append(table)
         return tables
 
@@ -538,7 +548,7 @@ class Boxscore:
             Returns a ``string`` of the player's ID, such as 'david-blough-1'
             for David Blough.
         """
-        return row('th').attr('data-append-csv')
+        return row("th").attr("data-append-csv")
 
     def _find_player_name(self, row):
         """
@@ -559,7 +569,7 @@ class Boxscore:
             Returns a ``string`` of the player's full name, such as 'David
             Blough'.
         """
-        return row('a:first').text()
+        return row("a:first").text()
 
     def _find_home_or_away(self, row):
         """
@@ -581,7 +591,7 @@ class Boxscore:
             Returns a ``string`` constant denoting whether the team plays for
             the home or away team.
         """
-        name = row('a:last').text()
+        name = row("a:last").text()
         if name == self._home_name.text():
             return HOME
         else:
@@ -616,7 +626,7 @@ class Boxscore:
             player's name, HTML data, and a string constant indicating which
             team the player is a member of.
         """
-        for row in table('tbody tr').items():
+        for row in table("tbody tr").items():
             player_id = self._find_player_id(row)
             # Occurs when a header row is identified instead of a player.
             if not player_id:
@@ -624,12 +634,12 @@ class Boxscore:
             name = self._find_player_name(row)
             home_or_away = self._find_home_or_away(row)
             try:
-                player_dict[player_id]['data'] += str(row).strip()
+                player_dict[player_id]["data"] += str(row).strip()
             except KeyError:
                 player_dict[player_id] = {
-                    'name': name,
-                    'data': str(row).strip(),
-                    'team': home_or_away
+                    "name": name,
+                    "data": str(row).strip(),
+                    "team": home_or_away,
                 }
         return player_dict
 
@@ -660,10 +670,8 @@ class Boxscore:
         home_players = []
         away_players = []
         for player_id, details in player_dict.items():
-            player = BoxscorePlayer(player_id,
-                                    details['name'],
-                                    details['data'])
-            if details['team'] == HOME:
+            player = BoxscorePlayer(player_id, details["name"], details["data"])
+            if details["team"] == HOME:
                 home_players.append(player)
             else:
                 away_players.append(player)
@@ -726,32 +734,30 @@ class Boxscore:
         for field in self.__dict__:
             # Remove the '_' from the name
             short_field = str(field)[1:]
-            if short_field == 'winner' or \
-               short_field == 'winning_name' or \
-               short_field == 'winning_abbr' or \
-               short_field == 'losing_name' or \
-               short_field == 'losing_abbr' or \
-               short_field == 'uri' or \
-               short_field == 'date' or \
-               short_field == 'time' or \
-               short_field == 'stadium':
+            if (
+                short_field == "winner"
+                or short_field == "winning_name"
+                or short_field == "winning_abbr"
+                or short_field == "losing_name"
+                or short_field == "losing_abbr"
+                or short_field == "uri"
+                or short_field == "date"
+                or short_field == "time"
+                or short_field == "stadium"
+            ):
                 continue
-            if short_field == 'away_name' or \
-               short_field == 'home_name':
+            if short_field == "away_name" or short_field == "home_name":
                 value = self._parse_name(short_field, boxscore)
                 setattr(self, field, value)
                 continue
-            if short_field == 'summary':
+            if short_field == "summary":
                 value = self._parse_summary(boxscore)
                 setattr(self, field, value)
                 continue
             index = 0
             if short_field in BOXSCORE_ELEMENT_INDEX.keys():
                 index = BOXSCORE_ELEMENT_INDEX[short_field]
-            value = utils._parse_field(BOXSCORE_SCHEME,
-                                       boxscore,
-                                       short_field,
-                                       index)
+            value = utils._parse_field(BOXSCORE_SCHEME, boxscore, short_field, index)
             setattr(self, field, value)
         self._parse_game_date_and_location(boxscore)
         self._away_players, self._home_players = self._find_players(boxscore)
@@ -764,49 +770,49 @@ class Boxscore:
         instantiate the class, such as '2018-01-08-georgia'.
         """
         for points in [self._away_points, self._home_points]:
-            if points is None or points == '':
+            if points is None or points == "":
                 return None
         fields_to_include = {
-            'away_first_downs': self.away_first_downs,
-            'away_fumbles': self.away_fumbles,
-            'away_fumbles_lost': self.away_fumbles_lost,
-            'away_interceptions': self.away_interceptions,
-            'away_pass_attempts': self.away_pass_attempts,
-            'away_pass_completions': self.away_pass_completions,
-            'away_pass_touchdowns': self.away_pass_touchdowns,
-            'away_pass_yards': self.away_pass_yards,
-            'away_penalties': self.away_penalties,
-            'away_points': self.away_points,
-            'away_rush_attempts': self.away_rush_attempts,
-            'away_rush_touchdowns': self.away_rush_touchdowns,
-            'away_rush_yards': self.away_rush_yards,
-            'away_total_yards': self.away_total_yards,
-            'away_turnovers': self.away_turnovers,
-            'away_yards_from_penalties': self.away_yards_from_penalties,
-            'date': self.date,
-            'home_first_downs': self.home_first_downs,
-            'home_fumbles': self.home_fumbles,
-            'home_fumbles_lost': self.home_fumbles_lost,
-            'home_interceptions': self.home_interceptions,
-            'home_pass_attempts': self.home_pass_attempts,
-            'home_pass_completions': self.home_pass_completions,
-            'home_pass_touchdowns': self.home_pass_touchdowns,
-            'home_pass_yards': self.home_pass_yards,
-            'home_penalties': self.home_penalties,
-            'home_points': self.home_points,
-            'home_rush_attempts': self.home_rush_attempts,
-            'home_rush_touchdowns': self.home_rush_touchdowns,
-            'home_rush_yards': self.home_rush_yards,
-            'home_total_yards': self.home_total_yards,
-            'home_turnovers': self.home_turnovers,
-            'home_yards_from_penalties': self.home_yards_from_penalties,
-            'losing_abbr': self.losing_abbr,
-            'losing_name': self.losing_name,
-            'stadium': self.stadium,
-            'time': self.time,
-            'winner': self.winner,
-            'winning_abbr': self.winning_abbr,
-            'winning_name': self.winning_name
+            "away_first_downs": self.away_first_downs,
+            "away_fumbles": self.away_fumbles,
+            "away_fumbles_lost": self.away_fumbles_lost,
+            "away_interceptions": self.away_interceptions,
+            "away_pass_attempts": self.away_pass_attempts,
+            "away_pass_completions": self.away_pass_completions,
+            "away_pass_touchdowns": self.away_pass_touchdowns,
+            "away_pass_yards": self.away_pass_yards,
+            "away_penalties": self.away_penalties,
+            "away_points": self.away_points,
+            "away_rush_attempts": self.away_rush_attempts,
+            "away_rush_touchdowns": self.away_rush_touchdowns,
+            "away_rush_yards": self.away_rush_yards,
+            "away_total_yards": self.away_total_yards,
+            "away_turnovers": self.away_turnovers,
+            "away_yards_from_penalties": self.away_yards_from_penalties,
+            "date": self.date,
+            "home_first_downs": self.home_first_downs,
+            "home_fumbles": self.home_fumbles,
+            "home_fumbles_lost": self.home_fumbles_lost,
+            "home_interceptions": self.home_interceptions,
+            "home_pass_attempts": self.home_pass_attempts,
+            "home_pass_completions": self.home_pass_completions,
+            "home_pass_touchdowns": self.home_pass_touchdowns,
+            "home_pass_yards": self.home_pass_yards,
+            "home_penalties": self.home_penalties,
+            "home_points": self.home_points,
+            "home_rush_attempts": self.home_rush_attempts,
+            "home_rush_touchdowns": self.home_rush_touchdowns,
+            "home_rush_yards": self.home_rush_yards,
+            "home_total_yards": self.home_total_yards,
+            "home_turnovers": self.home_turnovers,
+            "home_yards_from_penalties": self.home_yards_from_penalties,
+            "losing_abbr": self.losing_abbr,
+            "losing_name": self.losing_name,
+            "stadium": self.stadium,
+            "time": self.time,
+            "winner": self.winner,
+            "winning_abbr": self.winning_abbr,
+            "winning_name": self.winning_name,
         }
         return pd.DataFrame([fields_to_include], index=[self._uri])
 
@@ -838,7 +844,7 @@ class Boxscore:
         """
         Returns a ``string`` of the time the game started.
         """
-        return self._time.replace('Start Time: ', '')
+        return self._time.replace("Start Time: ", "")
 
     @property
     def stadium(self):
@@ -846,7 +852,7 @@ class Boxscore:
         Returns a ``string`` of the name of the stadium where the game was
         played.
         """
-        return self._stadium.replace('Stadium: ', '')
+        return self._stadium.replace("Stadium: ", "")
 
     @property
     def summary(self):
@@ -890,10 +896,10 @@ class Boxscore:
         for the Alabama Crimson Tide.
         """
         if self.winner == HOME:
-            if 'cfb/schools' not in str(self._home_name):
+            if "cfb/schools" not in str(self._home_name):
                 return self._home_name.text()
             return utils._parse_abbreviation(self._home_name)
-        if 'cfb/schools' not in str(self._away_name):
+        if "cfb/schools" not in str(self._away_name):
             return self._away_name.text()
         return utils._parse_abbreviation(self._away_name)
 
@@ -913,10 +919,10 @@ class Boxscore:
         'GEORGIA' for the Georgia Bulldogs.
         """
         if self.winner == HOME:
-            if 'cfb/schools' not in str(self._away_name):
+            if "cfb/schools" not in str(self._away_name):
                 return self._away_name.text()
             return utils._parse_abbreviation(self._away_name)
-        if 'cfb/schools' not in str(self._home_name):
+        if "cfb/schools" not in str(self._home_name):
             return self._home_name.text()
         return utils._parse_abbreviation(self._home_name)
 
@@ -1183,6 +1189,7 @@ class Boxscores:
         empty, or if 'end_date' is prior to 'date', only the games from the day
         specified in the 'date' parameter will be saved.
     """
+
     def __init__(self, date, end_date=None):
         self._boxscores = {}
 
@@ -1308,8 +1315,8 @@ class Boxscores:
             Returns a ``string`` containing the link to the game's boxscore
             page.
         """
-        uri = re.sub(r'.*cfb/boxscores/', '', str(url))
-        uri = re.sub(r'\.html.*', '', uri).strip()
+        uri = re.sub(r".*cfb/boxscores/", "", str(url))
+        uri = re.sub(r"\.html.*", "", uri).strip()
         return uri
 
     def _parse_abbreviation(self, abbr):
@@ -1328,10 +1335,10 @@ class Boxscores:
         string
             Returns a ``string`` of the team's abbreviation.
         """
-        if 'cfb/schools' not in str(abbr):
+        if "cfb/schools" not in str(abbr):
             return None
-        abbr = re.sub(r'.*/schools/', '', str(abbr))
-        abbr = re.sub(r'/.*', '', abbr)
+        abbr = re.sub(r".*/schools/", "", str(abbr))
+        abbr = re.sub(r"/.*", "", abbr)
         return abbr
 
     def _get_name(self, name):
@@ -1380,8 +1387,8 @@ class Boxscores:
         int
             Returns an int representing the team's final score in runs.
         """
-        score = score_link.replace('<td class="right">', '')
-        score = score.replace('</td>', '')
+        score = score_link.replace('<td class="right">', "")
+        score = score.replace("</td>", "")
         return int(score)
 
     def _get_rank(self, team):
@@ -1407,8 +1414,8 @@ class Boxscores:
         rank = None
         rank_field = team('span[class="pollrank"]')
         if len(rank_field) > 0:
-            rank = re.findall(r'\(\d+\)', str(rank_field))[0]
-            rank = int(rank.replace('(', '').replace(')', ''))
+            rank = re.findall(r"\(\d+\)", str(rank_field))[0]
+            rank = int(rank.replace("(", "").replace(")", ""))
         return rank
 
     def _get_team_names(self, game):
@@ -1437,7 +1444,7 @@ class Boxscores:
         """
         # Grab the first <td...> tag for each <tr> row in the boxscore,
         # representing the name for each participating team.
-        links = [g('td:first') for g in game('tr').items()]
+        links = [g("td:first") for g in game("tr").items()]
         # The away team is the second link in the boxscore
         away = links[1]
         # The home team is the last (3rd) link in the boxscore
@@ -1451,17 +1458,28 @@ class Boxscores:
         if len(scores) == 2:
             away_score = self._get_score(scores[0])
             home_score = self._get_score(scores[1])
-        away_name, away_abbr, away_non_di = self._get_name(away('a'))
-        home_name, home_abbr, home_non_di = self._get_name(home('a'))
+        away_name, away_abbr, away_non_di = self._get_name(away("a"))
+        home_name, home_abbr, home_non_di = self._get_name(home("a"))
         non_di = away_non_di or home_non_di
         away_rank = self._get_rank(away)
         home_rank = self._get_rank(home)
         top_25 = bool(away_rank or home_rank)
-        return (away_name, away_abbr, away_score, away_rank, home_name,
-                home_abbr, home_score, home_rank, non_di, top_25)
+        return (
+            away_name,
+            away_abbr,
+            away_score,
+            away_rank,
+            home_name,
+            home_abbr,
+            home_score,
+            home_rank,
+            non_di,
+            top_25,
+        )
 
-    def _get_team_results(self, away_name, away_abbr, away_score, home_name,
-                          home_abbr, home_score):
+    def _get_team_results(
+        self, away_name, away_abbr, away_score, home_name, home_abbr, home_score
+    ):
         """
         Determine the winner and loser of the game.
 
@@ -1526,36 +1544,46 @@ class Boxscores:
 
         for game in games:
             names = self._get_team_names(game)
-            away_name, away_abbr, away_score, away_rank, home_name, \
-                home_abbr, home_score, home_rank, non_di, top_25 = names
+            (
+                away_name,
+                away_abbr,
+                away_score,
+                away_rank,
+                home_name,
+                home_abbr,
+                home_score,
+                home_rank,
+                non_di,
+                top_25,
+            ) = names
             boxscore_url = game('td[class="right gamelink"] a')
             boxscore_uri = self._get_boxscore_uri(boxscore_url)
             winning_name = None
             winning_abbr = None
             losing_name = None
             losing_abbr = None
-            winner, loser = self._get_team_results(away_name, away_abbr,
-                                                   away_score, home_name,
-                                                   home_abbr, home_score)
+            winner, loser = self._get_team_results(
+                away_name, away_abbr, away_score, home_name, home_abbr, home_score
+            )
             if winner and loser:
                 winning_name, winning_abbr = winner
                 losing_name, losing_abbr = loser
             game_info = {
-                'boxscore': boxscore_uri,
-                'away_name': away_name,
-                'away_abbr': away_abbr,
-                'away_score': away_score,
-                'away_rank': away_rank,
-                'home_name': home_name,
-                'home_abbr': home_abbr,
-                'home_score': home_score,
-                'home_rank': home_rank,
-                'non_di': non_di,
-                'top_25': top_25,
-                'winning_name': winning_name,
-                'winning_abbr': winning_abbr,
-                'losing_name': losing_name,
-                'losing_abbr': losing_abbr
+                "boxscore": boxscore_uri,
+                "away_name": away_name,
+                "away_abbr": away_abbr,
+                "away_score": away_score,
+                "away_rank": away_rank,
+                "home_name": home_name,
+                "home_abbr": home_abbr,
+                "home_score": home_score,
+                "home_rank": home_rank,
+                "non_di": non_di,
+                "top_25": top_25,
+                "winning_name": winning_name,
+                "winning_abbr": winning_abbr,
+                "losing_name": losing_name,
+                "losing_abbr": losing_abbr,
             }
             all_boxscores.append(game_info)
         return all_boxscores
@@ -1593,7 +1621,6 @@ class Boxscores:
             page = self._get_requested_page(url)
             games = page('table[class="teams"]').items()
             boxscores = self._extract_game_info(games)
-            timestamp = '%s-%s-%s' % (date_step.month, date_step.day,
-                                      date_step.year)
+            timestamp = "%s-%s-%s" % (date_step.month, date_step.day, date_step.year)
             self._boxscores[timestamp] = boxscores
             date_step += timedelta(days=1)

@@ -5,9 +5,11 @@ from ..decorators import float_property_decorator, int_property_decorator
 from .fb_utils import _lookup_team
 from .league_ids import LEAGUE_IDS
 from pyquery import PyQuery as pq
-from sportsreference.utils import (_get_stats_table,
-                                   _parse_field,
-                                   _remove_html_comment_tags)
+from sportsreference.utils import (
+    _get_stats_table,
+    _parse_field,
+    _remove_html_comment_tags,
+)
 from urllib.error import HTTPError
 
 
@@ -29,6 +31,7 @@ class SquadPlayer:
         A ``string`` representation of the player's unique 8-digit ID as shown
         on fbref.com.
     """
+
     def __init__(self, player_data, player_id):
         self._name = None
         self._player_id = player_id
@@ -178,7 +181,7 @@ class SquadPlayer:
         """
         Return the string representation of the class.
         """
-        return f'{self.name} ({self.player_id})'
+        return f"{self.name} ({self.player_id})"
 
     def __repr__(self):
         """
@@ -209,12 +212,12 @@ class SquadPlayer:
             Returns a ``string`` of the player's home country, such as
             'England'.
         """
-        country = player_data(ROSTER_SCHEME['nationality'])
+        country = player_data(ROSTER_SCHEME["nationality"])
         if not country:
             return None
-        country = country.attr('href')
-        country = re.sub(r'.*\/', '', country)
-        country = country.replace('-Football', '')
+        country = country.attr("href")
+        country = re.sub(r".*\/", "", country)
+        country = country.replace("-Football", "")
         return country
 
     def _parse_player_stats(self, player_data):
@@ -237,9 +240,9 @@ class SquadPlayer:
         for field in self.__dict__:
             # The short field truncates the leading '_' in the attribute name.
             short_field = str(field)[1:]
-            if short_field == 'player_id':
+            if short_field == "player_id":
                 continue
-            if short_field == 'nationality':
+            if short_field == "nationality":
                 value = self._parse_nationality(player_data)
             else:
                 value = _parse_field(ROSTER_SCHEME, player_data, short_field)
@@ -252,157 +255,140 @@ class SquadPlayer:
         and values. The index for the DataFrame is the player ID.
         """
         fields_to_include = {
-            'name': self.name,
-            'player_id': self.player_id,
-            'nationality': self.nationality,
-            'position': self.position,
-            'age': self.age,
-            'matches_played': self.matches_played,
-            'starts': self.starts,
-            'minutes': self.minutes,
-            'goals': self.goals,
-            'assists': self.assists,
-            'penalty_kicks': self.penalty_kicks,
-            'penalty_kick_attempts': self.penalty_kick_attempts,
-            'yellow_cards': self.yellow_cards,
-            'red_cards': self.red_cards,
-            'goals_per_90': self.goals_per_90,
-            'assists_per_90': self.assists_per_90,
-            'goals_and_assists_per_90': self.goals_and_assists_per_90,
-            'goals_non_penalty_per_90': self.goals_non_penalty_per_90,
-            'goals_and_assists_non_penalty_per_90':
-            self.goals_and_assists_non_penalty_per_90,
-            'expected_goals': self.expected_goals,
-            'expected_goals_non_penalty': self.expected_goals_non_penalty,
-            'expected_assists': self.expected_assists,
-            'expected_goals_per_90': self.expected_goals_per_90,
-            'expected_assists_per_90': self.expected_assists_per_90,
-            'expected_goals_and_assists_per_90':
-            self.expected_goals_and_assists_per_90,
-            'expected_goals_non_penalty_per_90':
-            self.expected_goals_non_penalty_per_90,
-            'expected_goals_and_assists_non_penalty_per_90':
-            self.expected_goals_and_assists_non_penalty_per_90,
-            'own_goals': self.own_goals,
-            'goals_against': self.goals_against,
-            'own_goals_against': self.own_goals_against,
-            'goals_against_per_90': self.goals_against_per_90,
-            'shots_on_target_against': self.shots_on_target_against,
-            'saves': self.saves,
-            'save_percentage': self.save_percentage,
-            'wins': self.wins,
-            'draws': self.draws,
-            'losses': self.losses,
-            'clean_sheets': self.clean_sheets,
-            'clean_sheet_percentage': self.clean_sheet_percentage,
-            'penalty_kicks_attempted': self.penalty_kicks_attempted,
-            'penalty_kicks_allowed': self.penalty_kicks_allowed,
-            'penalty_kicks_saved': self.penalty_kicks_saved,
-            'penalty_kicks_missed': self.penalty_kicks_missed,
-            'free_kick_goals_against': self.free_kick_goals_against,
-            'corner_kick_goals_against': self.corner_kick_goals_against,
-            'post_shot_expected_goals': self.post_shot_expected_goals,
-            'post_shot_expected_goals_per_shot':
-            self.post_shot_expected_goals_per_shot,
-            'post_shot_expected_goals_minus_allowed':
-            self.post_shot_expected_goals_minus_allowed,
-            'launches_completed': self.launches_completed,
-            'launches_attempted': self.launches_attempted,
-            'launch_completion_percentage': self.launch_completion_percentage,
-            'keeper_passes_attempted': self.keeper_passes_attempted,
-            'throws_attempted': self.throws_attempted,
-            'launch_percentage': self.launch_percentage,
-            'average_keeper_pass_length': self.average_keeper_pass_length,
-            'goal_kicks_attempted': self.goal_kicks_attempted,
-            'goal_kick_launch_percentage': self.goal_kick_launch_percentage,
-            'average_goal_kick_length': self.average_goal_kick_length,
-            'opponent_cross_attempts': self.opponent_cross_attempts,
-            'opponent_cross_stops': self.opponent_cross_stops,
-            'opponent_cross_stop_percentage':
-            self.opponent_cross_stop_percentage,
-            'keeper_actions_outside_penalty_area':
-            self.keeper_actions_outside_penalty_area,
-            'keeper_actions_outside_penalty_area_per_90':
-            self.keeper_actions_outside_penalty_area_per_90,
-            'average_keeper_action_outside_penalty_distance':
-            self.average_keeper_action_outside_penalty_distance,
-            'shots': self.shots,
-            'shots_on_target': self.shots_on_target,
-            'free_kick_shots': self.free_kick_shots,
-            'shots_on_target_percentage': self.shots_on_target_percentage,
-            'shots_per_90': self.shots_per_90,
-            'shots_on_target_per_90': self.shots_on_target_per_90,
-            'goals_per_shot': self.goals_per_shot,
-            'goals_per_shot_on_target': self.goals_per_shot_on_target,
-            'expected_goals_non_penalty_per_shot':
-            self.expected_goals_non_penalty_per_shot,
-            'goals_minus_expected': self.goals_minus_expected,
-            'non_penalty_minus_expected_non_penalty':
-            self.non_penalty_minus_expected_non_penalty,
-            'assists_minus_expected': self.assists_minus_expected,
-            'key_passes': self.key_passes,
-            'passes_completed': self.passes_completed,
-            'passes_attempted': self.passes_attempted,
-            'pass_completion': self.pass_completion,
-            'short_passes_completed': self.short_passes_completed,
-            'short_passes_attempted': self.short_passes_attempted,
-            'short_pass_completion': self.short_pass_completion,
-            'medium_passes_completed': self.medium_passes_completed,
-            'medium_passes_attempted': self.medium_passes_attempted,
-            'medium_pass_completion': self.medium_pass_completion,
-            'long_passes_completed': self.long_passes_completed,
-            'long_passes_attempted': self.long_passes_attempted,
-            'long_pass_completion': self.long_pass_completion,
-            'left_foot_passes': self.left_foot_passes,
-            'right_foot_passes': self.right_foot_passes,
-            'free_kick_passes': self.free_kick_passes,
-            'through_balls': self.through_balls,
-            'corner_kicks': self.corner_kicks,
-            'throw_ins': self.throw_ins,
-            'final_third_passes': self.final_third_passes,
-            'penalty_area_passes': self.penalty_area_passes,
-            'penalty_area_crosses': self.penalty_area_crosses,
-            'minutes_per_match': self.minutes_per_match,
-            'minutes_played_percentage': self.minutes_played_percentage,
-            'nineties_played': self.nineties_played,
-            'minutes_per_start': self.minutes_per_start,
-            'subs': self.subs,
-            'minutes_per_sub': self.minutes_per_sub,
-            'unused_sub': self.unused_sub,
-            'points_per_match': self.points_per_match,
-            'goals_scored_on_pitch': self.goals_scored_on_pitch,
-            'goals_against_on_pitch': self.goals_against_on_pitch,
-            'goal_difference_on_pitch': self.goal_difference_on_pitch,
-            'goal_difference_on_pitch_per_90':
-            self.goal_difference_on_pitch_per_90,
-            'net_difference_on_pitch_per_90':
-            self.net_difference_on_pitch_per_90,
-            'expected_goals_on_pitch': self.expected_goals_on_pitch,
-            'expected_goals_against_on_pitch':
-            self.expected_goals_against_on_pitch,
-            'expected_goal_difference': self.expected_goal_difference,
-            'expected_goal_difference_per_90':
-            self.expected_goal_difference_per_90,
-            'net_expected_goal_difference_per_90':
-            self.net_expected_goal_difference_per_90,
-            'soft_reds': self.soft_reds,
-            'fouls_committed': self.fouls_committed,
-            'fouls_drawn': self.fouls_drawn,
-            'offsides': self.offsides,
-            'crosses': self.crosses,
-            'tackles_won': self.tackles_won,
-            'interceptions': self.interceptions,
-            'penalty_kicks_won': self.penalty_kicks_won,
-            'penalty_kicks_conceded': self.penalty_kicks_conceded,
-            'successful_dribbles': self.successful_dribbles,
-            'attempted_dribbles': self.attempted_dribbles,
-            'dribble_success_rate': self.dribble_success_rate,
-            'players_dribbled_past': self.players_dribbled_past,
-            'nutmegs': self.nutmegs,
-            'dribblers_tackled': self.dribblers_tackled,
-            'dribblers_contested': self.dribblers_contested,
-            'tackle_percentage': self.tackle_percentage,
-            'times_dribbled_past': self.times_dribbled_past
+            "name": self.name,
+            "player_id": self.player_id,
+            "nationality": self.nationality,
+            "position": self.position,
+            "age": self.age,
+            "matches_played": self.matches_played,
+            "starts": self.starts,
+            "minutes": self.minutes,
+            "goals": self.goals,
+            "assists": self.assists,
+            "penalty_kicks": self.penalty_kicks,
+            "penalty_kick_attempts": self.penalty_kick_attempts,
+            "yellow_cards": self.yellow_cards,
+            "red_cards": self.red_cards,
+            "goals_per_90": self.goals_per_90,
+            "assists_per_90": self.assists_per_90,
+            "goals_and_assists_per_90": self.goals_and_assists_per_90,
+            "goals_non_penalty_per_90": self.goals_non_penalty_per_90,
+            "goals_and_assists_non_penalty_per_90": self.goals_and_assists_non_penalty_per_90,
+            "expected_goals": self.expected_goals,
+            "expected_goals_non_penalty": self.expected_goals_non_penalty,
+            "expected_assists": self.expected_assists,
+            "expected_goals_per_90": self.expected_goals_per_90,
+            "expected_assists_per_90": self.expected_assists_per_90,
+            "expected_goals_and_assists_per_90": self.expected_goals_and_assists_per_90,
+            "expected_goals_non_penalty_per_90": self.expected_goals_non_penalty_per_90,
+            "expected_goals_and_assists_non_penalty_per_90": self.expected_goals_and_assists_non_penalty_per_90,
+            "own_goals": self.own_goals,
+            "goals_against": self.goals_against,
+            "own_goals_against": self.own_goals_against,
+            "goals_against_per_90": self.goals_against_per_90,
+            "shots_on_target_against": self.shots_on_target_against,
+            "saves": self.saves,
+            "save_percentage": self.save_percentage,
+            "wins": self.wins,
+            "draws": self.draws,
+            "losses": self.losses,
+            "clean_sheets": self.clean_sheets,
+            "clean_sheet_percentage": self.clean_sheet_percentage,
+            "penalty_kicks_attempted": self.penalty_kicks_attempted,
+            "penalty_kicks_allowed": self.penalty_kicks_allowed,
+            "penalty_kicks_saved": self.penalty_kicks_saved,
+            "penalty_kicks_missed": self.penalty_kicks_missed,
+            "free_kick_goals_against": self.free_kick_goals_against,
+            "corner_kick_goals_against": self.corner_kick_goals_against,
+            "post_shot_expected_goals": self.post_shot_expected_goals,
+            "post_shot_expected_goals_per_shot": self.post_shot_expected_goals_per_shot,
+            "post_shot_expected_goals_minus_allowed": self.post_shot_expected_goals_minus_allowed,
+            "launches_completed": self.launches_completed,
+            "launches_attempted": self.launches_attempted,
+            "launch_completion_percentage": self.launch_completion_percentage,
+            "keeper_passes_attempted": self.keeper_passes_attempted,
+            "throws_attempted": self.throws_attempted,
+            "launch_percentage": self.launch_percentage,
+            "average_keeper_pass_length": self.average_keeper_pass_length,
+            "goal_kicks_attempted": self.goal_kicks_attempted,
+            "goal_kick_launch_percentage": self.goal_kick_launch_percentage,
+            "average_goal_kick_length": self.average_goal_kick_length,
+            "opponent_cross_attempts": self.opponent_cross_attempts,
+            "opponent_cross_stops": self.opponent_cross_stops,
+            "opponent_cross_stop_percentage": self.opponent_cross_stop_percentage,
+            "keeper_actions_outside_penalty_area": self.keeper_actions_outside_penalty_area,
+            "keeper_actions_outside_penalty_area_per_90": self.keeper_actions_outside_penalty_area_per_90,
+            "average_keeper_action_outside_penalty_distance": self.average_keeper_action_outside_penalty_distance,
+            "shots": self.shots,
+            "shots_on_target": self.shots_on_target,
+            "free_kick_shots": self.free_kick_shots,
+            "shots_on_target_percentage": self.shots_on_target_percentage,
+            "shots_per_90": self.shots_per_90,
+            "shots_on_target_per_90": self.shots_on_target_per_90,
+            "goals_per_shot": self.goals_per_shot,
+            "goals_per_shot_on_target": self.goals_per_shot_on_target,
+            "expected_goals_non_penalty_per_shot": self.expected_goals_non_penalty_per_shot,
+            "goals_minus_expected": self.goals_minus_expected,
+            "non_penalty_minus_expected_non_penalty": self.non_penalty_minus_expected_non_penalty,
+            "assists_minus_expected": self.assists_minus_expected,
+            "key_passes": self.key_passes,
+            "passes_completed": self.passes_completed,
+            "passes_attempted": self.passes_attempted,
+            "pass_completion": self.pass_completion,
+            "short_passes_completed": self.short_passes_completed,
+            "short_passes_attempted": self.short_passes_attempted,
+            "short_pass_completion": self.short_pass_completion,
+            "medium_passes_completed": self.medium_passes_completed,
+            "medium_passes_attempted": self.medium_passes_attempted,
+            "medium_pass_completion": self.medium_pass_completion,
+            "long_passes_completed": self.long_passes_completed,
+            "long_passes_attempted": self.long_passes_attempted,
+            "long_pass_completion": self.long_pass_completion,
+            "left_foot_passes": self.left_foot_passes,
+            "right_foot_passes": self.right_foot_passes,
+            "free_kick_passes": self.free_kick_passes,
+            "through_balls": self.through_balls,
+            "corner_kicks": self.corner_kicks,
+            "throw_ins": self.throw_ins,
+            "final_third_passes": self.final_third_passes,
+            "penalty_area_passes": self.penalty_area_passes,
+            "penalty_area_crosses": self.penalty_area_crosses,
+            "minutes_per_match": self.minutes_per_match,
+            "minutes_played_percentage": self.minutes_played_percentage,
+            "nineties_played": self.nineties_played,
+            "minutes_per_start": self.minutes_per_start,
+            "subs": self.subs,
+            "minutes_per_sub": self.minutes_per_sub,
+            "unused_sub": self.unused_sub,
+            "points_per_match": self.points_per_match,
+            "goals_scored_on_pitch": self.goals_scored_on_pitch,
+            "goals_against_on_pitch": self.goals_against_on_pitch,
+            "goal_difference_on_pitch": self.goal_difference_on_pitch,
+            "goal_difference_on_pitch_per_90": self.goal_difference_on_pitch_per_90,
+            "net_difference_on_pitch_per_90": self.net_difference_on_pitch_per_90,
+            "expected_goals_on_pitch": self.expected_goals_on_pitch,
+            "expected_goals_against_on_pitch": self.expected_goals_against_on_pitch,
+            "expected_goal_difference": self.expected_goal_difference,
+            "expected_goal_difference_per_90": self.expected_goal_difference_per_90,
+            "net_expected_goal_difference_per_90": self.net_expected_goal_difference_per_90,
+            "soft_reds": self.soft_reds,
+            "fouls_committed": self.fouls_committed,
+            "fouls_drawn": self.fouls_drawn,
+            "offsides": self.offsides,
+            "crosses": self.crosses,
+            "tackles_won": self.tackles_won,
+            "interceptions": self.interceptions,
+            "penalty_kicks_won": self.penalty_kicks_won,
+            "penalty_kicks_conceded": self.penalty_kicks_conceded,
+            "successful_dribbles": self.successful_dribbles,
+            "attempted_dribbles": self.attempted_dribbles,
+            "dribble_success_rate": self.dribble_success_rate,
+            "players_dribbled_past": self.players_dribbled_past,
+            "nutmegs": self.nutmegs,
+            "dribblers_tackled": self.dribblers_tackled,
+            "dribblers_contested": self.dribblers_contested,
+            "tackle_percentage": self.tackle_percentage,
+            "times_dribbled_past": self.times_dribbled_past,
         }
         return pd.DataFrame([fields_to_include], index=[self.player_id])
 
@@ -465,7 +451,7 @@ class SquadPlayer:
         Returns an ``int`` of the number of minutes the player has spent on the
         field in all competitions.
         """
-        return self._minutes.replace(',', '')
+        return self._minutes.replace(",", "")
 
     @int_property_decorator
     def goals(self):
@@ -1487,6 +1473,7 @@ class Roster:
         information instead of making another request to the website. If the
         document is not provided, it will be pulled during a later step.
     """
+
     def __init__(self, squad_id, doc=None):
         self._players = []
 
@@ -1529,14 +1516,14 @@ class Roster:
                 return player_instance
             if player.lower().strip() == player_instance.name.lower().strip():
                 return player_instance
-        raise ValueError('No player found with the requested name or ID')
+        raise ValueError("No player found with the requested name or ID")
 
     def __str__(self):
         """
         Return the string representation of the class.
         """
-        players = [f'{x.name} ({x.player_id})'.strip() for x in self._players]
-        return '\n'.join(players)
+        players = [f"{x.name} ({x.player_id})".strip() for x in self._players]
+        return "\n".join(players)
 
     def __repr__(self):
         """
@@ -1576,10 +1563,10 @@ class Roster:
             Returns a ``string`` of the player's unique 8-digit player ID.
         """
         player = player_data('th[data-stat="player"]')
-        player_id = player('a').attr('href')
+        player_id = player("a").attr("href")
         try:
-            player_id = re.sub(r'.*\/players\/', '', player_id)
-            player_id = re.sub(r'\/.*', '', player_id)
+            player_id = re.sub(r".*\/players\/", "", player_id)
+            player_id = re.sub(r"\/.*", "", player_id)
         except TypeError:
             player_id = None
         return player_id
@@ -1614,9 +1601,9 @@ class Roster:
             if not player_id:
                 continue
             try:
-                player_data_dict[player_id]['data'] += player_data
+                player_data_dict[player_id]["data"] += player_data
             except KeyError:
-                player_data_dict[player_id] = {'data': player_data}
+                player_data_dict[player_id] = {"data": player_data}
         return player_data_dict
 
     def _pull_stats(self, doc):
@@ -1651,16 +1638,18 @@ class Roster:
 
         # Some leagues have a special ID for the tables. First lookup that ID
         # if it exists, but if not, use 'ks_combined' as the default.
-        postfix = LEAGUE_IDS.get(self._squad_id, 'ks_combined')
+        postfix = LEAGUE_IDS.get(self._squad_id, "ks_combined")
 
-        for table_id in ['table#stats_standard_',
-                         'table#stats_keeper_',
-                         'table#stats_keeper_adv_',
-                         'table#stats_shooting_',
-                         'table#stats_passing_',
-                         'table#stats_playing_time_',
-                         'table#stats_misc_']:
-            table = _get_stats_table(doc, table_id + 'ks_combined')
+        for table_id in [
+            "table#stats_standard_",
+            "table#stats_keeper_",
+            "table#stats_keeper_adv_",
+            "table#stats_shooting_",
+            "table#stats_passing_",
+            "table#stats_playing_time_",
+            "table#stats_misc_",
+        ]:
+            table = _get_stats_table(doc, table_id + "ks_combined")
             if not table:
                 table = _get_stats_table(doc, table_id + postfix)
                 if not table:
@@ -1684,5 +1673,5 @@ class Roster:
             version of the row data for the matched player.
         """
         for player_id, player_data in player_data_dict.items():
-            player = SquadPlayer(player_data['data'], player_id)
+            player = SquadPlayer(player_data["data"], player_id)
             self._players.append(player)

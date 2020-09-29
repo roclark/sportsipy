@@ -13,8 +13,8 @@ YEAR = 2017
 
 
 def read_file(filename):
-    filepath = os.path.join(os.path.dirname(__file__), 'nhl_stats', filename)
-    return open('%s' % filepath, 'r', encoding='utf8').read()
+    filepath = os.path.join(os.path.dirname(__file__), "nhl_stats", filename)
+    return open("%s" % filepath, "r", encoding="utf8").read()
 
 
 def mock_pyquery(url):
@@ -25,9 +25,9 @@ def mock_pyquery(url):
             self.text = html_contents
 
         def __call__(self, div):
-            return read_file('NHL_%s_all_stats.html' % YEAR)
+            return read_file("NHL_%s_all_stats.html" % YEAR)
 
-    html_contents = read_file('NHL_%s.html' % YEAR)
+    html_contents = read_file("NHL_%s.html" % YEAR)
     return MockPQ(html_contents)
 
 
@@ -39,9 +39,9 @@ def mock_request(url):
             self.text = html_contents
 
     if str(YEAR) in url:
-        return MockRequest('good')
+        return MockRequest("good")
     else:
-        return MockRequest('bad', status_code=404)
+        return MockRequest("bad", status_code=404)
 
 
 class MockDateTime:
@@ -51,49 +51,75 @@ class MockDateTime:
 
 
 class TestNHLIntegration:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch("requests.get", side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results = {
-            'rank': 25,
-            'abbreviation': 'DET',
-            'name': 'Detroit Red Wings',
-            'average_age': 28.4,
-            'games_played': 82,
-            'wins': 33,
-            'losses': 36,
-            'overtime_losses': 13,
-            'points': 79,
-            'points_percentage': .482,
-            'goals_for': 207,
-            'goals_against': 244,
-            'simple_rating_system': -0.41,
-            'strength_of_schedule': 0.04,
-            'total_goals_per_game': 5.50,
-            'power_play_goals': 38,
-            'power_play_opportunities': 252,
-            'power_play_percentage': 15.08,
-            'power_play_goals_against': 45,
-            'power_play_opportunities_against': 235,
-            'penalty_killing_percentage': 80.85,
-            'short_handed_goals': 3,
-            'short_handed_goals_against': 9,
-            'shots_on_goal': 2335,
-            'shooting_percentage': 8.5,
-            'shots_against': 2507,
-            'save_percentage': .903,
-            'pdo_at_even_strength': 99.6
+            "rank": 25,
+            "abbreviation": "DET",
+            "name": "Detroit Red Wings",
+            "average_age": 28.4,
+            "games_played": 82,
+            "wins": 33,
+            "losses": 36,
+            "overtime_losses": 13,
+            "points": 79,
+            "points_percentage": 0.482,
+            "goals_for": 207,
+            "goals_against": 244,
+            "simple_rating_system": -0.41,
+            "strength_of_schedule": 0.04,
+            "total_goals_per_game": 5.50,
+            "power_play_goals": 38,
+            "power_play_opportunities": 252,
+            "power_play_percentage": 15.08,
+            "power_play_goals_against": 45,
+            "power_play_opportunities_against": 235,
+            "penalty_killing_percentage": 80.85,
+            "short_handed_goals": 3,
+            "short_handed_goals_against": 9,
+            "shots_on_goal": 2335,
+            "shooting_percentage": 8.5,
+            "shots_against": 2507,
+            "save_percentage": 0.903,
+            "pdo_at_even_strength": 99.6,
         }
         self.abbreviations = [
-            'WSH', 'PIT', 'CHI', 'CBJ', 'MIN', 'ANA', 'MTL', 'EDM', 'NYR',
-            'STL', 'SJS', 'OTT', 'TOR', 'BOS', 'TBL', 'NYI', 'NSH', 'CGY',
-            'PHI', 'WPG', 'CAR', 'LAK', 'FLA', 'DAL', 'DET', 'BUF', 'ARI',
-            'NJD', 'VAN', 'COL'
+            "WSH",
+            "PIT",
+            "CHI",
+            "CBJ",
+            "MIN",
+            "ANA",
+            "MTL",
+            "EDM",
+            "NYR",
+            "STL",
+            "SJS",
+            "OTT",
+            "TOR",
+            "BOS",
+            "TBL",
+            "NYI",
+            "NSH",
+            "CGY",
+            "PHI",
+            "WPG",
+            "CAR",
+            "LAK",
+            "FLA",
+            "DAL",
+            "DET",
+            "BUF",
+            "ARI",
+            "NJD",
+            "VAN",
+            "COL",
         ]
-        html_contents = read_file('NHL_%s.html' % YEAR)
+        html_contents = read_file("NHL_%s.html" % YEAR)
 
-        flexmock(utils) \
-            .should_receive('_todays_date') \
-            .and_return(MockDateTime(YEAR, MONTH))
+        flexmock(utils).should_receive("_todays_date").and_return(
+            MockDateTime(YEAR, MONTH)
+        )
 
         self.teams = Teams()
 
@@ -101,7 +127,7 @@ class TestNHLIntegration:
         assert len(self.teams) == len(self.abbreviations)
 
     def test_nhl_integration_returns_correct_attributes_for_team(self):
-        detroit = self.teams('DET')
+        detroit = self.teams("DET")
 
         for attribute, value in self.results.items():
             assert getattr(detroit, attribute) == value
@@ -111,9 +137,9 @@ class TestNHLIntegration:
             assert team.abbreviation in self.abbreviations
 
     def test_nhl_integration_dataframe_returns_dataframe(self):
-        df = pd.DataFrame([self.results], index=['DET'])
+        df = pd.DataFrame([self.results], index=["DET"])
 
-        detroit = self.teams('DET')
+        detroit = self.teams("DET")
         # Pandas doesn't natively allow comparisons of DataFrames.
         # Concatenating the two DataFrames (the one generated during the test
         # and the expected one above) and dropping duplicate rows leaves only
@@ -133,34 +159,30 @@ class TestNHLIntegration:
 
     def test_nhl_invalid_team_name_raises_value_error(self):
         with pytest.raises(ValueError):
-            self.teams('INVALID_NAME')
+            self.teams("INVALID_NAME")
 
     def test_nhl_empty_page_returns_no_teams(self):
-        flexmock(utils) \
-            .should_receive('_no_data_found') \
-            .once()
-        flexmock(utils) \
-            .should_receive('_get_stats_table') \
-            .and_return(None)
+        flexmock(utils).should_receive("_no_data_found").once()
+        flexmock(utils).should_receive("_get_stats_table").and_return(None)
 
         teams = Teams()
 
         assert len(teams) == 0
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_pulling_team_directly(self, *args, **kwargs):
-        detroit = Team('DET')
+        detroit = Team("DET")
 
         for attribute, value in self.results.items():
             assert getattr(detroit, attribute) == value
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_team_string_representation(self, *args, **kwargs):
-        detroit = Team('DET')
+        detroit = Team("DET")
 
-        assert detroit.__repr__() == 'Detroit Red Wings (DET) - 2017'
+        assert detroit.__repr__() == "Detroit Red Wings (DET) - 2017"
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_teams_string_representation(self, *args, **kwargs):
         expected = """Washington Capitals (WSH)
 Pittsburgh Penguins (PIT)
@@ -199,16 +221,12 @@ Colorado Avalanche (COL)"""
 
 
 class TestNHLIntegrationInvalidYear:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    @mock.patch('requests.head', side_effect=mock_request)
-    def test_invalid_default_year_reverts_to_previous_year(self,
-                                                           *args,
-                                                           **kwargs):
-        flexmock(utils) \
-            .should_receive('_find_year_for_season') \
-            .and_return(2018)
+    @mock.patch("requests.get", side_effect=mock_pyquery)
+    @mock.patch("requests.head", side_effect=mock_request)
+    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
+        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
 
         teams = Teams()
 
         for team in teams:
-            assert team._year == '2017'
+            assert team._year == "2017"

@@ -32,11 +32,11 @@ def _add_stats_data(teams_list, team_data_dict):
         # Skip the league average row
         if 'class="league_average_table"' in str(team_data):
             continue
-        abbr = utils._parse_field(PARSING_SCHEME, team_data, 'abbreviation')
+        abbr = utils._parse_field(PARSING_SCHEME, team_data, "abbreviation")
         try:
-            team_data_dict[abbr]['data'] += team_data
+            team_data_dict[abbr]["data"] += team_data
         except KeyError:
-            team_data_dict[abbr] = {'data': team_data, 'rank': rank}
+            team_data_dict[abbr] = {"data": team_data, "rank": rank}
         rank += 1
     return team_data_dict
 
@@ -65,20 +65,21 @@ def _retrieve_all_teams(year):
     team_data_dict = {}
 
     if not year:
-        year = utils._find_year_for_season('mlb')
+        year = utils._find_year_for_season("mlb")
         # If stats for the requested season do not exist yet (as is the case
         # right before a new season begins), attempt to pull the previous
         # year's stats. If it exists, use the previous year instead.
-        if not utils._url_exists(STANDINGS_URL % year) and \
-           utils._url_exists(STANDINGS_URL % str(int(year) - 1)):
+        if not utils._url_exists(STANDINGS_URL % year) and utils._url_exists(
+            STANDINGS_URL % str(int(year) - 1)
+        ):
             year = str(int(year) - 1)
     doc = pq(STANDINGS_URL % year)
-    div_prefix = 'div#all_expanded_standings_overall'
+    div_prefix = "div#all_expanded_standings_overall"
     standings = utils._get_stats_table(doc, div_prefix)
     doc = pq(TEAM_STATS_URL % year)
-    div_prefix = 'div#all_teams_standard_%s'
-    batting_stats = utils._get_stats_table(doc, div_prefix % 'batting')
-    pitching_stats = utils._get_stats_table(doc, div_prefix % 'pitching')
+    div_prefix = "div#all_teams_standard_%s"
+    batting_stats = utils._get_stats_table(doc, div_prefix % "batting")
+    pitching_stats = utils._get_stats_table(doc, div_prefix % "pitching")
     if not standings and not batting_stats and not pitching_stats:
         utils._no_data_found()
         return None, None

@@ -34,6 +34,7 @@ class Team:
     year : string (optional)
         The requested year to pull stats from.
     """
+
     def __init__(self, team_name=None, team_data=None, rank=None, year=None):
         self._year = year
         self._rank = rank
@@ -92,7 +93,7 @@ class Team:
         """
         Return the string representation of the class.
         """
-        return f'{self.name} ({self.abbreviation}) - {self._year}'
+        return f"{self.name} ({self.abbreviation}) - {self._year}"
 
     def __repr__(self):
         """
@@ -124,8 +125,8 @@ class Team:
         """
         team_data_dict, year = _retrieve_all_teams(year)
         self._year = year
-        team_data = team_data_dict[team_name]['data']
-        self._rank = team_data_dict[team_name]['rank']
+        team_data = team_data_dict[team_name]["data"]
+        self._rank = team_data_dict[team_name]["rank"]
         return team_data
 
     def _parse_team_data(self, team_data):
@@ -150,12 +151,9 @@ class Team:
         for field in self.__dict__:
             # The rank attribute is passed directly to the class during
             # instantiation.
-            if field == '_rank' or \
-               field == '_year':
+            if field == "_rank" or field == "_year":
                 continue
-            value = utils._parse_field(PARSING_SCHEME,
-                                       team_data,
-                                       str(field)[1:])
+            value = utils._parse_field(PARSING_SCHEME, team_data, str(field)[1:])
             setattr(self, field, value)
 
     @property
@@ -166,61 +164,53 @@ class Team:
         team, such as 'DET'.
         """
         fields_to_include = {
-            'abbreviation': self.abbreviation,
-            'assists': self.assists,
-            'blocks': self.blocks,
-            'defensive_rebounds': self.defensive_rebounds,
-            'field_goal_attempts': self.field_goal_attempts,
-            'field_goal_percentage': self.field_goal_percentage,
-            'field_goals': self.field_goals,
-            'free_throw_attempts': self.free_throw_attempts,
-            'free_throw_percentage': self.free_throw_percentage,
-            'free_throws': self.free_throws,
-            'games_played': self.games_played,
-            'minutes_played': self.minutes_played,
-            'name': self.name,
-            'offensive_rebounds': self.offensive_rebounds,
-            'opp_assists': self.opp_assists,
-            'opp_blocks': self.opp_blocks,
-            'opp_defensive_rebounds': self.opp_defensive_rebounds,
-            'opp_field_goal_attempts': self.opp_field_goal_attempts,
-            'opp_field_goal_percentage': self.opp_field_goal_percentage,
-            'opp_field_goals': self.opp_field_goals,
-            'opp_free_throw_attempts': self.opp_free_throw_attempts,
-            'opp_free_throw_percentage': self.opp_free_throw_percentage,
-            'opp_free_throws': self.opp_free_throws,
-            'opp_offensive_rebounds': self.opp_offensive_rebounds,
-            'opp_personal_fouls': self.opp_personal_fouls,
-            'opp_points': self.opp_points,
-            'opp_steals': self.opp_steals,
-            'opp_three_point_field_goal_attempts':
-            self.opp_three_point_field_goal_attempts,
-            'opp_three_point_field_goal_percentage':
-            self.opp_three_point_field_goal_percentage,
-            'opp_three_point_field_goals': self.opp_three_point_field_goals,
-            'opp_total_rebounds': self.opp_total_rebounds,
-            'opp_turnovers': self.opp_turnovers,
-            'opp_two_point_field_goal_attempts':
-            self.opp_two_point_field_goal_attempts,
-            'opp_two_point_field_goal_percentage':
-            self.opp_two_point_field_goal_percentage,
-            'opp_two_point_field_goals': self.opp_two_point_field_goals,
-            'personal_fouls': self.personal_fouls,
-            'points': self.points,
-            'rank': self.rank,
-            'steals': self.steals,
-            'three_point_field_goal_attempts':
-            self.three_point_field_goal_attempts,
-            'three_point_field_goal_percentage':
-            self.three_point_field_goal_percentage,
-            'three_point_field_goals': self.three_point_field_goals,
-            'total_rebounds': self.total_rebounds,
-            'turnovers': self.turnovers,
-            'two_point_field_goal_attempts':
-            self.two_point_field_goal_attempts,
-            'two_point_field_goal_percentage':
-            self.two_point_field_goal_percentage,
-            'two_point_field_goals': self.two_point_field_goals
+            "abbreviation": self.abbreviation,
+            "assists": self.assists,
+            "blocks": self.blocks,
+            "defensive_rebounds": self.defensive_rebounds,
+            "field_goal_attempts": self.field_goal_attempts,
+            "field_goal_percentage": self.field_goal_percentage,
+            "field_goals": self.field_goals,
+            "free_throw_attempts": self.free_throw_attempts,
+            "free_throw_percentage": self.free_throw_percentage,
+            "free_throws": self.free_throws,
+            "games_played": self.games_played,
+            "minutes_played": self.minutes_played,
+            "name": self.name,
+            "offensive_rebounds": self.offensive_rebounds,
+            "opp_assists": self.opp_assists,
+            "opp_blocks": self.opp_blocks,
+            "opp_defensive_rebounds": self.opp_defensive_rebounds,
+            "opp_field_goal_attempts": self.opp_field_goal_attempts,
+            "opp_field_goal_percentage": self.opp_field_goal_percentage,
+            "opp_field_goals": self.opp_field_goals,
+            "opp_free_throw_attempts": self.opp_free_throw_attempts,
+            "opp_free_throw_percentage": self.opp_free_throw_percentage,
+            "opp_free_throws": self.opp_free_throws,
+            "opp_offensive_rebounds": self.opp_offensive_rebounds,
+            "opp_personal_fouls": self.opp_personal_fouls,
+            "opp_points": self.opp_points,
+            "opp_steals": self.opp_steals,
+            "opp_three_point_field_goal_attempts": self.opp_three_point_field_goal_attempts,
+            "opp_three_point_field_goal_percentage": self.opp_three_point_field_goal_percentage,
+            "opp_three_point_field_goals": self.opp_three_point_field_goals,
+            "opp_total_rebounds": self.opp_total_rebounds,
+            "opp_turnovers": self.opp_turnovers,
+            "opp_two_point_field_goal_attempts": self.opp_two_point_field_goal_attempts,
+            "opp_two_point_field_goal_percentage": self.opp_two_point_field_goal_percentage,
+            "opp_two_point_field_goals": self.opp_two_point_field_goals,
+            "personal_fouls": self.personal_fouls,
+            "points": self.points,
+            "rank": self.rank,
+            "steals": self.steals,
+            "three_point_field_goal_attempts": self.three_point_field_goal_attempts,
+            "three_point_field_goal_percentage": self.three_point_field_goal_percentage,
+            "three_point_field_goals": self.three_point_field_goals,
+            "total_rebounds": self.total_rebounds,
+            "turnovers": self.turnovers,
+            "two_point_field_goal_attempts": self.two_point_field_goal_attempts,
+            "two_point_field_goal_percentage": self.two_point_field_goal_percentage,
+            "two_point_field_goals": self.two_point_field_goals,
         }
         return pd.DataFrame([fields_to_include], index=[self._abbreviation])
 
@@ -633,6 +623,7 @@ class Teams:
     year : string (optional)
         The requested year to pull stats from.
     """
+
     def __init__(self, year=None):
         self._teams = []
 
@@ -665,7 +656,7 @@ class Teams:
         for team in self._teams:
             if team.abbreviation.upper() == abbreviation.upper():
                 return team
-        raise ValueError('Team abbreviation %s not found' % abbreviation)
+        raise ValueError("Team abbreviation %s not found" % abbreviation)
 
     def __call__(self, abbreviation):
         """
@@ -691,9 +682,8 @@ class Teams:
         """
         Return the string representation of the class.
         """
-        teams = [f'{team.name} ({team.abbreviation})'.strip()
-                 for team in self._teams]
-        return '\n'.join(teams)
+        teams = [f"{team.name} ({team.abbreviation})".strip() for team in self._teams]
+        return "\n".join(teams)
 
     def __repr__(self):
         """
@@ -728,9 +718,7 @@ class Teams:
         if not team_data_dict:
             return
         for team_data in team_data_dict.values():
-            team = Team(team_data=team_data['data'],
-                        rank=team_data['rank'],
-                        year=year)
+            team = Team(team_data=team_data["data"], rank=team_data["rank"], year=year)
             self._teams.append(team)
 
     @property

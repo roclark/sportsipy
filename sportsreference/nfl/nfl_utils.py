@@ -31,11 +31,11 @@ def _add_stats_data(teams_list, team_data_dict):
     for team_data in teams_list:
         if 'class="thead onecell"' in str(team_data):
             continue
-        abbr = utils._parse_field(PARSING_SCHEME, team_data, 'abbreviation')
+        abbr = utils._parse_field(PARSING_SCHEME, team_data, "abbreviation")
         try:
-            team_data_dict[abbr]['data'] += team_data
+            team_data_dict[abbr]["data"] += team_data
         except KeyError:
-            team_data_dict[abbr] = {'data': team_data, 'rank': rank}
+            team_data_dict[abbr] = {"data": team_data, "rank": rank}
         rank += 1
     return team_data_dict
 
@@ -68,17 +68,18 @@ def _retrieve_all_teams(year):
     team_data_dict = {}
 
     if not year:
-        year = utils._find_year_for_season('nfl')
+        year = utils._find_year_for_season("nfl")
         # If stats for the requested season do not exist yet (as is the case
         # right before a new season begins), attempt to pull the previous
         # year's stats. If it exists, use the previous year instead.
-        if not utils._url_exists(SEASON_PAGE_URL % year) and \
-           utils._url_exists(SEASON_PAGE_URL % str(int(year) - 1)):
+        if not utils._url_exists(SEASON_PAGE_URL % year) and utils._url_exists(
+            SEASON_PAGE_URL % str(int(year) - 1)
+        ):
             year = str(int(year) - 1)
     doc = pq(SEASON_PAGE_URL % year)
-    teams_list = utils._get_stats_table(doc, 'div#all_team_stats')
-    afc_list = utils._get_stats_table(doc, 'table#AFC')
-    nfc_list = utils._get_stats_table(doc, 'table#NFC')
+    teams_list = utils._get_stats_table(doc, "div#all_team_stats")
+    afc_list = utils._get_stats_table(doc, "table#AFC")
+    nfc_list = utils._get_stats_table(doc, "table#NFC")
     if not teams_list and not afc_list and not nfc_list:
         utils._no_data_found()
         return None, None

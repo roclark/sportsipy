@@ -1,18 +1,19 @@
 import pandas as pd
 import re
 from ..decorators import float_property_decorator, int_property_decorator
-from .constants import (SCHEDULE_SCHEME,
-                        SCHEDULE_URL)
+from .constants import SCHEDULE_SCHEME, SCHEDULE_URL
 from datetime import datetime
 from pyquery import PyQuery as pq
 from sportsreference import utils
-from sportsreference.constants import (WIN,
-                                       LOSS,
-                                       HOME,
-                                       AWAY,
-                                       NEUTRAL,
-                                       REGULAR_SEASON,
-                                       CONFERENCE_TOURNAMENT)
+from sportsreference.constants import (
+    WIN,
+    LOSS,
+    HOME,
+    AWAY,
+    NEUTRAL,
+    REGULAR_SEASON,
+    CONFERENCE_TOURNAMENT,
+)
 from sportsreference.nhl.boxscore import Boxscore
 from sportsreference.nhl.constants import OVERTIME_LOSS, SHOOTOUT
 
@@ -31,6 +32,7 @@ class Game:
     year : string
         The year of the current season.
     """
+
     def __init__(self, game_data, year):
         self._game = None
         self._date = None
@@ -70,7 +72,7 @@ class Game:
         """
         Return the string representation of the class.
         """
-        return f'{self.date} - {self.opponent_abbr}'
+        return f"{self.date} - {self.opponent_abbr}"
 
     def __repr__(self):
         """
@@ -91,9 +93,9 @@ class Game:
             A PyQuery object containing the information specific to a game.
         """
         name = game_data('td[data-stat="opp_name"]:first')
-        name = re.sub(r'.*/teams/', '', str(name))
-        name = re.sub('/.*', '', name)
-        setattr(self, '_opponent_abbr', name)
+        name = re.sub(r".*/teams/", "", str(name))
+        name = re.sub("/.*", "", name)
+        setattr(self, "_opponent_abbr", name)
 
     def _parse_boxscore(self, game_data):
         """
@@ -108,9 +110,9 @@ class Game:
             A PyQuery object containing the information specific to a game.
         """
         boxscore = game_data('td[data-stat="date_game"]:first')
-        boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
-        boxscore = re.sub(r'\.html.*', '', str(boxscore))
-        setattr(self, '_boxscore', boxscore)
+        boxscore = re.sub(r".*/boxscores/", "", str(boxscore))
+        boxscore = re.sub(r"\.html.*", "", str(boxscore))
+        setattr(self, "_boxscore", boxscore)
 
     def _parse_game_data(self, game_data):
         """
@@ -133,10 +135,10 @@ class Game:
         for field in self.__dict__:
             # Remove the leading '_' from the name
             short_name = str(field)[1:]
-            if short_name == 'opponent_abbr':
+            if short_name == "opponent_abbr":
                 self._parse_abbreviation(game_data)
                 continue
-            elif short_name == 'boxscore':
+            elif short_name == "boxscore":
                 self._parse_boxscore(game_data)
                 continue
             value = utils._parse_field(SCHEDULE_SCHEME, game_data, short_name)
@@ -151,39 +153,38 @@ class Game:
         if self._goals_scored is None and self._goals_allowed is None:
             return None
         fields_to_include = {
-            'boxscore_index': self.boxscore_index,
-            'date': self.date,
-            'datetime': self.datetime,
-            'game': self.game,
-            'goals_allowed': self.goals_allowed,
-            'goals_scored': self.goals_scored,
-            'location': self.location,
-            'opponent_abbr': self.opponent_abbr,
-            'opponent_name': self.opponent_name,
-            'overtime': self.overtime,
-            'penalties_in_minutes': self.penalties_in_minutes,
-            'power_play_goals': self.power_play_goals,
-            'power_play_opportunities': self.power_play_opportunities,
-            'result': self.result,
-            'short_handed_goals': self.short_handed_goals,
-            'shots_on_goal': self.shots_on_goal,
-            'opp_shots_on_goal': self.opp_shots_on_goal,
-            'opp_penalties_in_minutes': self.opp_penalties_in_minutes,
-            'opp_power_play_goals': self.opp_power_play_goals,
-            'opp_power_play_opportunities': self.opp_power_play_opportunities,
-            'opp_short_handed_goals': self.opp_short_handed_goals,
-            'corsi_for': self.corsi_for,
-            'corsi_against': self.corsi_against,
-            'corsi_for_percentage': self.corsi_for_percentage,
-            'fenwick_for': self.fenwick_for,
-            'fenwick_against': self.fenwick_against,
-            'fenwick_for_percentage': self.fenwick_for_percentage,
-            'faceoff_wins': self.faceoff_wins,
-            'faceoff_losses': self.faceoff_losses,
-            'faceoff_win_percentage': self.faceoff_win_percentage,
-            'offensive_zone_start_percentage':
-            self.offensive_zone_start_percentage,
-            'pdo': self.pdo
+            "boxscore_index": self.boxscore_index,
+            "date": self.date,
+            "datetime": self.datetime,
+            "game": self.game,
+            "goals_allowed": self.goals_allowed,
+            "goals_scored": self.goals_scored,
+            "location": self.location,
+            "opponent_abbr": self.opponent_abbr,
+            "opponent_name": self.opponent_name,
+            "overtime": self.overtime,
+            "penalties_in_minutes": self.penalties_in_minutes,
+            "power_play_goals": self.power_play_goals,
+            "power_play_opportunities": self.power_play_opportunities,
+            "result": self.result,
+            "short_handed_goals": self.short_handed_goals,
+            "shots_on_goal": self.shots_on_goal,
+            "opp_shots_on_goal": self.opp_shots_on_goal,
+            "opp_penalties_in_minutes": self.opp_penalties_in_minutes,
+            "opp_power_play_goals": self.opp_power_play_goals,
+            "opp_power_play_opportunities": self.opp_power_play_opportunities,
+            "opp_short_handed_goals": self.opp_short_handed_goals,
+            "corsi_for": self.corsi_for,
+            "corsi_against": self.corsi_against,
+            "corsi_for_percentage": self.corsi_for_percentage,
+            "fenwick_for": self.fenwick_for,
+            "fenwick_against": self.fenwick_against,
+            "fenwick_for_percentage": self.fenwick_for_percentage,
+            "faceoff_wins": self.faceoff_wins,
+            "faceoff_losses": self.faceoff_losses,
+            "faceoff_win_percentage": self.faceoff_win_percentage,
+            "offensive_zone_start_percentage": self.offensive_zone_start_percentage,
+            "pdo": self.pdo,
         }
         return pd.DataFrame([fields_to_include], index=[self._boxscore])
 
@@ -219,7 +220,7 @@ class Game:
         Returns a datetime object to indicate the month, day, and year the game
         was played at.
         """
-        return datetime.strptime(self._date, '%Y-%m-%d')
+        return datetime.strptime(self._date, "%Y-%m-%d")
 
     @property
     def boxscore(self):
@@ -243,7 +244,7 @@ class Game:
         Returns a ``string`` constant to indicate whether the game was played
         at home or away.
         """
-        if self._location == '@':
+        if self._location == "@":
             return AWAY
         return HOME
 
@@ -285,10 +286,9 @@ class Game:
         Returns a ``string`` constant to indicate whether the team lost in
         regulation, lost in overtime, or won.
         """
-        if self._result.lower() == 'w':
+        if self._result.lower() == "w":
             return WIN
-        if self._result.lower() == 'l' and \
-           self.overtime != 0:
+        if self._result.lower() == "l" and self.overtime != 0:
             return OVERTIME_LOSS
         return LOSS
 
@@ -298,13 +298,13 @@ class Game:
         Returns an ``int`` of the number of overtimes that were played during
         the game, or an int constant if the game went to a shootout.
         """
-        if self._overtime.lower() == 'ot':
+        if self._overtime.lower() == "ot":
             return 1
-        if self._overtime.lower() == 'so':
+        if self._overtime.lower() == "so":
             return SHOOTOUT
-        if self._overtime == '':
+        if self._overtime == "":
             return 0
-        num = re.findall(r'\d+', self._overtime)
+        num = re.findall(r"\d+", self._overtime)
         if len(num) > 0:
             return num[0]
         return 0
@@ -499,6 +499,7 @@ class Schedule:
     year : string (optional)
         The requested year to pull stats from.
     """
+
     def __init__(self, abbreviation, year=None):
         self._games = []
         self._pull_schedule(abbreviation, year)
@@ -549,19 +550,20 @@ class Schedule:
             schedule.
         """
         for game in self._games:
-            if game.datetime.year == date.year and \
-               game.datetime.month == date.month and \
-               game.datetime.day == date.day:
+            if (
+                game.datetime.year == date.year
+                and game.datetime.month == date.month
+                and game.datetime.day == date.day
+            ):
                 return game
-        raise ValueError('No games found for requested date')
+        raise ValueError("No games found for requested date")
 
     def __str__(self):
         """
         Return the string representation of the class.
         """
-        games = [f'{game.date} - {game.opponent_abbr}'.strip()
-                 for game in self._games]
-        return '\n'.join(games)
+        games = [f"{game.date} - {game.opponent_abbr}".strip() for game in self._games]
+        return "\n".join(games)
 
     def __repr__(self):
         """
@@ -596,17 +598,17 @@ class Schedule:
             The requested year to pull stats from.
         """
         if not year:
-            year = utils._find_year_for_season('nhl')
+            year = utils._find_year_for_season("nhl")
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(SCHEDULE_URL % (abbreviation, year)) and \
-               utils._url_exists(SCHEDULE_URL % (abbreviation,
-                                                 str(int(year) - 1))):
+            if not utils._url_exists(
+                SCHEDULE_URL % (abbreviation, year)
+            ) and utils._url_exists(SCHEDULE_URL % (abbreviation, str(int(year) - 1))):
                 year = str(int(year) - 1)
         doc = pq(SCHEDULE_URL % (abbreviation, year))
-        schedule = utils._get_stats_table(doc, 'table#tm_gamelog_rs')
+        schedule = utils._get_stats_table(doc, "table#tm_gamelog_rs")
         if not schedule:
             utils._no_data_found()
             return

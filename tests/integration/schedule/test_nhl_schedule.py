@@ -18,8 +18,8 @@ NUM_GAMES_IN_SCHEDULE = 82
 
 
 def read_file(filename):
-    filepath = os.path.join(os.path.dirname(__file__), 'nhl', filename)
-    return open('%s' % filepath, 'r', encoding='utf8').read()
+    filepath = os.path.join(os.path.dirname(__file__), "nhl", filename)
+    return open("%s" % filepath, "r", encoding="utf8").read()
 
 
 def mock_pyquery(url):
@@ -30,9 +30,9 @@ def mock_pyquery(url):
             self.text = html_contents
 
         def __call__(self, div):
-            return read_file('table.html')
+            return read_file("table.html")
 
-    schedule = read_file('%s_gamelog.html' % YEAR)
+    schedule = read_file("%s_gamelog.html" % YEAR)
     return MockPQ(schedule)
 
 
@@ -44,9 +44,9 @@ def mock_request(url):
             self.text = html_contents
 
     if str(YEAR) in url:
-        return MockRequest('good')
+        return MockRequest("good")
     else:
-        return MockRequest('bad', status_code=404)
+        return MockRequest("bad", status_code=404)
 
 
 class MockDateTime:
@@ -56,53 +56,51 @@ class MockDateTime:
 
 
 class TestNHLSchedule:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch("requests.get", side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results = {
-            'game': 2,
-            'boxscore_index': '201610150STL',
-            'date': '2016-10-15',
-            'datetime': datetime(2016, 10, 15),
-            'location': AWAY,
-            'opponent_abbr': 'STL',
-            'opponent_name': 'St. Louis Blues',
-            'goals_scored': 2,
-            'goals_allowed': 3,
-            'result': LOSS,
-            'overtime': 0,
-            'shots_on_goal': 35,
-            'penalties_in_minutes': 8,
-            'power_play_goals': 0,
-            'power_play_opportunities': 2,
-            'short_handed_goals': 0,
-            'opp_shots_on_goal': 18,
-            'opp_penalties_in_minutes': 4,
-            'opp_power_play_goals': 1,
-            'opp_power_play_opportunities': 5,
-            'opp_short_handed_goals': 0,
-            'corsi_for': 54,
-            'corsi_against': 23,
-            'corsi_for_percentage': 70.1,
-            'fenwick_for': 41,
-            'fenwick_against': 18,
-            'fenwick_for_percentage': 69.5,
-            'faceoff_wins': 29,
-            'faceoff_losses': 18,
-            'faceoff_win_percentage': 61.7,
-            'offensive_zone_start_percentage': 55.2,
-            'pdo': 92.4
+            "game": 2,
+            "boxscore_index": "201610150STL",
+            "date": "2016-10-15",
+            "datetime": datetime(2016, 10, 15),
+            "location": AWAY,
+            "opponent_abbr": "STL",
+            "opponent_name": "St. Louis Blues",
+            "goals_scored": 2,
+            "goals_allowed": 3,
+            "result": LOSS,
+            "overtime": 0,
+            "shots_on_goal": 35,
+            "penalties_in_minutes": 8,
+            "power_play_goals": 0,
+            "power_play_opportunities": 2,
+            "short_handed_goals": 0,
+            "opp_shots_on_goal": 18,
+            "opp_penalties_in_minutes": 4,
+            "opp_power_play_goals": 1,
+            "opp_power_play_opportunities": 5,
+            "opp_short_handed_goals": 0,
+            "corsi_for": 54,
+            "corsi_against": 23,
+            "corsi_for_percentage": 70.1,
+            "fenwick_for": 41,
+            "fenwick_against": 18,
+            "fenwick_for_percentage": 69.5,
+            "faceoff_wins": 29,
+            "faceoff_losses": 18,
+            "faceoff_win_percentage": 61.7,
+            "offensive_zone_start_percentage": 55.2,
+            "pdo": 92.4,
         }
-        flexmock(utils) \
-            .should_receive('_todays_date') \
-            .and_return(MockDateTime(YEAR, MONTH))
-        flexmock(Boxscore) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-        flexmock(Boxscore) \
-            .should_receive('dataframe') \
-            .and_return(pd.DataFrame([{'key': 'value'}]))
+        flexmock(utils).should_receive("_todays_date").and_return(
+            MockDateTime(YEAR, MONTH)
+        )
+        flexmock(Boxscore).should_receive("_parse_game_data").and_return(None)
+        flexmock(Boxscore).should_receive("dataframe").and_return(
+            pd.DataFrame([{"key": "value"}])
+        )
 
-        self.schedule = Schedule('NYR')
+        self.schedule = Schedule("NYR")
 
     def test_nhl_schedule_returns_correct_number_of_games(self):
         assert len(self.schedule) == NUM_GAMES_IN_SCHEDULE
@@ -120,7 +118,7 @@ class TestNHLSchedule:
             assert getattr(match_two, attribute) == value
 
     def test_nhl_schedule_dataframe_returns_dataframe(self):
-        df = pd.DataFrame([self.results], index=['NYR'])
+        df = pd.DataFrame([self.results], index=["NYR"])
 
         match_two = self.schedule[1]
         # Pandas doesn't natively allow comparisons of DataFrames.
@@ -135,7 +133,7 @@ class TestNHLSchedule:
         assert df1.empty
 
     def test_nhl_schedule_dataframe_extended_returns_dataframe(self):
-        df = pd.DataFrame([{'key': 'value'}])
+        df = pd.DataFrame([{"key": "value"}])
 
         result = self.schedule[1].dataframe_extended
 
@@ -160,21 +158,17 @@ class TestNHLSchedule:
             self.schedule(datetime.now())
 
     def test_empty_page_return_no_games(self):
-        flexmock(utils) \
-            .should_receive('_no_data_found') \
-            .once()
-        flexmock(utils) \
-            .should_receive('_get_stats_table') \
-            .and_return(None)
+        flexmock(utils).should_receive("_no_data_found").once()
+        flexmock(utils).should_receive("_get_stats_table").and_return(None)
 
-        schedule = Schedule('NYR')
+        schedule = Schedule("NYR")
 
         assert len(schedule) == 0
 
     def test_game_string_representation(self):
         game = self.schedule[0]
 
-        assert game.__repr__() == '2016-10-13 - NYI'
+        assert game.__repr__() == "2016-10-13 - NYI"
 
     def test_schedule_string_representation(self):
         expected = """2016-10-13 - NYI
@@ -264,55 +258,49 @@ class TestNHLSchedule:
 
 
 class TestNHLScheduleInvalidYear:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    @mock.patch('requests.head', side_effect=mock_request)
-    def test_invalid_default_year_reverts_to_previous_year(self,
-                                                           *args,
-                                                           **kwargs):
+    @mock.patch("requests.get", side_effect=mock_pyquery)
+    @mock.patch("requests.head", side_effect=mock_request)
+    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
         results = {
-            'game': 2,
-            'boxscore_index': '201610150STL',
-            'date': '2016-10-15',
-            'datetime': datetime(2016, 10, 15),
-            'location': AWAY,
-            'opponent_abbr': 'STL',
-            'opponent_name': 'St. Louis Blues',
-            'goals_scored': 2,
-            'goals_allowed': 3,
-            'result': LOSS,
-            'overtime': 0,
-            'shots_on_goal': 35,
-            'penalties_in_minutes': 8,
-            'power_play_goals': 0,
-            'power_play_opportunities': 2,
-            'short_handed_goals': 0,
-            'opp_shots_on_goal': 18,
-            'opp_penalties_in_minutes': 4,
-            'opp_power_play_goals': 1,
-            'opp_power_play_opportunities': 5,
-            'opp_short_handed_goals': 0,
-            'corsi_for': 54,
-            'corsi_against': 23,
-            'corsi_for_percentage': 70.1,
-            'fenwick_for': 41,
-            'fenwick_against': 18,
-            'fenwick_for_percentage': 69.5,
-            'faceoff_wins': 29,
-            'faceoff_losses': 18,
-            'faceoff_win_percentage': 61.7,
-            'offensive_zone_start_percentage': 55.2,
-            'pdo': 92.4
+            "game": 2,
+            "boxscore_index": "201610150STL",
+            "date": "2016-10-15",
+            "datetime": datetime(2016, 10, 15),
+            "location": AWAY,
+            "opponent_abbr": "STL",
+            "opponent_name": "St. Louis Blues",
+            "goals_scored": 2,
+            "goals_allowed": 3,
+            "result": LOSS,
+            "overtime": 0,
+            "shots_on_goal": 35,
+            "penalties_in_minutes": 8,
+            "power_play_goals": 0,
+            "power_play_opportunities": 2,
+            "short_handed_goals": 0,
+            "opp_shots_on_goal": 18,
+            "opp_penalties_in_minutes": 4,
+            "opp_power_play_goals": 1,
+            "opp_power_play_opportunities": 5,
+            "opp_short_handed_goals": 0,
+            "corsi_for": 54,
+            "corsi_against": 23,
+            "corsi_for_percentage": 70.1,
+            "fenwick_for": 41,
+            "fenwick_against": 18,
+            "fenwick_for_percentage": 69.5,
+            "faceoff_wins": 29,
+            "faceoff_losses": 18,
+            "faceoff_win_percentage": 61.7,
+            "offensive_zone_start_percentage": 55.2,
+            "pdo": 92.4,
         }
-        flexmock(utils) \
-            .should_receive('_find_year_for_season') \
-            .and_return(2018)
-        flexmock(Boxscore) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-        flexmock(Boxscore) \
-            .should_receive('dataframe') \
-            .and_return(pd.DataFrame([{'key': 'value'}]))
-        schedule = Schedule('NYR')
+        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
+        flexmock(Boxscore).should_receive("_parse_game_data").and_return(None)
+        flexmock(Boxscore).should_receive("dataframe").and_return(
+            pd.DataFrame([{"key": "value"}])
+        )
+        schedule = Schedule("NYR")
 
         for attribute, value in results.items():
             assert getattr(schedule[1], attribute) == value

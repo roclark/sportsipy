@@ -6,16 +6,16 @@ from urllib.error import HTTPError
 from .. import utils
 from ..constants import AWAY, HOME
 from ..decorators import float_property_decorator, int_property_decorator
-from .constants import (BOXSCORE_ELEMENT_INDEX,
-                        BOXSCORE_SCHEME,
-                        BOXSCORE_URL,
-                        BOXSCORES_URL,
-                        DAY,
-                        DOUBLE_HEADER_INDICES,
-                        NIGHT)
-from .player import (AbstractPlayer,
-                     _float_property_decorator,
-                     _int_property_decorator)
+from .constants import (
+    BOXSCORE_ELEMENT_INDEX,
+    BOXSCORE_SCHEME,
+    BOXSCORE_URL,
+    BOXSCORES_URL,
+    DAY,
+    DOUBLE_HEADER_INDICES,
+    NIGHT,
+)
+from .player import AbstractPlayer, _float_property_decorator, _int_property_decorator
 
 
 class BoxscorePlayer(AbstractPlayer):
@@ -54,6 +54,7 @@ class BoxscorePlayer(AbstractPlayer):
         page. If the player appears in multiple tables, all of their
         information will appear in one single string concatenated together.
     """
+
     def __init__(self, player_id, player_name, player_data):
         self._index = 0
         self._player_id = player_id
@@ -90,54 +91,50 @@ class BoxscorePlayer(AbstractPlayer):
         properties and values for the specified game.
         """
         fields_to_include = {
-            'assists': self.assists,
-            'at_bats': self.at_bats,
-            'average_leverage_index': self.average_leverage_index,
-            'average_leverage_index_pitcher':
-            self.average_leverage_index_pitcher,
-            'bases_on_balls': self.bases_on_balls,
-            'bases_on_balls_given': self.bases_on_balls_given,
-            'base_out_runs_added': self.base_out_runs_added,
-            'base_out_runs_saved': self.base_out_runs_saved,
-            'batters_faced': self.batters_faced,
-            'batting_average': self.batting_average,
-            'earned_runs_allowed': self.earned_runs_allowed,
-            'earned_runs_against': self.earned_runs_against,
-            'fly_balls': self.fly_balls,
-            'game_score': self.game_score,
-            'grounded_balls': self.grounded_balls,
-            'hits': self.hits,
-            'hits_allowed': self.hits_allowed,
-            'home_runs_thrown': self.home_runs_thrown,
-            'inherited_runners': self.inherited_runners,
-            'inherited_score': self.inherited_score,
-            'innings_pitched': self.innings_pitched,
-            'line_drives': self.line_drives,
-            'name': self.name,
-            'on_base_percentage': self.on_base_percentage,
-            'on_base_plus_slugging_percentage':
-            self.on_base_plus_slugging_percentage,
-            'pitches_thrown': self.pitches_thrown,
-            'plate_appearances': self.plate_appearances,
-            'putouts': self.putouts,
-            'runs': self.runs,
-            'runs_allowed': self.runs_allowed,
-            'runs_batted_in': self.runs_batted_in,
-            'slugging_percentage': self.slugging_percentage,
-            'strikes': self.strikes,
-            'strikes_contact': self.strikes_contact,
-            'strikes_looking': self.strikes_looking,
-            'strikes_swinging': self.strikes_swinging,
-            'strikes_thrown': self.strikes_thrown,
-            'strikeouts': self.strikeouts,
-            'times_struck_out': self.times_struck_out,
-            'unknown_bat_types': self.unknown_bat_types,
-            'win_probability_added': self.win_probability_added,
-            'win_probability_added_pitcher':
-            self.win_probability_added_pitcher,
-            'win_probability_for_offensive_player':
-            self.win_probability_for_offensive_player,
-            'win_probability_subtracted': self.win_probability_subtracted
+            "assists": self.assists,
+            "at_bats": self.at_bats,
+            "average_leverage_index": self.average_leverage_index,
+            "average_leverage_index_pitcher": self.average_leverage_index_pitcher,
+            "bases_on_balls": self.bases_on_balls,
+            "bases_on_balls_given": self.bases_on_balls_given,
+            "base_out_runs_added": self.base_out_runs_added,
+            "base_out_runs_saved": self.base_out_runs_saved,
+            "batters_faced": self.batters_faced,
+            "batting_average": self.batting_average,
+            "earned_runs_allowed": self.earned_runs_allowed,
+            "earned_runs_against": self.earned_runs_against,
+            "fly_balls": self.fly_balls,
+            "game_score": self.game_score,
+            "grounded_balls": self.grounded_balls,
+            "hits": self.hits,
+            "hits_allowed": self.hits_allowed,
+            "home_runs_thrown": self.home_runs_thrown,
+            "inherited_runners": self.inherited_runners,
+            "inherited_score": self.inherited_score,
+            "innings_pitched": self.innings_pitched,
+            "line_drives": self.line_drives,
+            "name": self.name,
+            "on_base_percentage": self.on_base_percentage,
+            "on_base_plus_slugging_percentage": self.on_base_plus_slugging_percentage,
+            "pitches_thrown": self.pitches_thrown,
+            "plate_appearances": self.plate_appearances,
+            "putouts": self.putouts,
+            "runs": self.runs,
+            "runs_allowed": self.runs_allowed,
+            "runs_batted_in": self.runs_batted_in,
+            "slugging_percentage": self.slugging_percentage,
+            "strikes": self.strikes,
+            "strikes_contact": self.strikes_contact,
+            "strikes_looking": self.strikes_looking,
+            "strikes_swinging": self.strikes_swinging,
+            "strikes_thrown": self.strikes_thrown,
+            "strikeouts": self.strikeouts,
+            "times_struck_out": self.times_struck_out,
+            "unknown_bat_types": self.unknown_bat_types,
+            "win_probability_added": self.win_probability_added,
+            "win_probability_added_pitcher": self.win_probability_added_pitcher,
+            "win_probability_for_offensive_player": self.win_probability_for_offensive_player,
+            "win_probability_subtracted": self.win_probability_subtracted,
         }
         return pd.DataFrame([fields_to_include], index=[self._player_id])
 
@@ -343,6 +340,7 @@ class Boxscore:
         The relative link to the boxscore HTML page, such as
         'BOS/BOS201806070'.
     """
+
     def __init__(self, uri):
         self._uri = uri
         self._date = None
@@ -437,8 +435,10 @@ class Boxscore:
         """
         Return the string representation of the class.
         """
-        return (f'Boxscore for {self._away_name.text()} at '
-                f'{self._home_name.text()} ({self.date})')
+        return (
+            f"Boxscore for {self._away_name.text()} at "
+            f"{self._home_name.text()} ({self.date})"
+        )
 
     def __repr__(self):
         """
@@ -491,7 +491,7 @@ class Boxscore:
         """
         scheme = BOXSCORE_SCHEME["game_info"]
         items = [i.text() for i in boxscore(scheme).items()]
-        game_info = items[0].split('\n')
+        game_info = items[0].split("\n")
         attendance = None
         date = None
         duration = None
@@ -501,22 +501,22 @@ class Boxscore:
         if len(game_info) > 0:
             date = game_info[0]
         for line in game_info:
-            if 'Start Time: ' in line:
-                time = line.replace('Start Time: ', '')
-            if 'Attendance: ' in line:
-                attendance = line.replace('Attendance: ', '').replace(',', '')
-            if 'Venue: ' in line:
-                venue = line.replace('Venue: ', '')
-            if 'Game Duration: ' in line:
-                duration = line.replace('Game Duration: ', '')
-            if 'Night Game' in line or 'Day Game' in line:
+            if "Start Time: " in line:
+                time = line.replace("Start Time: ", "")
+            if "Attendance: " in line:
+                attendance = line.replace("Attendance: ", "").replace(",", "")
+            if "Venue: " in line:
+                venue = line.replace("Venue: ", "")
+            if "Game Duration: " in line:
+                duration = line.replace("Game Duration: ", "")
+            if "Night Game" in line or "Day Game" in line:
                 time_of_day = line
-        setattr(self, '_attendance', attendance)
-        setattr(self, '_date', date)
-        setattr(self, '_duration', duration)
-        setattr(self, '_time', time)
-        setattr(self, '_time_of_day', time_of_day)
-        setattr(self, '_venue', venue)
+        setattr(self, "_attendance", attendance)
+        setattr(self, "_date", date)
+        setattr(self, "_duration", duration)
+        setattr(self, "_time", time)
+        setattr(self, "_time_of_day", time_of_day)
+        setattr(self, "_venue", venue)
 
     def _parse_summary(self, boxscore):
         """
@@ -545,16 +545,16 @@ class Boxscore:
             Returns a ``dictionary`` representing the score for each team in
             each quarter of the game.
         """
-        team = ['away', 'home']
-        summary = {'away': [], 'home': []}
-        game_summary = boxscore(BOXSCORE_SCHEME['summary'])
-        for ind, team_info in enumerate(game_summary('tr').items()):
+        team = ["away", "home"]
+        summary = {"away": [], "home": []}
+        game_summary = boxscore(BOXSCORE_SCHEME["summary"])
+        for ind, team_info in enumerate(game_summary("tr").items()):
             ind = (ind + 1) % 2
             # Only pull the first N-1 items as the last three elements are the
             # total runs, hits, and errors for each team which is already
             # stored in an attribute, and shouldn't be duplicated.
             for inning in list(team_info('td[class="center"]').items())[:-3]:
-                if inning('div'):
+                if inning("div"):
                     continue
                 try:
                     summary[team[ind]].append(int(inning.text()))
@@ -606,10 +606,9 @@ class Boxscore:
         """
         tables = []
 
-        for table in boxscore('table').items():
+        for table in boxscore("table").items():
             try:
-                if 'pitching' in table.attr['id'] or \
-                   'batting' in table.attr['id']:
+                if "pitching" in table.attr["id"] or "batting" in table.attr["id"]:
                     tables.append(table)
             except (KeyError, TypeError):
                 continue
@@ -634,7 +633,7 @@ class Boxscore:
             Returns a ``string`` of the player's ID, such as 'altuvjo01' for
             Jose Altuve.
         """
-        return row('th').attr('data-append-csv')
+        return row("th").attr("data-append-csv")
 
     def _find_player_name(self, row):
         """
@@ -655,7 +654,7 @@ class Boxscore:
             Returns a ``string`` of the player's full name, such as 'Jose
             Altuve'.
         """
-        return row('a').text()
+        return row("a").text()
 
     def _extract_player_stats(self, table, player_dict, home_or_away):
         """
@@ -689,19 +688,19 @@ class Boxscore:
             player's name, HTML data, and a string constant indicating which
             team the player is a member of.
         """
-        for row in table('tbody tr').items():
+        for row in table("tbody tr").items():
             player_id = self._find_player_id(row)
             # Occurs when a header row is identified instead of a player.
             if not player_id:
                 continue
             name = self._find_player_name(row)
             try:
-                player_dict[player_id]['data'] += str(row).strip()
+                player_dict[player_id]["data"] += str(row).strip()
             except KeyError:
                 player_dict[player_id] = {
-                    'name': name,
-                    'data': str(row).strip(),
-                    'team': home_or_away
+                    "name": name,
+                    "data": str(row).strip(),
+                    "team": home_or_away,
                 }
         return player_dict
 
@@ -732,10 +731,8 @@ class Boxscore:
         home_players = []
         away_players = []
         for player_id, details in player_dict.items():
-            player = BoxscorePlayer(player_id,
-                                    details['name'],
-                                    details['data'])
-            if details['team'] == HOME:
+            player = BoxscorePlayer(player_id, details["name"], details["data"])
+            if details["team"] == HOME:
                 home_players.append(player)
             else:
                 away_players.append(player)
@@ -772,9 +769,7 @@ class Boxscore:
             # the home team.
             if table_count % 2 == 1:
                 home_or_away = HOME
-            player_dict = self._extract_player_stats(table,
-                                                     player_dict,
-                                                     home_or_away)
+            player_dict = self._extract_player_stats(table, player_dict, home_or_away)
             table_count += 1
         away_players, home_players = self._instantiate_players(player_dict)
         return away_players, home_players
@@ -807,35 +802,33 @@ class Boxscore:
         for field in self.__dict__:
             # Remove the '_' from the name
             short_field = str(field)[1:]
-            if short_field == 'winner' or \
-               short_field == 'winning_name' or \
-               short_field == 'winning_abbr' or \
-               short_field == 'losing_name' or \
-               short_field == 'losing_abbr' or \
-               short_field == 'uri' or \
-               short_field == 'date' or \
-               short_field == 'time' or \
-               short_field == 'venue' or \
-               short_field == 'attendance' or \
-               short_field == 'time_of_day' or \
-               short_field == 'duration':
+            if (
+                short_field == "winner"
+                or short_field == "winning_name"
+                or short_field == "winning_abbr"
+                or short_field == "losing_name"
+                or short_field == "losing_abbr"
+                or short_field == "uri"
+                or short_field == "date"
+                or short_field == "time"
+                or short_field == "venue"
+                or short_field == "attendance"
+                or short_field == "time_of_day"
+                or short_field == "duration"
+            ):
                 continue
-            if short_field == 'away_name' or \
-               short_field == 'home_name':
+            if short_field == "away_name" or short_field == "home_name":
                 value = self._parse_name(short_field, boxscore)
                 setattr(self, field, value)
                 continue
-            if short_field == 'summary':
+            if short_field == "summary":
                 value = self._parse_summary(boxscore)
                 setattr(self, field, value)
                 continue
             index = 0
             if short_field in BOXSCORE_ELEMENT_INDEX.keys():
                 index = BOXSCORE_ELEMENT_INDEX[short_field]
-            value = utils._parse_field(BOXSCORE_SCHEME,
-                                       boxscore,
-                                       short_field,
-                                       index)
+            value = utils._parse_field(BOXSCORE_SCHEME, boxscore, short_field, index)
             setattr(self, field, value)
         self._parse_game_date_and_location(boxscore)
         self._away_players, self._home_players = self._find_players(boxscore)
@@ -850,93 +843,87 @@ class Boxscore:
         if self._away_runs is None and self._home_runs is None:
             return None
         fields_to_include = {
-            'date': self.date,
-            'time': self.time,
-            'venue': self.venue,
-            'attendance': self.attendance,
-            'duration': self.duration,
-            'time_of_day': self.time_of_day,
-            'winner': self.winner,
-            'winning_name': self.winning_name,
-            'winning_abbr': self.winning_abbr,
-            'losing_name': self.losing_name,
-            'losing_abbr': self.losing_abbr,
-            'away_at_bats': self.away_at_bats,
-            'away_runs': self.away_runs,
-            'away_hits': self.away_hits,
-            'away_rbi': self.away_rbi,
-            'away_earned_runs': self.away_earned_runs,
-            'away_bases_on_balls': self.away_bases_on_balls,
-            'away_strikeouts': self.away_strikeouts,
-            'away_plate_appearances': self.away_plate_appearances,
-            'away_batting_average': self.away_batting_average,
-            'away_on_base_percentage': self.away_on_base_percentage,
-            'away_slugging_percentage': self.away_slugging_percentage,
-            'away_on_base_plus': self.away_on_base_plus,
-            'away_pitches': self.away_pitches,
-            'away_strikes': self.away_strikes,
-            'away_win_probability_for_offensive_player':
-            self.away_win_probability_for_offensive_player,
-            'away_average_leverage_index': self.away_average_leverage_index,
-            'away_win_probability_added': self.away_win_probability_added,
-            'away_win_probability_subtracted':
-            self.away_win_probability_subtracted,
-            'away_base_out_runs_added': self.away_base_out_runs_added,
-            'away_putouts': self.away_putouts,
-            'away_assists': self.away_assists,
-            'away_innings_pitched': self.away_innings_pitched,
-            'away_home_runs': self.away_home_runs,
-            'away_strikes_by_contact': self.away_strikes_by_contact,
-            'away_strikes_swinging': self.away_strikes_swinging,
-            'away_strikes_looking': self.away_strikes_looking,
-            'away_grounded_balls': self.away_grounded_balls,
-            'away_fly_balls': self.away_fly_balls,
-            'away_line_drives': self.away_line_drives,
-            'away_unknown_bat_type': self.away_unknown_bat_type,
-            'away_game_score': self.away_game_score,
-            'away_inherited_runners': self.away_inherited_runners,
-            'away_inherited_score': self.away_inherited_score,
-            'away_win_probability_by_pitcher':
-            self.away_win_probability_by_pitcher,
-            'away_base_out_runs_saved': self.away_base_out_runs_saved,
-            'home_at_bats': self.home_at_bats,
-            'home_runs': self.home_runs,
-            'home_hits': self.home_hits,
-            'home_rbi': self.home_rbi,
-            'home_earned_runs': self.home_earned_runs,
-            'home_bases_on_balls': self.home_bases_on_balls,
-            'home_strikeouts': self.home_strikeouts,
-            'home_plate_appearances': self.home_plate_appearances,
-            'home_batting_average': self.home_batting_average,
-            'home_on_base_percentage': self.home_on_base_percentage,
-            'home_slugging_percentage': self.home_slugging_percentage,
-            'home_on_base_plus': self.home_on_base_plus,
-            'home_pitches': self.home_pitches,
-            'home_strikes': self.home_strikes,
-            'home_win_probability_for_offensive_player':
-            self.home_win_probability_for_offensive_player,
-            'home_average_leverage_index': self.home_average_leverage_index,
-            'home_win_probability_added': self.home_win_probability_added,
-            'home_win_probability_subtracted':
-            self.home_win_probability_subtracted,
-            'home_base_out_runs_added': self.home_base_out_runs_added,
-            'home_putouts': self.home_putouts,
-            'home_assists': self.home_assists,
-            'home_innings_pitched': self.home_innings_pitched,
-            'home_home_runs': self.home_home_runs,
-            'home_strikes_by_contact': self.home_strikes_by_contact,
-            'home_strikes_swinging': self.home_strikes_swinging,
-            'home_strikes_looking': self.home_strikes_looking,
-            'home_grounded_balls': self.home_grounded_balls,
-            'home_fly_balls': self.home_fly_balls,
-            'home_line_drives': self.home_line_drives,
-            'home_unknown_bat_type': self.home_unknown_bat_type,
-            'home_game_score': self.home_game_score,
-            'home_inherited_runners': self.home_inherited_runners,
-            'home_inherited_score': self.home_inherited_score,
-            'home_win_probability_by_pitcher':
-            self.home_win_probability_by_pitcher,
-            'home_base_out_runs_saved': self.home_base_out_runs_saved
+            "date": self.date,
+            "time": self.time,
+            "venue": self.venue,
+            "attendance": self.attendance,
+            "duration": self.duration,
+            "time_of_day": self.time_of_day,
+            "winner": self.winner,
+            "winning_name": self.winning_name,
+            "winning_abbr": self.winning_abbr,
+            "losing_name": self.losing_name,
+            "losing_abbr": self.losing_abbr,
+            "away_at_bats": self.away_at_bats,
+            "away_runs": self.away_runs,
+            "away_hits": self.away_hits,
+            "away_rbi": self.away_rbi,
+            "away_earned_runs": self.away_earned_runs,
+            "away_bases_on_balls": self.away_bases_on_balls,
+            "away_strikeouts": self.away_strikeouts,
+            "away_plate_appearances": self.away_plate_appearances,
+            "away_batting_average": self.away_batting_average,
+            "away_on_base_percentage": self.away_on_base_percentage,
+            "away_slugging_percentage": self.away_slugging_percentage,
+            "away_on_base_plus": self.away_on_base_plus,
+            "away_pitches": self.away_pitches,
+            "away_strikes": self.away_strikes,
+            "away_win_probability_for_offensive_player": self.away_win_probability_for_offensive_player,
+            "away_average_leverage_index": self.away_average_leverage_index,
+            "away_win_probability_added": self.away_win_probability_added,
+            "away_win_probability_subtracted": self.away_win_probability_subtracted,
+            "away_base_out_runs_added": self.away_base_out_runs_added,
+            "away_putouts": self.away_putouts,
+            "away_assists": self.away_assists,
+            "away_innings_pitched": self.away_innings_pitched,
+            "away_home_runs": self.away_home_runs,
+            "away_strikes_by_contact": self.away_strikes_by_contact,
+            "away_strikes_swinging": self.away_strikes_swinging,
+            "away_strikes_looking": self.away_strikes_looking,
+            "away_grounded_balls": self.away_grounded_balls,
+            "away_fly_balls": self.away_fly_balls,
+            "away_line_drives": self.away_line_drives,
+            "away_unknown_bat_type": self.away_unknown_bat_type,
+            "away_game_score": self.away_game_score,
+            "away_inherited_runners": self.away_inherited_runners,
+            "away_inherited_score": self.away_inherited_score,
+            "away_win_probability_by_pitcher": self.away_win_probability_by_pitcher,
+            "away_base_out_runs_saved": self.away_base_out_runs_saved,
+            "home_at_bats": self.home_at_bats,
+            "home_runs": self.home_runs,
+            "home_hits": self.home_hits,
+            "home_rbi": self.home_rbi,
+            "home_earned_runs": self.home_earned_runs,
+            "home_bases_on_balls": self.home_bases_on_balls,
+            "home_strikeouts": self.home_strikeouts,
+            "home_plate_appearances": self.home_plate_appearances,
+            "home_batting_average": self.home_batting_average,
+            "home_on_base_percentage": self.home_on_base_percentage,
+            "home_slugging_percentage": self.home_slugging_percentage,
+            "home_on_base_plus": self.home_on_base_plus,
+            "home_pitches": self.home_pitches,
+            "home_strikes": self.home_strikes,
+            "home_win_probability_for_offensive_player": self.home_win_probability_for_offensive_player,
+            "home_average_leverage_index": self.home_average_leverage_index,
+            "home_win_probability_added": self.home_win_probability_added,
+            "home_win_probability_subtracted": self.home_win_probability_subtracted,
+            "home_base_out_runs_added": self.home_base_out_runs_added,
+            "home_putouts": self.home_putouts,
+            "home_assists": self.home_assists,
+            "home_innings_pitched": self.home_innings_pitched,
+            "home_home_runs": self.home_home_runs,
+            "home_strikes_by_contact": self.home_strikes_by_contact,
+            "home_strikes_swinging": self.home_strikes_swinging,
+            "home_strikes_looking": self.home_strikes_looking,
+            "home_grounded_balls": self.home_grounded_balls,
+            "home_fly_balls": self.home_fly_balls,
+            "home_line_drives": self.home_line_drives,
+            "home_unknown_bat_type": self.home_unknown_bat_type,
+            "home_game_score": self.home_game_score,
+            "home_inherited_runners": self.home_inherited_runners,
+            "home_inherited_score": self.home_inherited_score,
+            "home_win_probability_by_pitcher": self.home_win_probability_by_pitcher,
+            "home_base_out_runs_saved": self.home_base_out_runs_saved,
         }
         return pd.DataFrame([fields_to_include], index=[self._uri])
 
@@ -998,7 +985,7 @@ class Boxscore:
         Returns a ``string`` constant indicated whether the game was played
         during the day or at night.
         """
-        if 'night' in self._time_of_day.lower():
+        if "night" in self._time_of_day.lower():
             return NIGHT
         return DAY
 
@@ -1637,6 +1624,7 @@ class Boxscores:
         pulled. If left empty, or if 'end_date' is prior to 'date', only the
         games from the day specified in the 'date' parameter will be saved.
     """
+
     def __init__(self, date, end_date=None):
         self._boxscores = {}
 
@@ -1753,8 +1741,8 @@ class Boxscores:
             Returns a ``string`` containing the link to the game's boxscore
             page.
         """
-        uri = re.sub(r'.*/boxes/', '', str(url))
-        uri = re.sub(r'\.shtml.*', '', uri).strip()
+        uri = re.sub(r".*/boxes/", "", str(url))
+        uri = re.sub(r"\.shtml.*", "", uri).strip()
         return uri
 
     def _parse_abbreviation(self, abbr):
@@ -1773,8 +1761,8 @@ class Boxscores:
         string
             Returns a ``string`` of the team's abbreviation.
         """
-        abbr = re.sub(r'.*/teams/', '', str(abbr))
-        abbr = re.sub(r'/.*', '', abbr)
+        abbr = re.sub(r".*/teams/", "", str(abbr))
+        abbr = re.sub(r"/.*", "", abbr)
         return abbr
 
     def _get_name(self, name):
@@ -1816,8 +1804,8 @@ class Boxscores:
         int
             Returns an int representing the team's final score in runs.
         """
-        score = score_link.replace('<td class="right">', '')
-        score = score.replace('</td>', '')
+        score = score_link.replace('<td class="right">', "")
+        score = score.replace("</td>", "")
         return int(score)
 
     def _get_team_details(self, game):
@@ -1840,7 +1828,7 @@ class Boxscores:
             teams in the following order: Away Name, Away Abbreviation, Away
             Score, Home Name, Home Abbreviation, Home Score.
         """
-        links = [i for i in game('td a').items()]
+        links = [i for i in game("td a").items()]
         # The away team is the first link in the boxscore
         away = links[0]
         # The home team is the last (3rd) link in the boxscore
@@ -1855,8 +1843,7 @@ class Boxscores:
             home_score = self._get_score(scores[1])
         away_name, away_abbr = self._get_name(away)
         home_name, home_abbr = self._get_name(home)
-        return (away_name, away_abbr, away_score, home_name, home_abbr,
-                home_score)
+        return (away_name, away_abbr, away_score, home_name, home_abbr, home_score)
 
     def _get_team_results(self, team_result_html):
         """
@@ -1877,7 +1864,7 @@ class Boxscores:
         tuple
             Returns a tuple of the team's name followed by the abbreviation.
         """
-        link = [i for i in team_result_html('td a').items()]
+        link = [i for i in team_result_html("td a").items()]
         # If there are no links, the boxscore is likely misformed and can't be
         # parsed. In this case, the boxscore should be skipped.
         if len(link) < 1:
@@ -1909,8 +1896,7 @@ class Boxscores:
 
         for game in games:
             details = self._get_team_details(game)
-            away_name, away_abbr, away_score, home_name, home_abbr, \
-                home_score = details
+            away_name, away_abbr, away_score, home_name, home_abbr, home_score = details
             boxscore_url = game('td[class="right gamelink"] a')
             boxscore_uri = self._get_boxscore_uri(boxscore_url)
             losers = [loser for loser in game('tr[class="loser"]').items()]
@@ -1918,8 +1904,9 @@ class Boxscores:
             loser = self._get_team_results(game('tr[class="loser"]'))
             # Occurs when the boxscore format is invalid and the game should be
             # skipped to avoid conflicts populating the game information.
-            if (len(losers) != 2 and loser and not winner) or \
-               (len(losers) != 2 and winner and not loser):
+            if (len(losers) != 2 and loser and not winner) or (
+                len(losers) != 2 and winner and not loser
+            ):
                 continue
             # Occurs when information couldn't be parsed from the boxscore or
             # the game hasn't occurred yet. In this case, the winner should be
@@ -1938,17 +1925,17 @@ class Boxscores:
             else:
                 losing_name, losing_abbreviation = loser
             game_info = {
-                'boxscore': boxscore_uri,
-                'away_name': away_name,
-                'away_abbr': away_abbr,
-                'away_score': away_score,
-                'home_name': home_name,
-                'home_abbr': home_abbr,
-                'home_score': home_score,
-                'winning_name': winning_name,
-                'winning_abbr': winning_abbreviation,
-                'losing_name': losing_name,
-                'losing_abbr': losing_abbreviation
+                "boxscore": boxscore_uri,
+                "away_name": away_name,
+                "away_abbr": away_abbr,
+                "away_score": away_score,
+                "home_name": home_name,
+                "home_abbr": home_abbr,
+                "home_score": home_score,
+                "winning_name": winning_name,
+                "winning_abbr": winning_abbreviation,
+                "losing_name": losing_name,
+                "losing_abbr": losing_abbreviation,
             }
             all_boxscores.append(game_info)
         return all_boxscores
@@ -1986,7 +1973,6 @@ class Boxscores:
             page = self._get_requested_page(url)
             games = page('table[class="teams"]').items()
             boxscores = self._extract_game_info(games)
-            timestamp = '%s-%s-%s' % (date_step.month, date_step.day,
-                                      date_step.year)
+            timestamp = "%s-%s-%s" % (date_step.month, date_step.day, date_step.year)
             self._boxscores[timestamp] = boxscores
             date_step += timedelta(days=1)

@@ -5,24 +5,26 @@ from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
 from urllib.error import HTTPError
 from .. import utils
-from .constants import (BOXSCORE_SCHEME,
-                        NATIONALITY,
-                        PLAYER_ELEMENT_INDEX,
-                        PLAYER_SCHEME,
-                        PLAYER_URL,
-                        ROSTER_URL)
+from .constants import (
+    BOXSCORE_SCHEME,
+    NATIONALITY,
+    PLAYER_ELEMENT_INDEX,
+    PLAYER_SCHEME,
+    PLAYER_URL,
+    ROSTER_URL,
+)
 
 
 def _cleanup(prop):
     try:
-        prop = prop.replace('%', '')
-        prop = prop.replace('$', '')
-        prop = prop.replace(',', '')
-        return prop.replace('+', '')
+        prop = prop.replace("%", "")
+        prop = prop.replace("$", "")
+        prop = prop.replace(",", "")
+        return prop.replace("+", "")
     # Occurs when a value is of Nonetype. When that happens, return a blank
     # string as whatever came in had an incomplete value.
     except AttributeError:
-        return ''
+        return ""
 
 
 def _int_property_decorator(func):
@@ -40,6 +42,7 @@ def _int_property_decorator(func):
         except (ValueError, TypeError, IndexError):
             # If there is no value, default to None
             return None
+
     return wrapper
 
 
@@ -58,6 +61,7 @@ def _float_property_decorator(func):
         except (ValueError, TypeError, IndexError):
             # If there is no value, default to None
             return None
+
     return wrapper
 
 
@@ -86,6 +90,7 @@ class AbstractPlayer:
         'NN' is a number starting at '01' for the first time that player ID has
         been used and increments by 1 for every successive player.
     """
+
     def __init__(self, player_id, player_name, player_data):
         self._player_id = player_id
         self._name = player_name
@@ -161,21 +166,23 @@ class AbstractPlayer:
         """
         for field in self.__dict__:
             short_field = str(field)[1:]
-            if short_field == 'player_id' or \
-               short_field == 'index' or \
-               short_field == 'most_recent_season' or \
-               short_field == 'season' or \
-               short_field == 'name' or \
-               short_field == 'weight' or \
-               short_field == 'height' or \
-               short_field == 'nationality' or \
-               short_field == 'birth_date' or \
-               short_field == 'contract':
+            if (
+                short_field == "player_id"
+                or short_field == "index"
+                or short_field == "most_recent_season"
+                or short_field == "season"
+                or short_field == "name"
+                or short_field == "weight"
+                or short_field == "height"
+                or short_field == "nationality"
+                or short_field == "birth_date"
+                or short_field == "contract"
+            ):
                 continue
             field_stats = []
             if type(player_data) == dict:
                 for year, data in player_data.items():
-                    stats = pq(data['data'])
+                    stats = pq(data["data"])
                     value = self._parse_value(stats, short_field)
                     field_stats.append(value)
             else:

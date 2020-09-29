@@ -18,8 +18,8 @@ NUM_GAMES_IN_SCHEDULE = 99
 
 
 def read_file(filename):
-    filepath = os.path.join(os.path.dirname(__file__), 'nba', filename)
-    return open('%s' % filepath, 'r', encoding='utf8').read()
+    filepath = os.path.join(os.path.dirname(__file__), "nba", filename)
+    return open("%s" % filepath, "r", encoding="utf8").read()
 
 
 def mock_pyquery(url):
@@ -29,18 +29,18 @@ def mock_pyquery(url):
             self.html_contents = html_contents
             self.text = html_contents
             self.url = url
-            self.reason = 'Invalid'
+            self.reason = "Invalid"
             self.headers = {}
 
         def __call__(self, div):
-            if 'playoff' in div:
-                return read_file('playoff.html')
-            return read_file('table.html')
+            if "playoff" in div:
+                return read_file("playoff.html")
+            return read_file("table.html")
 
-    schedule = read_file('%s_games.html' % YEAR)
-    if '2021' in url:
+    schedule = read_file("%s_games.html" % YEAR)
+    if "2021" in url:
         return MockPQ(schedule, status_code=404)
-    if '2020' in url:
+    if "2020" in url:
         return MockPQ(schedule)
     else:
         return MockPQ(schedule)
@@ -54,9 +54,9 @@ def mock_request(url):
             self.text = html_contents
 
     if str(YEAR) in url:
-        return MockRequest('good')
+        return MockRequest("good")
     else:
-        return MockRequest('bad', status_code=404)
+        return MockRequest("bad", status_code=404)
 
 
 class MockDateTime:
@@ -66,36 +66,34 @@ class MockDateTime:
 
 
 class TestNBASchedule:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch("requests.get", side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results = {
-            'game': 2,
-            'boxscore_index': '201610280NOP',
-            'date': 'Fri, Oct 28, 2016',
-            'time': '9:30p',
-            'datetime': datetime(2016, 10, 28),
-            'location': AWAY,
-            'opponent_abbr': 'NOP',
-            'opponent_name': 'New Orleans Pelicans',
-            'result': WIN,
-            'playoffs': False,
-            'points_scored': 122,
-            'points_allowed': 114,
-            'wins': 1,
-            'losses': 1,
-            'streak': 'W 1'
+            "game": 2,
+            "boxscore_index": "201610280NOP",
+            "date": "Fri, Oct 28, 2016",
+            "time": "9:30p",
+            "datetime": datetime(2016, 10, 28),
+            "location": AWAY,
+            "opponent_abbr": "NOP",
+            "opponent_name": "New Orleans Pelicans",
+            "result": WIN,
+            "playoffs": False,
+            "points_scored": 122,
+            "points_allowed": 114,
+            "wins": 1,
+            "losses": 1,
+            "streak": "W 1",
         }
-        flexmock(Boxscore) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-        flexmock(Boxscore) \
-            .should_receive('dataframe') \
-            .and_return(pd.DataFrame([{'key': 'value'}]))
-        flexmock(utils) \
-            .should_receive('_todays_date') \
-            .and_return(MockDateTime(YEAR, MONTH))
+        flexmock(Boxscore).should_receive("_parse_game_data").and_return(None)
+        flexmock(Boxscore).should_receive("dataframe").and_return(
+            pd.DataFrame([{"key": "value"}])
+        )
+        flexmock(utils).should_receive("_todays_date").and_return(
+            MockDateTime(YEAR, MONTH)
+        )
 
-        self.schedule = Schedule('GSW')
+        self.schedule = Schedule("GSW")
 
     def test_nba_schedule_returns_correct_number_of_games(self):
         assert len(self.schedule) == NUM_GAMES_IN_SCHEDULE
@@ -113,7 +111,7 @@ class TestNBASchedule:
             assert getattr(match_two, attribute) == value
 
     def test_nba_schedule_dataframe_returns_dataframe(self):
-        df = pd.DataFrame([self.results], index=['PHO'])
+        df = pd.DataFrame([self.results], index=["PHO"])
 
         match_two = self.schedule[1]
         # Pandas doesn't natively allow comparisons of DataFrames.
@@ -128,7 +126,7 @@ class TestNBASchedule:
         assert df1.empty
 
     def test_nba_schedule_dataframe_extended_returns_dataframe(self):
-        df = pd.DataFrame([{'key': 'value'}])
+        df = pd.DataFrame([{"key": "value"}])
 
         result = self.schedule[1].dataframe_extended
 
@@ -153,21 +151,17 @@ class TestNBASchedule:
             self.schedule(datetime.now())
 
     def test_empty_page_return_no_games(self):
-        flexmock(utils) \
-            .should_receive('_no_data_found') \
-            .once()
-        flexmock(utils) \
-            .should_receive('_get_stats_table') \
-            .and_return(None)
+        flexmock(utils).should_receive("_no_data_found").once()
+        flexmock(utils).should_receive("_get_stats_table").and_return(None)
 
-        schedule = Schedule('GSW')
+        schedule = Schedule("GSW")
 
         assert len(schedule) == 0
 
     def test_game_string_representation(self):
         game = self.schedule[0]
 
-        assert game.__repr__() == 'Tue, Oct 25, 2016 - SAS'
+        assert game.__repr__() == "Tue, Oct 25, 2016 - SAS"
 
     def test_schedule_string_representation(self):
         expected = """Tue, Oct 25, 2016 - SAS
@@ -274,51 +268,41 @@ Mon, Jun 12, 2017 - CLE"""
 
 
 class TestNBAScheduleInvalidError:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    @mock.patch('requests.head', side_effect=mock_request)
-    def test_invalid_default_year_reverts_to_previous_year(self,
-                                                           *args,
-                                                           **kwargs):
+    @mock.patch("requests.get", side_effect=mock_pyquery)
+    @mock.patch("requests.head", side_effect=mock_request)
+    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
         results = {
-            'game': 2,
-            'boxscore_index': '201610280NOP',
-            'date': 'Fri, Oct 28, 2016',
-            'time': '9:30p',
-            'datetime': datetime(2016, 10, 28),
-            'location': AWAY,
-            'opponent_abbr': 'NOP',
-            'opponent_name': 'New Orleans Pelicans',
-            'result': WIN,
-            'points_scored': 122,
-            'points_allowed': 114,
-            'wins': 1,
-            'losses': 1,
-            'streak': 'W 1'
+            "game": 2,
+            "boxscore_index": "201610280NOP",
+            "date": "Fri, Oct 28, 2016",
+            "time": "9:30p",
+            "datetime": datetime(2016, 10, 28),
+            "location": AWAY,
+            "opponent_abbr": "NOP",
+            "opponent_name": "New Orleans Pelicans",
+            "result": WIN,
+            "points_scored": 122,
+            "points_allowed": 114,
+            "wins": 1,
+            "losses": 1,
+            "streak": "W 1",
         }
-        flexmock(Boxscore) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-        flexmock(Boxscore) \
-            .should_receive('dataframe') \
-            .and_return(pd.DataFrame([{'key': 'value'}]))
-        flexmock(utils) \
-            .should_receive('_find_year_for_season') \
-            .and_return(2018)
+        flexmock(Boxscore).should_receive("_parse_game_data").and_return(None)
+        flexmock(Boxscore).should_receive("dataframe").and_return(
+            pd.DataFrame([{"key": "value"}])
+        )
+        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
 
-        schedule = Schedule('GSW')
+        schedule = Schedule("GSW")
 
         for attribute, value in results.items():
             assert getattr(schedule[1], attribute) == value
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    @mock.patch('requests.head', side_effect=mock_request)
-    def test_invalid_2020_default_reverts_to_previous_year(self,
-                                                           *args,
-                                                           **kwargs):
-        flexmock(utils) \
-            .should_receive('_find_year_for_season') \
-            .and_return(2021)
+    @mock.patch("requests.get", side_effect=mock_pyquery)
+    @mock.patch("requests.head", side_effect=mock_request)
+    def test_invalid_2020_default_reverts_to_previous_year(self, *args, **kwargs):
+        flexmock(utils).should_receive("_find_year_for_season").and_return(2021)
 
-        schedule = Schedule('2017')
+        schedule = Schedule("2017")
 
-        assert 'Tue, Oct 25, 2016' in str(schedule)
+        assert "Tue, Oct 25, 2016" in str(schedule)

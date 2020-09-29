@@ -1,8 +1,10 @@
-from .constants import (ADVANCED_OPPONENT_STATS_URL,
-                        ADVANCED_STATS_URL,
-                        BASIC_OPPONENT_STATS_URL,
-                        BASIC_STATS_URL,
-                        PARSING_SCHEME)
+from .constants import (
+    ADVANCED_OPPONENT_STATS_URL,
+    ADVANCED_STATS_URL,
+    BASIC_OPPONENT_STATS_URL,
+    BASIC_STATS_URL,
+    PARSING_SCHEME,
+)
 from pyquery import PyQuery as pq
 from sportsreference import utils
 
@@ -30,14 +32,15 @@ def _add_stats_data(teams_list, team_data_dict):
         information included.
     """
     for team_data in teams_list:
-        if 'class="over_header thead"' in str(team_data) or\
-           'class="thead"' in str(team_data):
+        if 'class="over_header thead"' in str(team_data) or 'class="thead"' in str(
+            team_data
+        ):
             continue
-        abbr = utils._parse_field(PARSING_SCHEME, team_data, 'abbreviation')
+        abbr = utils._parse_field(PARSING_SCHEME, team_data, "abbreviation")
         try:
-            team_data_dict[abbr]['data'] += team_data
+            team_data_dict[abbr]["data"] += team_data
         except KeyError:
-            team_data_dict[abbr] = {'data': team_data}
+            team_data_dict[abbr] = {"data": team_data}
     return team_data_dict
 
 
@@ -68,23 +71,23 @@ def _retrieve_all_teams(year):
     team_data_dict = {}
 
     if not year:
-        year = utils._find_year_for_season('ncaab')
+        year = utils._find_year_for_season("ncaab")
         # If stats for the requested season do not exist yet (as is the case
         # right before a new season begins), attempt to pull the previous
         # year's stats. If it exists, use the previous year instead.
-        if not utils._url_exists(BASIC_STATS_URL % year) and \
-           utils._url_exists(BASIC_STATS_URL % str(int(year) - 1)):
+        if not utils._url_exists(BASIC_STATS_URL % year) and utils._url_exists(
+            BASIC_STATS_URL % str(int(year) - 1)
+        ):
             year = str(int(year) - 1)
     doc = pq(BASIC_STATS_URL % year)
-    teams_list = utils._get_stats_table(doc, 'table#basic_school_stats')
+    teams_list = utils._get_stats_table(doc, "table#basic_school_stats")
     doc = pq(BASIC_OPPONENT_STATS_URL % year)
-    opp_list = utils._get_stats_table(doc, 'table#basic_opp_stats')
+    opp_list = utils._get_stats_table(doc, "table#basic_opp_stats")
     doc = pq(ADVANCED_STATS_URL % year)
-    adv_teams_list = utils._get_stats_table(doc, 'table#adv_school_stats')
+    adv_teams_list = utils._get_stats_table(doc, "table#adv_school_stats")
     doc = pq(ADVANCED_OPPONENT_STATS_URL % year)
-    adv_opp_list = utils._get_stats_table(doc, 'table#adv_opp_stats')
-    if not teams_list and not opp_list and not adv_teams_list \
-       and not adv_opp_list:
+    adv_opp_list = utils._get_stats_table(doc, "table#adv_opp_stats")
+    if not teams_list and not opp_list and not adv_teams_list and not adv_opp_list:
         utils._no_data_found()
         return None, None
     for stats_list in [teams_list, opp_list, adv_teams_list, adv_opp_list]:

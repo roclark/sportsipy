@@ -17,6 +17,7 @@ def int_property_decorator(func):
             # or an average/median for the category) or keep it empty depending
             # on their use-case.
             return None
+
     return wrapper
 
 
@@ -36,4 +37,5 @@ def float_property_decorator(func):
             # or an average/median for the category) or keep it empty depending
             # on their use-case.
             return None
+
     return wrapper

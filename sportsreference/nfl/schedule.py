@@ -1,25 +1,28 @@
 import pandas as pd
 import re
 from ..decorators import float_property_decorator, int_property_decorator
-from .constants import (SCHEDULE_SCHEME,
-                        SCHEDULE_URL)
+from .constants import SCHEDULE_SCHEME, SCHEDULE_URL
 from datetime import datetime
 from pyquery import PyQuery as pq
 from sportsreference import utils
-from sportsreference.constants import (WIN,
-                                       LOSS,
-                                       TIE,
-                                       HOME,
-                                       AWAY,
-                                       NEUTRAL,
-                                       POST_SEASON,
-                                       REGULAR_SEASON,
-                                       CONFERENCE_TOURNAMENT)
+from sportsreference.constants import (
+    WIN,
+    LOSS,
+    TIE,
+    HOME,
+    AWAY,
+    NEUTRAL,
+    POST_SEASON,
+    REGULAR_SEASON,
+    CONFERENCE_TOURNAMENT,
+)
 from sportsreference.nfl.boxscore import Boxscore
-from sportsreference.nfl.constants import (CONF_CHAMPIONSHIP,
-                                           DIVISION,
-                                           SUPER_BOWL,
-                                           WILD_CARD)
+from sportsreference.nfl.constants import (
+    CONF_CHAMPIONSHIP,
+    DIVISION,
+    SUPER_BOWL,
+    WILD_CARD,
+)
 
 
 class Game:
@@ -42,6 +45,7 @@ class Game:
         2017 season took place in early Feburary 2018, but 2017 should be
         passed as that was the year the bulk of the season was played in.
     """
+
     def __init__(self, game_data, game_type, year):
         self._year = year
         self._week = None
@@ -89,7 +93,7 @@ class Game:
         """
         Return the string representation of the class.
         """
-        return f'{self.date} - {self.opponent_abbr}'
+        return f"{self.date} - {self.opponent_abbr}"
 
     def __repr__(self):
         """
@@ -110,9 +114,9 @@ class Game:
             A PyQuery object containing the information specific to a game.
         """
         name = game_data('td[data-stat="opp"]:first')
-        name = re.sub(r'.*/teams/', '', str(name))
-        name = re.sub('/.*', '', name).upper()
-        setattr(self, '_opponent_abbr', name)
+        name = re.sub(r".*/teams/", "", str(name))
+        name = re.sub("/.*", "", name).upper()
+        setattr(self, "_opponent_abbr", name)
 
     def _parse_boxscore(self, game_data):
         """
@@ -127,9 +131,9 @@ class Game:
             A PyQuery object containing the information specific to a game.
         """
         boxscore = game_data('td[data-stat="boxscore_word"]:first')
-        boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
-        boxscore = re.sub(r'\.htm.*', '', str(boxscore))
-        setattr(self, '_boxscore', boxscore)
+        boxscore = re.sub(r".*/boxscores/", "", str(boxscore))
+        boxscore = re.sub(r"\.htm.*", "", str(boxscore))
+        setattr(self, "_boxscore", boxscore)
 
     def _parse_game_data(self, game_data):
         """
@@ -152,14 +156,12 @@ class Game:
         for field in self.__dict__:
             # Remove the leading '_' from the name
             short_name = str(field)[1:]
-            if short_name == 'datetime' or \
-               short_name == 'type' or \
-               short_name == 'year':
+            if short_name == "datetime" or short_name == "type" or short_name == "year":
                 continue
-            if short_name == 'opponent_abbr':
+            if short_name == "opponent_abbr":
                 self._parse_abbreviation(game_data)
                 continue
-            elif short_name == 'boxscore':
+            elif short_name == "boxscore":
                 self._parse_boxscore(game_data)
                 continue
             value = utils._parse_field(SCHEDULE_SCHEME, game_data, short_name)
@@ -174,44 +176,44 @@ class Game:
         if self._points_scored is None and self._points_allowed is None:
             return None
         fields_to_include = {
-            'boxscore_index': self.boxscore_index,
-            'date': self.date,
-            'datetime': self.datetime,
-            'day': self.day,
-            'extra_points_attempted': self.extra_points_attempted,
-            'extra_points_made': self.extra_points_made,
-            'field_goals_attempted': self.field_goals_attempted,
-            'field_goals_made': self.field_goals_made,
-            'fourth_down_attempts': self.fourth_down_attempts,
-            'fourth_down_conversions': self.fourth_down_conversions,
-            'interceptions': self.interceptions,
-            'location': self.location,
-            'opponent_abbr': self.opponent_abbr,
-            'opponent_name': self.opponent_name,
-            'overtime': self.overtime,
-            'pass_attempts': self.pass_attempts,
-            'pass_completion_rate': self.pass_completion_rate,
-            'pass_completions': self.pass_completions,
-            'pass_touchdowns': self.pass_touchdowns,
-            'pass_yards': self.pass_yards,
-            'pass_yards_per_attempt': self.pass_yards_per_attempt,
-            'points_allowed': self.points_allowed,
-            'points_scored': self.points_scored,
-            'punt_yards': self.punt_yards,
-            'punts': self.punts,
-            'quarterback_rating': self.quarterback_rating,
-            'result': self.result,
-            'rush_attempts': self.rush_attempts,
-            'rush_touchdowns': self.rush_touchdowns,
-            'rush_yards': self.rush_yards,
-            'rush_yards_per_attempt': self.rush_yards_per_attempt,
-            'third_down_attempts': self.third_down_attempts,
-            'third_down_conversions': self.third_down_conversions,
-            'time_of_possession': self.time_of_possession,
-            'times_sacked': self.times_sacked,
-            'type': self.type,
-            'week': self.week,
-            'yards_lost_from_sacks': self.yards_lost_from_sacks
+            "boxscore_index": self.boxscore_index,
+            "date": self.date,
+            "datetime": self.datetime,
+            "day": self.day,
+            "extra_points_attempted": self.extra_points_attempted,
+            "extra_points_made": self.extra_points_made,
+            "field_goals_attempted": self.field_goals_attempted,
+            "field_goals_made": self.field_goals_made,
+            "fourth_down_attempts": self.fourth_down_attempts,
+            "fourth_down_conversions": self.fourth_down_conversions,
+            "interceptions": self.interceptions,
+            "location": self.location,
+            "opponent_abbr": self.opponent_abbr,
+            "opponent_name": self.opponent_name,
+            "overtime": self.overtime,
+            "pass_attempts": self.pass_attempts,
+            "pass_completion_rate": self.pass_completion_rate,
+            "pass_completions": self.pass_completions,
+            "pass_touchdowns": self.pass_touchdowns,
+            "pass_yards": self.pass_yards,
+            "pass_yards_per_attempt": self.pass_yards_per_attempt,
+            "points_allowed": self.points_allowed,
+            "points_scored": self.points_scored,
+            "punt_yards": self.punt_yards,
+            "punts": self.punts,
+            "quarterback_rating": self.quarterback_rating,
+            "result": self.result,
+            "rush_attempts": self.rush_attempts,
+            "rush_touchdowns": self.rush_touchdowns,
+            "rush_yards": self.rush_yards,
+            "rush_yards_per_attempt": self.rush_yards_per_attempt,
+            "third_down_attempts": self.third_down_attempts,
+            "third_down_conversions": self.third_down_conversions,
+            "time_of_possession": self.time_of_possession,
+            "times_sacked": self.times_sacked,
+            "type": self.type,
+            "week": self.week,
+            "yards_lost_from_sacks": self.yards_lost_from_sacks,
         }
         return pd.DataFrame([fields_to_include], index=[self._boxscore])
 
@@ -231,13 +233,13 @@ class Game:
         Returns an ``int`` of the week number in the season, such as 1 for the
         first week of the regular season.
         """
-        if self._week.lower() == 'wild card':
+        if self._week.lower() == "wild card":
             return WILD_CARD
-        if self._week.lower() == 'division':
+        if self._week.lower() == "division":
             return DIVISION
-        if self._week.lower() == 'conf. champ.':
+        if self._week.lower() == "conf. champ.":
             return CONF_CHAMPIONSHIP
-        if self._week.lower() == 'superbowl':
+        if self._week.lower() == "superbowl":
             return SUPER_BOWL
         return self._week
 
@@ -289,12 +291,10 @@ class Game:
         year = self._year
         # Check if the first word of the date (the month) is either january or
         # february, and increase the year by 1.
-        if self._date.split(' ')[0].lower() in ['january', 'february']:
+        if self._date.split(" ")[0].lower() in ["january", "february"]:
             year = int(year) + 1
-        date_string = '%s %s %s' % (self._day,
-                                    self._date,
-                                    year)
-        return datetime.strptime(date_string, '%a %B %d %Y')
+        date_string = "%s %s %s" % (self._day, self._date, year)
+        return datetime.strptime(date_string, "%a %B %d %Y")
 
     @property
     def result(self):
@@ -304,11 +304,11 @@ class Game:
         OT. If a game has no result (canceled, yet to be played, etc.) return
         ``None``.
         """
-        if self._result.lower() == 'l':
+        if self._result.lower() == "l":
             return LOSS
-        elif self._result.lower() == 'w':
+        elif self._result.lower() == "w":
             return WIN
-        elif self._result.lower() == 't':
+        elif self._result.lower() == "t":
             return TIE
         else:
             return None
@@ -319,7 +319,7 @@ class Game:
         Returns a ``boolean`` value that evaluates to True if the game when to
         overtime and False if it ended in regulation.
         """
-        if self._overtime != '':
+        if self._overtime != "":
             return True
         return False
 
@@ -329,9 +329,9 @@ class Game:
         Returns a ``string`` constant indicating whether the game was played at
         home, away, or a neutral site, such as the Super Bowl.
         """
-        if self._location.lower() == '@':
+        if self._location.lower() == "@":
             return AWAY
-        if self._location.lower() == 'n':
+        if self._location.lower() == "n":
             return NEUTRAL
         return HOME
 
@@ -575,6 +575,7 @@ class Schedule:
     year : string (optional)
         The requested year to pull stats from.
     """
+
     def __init__(self, abbreviation, year=None):
         self._games = []
         self._pull_schedule(abbreviation, year)
@@ -625,19 +626,20 @@ class Schedule:
             schedule.
         """
         for game in self._games:
-            if game.datetime.year == date.year and \
-               game.datetime.month == date.month and \
-               game.datetime.day == date.day:
+            if (
+                game.datetime.year == date.year
+                and game.datetime.month == date.month
+                and game.datetime.day == date.day
+            ):
                 return game
-        raise ValueError('No games found for requested date')
+        raise ValueError("No games found for requested date")
 
     def __str__(self):
         """
         Return the string representation of the class.
         """
-        games = [f'{game.date} - {game.opponent_abbr}'.strip()
-                 for game in self._games]
-        return '\n'.join(games)
+        games = [f"{game.date} - {game.opponent_abbr}".strip() for game in self._games]
+        return "\n".join(games)
 
     def __repr__(self):
         """
@@ -693,25 +695,25 @@ class Schedule:
             The requested year to pull stats from.
         """
         if not year:
-            year = utils._find_year_for_season('nfl')
+            year = utils._find_year_for_season("nfl")
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(SCHEDULE_URL % (abbreviation.lower(),
-                                                     year)) and \
-               utils._url_exists(SCHEDULE_URL % (abbreviation.lower(),
-                                                 str(int(year) - 1))):
+            if not utils._url_exists(
+                SCHEDULE_URL % (abbreviation.lower(), year)
+            ) and utils._url_exists(
+                SCHEDULE_URL % (abbreviation.lower(), str(int(year) - 1))
+            ):
                 year = str(int(year) - 1)
         doc = pq(SCHEDULE_URL % (abbreviation.lower(), year))
-        schedule = utils._get_stats_table(doc, 'table#gamelog%s' % year)
+        schedule = utils._get_stats_table(doc, "table#gamelog%s" % year)
         if not schedule:
             utils._no_data_found()
             return
         self._add_games_to_schedule(schedule, REGULAR_SEASON, year)
-        if 'playoff_gamelog%s' % year in str(doc):
-            playoffs = utils._get_stats_table(doc,
-                                              'table#playoff_gamelog%s' % year)
+        if "playoff_gamelog%s" % year in str(doc):
+            playoffs = utils._get_stats_table(doc, "table#playoff_gamelog%s" % year)
             self._add_games_to_schedule(playoffs, POST_SEASON, year)
 
     @property

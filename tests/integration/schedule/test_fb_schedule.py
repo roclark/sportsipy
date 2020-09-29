@@ -14,8 +14,8 @@ NUM_GAMES_IN_SCHEDULE = 52
 
 
 def read_file(filename):
-    filepath = path.join(path.dirname(__file__), 'fb_stats', filename)
-    return open('%s' % filepath, 'r', encoding='utf8').read()
+    filepath = path.join(path.dirname(__file__), "fb_stats", filename)
+    return open("%s" % filepath, "r", encoding="utf8").read()
 
 
 def mock_pyquery(url):
@@ -25,40 +25,40 @@ def mock_pyquery(url):
             self.html_contents = html_contents
             self.text = html_contents
 
-    contents = read_file('tottenham-hotspur-2019-2020.html')
+    contents = read_file("tottenham-hotspur-2019-2020.html")
     return MockPQ(contents)
 
 
 class TestFBSchedule:
-    @patch('requests.get', side_effect=mock_pyquery)
+    @patch("requests.get", side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results = {
-            'competition': 'Premier League',
-            'matchweek': 'Matchweek 2',
-            'day': 'Sat',
-            'date': '2019-08-17',
-            'time': '17:30',
-            'datetime': datetime(2019, 8, 17, 17, 30),
-            'venue': AWAY,
-            'result': DRAW,
-            'goals_for': 2,
-            'goals_against': 2,
-            'shootout_scored': None,
-            'shootout_against': None,
-            'opponent': 'Manchester City',
-            'opponent_id': 'b8fd03ef',
-            'expected_goals': 0.3,
-            'expected_goals_against': 2.9,
-            'attendance': 54503,
-            'captain': 'Hugo Lloris',
-            'captain_id': '8f62b6ee',
-            'formation': '4-2-3-1',
-            'referee': 'Michael Oliver',
-            'match_report': 'a4ba771e',
-            'notes': ''
+            "competition": "Premier League",
+            "matchweek": "Matchweek 2",
+            "day": "Sat",
+            "date": "2019-08-17",
+            "time": "17:30",
+            "datetime": datetime(2019, 8, 17, 17, 30),
+            "venue": AWAY,
+            "result": DRAW,
+            "goals_for": 2,
+            "goals_against": 2,
+            "shootout_scored": None,
+            "shootout_against": None,
+            "opponent": "Manchester City",
+            "opponent_id": "b8fd03ef",
+            "expected_goals": 0.3,
+            "expected_goals_against": 2.9,
+            "attendance": 54503,
+            "captain": "Hugo Lloris",
+            "captain_id": "8f62b6ee",
+            "formation": "4-2-3-1",
+            "referee": "Michael Oliver",
+            "match_report": "a4ba771e",
+            "notes": "",
         }
 
-        self.schedule = Schedule('Tottenham Hotspur')
+        self.schedule = Schedule("Tottenham Hotspur")
 
     def test_fb_schedule_returns_correct_number_of_games(self):
         assert len(self.schedule) == NUM_GAMES_IN_SCHEDULE
@@ -80,14 +80,10 @@ class TestFBSchedule:
             self.schedule(datetime(2020, 7, 1))
 
     def test_empty_page_return_no_games(self):
-        flexmock(utils) \
-            .should_receive('_no_data_found') \
-            .once()
-        flexmock(utils) \
-            .should_receive('_get_stats_table') \
-            .and_return(None)
+        flexmock(utils).should_receive("_no_data_found").once()
+        flexmock(utils).should_receive("_get_stats_table").and_return(None)
 
-        schedule = Schedule('Tottenham Hotspur')
+        schedule = Schedule("Tottenham Hotspur")
 
         assert len(schedule) == 0
 
@@ -98,7 +94,7 @@ class TestFBSchedule:
         assert count + 1 == NUM_GAMES_IN_SCHEDULE
 
     def test_fb_schedule_dataframe_returns_dataframe(self):
-        df = pd.DataFrame([self.results], index=['a4ba771e'])
+        df = pd.DataFrame([self.results], index=["a4ba771e"])
 
         match_two = self.schedule[1]
         # Pandas doesn't natively allow comparisons of DataFrames.
@@ -185,4 +181,4 @@ class TestFBSchedule:
     def test_fb_game_string_representation(self):
         game = self.schedule[0]
 
-        assert game.__repr__() == '2019-08-10 - Aston Villa'
+        assert game.__repr__() == "2019-08-10 - Aston Villa"

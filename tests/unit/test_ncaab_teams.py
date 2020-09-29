@@ -6,24 +6,16 @@ from sportsreference.ncaab.teams import Team
 
 class TestNCAABTeams:
     def test_ncaab_schedule_returns_schedule(self, *args, **kwargs):
-        flexmock(Team) \
-            .should_receive('_parse_team_data') \
-            .and_return(None)
-        flexmock(Schedule) \
-            .should_receive('_pull_schedule') \
-            .and_return(None)
+        flexmock(Team).should_receive("_parse_team_data").and_return(None)
+        flexmock(Schedule).should_receive("_pull_schedule").and_return(None)
 
         team = Team(None, 1)
 
         assert len(team.schedule) == 0
 
     def test_two_point_field_goal_percentage_returns_default(self):
-        flexmock(Team) \
-            .should_receive('_parse_team_data') \
-            .and_return(None)
-        flexmock(Schedule) \
-            .should_receive('_pull_schedule') \
-            .and_return(None)
+        flexmock(Team).should_receive("_parse_team_data").and_return(None)
+        flexmock(Schedule).should_receive("_pull_schedule").and_return(None)
 
         team = Team(None, 1)
         mock_field_goals = PropertyMock(return_value=0)
@@ -35,12 +27,8 @@ class TestNCAABTeams:
         assert result == 0.0
 
     def test_opp_two_point_field_goal_percentage_returns_default(self):
-        flexmock(Team) \
-            .should_receive('_parse_team_data') \
-            .and_return(None)
-        flexmock(Schedule) \
-            .should_receive('_pull_schedule') \
-            .and_return(None)
+        flexmock(Team).should_receive("_parse_team_data").and_return(None)
+        flexmock(Schedule).should_receive("_pull_schedule").and_return(None)
 
         team = Team(None, 1)
         mock_field_goals = PropertyMock(return_value=0)
@@ -52,12 +40,8 @@ class TestNCAABTeams:
         assert result == 0.0
 
     def test_defensive_rebounds_with_missing_data_returns_default(self):
-        flexmock(Team) \
-            .should_receive('_parse_team_data') \
-            .and_return(None)
-        flexmock(Schedule) \
-            .should_receive('_pull_schedule') \
-            .and_return(None)
+        flexmock(Team).should_receive("_parse_team_data").and_return(None)
+        flexmock(Schedule).should_receive("_pull_schedule").and_return(None)
 
         team = Team(None, 1)
         mock_offensive_rebounds = PropertyMock(return_value=None)
@@ -68,12 +52,8 @@ class TestNCAABTeams:
         assert not result
 
     def test_opp_defensive_rebounds_with_missing_data_returns_default(self):
-        flexmock(Team) \
-            .should_receive('_parse_team_data') \
-            .and_return(None)
-        flexmock(Schedule) \
-            .should_receive('_pull_schedule') \
-            .and_return(None)
+        flexmock(Team).should_receive("_parse_team_data").and_return(None)
+        flexmock(Schedule).should_receive("_pull_schedule").and_return(None)
 
         team = Team(None, 1)
         mock_offensive_rebounds = PropertyMock(return_value=None)
@@ -84,12 +64,8 @@ class TestNCAABTeams:
         assert not result
 
     def test_net_rating_with_missing_data_returns_default(self):
-        flexmock(Team) \
-            .should_receive('_parse_team_data') \
-            .and_return(None)
-        flexmock(Schedule) \
-            .should_receive('_pull_schedule') \
-            .and_return(None)
+        flexmock(Team).should_receive("_parse_team_data").and_return(None)
+        flexmock(Schedule).should_receive("_pull_schedule").and_return(None)
 
         team = Team(None, 1)
         mock_offensive_rating = PropertyMock(return_value=None)

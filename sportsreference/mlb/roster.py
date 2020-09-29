@@ -5,24 +5,26 @@ from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
 from urllib.error import HTTPError
 from .. import utils
-from .constants import (NATIONALITY,
-                        PLAYER_ELEMENT_INDEX,
-                        PLAYER_SCHEME,
-                        PLAYER_URL,
-                        ROSTER_URL)
+from .constants import (
+    NATIONALITY,
+    PLAYER_ELEMENT_INDEX,
+    PLAYER_SCHEME,
+    PLAYER_URL,
+    ROSTER_URL,
+)
 from .player import AbstractPlayer
 
 
 def _cleanup(prop):
     try:
-        prop = prop.replace('%', '')
-        prop = prop.replace('$', '')
-        prop = prop.replace(',', '')
-        return prop.replace('+', '')
+        prop = prop.replace("%", "")
+        prop = prop.replace("$", "")
+        prop = prop.replace(",", "")
+        return prop.replace("+", "")
     # Occurs when a value is of Nonetype. When that happens, return a blank
     # string as whatever came in had an incomplete value.
     except AttributeError:
-        return ''
+        return ""
 
 
 def _int_property_decorator(func):
@@ -40,6 +42,7 @@ def _int_property_decorator(func):
         except (ValueError, TypeError, IndexError):
             # If there is no value, default to None
             return None
+
     return wrapper
 
 
@@ -56,6 +59,7 @@ def _float_property_decorator(func):
         except (ValueError, TypeError, IndexError):
             # If there is no value, default to None
             return None
+
     return wrapper
 
 
@@ -73,6 +77,7 @@ def _most_recent_decorator(func):
         except (TypeError, IndexError):
             # If there is no value, default to None
             return None
+
     return wrapper
 
 
@@ -101,8 +106,9 @@ class Player(AbstractPlayer):
         'NN' is a number starting at '01' for the first time that player ID has
         been used and increments by 1 for every successive player.
     """
+
     def __init__(self, player_id):
-        self._most_recent_season = ''
+        self._most_recent_season = ""
         self._index = None
         self._player_id = player_id
         self._season = None
@@ -207,7 +213,7 @@ class Player(AbstractPlayer):
         """
         Return the string representation of the class.
         """
-        return f'{self.name} ({self.player_id})'
+        return f"{self.name} ({self.player_id})"
 
     def __repr__(self):
         """
@@ -271,7 +277,7 @@ class Player(AbstractPlayer):
             A string representation of the season in the format 'YYYY', such as
             '2017'.
         """
-        return utils._parse_field(PLAYER_SCHEME, row, 'season')
+        return utils._parse_field(PLAYER_SCHEME, row, "season")
 
     def _combine_season_stats(self, table_rows, career_stats, all_stats_dict):
         """
@@ -305,23 +311,25 @@ class Player(AbstractPlayer):
             table_rows = []
         for row in table_rows:
             # For now, remove minor-league stats
-            if 'class="minors_table hidden"' in str(row) or \
-               'class="spacer partial_table"' in str(row) or \
-               'class="partial_table"' in str(row):
+            if (
+                'class="minors_table hidden"' in str(row)
+                or 'class="spacer partial_table"' in str(row)
+                or 'class="partial_table"' in str(row)
+            ):
                 continue
             season = self._parse_season(row)
             try:
-                all_stats_dict[season]['data'] += str(row)
+                all_stats_dict[season]["data"] += str(row)
             except KeyError:
-                all_stats_dict[season] = {'data': str(row)}
+                all_stats_dict[season] = {"data": str(row)}
             most_recent_season = season
         self._most_recent_season = most_recent_season
         if not career_stats:
             return all_stats_dict
         try:
-            all_stats_dict['Career']['data'] += str(next(career_stats))
+            all_stats_dict["Career"]["data"] += str(next(career_stats))
         except KeyError:
-            all_stats_dict['Career'] = {'data': str(next(career_stats))}
+            all_stats_dict["Career"] = {"data": str(next(career_stats))}
         return all_stats_dict
 
     def _combine_all_stats(self, player_info):
@@ -346,16 +354,19 @@ class Player(AbstractPlayer):
         """
         all_stats_dict = {}
 
-        for table_id in ['batting_standard', 'standard_fielding',
-                         'appearances', 'pitching_standard']:
-            table_items = utils._get_stats_table(player_info,
-                                                 'table#%s' % table_id)
-            career_items = utils._get_stats_table(player_info,
-                                                  'table#%s' % table_id,
-                                                  footer=True)
-            all_stats_dict = self._combine_season_stats(table_items,
-                                                        career_items,
-                                                        all_stats_dict)
+        for table_id in [
+            "batting_standard",
+            "standard_fielding",
+            "appearances",
+            "pitching_standard",
+        ]:
+            table_items = utils._get_stats_table(player_info, "table#%s" % table_id)
+            career_items = utils._get_stats_table(
+                player_info, "table#%s" % table_id, footer=True
+            )
+            all_stats_dict = self._combine_season_stats(
+                table_items, career_items, all_stats_dict
+            )
         return all_stats_dict
 
     def _parse_nationality(self, player_info):
@@ -372,11 +383,11 @@ class Player(AbstractPlayer):
         player_info : PyQuery object
             A PyQuery object containing the HTML from the player's stats page.
         """
-        for span in player_info('span').items():
+        for span in player_info("span").items():
             if 'class="f-i' in str(span):
                 nationality = span.text()
                 nationality = NATIONALITY[nationality]
-                setattr(self, '_nationality', nationality)
+                setattr(self, "_nationality", nationality)
                 break
 
     def _parse_player_information(self, player_info):
@@ -392,7 +403,7 @@ class Player(AbstractPlayer):
         player_info : PyQuery object
             A PyQuery object containing the HTML from the player's stats page.
         """
-        for field in ['_height', '_weight', '_name']:
+        for field in ["_height", "_weight", "_name"]:
             short_field = str(field)[1:]
             value = utils._parse_field(PLAYER_SCHEME, player_info, short_field)
             setattr(self, field, value)
@@ -409,8 +420,8 @@ class Player(AbstractPlayer):
         player_info : PyQuery object
             A PyQuery object containing the HTML from the player's stats page.
         """
-        date = player_info('span[itemprop="birthDate"]').attr('data-birth')
-        setattr(self, '_birth_date', date)
+        date = player_info('span[itemprop="birthDate"]').attr("data-birth")
+        setattr(self, "_birth_date", date)
 
     def _parse_team_name(self, team):
         """
@@ -430,7 +441,7 @@ class Player(AbstractPlayer):
         string
             A string of the team's name, such as 'Houston Astros'.
         """
-        team = team.replace('\xa0', ' ')
+        team = team.replace("\xa0", " ")
         team_html = pq(team)
         return team_html.text()
 
@@ -449,22 +460,18 @@ class Player(AbstractPlayer):
         """
         contract = {}
 
-        salary_table = player_info('table#br-salaries')
-        for row in salary_table('tbody tr').items():
+        salary_table = player_info("table#br-salaries")
+        for row in salary_table("tbody tr").items():
             if 'class="spacer partial_table"' in str(row):
                 continue
             year = row('th[data-stat="year_ID"]').text()
-            if year.strip() == '':
+            if year.strip() == "":
                 continue
             age = row('td[data-stat="age"]').text()
             team = self._parse_team_name(str(row('td[data-stat="team_name"]')))
             salary = row('td[data-stat="Salary"]').text()
-            contract[year] = {
-                'age': age,
-                'team': team,
-                'salary': salary
-            }
-        setattr(self, '_contract', contract)
+            contract[year] = {"age": age, "team": team, "salary": salary}
+        setattr(self, "_contract", contract)
 
     def _parse_value(self, html_data, field):
         """
@@ -522,7 +529,7 @@ class Player(AbstractPlayer):
         self._parse_birth_date(player_info)
         self._parse_contract(player_info)
         all_stats = self._combine_all_stats(player_info)
-        setattr(self, '_season', list(all_stats.keys()))
+        setattr(self, "_season", list(all_stats.keys()))
         return all_stats
 
     def _find_initial_index(self):
@@ -536,13 +543,13 @@ class Player(AbstractPlayer):
         index = 0
         for season in self._season:
             # The career stats default to Nonetype
-            if season is None or season == 'Career':
+            if season is None or season == "Career":
                 self._index = index
-                self._season[index] = 'Career'
+                self._season[index] = "Career"
                 break
             index += 1
 
-    def __call__(self, requested_season=''):
+    def __call__(self, requested_season=""):
         """
         Specify a different season to pull stats from.
 
@@ -561,9 +568,8 @@ class Player(AbstractPlayer):
         Player class instance
             Returns the class instance with the updated stats being referenced.
         """
-        if requested_season.lower() == 'career' or \
-           requested_season == '':
-            requested_season = 'Career'
+        if requested_season.lower() == "career" or requested_season == "":
+            requested_season = "Career"
         index = 0
         for season in self._season:
             if season == requested_season:
@@ -588,113 +594,99 @@ class Player(AbstractPlayer):
             attribute for the specified index.
         """
         fields_to_include = {
-            'assists': self.assists,
-            'at_bats': self.at_bats,
-            'bases_on_balls': self.bases_on_balls,
-            'batting_average': self.batting_average,
-            'birth_date': self.birth_date,
-            'complete_games': self.complete_games,
-            'defensive_chances': self.defensive_chances,
-            'defensive_runs_saved_above_average':
-            self.defensive_runs_saved_above_average,
-            'defensive_runs_saved_above_average_per_innings':
-            self.defensive_runs_saved_above_average_per_innings,
-            'double_plays_turned': self.double_plays_turned,
-            'doubles': self.doubles,
-            'errors': self.errors,
-            'fielding_percentage': self.fielding_percentage,
-            'games': self.games,
-            'games_catcher': self.games_catcher,
-            'games_center_fielder': self.games_center_fielder,
-            'games_designated_hitter': self.games_designated_hitter,
-            'games_first_baseman': self.games_first_baseman,
-            'games_in_batting_order': self.games_in_batting_order,
-            'games_in_defensive_lineup': self.games_in_defensive_lineup,
-            'games_left_fielder': self.games_left_fielder,
-            'games_outfielder': self.games_outfielder,
-            'games_pinch_hitter': self.games_pinch_hitter,
-            'games_pinch_runner': self.games_pinch_runner,
-            'games_pitcher': self.games_pitcher,
-            'games_right_fielder': self.games_right_fielder,
-            'games_second_baseman': self.games_second_baseman,
-            'games_shortstop': self.games_shortstop,
-            'games_started': self.games_started,
-            'games_third_baseman': self.games_third_baseman,
-            'grounded_into_double_plays': self.grounded_into_double_plays,
-            'height': self.height,
-            'hits': self.hits,
-            'home_runs': self.home_runs,
-            'innings_played': self.innings_played,
-            'intentional_bases_on_balls': self.intentional_bases_on_balls,
-            'league_fielding_percentage': self.league_fielding_percentage,
-            'league_range_factor_per_game': self.league_range_factor_per_game,
-            'league_range_factor_per_nine_innings':
-            self.league_range_factor_per_nine_innings,
-            'name': self.name,
-            'nationality': self.nationality,
-            'on_base_percentage': self.on_base_percentage,
-            'on_base_plus_slugging_percentage':
-            self.on_base_plus_slugging_percentage,
-            'on_base_plus_slugging_percentage_plus':
-            self.on_base_plus_slugging_percentage_plus,
-            'plate_appearances': self.plate_appearances,
-            'player_id': self.player_id,
-            'position': self.position,
-            'putouts': self.putouts,
-            'range_factor_per_game': self.range_factor_per_game,
-            'range_factor_per_nine_innings':
-            self.range_factor_per_nine_innings,
-            'runs': self.runs,
-            'runs_batted_in': self.runs_batted_in,
-            'sacrifice_flies': self.sacrifice_flies,
-            'sacrifice_hits': self.sacrifice_hits,
-            'season': self.season,
-            'slugging_percentage': self.slugging_percentage,
-            'stolen_bases': self.stolen_bases,
-            'team_abbreviation': self.team_abbreviation,
-            'times_caught_stealing': self.times_caught_stealing,
-            'times_hit_by_pitch': self.times_hit_by_pitch,
-            'times_struck_out': self.times_struck_out,
-            'total_bases': self.total_bases,
-            'total_fielding_runs_above_average':
-            self.total_fielding_runs_above_average,
-            'total_fielding_runs_above_average_per_innings':
-            self.total_fielding_runs_above_average_per_innings,
-            'triples': self.triples,
-            'weight': self.weight,
+            "assists": self.assists,
+            "at_bats": self.at_bats,
+            "bases_on_balls": self.bases_on_balls,
+            "batting_average": self.batting_average,
+            "birth_date": self.birth_date,
+            "complete_games": self.complete_games,
+            "defensive_chances": self.defensive_chances,
+            "defensive_runs_saved_above_average": self.defensive_runs_saved_above_average,
+            "defensive_runs_saved_above_average_per_innings": self.defensive_runs_saved_above_average_per_innings,
+            "double_plays_turned": self.double_plays_turned,
+            "doubles": self.doubles,
+            "errors": self.errors,
+            "fielding_percentage": self.fielding_percentage,
+            "games": self.games,
+            "games_catcher": self.games_catcher,
+            "games_center_fielder": self.games_center_fielder,
+            "games_designated_hitter": self.games_designated_hitter,
+            "games_first_baseman": self.games_first_baseman,
+            "games_in_batting_order": self.games_in_batting_order,
+            "games_in_defensive_lineup": self.games_in_defensive_lineup,
+            "games_left_fielder": self.games_left_fielder,
+            "games_outfielder": self.games_outfielder,
+            "games_pinch_hitter": self.games_pinch_hitter,
+            "games_pinch_runner": self.games_pinch_runner,
+            "games_pitcher": self.games_pitcher,
+            "games_right_fielder": self.games_right_fielder,
+            "games_second_baseman": self.games_second_baseman,
+            "games_shortstop": self.games_shortstop,
+            "games_started": self.games_started,
+            "games_third_baseman": self.games_third_baseman,
+            "grounded_into_double_plays": self.grounded_into_double_plays,
+            "height": self.height,
+            "hits": self.hits,
+            "home_runs": self.home_runs,
+            "innings_played": self.innings_played,
+            "intentional_bases_on_balls": self.intentional_bases_on_balls,
+            "league_fielding_percentage": self.league_fielding_percentage,
+            "league_range_factor_per_game": self.league_range_factor_per_game,
+            "league_range_factor_per_nine_innings": self.league_range_factor_per_nine_innings,
+            "name": self.name,
+            "nationality": self.nationality,
+            "on_base_percentage": self.on_base_percentage,
+            "on_base_plus_slugging_percentage": self.on_base_plus_slugging_percentage,
+            "on_base_plus_slugging_percentage_plus": self.on_base_plus_slugging_percentage_plus,
+            "plate_appearances": self.plate_appearances,
+            "player_id": self.player_id,
+            "position": self.position,
+            "putouts": self.putouts,
+            "range_factor_per_game": self.range_factor_per_game,
+            "range_factor_per_nine_innings": self.range_factor_per_nine_innings,
+            "runs": self.runs,
+            "runs_batted_in": self.runs_batted_in,
+            "sacrifice_flies": self.sacrifice_flies,
+            "sacrifice_hits": self.sacrifice_hits,
+            "season": self.season,
+            "slugging_percentage": self.slugging_percentage,
+            "stolen_bases": self.stolen_bases,
+            "team_abbreviation": self.team_abbreviation,
+            "times_caught_stealing": self.times_caught_stealing,
+            "times_hit_by_pitch": self.times_hit_by_pitch,
+            "times_struck_out": self.times_struck_out,
+            "total_bases": self.total_bases,
+            "total_fielding_runs_above_average": self.total_fielding_runs_above_average,
+            "total_fielding_runs_above_average_per_innings": self.total_fielding_runs_above_average_per_innings,
+            "triples": self.triples,
+            "weight": self.weight,
             # Properties specific to pitchers
-            'balks': self.balks,
-            'bases_on_balls_given': self.bases_on_balls_given,
-            'bases_on_balls_given_per_nine_innings':
-            self.bases_on_balls_given_per_nine_innings,
-            'batters_faced': self.batters_faced,
-            'batters_struckout_per_nine_innings':
-            self.batters_struckout_per_nine_innings,
-            'earned_runs_allowed': self.earned_runs_allowed,
-            'era': self.era,
-            'era_plus': self.era_plus,
-            'fielding_independent_pitching':
-            self.fielding_independent_pitching,
-            'games_finished': self.games_finished,
-            'hits_against_per_nine_innings':
-            self.hits_against_per_nine_innings,
-            'hits_allowed': self.hits_allowed,
-            'home_runs_against_per_nine_innings':
-            self.home_runs_against_per_nine_innings,
-            'home_runs_allowed': self.home_runs_allowed,
-            'intentional_bases_on_balls_given':
-            self.intentional_bases_on_balls_given,
-            'losses': self.losses,
-            'runs_allowed': self.runs_allowed,
-            'saves': self.saves,
-            'shutouts': self.shutouts,
-            'strikeouts': self.strikeouts,
-            'strikeouts_thrown_per_walk': self.strikeouts_thrown_per_walk,
-            'times_hit_player': self.times_hit_player,
-            'whip': self.whip,
-            'wild_pitches': self.wild_pitches,
-            'win_percentage': self.win_percentage,
-            'wins': self.wins
+            "balks": self.balks,
+            "bases_on_balls_given": self.bases_on_balls_given,
+            "bases_on_balls_given_per_nine_innings": self.bases_on_balls_given_per_nine_innings,
+            "batters_faced": self.batters_faced,
+            "batters_struckout_per_nine_innings": self.batters_struckout_per_nine_innings,
+            "earned_runs_allowed": self.earned_runs_allowed,
+            "era": self.era,
+            "era_plus": self.era_plus,
+            "fielding_independent_pitching": self.fielding_independent_pitching,
+            "games_finished": self.games_finished,
+            "hits_against_per_nine_innings": self.hits_against_per_nine_innings,
+            "hits_allowed": self.hits_allowed,
+            "home_runs_against_per_nine_innings": self.home_runs_against_per_nine_innings,
+            "home_runs_allowed": self.home_runs_allowed,
+            "intentional_bases_on_balls_given": self.intentional_bases_on_balls_given,
+            "losses": self.losses,
+            "runs_allowed": self.runs_allowed,
+            "saves": self.saves,
+            "shutouts": self.shutouts,
+            "strikeouts": self.strikeouts,
+            "strikeouts_thrown_per_walk": self.strikeouts_thrown_per_walk,
+            "times_hit_player": self.times_hit_player,
+            "whip": self.whip,
+            "wild_pitches": self.wild_pitches,
+            "win_percentage": self.win_percentage,
+            "wins": self.wins,
         }
         return fields_to_include
 
@@ -760,7 +752,7 @@ class Player(AbstractPlayer):
         """
         if not self._weight:
             return None
-        return int(self._weight.replace('lb', ''))
+        return int(self._weight.replace("lb", ""))
 
     @property
     def birth_date(self):
@@ -1447,6 +1439,7 @@ class Roster:
         respective stats which greatly reduces the time to return a response if
         just the names and IDs are desired. Defaults to False.
     """
+
     def __init__(self, team, year=None, slim=False):
         self._team = team
         self._slim = slim
@@ -1461,9 +1454,10 @@ class Roster:
         """
         Return the string representation of the class.
         """
-        players = [f'{player.name} ({player.player_id})'.strip()
-                   for player in self._players]
-        return '\n'.join(players)
+        players = [
+            f"{player.name} ({player.player_id})".strip() for player in self._players
+        ]
+        return "\n".join(players)
 
     def __repr__(self):
         """
@@ -1531,8 +1525,8 @@ class Roster:
             Returns a string of the player ID.
         """
         name_tag = player('td[data-stat="player"] a')
-        name = re.sub(r'.*/players/./', '', str(name_tag))
-        return re.sub(r'\.shtml.*', '', name)
+        name = re.sub(r".*/players/./", "", str(name_tag))
+        return re.sub(r"\.shtml.*", "", name)
 
     def _get_name(self, player):
         """
@@ -1572,21 +1566,24 @@ class Roster:
             from.
         """
         if not year:
-            year = utils._find_year_for_season('mlb')
+            year = utils._find_year_for_season("mlb")
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(self._create_url(year)) and \
-               utils._url_exists(self._create_url(str(int(year) - 1))):
+            if not utils._url_exists(self._create_url(year)) and utils._url_exists(
+                self._create_url(str(int(year) - 1))
+            ):
                 year = str(int(year) - 1)
         url = self._create_url(year)
         page = self._pull_team_page(url)
         if not page:
-            output = ("Can't pull requested team page. Ensure the following "
-                      "URL exists: %s" % url)
+            output = (
+                "Can't pull requested team page. Ensure the following "
+                "URL exists: %s" % url
+            )
             raise ValueError(output)
-        players = page('table#team_batting tbody tr').items()
+        players = page("table#team_batting tbody tr").items()
         players_parsed = []
         for player in players:
             if 'class="thead"' in str(player):
@@ -1599,7 +1596,7 @@ class Roster:
                 player_instance = Player(player_id)
                 self._players.append(player_instance)
             players_parsed.append(player_id)
-        for player in page('table#team_pitching tbody tr').items():
+        for player in page("table#team_pitching tbody tr").items():
             if 'class="thead"' in str(player):
                 continue
             player_id = self._get_id(player)

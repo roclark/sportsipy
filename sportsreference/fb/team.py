@@ -31,6 +31,7 @@ class Team:
         Tottenham. If a team can't be found for the given name, a list of
         suggestions will be returned with corresponding squad IDs.
     """
+
     def __init__(self, team_id):
         self._squad_id = None
         self._name = None
@@ -68,7 +69,7 @@ class Team:
         """
         Return the string representation of the class.
         """
-        return f'{self.name} ({self.squad_id}) - {self.season}'
+        return f"{self.name} ({self.squad_id}) - {self.season}"
 
     def __repr__(self):
         """
@@ -89,16 +90,16 @@ class Team:
             A PyQuery object of the squad's entire HTML page.
         """
         name = doc('h1[itemprop="name"]')
-        name = name('span').text()
+        name = name("span").text()
         # Name is in format "YYYY-YYYY Team Name Stats"
         # or "YYYY Team Name Stats"
         # ie. "2019-2020 Tottenham Hotspur Stats"
         # or "2020 Sporting KC Stats"
         # The season will always be the first part of the string.
-        season = name.split(' ')[0]
+        season = name.split(" ")[0]
         # The team's name will always be between the season and the string
         # "Stats", and therefore only those pieces should be pulled.
-        name = ' '.join(name.split(' ')[1:-1])
+        name = " ".join(name.split(" ")[1:-1])
         self._season = season
         self._name = name
 
@@ -125,15 +126,14 @@ class Team:
         """
         home_record, away_record = None, None
         home_points, away_points = None, None
-        records = record_line.lower().replace('home record: ', '')
-        records = records.replace('away record: ', '')
-        match_records = re.findall(r'\(.*?\)', records)
-        p = re.compile(r'[\(\)]')
+        records = record_line.lower().replace("home record: ", "")
+        records = records.replace("away record: ", "")
+        match_records = re.findall(r"\(.*?\)", records)
+        p = re.compile(r"[\(\)]")
         if len(match_records) == 2:
-            home_record, away_record = [p.sub(' ', x).strip()
-                                        for x in match_records]
-        points = re.sub(r'\(.*?\)', '', records)
-        points = re.findall(r'\d+', points)
+            home_record, away_record = [p.sub(" ", x).strip() for x in match_records]
+        points = re.sub(r"\(.*?\)", "", records)
+        points = re.findall(r"\d+", points)
         if len(points) == 2:
             home_points, away_points = [int(p) for p in points]
         return home_record, away_record, home_points, away_points
@@ -158,15 +158,15 @@ class Team:
             A ``tuple`` of the parsed results in the following format: (record,
             points, position, league name).
         """
-        records = record_line.lower().replace('record: ', '')
-        records_split = records.split(',')
+        records = record_line.lower().replace("record: ", "")
+        records_split = records.split(",")
         if len(records_split) != 3:
             return None, None, None
         record, points, position = records_split
-        points = re.sub(' point.*', '', points).strip()
-        position = re.sub(r'\(.*\)', '', position).strip()
-        league = re.sub('.* in ', '', position).title()
-        position = re.findall(r'\d+', position)[0]
+        points = re.sub(" point.*", "", points).strip()
+        position = re.sub(r"\(.*\)", "", position).strip()
+        league = re.sub(".* in ", "", position).title()
+        position = re.findall(r"\d+", position)[0]
         return record, points, position, league
 
     def _goals(self, goals_line):
@@ -189,8 +189,8 @@ class Team:
             Returns a ``tuple`` of the teams goals in the following format:
             (goals scored, goals against, goal difference).
         """
-        goals = re.sub(r'\(.*?\)', '', goals_line.lower())
-        goals = re.findall(r'\d+', goals)
+        goals = re.sub(r"\(.*?\)", "", goals_line.lower())
+        goals = re.findall(r"\d+", goals)
         if len(goals) != 3:
             return None, None, None
         return goals
@@ -218,10 +218,10 @@ class Team:
             format: (expected goals scored, expected goals against, expected
             goal difference).
         """
-        goals = goals_line.replace('xG: ', '')
-        goals = goals.replace(', xGA: ', ' ')
-        goals = goals.replace(', Diff: ', ' ')
-        goals = goals.split(' ')
+        goals = goals_line.replace("xG: ", "")
+        goals = goals.replace(", xGA: ", " ")
+        goals = goals.replace(", Diff: ", " ")
+        goals = goals.split(" ")
         if len(goals) != 3:
             return None, None, None
         return goals
@@ -249,9 +249,9 @@ class Team:
             home page.
         """
         header = doc('div[data-template="Partials/Teams/Summary"]')
-        for header_line in header('p'):
+        for header_line in header("p"):
             line = pq(header_line).text()
-            if 'home record' in line.lower():
+            if "home record" in line.lower():
                 # Returns in the format (home_record, away_record, home_points,
                 # away_points).
                 records = self._location_records(line)
@@ -259,31 +259,31 @@ class Team:
                 self._away_record = records[1]
                 self._home_points = records[2]
                 self._away_points = records[3]
-            elif 'record' in line.lower():
+            elif "record" in line.lower():
                 # Returns in format (record, points, position, league).
                 records = self._records(line)
                 self._record = records[0]
                 self._points = records[1]
                 self._position = records[2]
                 self._league = records[3]
-            elif 'goals' in line.lower():
+            elif "goals" in line.lower():
                 # Returns in format (scored, against, difference).
                 goals = self._goals(line)
                 self._goals_scored = goals[0]
                 self._goals_against = goals[1]
                 self._goal_difference = goals[2]
-            elif 'xGA' in line and 'Diff' in line:
+            elif "xGA" in line and "Diff" in line:
                 # Returns in format (expected, against, difference).
                 goals = self._parse_expected_goals(line)
                 self._expected_goals = goals[0]
                 self._expected_goals_against = goals[1]
                 self._expected_goal_difference = goals[2]
-            elif 'manager' in line.lower():
-                self._manager = line.replace('Manager: ', '')
-            elif 'governing country' in line.lower():
-                self._country = pq(header_line)('a').text()
-            elif 'gender' in line.lower():
-                self._gender = line.replace('Gender: ', '')
+            elif "manager" in line.lower():
+                self._manager = line.replace("Manager: ", "")
+            elif "governing country" in line.lower():
+                self._country = pq(header_line)("a").text()
+            elif "gender" in line.lower():
+                self._gender = line.replace("Gender: ", "")
 
     def _pull_team_page(self):
         """
@@ -323,7 +323,7 @@ class Team:
         Returns an instance of the Schedule class containing the team's
         complete schedule for the season.
         """
-        if not hasattr(self, '_doc'):
+        if not hasattr(self, "_doc"):
             self._doc = None
         return Schedule(self.squad_id, self._doc)
 
@@ -333,7 +333,7 @@ class Team:
         Returns an instance of the Roster class containing instances of every
         player on the team.
         """
-        if not hasattr(self, '_doc'):
+        if not hasattr(self, "_doc"):
             self._doc = None
         return Roster(self._squad_id, self._doc)
 
@@ -500,7 +500,7 @@ class Team:
         season.
         """
         try:
-            record = self._home_record.split('-')
+            record = self._home_record.split("-")
             wins = record[0]
             wins = int(wins)
         except ValueError:
@@ -517,7 +517,7 @@ class Team:
         season.
         """
         try:
-            record = self._home_record.split('-')
+            record = self._home_record.split("-")
             draws = record[1]
             draws = int(draws)
         except IndexError:
@@ -536,7 +536,7 @@ class Team:
         season.
         """
         try:
-            record = self._home_record.split('-')
+            record = self._home_record.split("-")
             losses = record[2]
             losses = int(losses)
         except IndexError:
@@ -555,7 +555,7 @@ class Team:
         season.
         """
         try:
-            record = self._away_record.split('-')
+            record = self._away_record.split("-")
             wins = record[0]
             wins = int(wins)
         except ValueError:
@@ -572,7 +572,7 @@ class Team:
         season.
         """
         try:
-            record = self._away_record.split('-')
+            record = self._away_record.split("-")
             draws = record[1]
             draws = int(draws)
         except IndexError:
@@ -591,7 +591,7 @@ class Team:
         season.
         """
         try:
-            record = self._away_record.split('-')
+            record = self._away_record.split("-")
             losses = record[2]
             losses = int(losses)
         except IndexError:

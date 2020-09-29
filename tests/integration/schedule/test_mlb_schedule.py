@@ -18,8 +18,8 @@ NUM_GAMES_IN_SCHEDULE = 162
 
 
 def read_file(filename):
-    filepath = os.path.join(os.path.dirname(__file__), 'mlb', filename)
-    return open('%s' % filepath, 'r', encoding='utf8').read()
+    filepath = os.path.join(os.path.dirname(__file__), "mlb", filename)
+    return open("%s" % filepath, "r", encoding="utf8").read()
 
 
 def mock_pyquery(url):
@@ -30,9 +30,9 @@ def mock_pyquery(url):
             self.text = html_contents
 
         def __call__(self, div):
-            return read_file('table.html')
+            return read_file("table.html")
 
-    schedule = read_file('%s-schedule-scores.html' % YEAR)
+    schedule = read_file("%s-schedule-scores.html" % YEAR)
     return MockPQ(schedule)
 
 
@@ -44,9 +44,9 @@ def mock_request(url):
             self.text = html_contents
 
     if str(YEAR) in url:
-        return MockRequest('good')
+        return MockRequest("good")
     else:
-        return MockRequest('bad', status_code=404)
+        return MockRequest("bad", status_code=404)
 
 
 class MockDateTime:
@@ -56,42 +56,40 @@ class MockDateTime:
 
 
 class TestMLBSchedule:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch("requests.get", side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results = {
-            'game': 2,
-            'boxscore_index': 'TBA/TBA201704040',
-            'date': 'Tuesday, Apr 4',
-            'datetime': datetime(2017, 4, 4),
-            'game_number_for_day': 1,
-            'location': AWAY,
-            'opponent_abbr': 'TBR',
-            'result': WIN,
-            'runs_scored': 5,
-            'runs_allowed': 0,
-            'innings': 9,
-            'record': '1-1',
-            'rank': 3,
-            'games_behind': 0.5,
-            'winner': 'Sabathia',
-            'loser': 'Odorizzi',
-            'save': None,
-            'game_duration': '3:07',
-            'day_or_night': NIGHT,
-            'attendance': 19366,
-            'streak': '+'
+            "game": 2,
+            "boxscore_index": "TBA/TBA201704040",
+            "date": "Tuesday, Apr 4",
+            "datetime": datetime(2017, 4, 4),
+            "game_number_for_day": 1,
+            "location": AWAY,
+            "opponent_abbr": "TBR",
+            "result": WIN,
+            "runs_scored": 5,
+            "runs_allowed": 0,
+            "innings": 9,
+            "record": "1-1",
+            "rank": 3,
+            "games_behind": 0.5,
+            "winner": "Sabathia",
+            "loser": "Odorizzi",
+            "save": None,
+            "game_duration": "3:07",
+            "day_or_night": NIGHT,
+            "attendance": 19366,
+            "streak": "+",
         }
-        flexmock(Boxscore) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-        flexmock(Boxscore) \
-            .should_receive('dataframe') \
-            .and_return(pd.DataFrame([{'key': 'value'}]))
-        flexmock(utils) \
-            .should_receive('_todays_date') \
-            .and_return(MockDateTime(YEAR, MONTH))
+        flexmock(Boxscore).should_receive("_parse_game_data").and_return(None)
+        flexmock(Boxscore).should_receive("dataframe").and_return(
+            pd.DataFrame([{"key": "value"}])
+        )
+        flexmock(utils).should_receive("_todays_date").and_return(
+            MockDateTime(YEAR, MONTH)
+        )
 
-        self.schedule = Schedule('NYY')
+        self.schedule = Schedule("NYY")
 
     def test_mlb_schedule_returns_correct_number_of_games(self):
         assert len(self.schedule) == NUM_GAMES_IN_SCHEDULE
@@ -111,33 +109,33 @@ class TestMLBSchedule:
     def test_mlb_schedule_returns_second_game_in_double_header(self):
         match_two = self.schedule(datetime(2017, 5, 14), 2)
         results = {
-            'game': 35,
-            'date': 'Sunday, May 14 (2)',
-            'datetime': datetime(2017, 5, 14),
-            'game_number_for_day': 2,
-            'location': HOME,
-            'opponent_abbr': 'HOU',
-            'result': LOSS,
-            'runs_scored': 7,
-            'runs_allowed': 10,
-            'innings': 9,
-            'record': '22-13',
-            'rank': 1,
-            'games_behind': -0.5,
-            'winner': 'Morton',
-            'loser': 'Tanaka',
-            'save': None,
-            'game_duration': '3:49',
-            'day_or_night': NIGHT,
-            'attendance': 47883,
-            'streak': '-'
+            "game": 35,
+            "date": "Sunday, May 14 (2)",
+            "datetime": datetime(2017, 5, 14),
+            "game_number_for_day": 2,
+            "location": HOME,
+            "opponent_abbr": "HOU",
+            "result": LOSS,
+            "runs_scored": 7,
+            "runs_allowed": 10,
+            "innings": 9,
+            "record": "22-13",
+            "rank": 1,
+            "games_behind": -0.5,
+            "winner": "Morton",
+            "loser": "Tanaka",
+            "save": None,
+            "game_duration": "3:49",
+            "day_or_night": NIGHT,
+            "attendance": 47883,
+            "streak": "-",
         }
 
         for attribute, value in results.items():
             assert getattr(match_two, attribute) == value
 
     def test_mlb_schedule_dataframe_returns_dataframe(self):
-        df = pd.DataFrame([self.results], index=['NYY'])
+        df = pd.DataFrame([self.results], index=["NYY"])
 
         match_two = self.schedule[1]
         # Pandas doesn't natively allow comparisons of DataFrames.
@@ -152,7 +150,7 @@ class TestMLBSchedule:
         assert df1.empty
 
     def test_mlb_schedule_dataframe_extended_returns_dataframe(self):
-        df = pd.DataFrame([{'key': 'value'}])
+        df = pd.DataFrame([{"key": "value"}])
 
         result = self.schedule[1].dataframe_extended
 
@@ -177,21 +175,17 @@ class TestMLBSchedule:
             self.schedule(datetime.now())
 
     def test_empty_page_return_no_games(self):
-        flexmock(utils) \
-            .should_receive('_no_data_found') \
-            .once()
-        flexmock(utils) \
-            .should_receive('_get_stats_table') \
-            .and_return(None)
+        flexmock(utils).should_receive("_no_data_found").once()
+        flexmock(utils).should_receive("_get_stats_table").and_return(None)
 
-        schedule = Schedule('NYY')
+        schedule = Schedule("NYY")
 
         assert len(schedule) == 0
 
     def test_game_string_representation(self):
         game = self.schedule[0]
 
-        assert game.__repr__() == 'Sunday, Apr 2 - TBR'
+        assert game.__repr__() == "Sunday, Apr 2 - TBR"
 
     def test_schedule_string_representation(self):
         expected = """Sunday, Apr 2 - TBR
@@ -361,45 +355,39 @@ Sunday, Oct 1 - TOR"""
 
 
 class TestMLBScheduleInvalidYear:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    @mock.patch('requests.head', side_effect=mock_request)
-    def test_mlb_invalid_default_year_reverts_to_previous_year(self,
-                                                               *args,
-                                                               **kwargs):
+    @mock.patch("requests.get", side_effect=mock_pyquery)
+    @mock.patch("requests.head", side_effect=mock_request)
+    def test_mlb_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
         results = {
-            'game': 2,
-            'boxscore_index': 'TBA/TBA201704040',
-            'date': 'Tuesday, Apr 4',
-            'datetime': datetime(2017, 4, 4),
-            'game_number_for_day': 1,
-            'location': AWAY,
-            'opponent_abbr': 'TBR',
-            'result': WIN,
-            'runs_scored': 5,
-            'runs_allowed': 0,
-            'innings': 9,
-            'record': '1-1',
-            'rank': 3,
-            'games_behind': 0.5,
-            'winner': 'Sabathia',
-            'loser': 'Odorizzi',
-            'save': None,
-            'game_duration': '3:07',
-            'day_or_night': NIGHT,
-            'attendance': 19366,
-            'streak': '+'
+            "game": 2,
+            "boxscore_index": "TBA/TBA201704040",
+            "date": "Tuesday, Apr 4",
+            "datetime": datetime(2017, 4, 4),
+            "game_number_for_day": 1,
+            "location": AWAY,
+            "opponent_abbr": "TBR",
+            "result": WIN,
+            "runs_scored": 5,
+            "runs_allowed": 0,
+            "innings": 9,
+            "record": "1-1",
+            "rank": 3,
+            "games_behind": 0.5,
+            "winner": "Sabathia",
+            "loser": "Odorizzi",
+            "save": None,
+            "game_duration": "3:07",
+            "day_or_night": NIGHT,
+            "attendance": 19366,
+            "streak": "+",
         }
-        flexmock(Boxscore) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
-        flexmock(Boxscore) \
-            .should_receive('dataframe') \
-            .and_return(pd.DataFrame([{'key': 'value'}]))
-        flexmock(utils) \
-            .should_receive('_find_year_for_season') \
-            .and_return(2018)
+        flexmock(Boxscore).should_receive("_parse_game_data").and_return(None)
+        flexmock(Boxscore).should_receive("dataframe").and_return(
+            pd.DataFrame([{"key": "value"}])
+        )
+        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
 
-        schedule = Schedule('NYY')
+        schedule = Schedule("NYY")
 
         for attribute, value in results.items():
             assert getattr(schedule[1], attribute) == value

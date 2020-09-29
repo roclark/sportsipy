@@ -19,6 +19,7 @@ class Rankings:
         A string of the requested year to pull rankings from. Defaults to the
         most recent season.
     """
+
     def __init__(self, year=None):
         self._rankings = {}
 
@@ -28,7 +29,7 @@ class Rankings:
         """
         Return the string representation of the class.
         """
-        return 'NCAAB Rankings'
+        return "NCAAB Rankings"
 
     def __repr__(self):
         """
@@ -81,8 +82,8 @@ class Rankings:
             name, such as 'Purdue'.
         """
         name_tag = team('td[data-stat="school_name"]')
-        abbreviation = re.sub(r'.*/cbb/schools/', '', str(name_tag('a')))
-        abbreviation = re.sub(r'/.*', '', abbreviation)
+        abbreviation = re.sub(r".*/cbb/schools/", "", str(name_tag("a")))
+        abbreviation = re.sub(r"/.*", "", abbreviation)
         name = name_tag.text()
         return abbreviation, name
 
@@ -101,20 +102,23 @@ class Rankings:
             A string of the requested year to pull rankings from.
         """
         if not year:
-            year = utils._find_year_for_season('ncaab')
+            year = utils._find_year_for_season("ncaab")
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(RANKINGS_URL % year) and \
-               utils._url_exists(RANKINGS_URL % str(int(year) - 1)):
+            if not utils._url_exists(RANKINGS_URL % year) and utils._url_exists(
+                RANKINGS_URL % str(int(year) - 1)
+            ):
                 year = str(int(year) - 1)
         page = self._pull_rankings_page(year)
         if not page:
-            output = ("Can't pull rankings page. Ensure the following URL "
-                      "exists: %s" % RANKINGS_URL)
+            output = (
+                "Can't pull rankings page. Ensure the following URL "
+                "exists: %s" % RANKINGS_URL
+            )
             raise ValueError(output)
-        rankings = page('table#ap tbody tr').items()
+        rankings = page("table#ap tbody tr").items()
         weekly_rankings = []
         week = 0
         for team in rankings:
@@ -123,25 +127,25 @@ class Rankings:
                 weekly_rankings = []
                 continue
             abbreviation, name = self._get_team(team)
-            rank = utils._parse_field(RANKINGS_SCHEME, team, 'rank')
-            week = utils._parse_field(RANKINGS_SCHEME, team, 'week')
-            date = utils._parse_field(RANKINGS_SCHEME, team, 'date')
-            previous = utils._parse_field(RANKINGS_SCHEME, team, 'previous')
-            change = utils._parse_field(RANKINGS_SCHEME, team, 'change')
-            if 'decrease' in str(team(RANKINGS_SCHEME['change'])):
+            rank = utils._parse_field(RANKINGS_SCHEME, team, "rank")
+            week = utils._parse_field(RANKINGS_SCHEME, team, "week")
+            date = utils._parse_field(RANKINGS_SCHEME, team, "date")
+            previous = utils._parse_field(RANKINGS_SCHEME, team, "previous")
+            change = utils._parse_field(RANKINGS_SCHEME, team, "change")
+            if "decrease" in str(team(RANKINGS_SCHEME["change"])):
                 change = int(change) * -1
-            elif 'increase' in str(team(RANKINGS_SCHEME['change'])):
+            elif "increase" in str(team(RANKINGS_SCHEME["change"])):
                 change = int(change)
             else:
                 change = 0
             rank_details = {
-                'abbreviation': abbreviation,
-                'name': name,
-                'rank': int(rank),
-                'week': int(week),
-                'date': date,
-                'previous': previous,
-                'change': change
+                "abbreviation": abbreviation,
+                "name": name,
+                "rank": int(rank),
+                "week": int(week),
+                "date": date,
+                "previous": previous,
+                "change": change,
             }
             weekly_rankings.append(rank_details)
         # Add the final rankings which is not terminated with another header
@@ -172,8 +176,7 @@ class Rankings:
             }
         """
         latest_week = max(self._rankings.keys())
-        ordered_dict = sorted(self._rankings[latest_week],
-                              key=lambda k: k['rank'])
+        ordered_dict = sorted(self._rankings[latest_week], key=lambda k: k["rank"])
         return ordered_dict
 
     @property
@@ -187,7 +190,7 @@ class Rankings:
         rankings_dict = {}
 
         for team in self.current_extended:
-            rankings_dict[team['abbreviation']] = team['rank']
+            rankings_dict[team["abbreviation"]] = team["rank"]
         return rankings_dict
 
     @property

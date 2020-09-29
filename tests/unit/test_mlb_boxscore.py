@@ -42,18 +42,16 @@ def mock_pyquery(url):
             self.html_contents = html_contents
             self.text = html_contents
             self.url = url
-            self.reason = '404'
+            self.reason = "404"
             self.headers = None
 
     return MockPQ(None)
 
 
 class TestMLBBoxscore:
-    @patch('requests.get', side_effect=mock_pyquery)
+    @patch("requests.get", side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
-        flexmock(Boxscore) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
+        flexmock(Boxscore).should_receive("_parse_game_data").and_return(None)
 
         self.boxscore = Boxscore(None)
 
@@ -74,7 +72,7 @@ class TestMLBBoxscore:
         assert self.boxscore.winner == HOME
 
     def test_winning_name_is_home(self):
-        expected_name = 'Home Name'
+        expected_name = "Home Name"
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_home_name = PropertyMock(return_value=MockName(expected_name))
@@ -84,7 +82,7 @@ class TestMLBBoxscore:
         assert self.boxscore.winning_name == expected_name
 
     def test_winning_name_is_away(self):
-        expected_name = 'Away Name'
+        expected_name = "Away Name"
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_away_name = PropertyMock(return_value=MockName(expected_name))
@@ -94,11 +92,9 @@ class TestMLBBoxscore:
         assert self.boxscore.winning_name == expected_name
 
     def test_winning_abbr_is_home(self):
-        expected_name = 'HOME'
+        expected_name = "HOME"
 
-        flexmock(utils) \
-            .should_receive('_parse_abbreviation') \
-            .and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_home_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -108,11 +104,9 @@ class TestMLBBoxscore:
         assert self.boxscore.winning_abbr == expected_name
 
     def test_winning_abbr_is_away(self):
-        expected_name = 'AWAY'
+        expected_name = "AWAY"
 
-        flexmock(utils) \
-            .should_receive('_parse_abbreviation') \
-            .and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_away_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -122,7 +116,7 @@ class TestMLBBoxscore:
         assert self.boxscore.winning_abbr == expected_name
 
     def test_losing_name_is_home(self):
-        expected_name = 'Home Name'
+        expected_name = "Home Name"
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_home_name = PropertyMock(return_value=MockName(expected_name))
@@ -132,7 +126,7 @@ class TestMLBBoxscore:
         assert self.boxscore.losing_name == expected_name
 
     def test_losing_name_is_away(self):
-        expected_name = 'Away Name'
+        expected_name = "Away Name"
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_away_name = PropertyMock(return_value=MockName(expected_name))
@@ -142,11 +136,9 @@ class TestMLBBoxscore:
         assert self.boxscore.losing_name == expected_name
 
     def test_losing_abbr_is_home(self):
-        expected_name = 'HOME'
+        expected_name = "HOME"
 
-        flexmock(utils) \
-            .should_receive('_parse_abbreviation') \
-            .and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_home_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -156,11 +148,9 @@ class TestMLBBoxscore:
         assert self.boxscore.losing_abbr == expected_name
 
     def test_losing_abbr_is_away(self):
-        expected_name = 'AWAY'
+        expected_name = "AWAY"
 
-        flexmock(utils) \
-            .should_receive('_parse_abbreviation') \
-            .and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_away_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -170,8 +160,9 @@ class TestMLBBoxscore:
         assert self.boxscore.losing_abbr == expected_name
 
     def test_game_summary_with_no_scores_returns_none(self):
-        result = Boxscore(None)._parse_summary(pq(
-            """<table class="linescore nohover stats_table no_freeze">
+        result = Boxscore(None)._parse_summary(
+            pq(
+                """<table class="linescore nohover stats_table no_freeze">
     <tbody>
         <tr>
             <td class="center"></td>
@@ -187,27 +178,25 @@ class TestMLBBoxscore:
         </tr>
     </tbody>
 </table>"""
-        ))
+            )
+        )
 
-        assert result == {
-            'away': [None],
-            'home': [None]
-        }
+        assert result == {"away": [None], "home": [None]}
 
-    @patch('requests.get', side_effect=mock_pyquery)
+    @patch("requests.get", side_effect=mock_pyquery)
     def test_invalid_url_returns_none(self, *args, **kwargs):
-        result = Boxscore(None)._retrieve_html_page('')
+        result = Boxscore(None)._retrieve_html_page("")
 
         assert result is None
 
     def test_mlb_game_info(self):
         fields = {
-            'attendance': 26340,
-            'date': 'Monday, July 9, 2018',
-            'time': '4:05 p.m. ET',
-            'venue': 'Oriole Park at Camden Yards',
-            'duration': '2:55',
-            'time_of_day': 'Night'
+            "attendance": 26340,
+            "date": "Monday, July 9, 2018",
+            "time": "4:05 p.m. ET",
+            "venue": "Oriole Park at Camden Yards",
+            "duration": "2:55",
+            "time_of_day": "Night",
         }
 
         mock_field = """Monday, July 9, 2018
@@ -226,12 +215,12 @@ Night Game, on grass
 
     def test_mlb_first_game_double_header_info(self):
         fields = {
-            'attendance': None,
-            'date': 'Monday, July 9, 2018',
-            'time': '4:05 p.m. ET',
-            'venue': 'Oriole Park at Camden Yards',
-            'duration': '2:55',
-            'time_of_day': 'Night'
+            "attendance": None,
+            "date": "Monday, July 9, 2018",
+            "time": "4:05 p.m. ET",
+            "venue": "Oriole Park at Camden Yards",
+            "duration": "2:55",
+            "time_of_day": "Night",
         }
 
         mock_field = """Monday, July 9, 2018
@@ -250,12 +239,12 @@ First game of doubleheader
 
     def test_mlb_second_game_double_header_info(self):
         fields = {
-            'attendance': 26340,
-            'date': 'Monday, July 9, 2018',
-            'attendance': 26340,
-            'venue': 'Oriole Park at Camden Yards',
-            'duration': '3:13',
-            'time_of_day': 'Night'
+            "attendance": 26340,
+            "date": "Monday, July 9, 2018",
+            "attendance": 26340,
+            "venue": "Oriole Park at Camden Yards",
+            "duration": "3:13",
+            "time_of_day": "Night",
         }
 
         mock_field = """Monday, July 9, 2018
@@ -274,12 +263,12 @@ Second game of doubleheader
 
     def test_mlb_limited_game_info(self):
         fields = {
-            'attendance': 19043,
-            'date': 'Sunday, June 28, 1970',
-            'time': None,
-            'venue': 'Robert F. Kennedy Stadium',
-            'duration': '3:43',
-            'time_of_day': 'Day'
+            "attendance": 19043,
+            "date": "Sunday, June 28, 1970",
+            "time": None,
+            "venue": "Robert F. Kennedy Stadium",
+            "duration": "3:43",
+            "time_of_day": "Day",
         }
 
         mock_field = """Sunday, June 28, 1970
@@ -296,25 +285,25 @@ Day Game, on grass
             assert getattr(self.boxscore, field) == value
 
     def test_invalid_away_inherited_runners_returns_default(self):
-        mock_runners = PropertyMock(return_value='')
+        mock_runners = PropertyMock(return_value="")
         type(self.boxscore)._away_inherited_runners = mock_runners
 
         assert self.boxscore.away_inherited_runners is None
 
     def test_invalid_away_inherited_score_returns_default(self):
-        mock_score = PropertyMock(return_value='')
+        mock_score = PropertyMock(return_value="")
         type(self.boxscore)._away_inherited_score = mock_score
 
         assert self.boxscore.away_inherited_score is None
 
     def test_invalid_home_inherited_runners_returns_default(self):
-        mock_runners = PropertyMock(return_value='')
+        mock_runners = PropertyMock(return_value="")
         type(self.boxscore)._home_inherited_runners = mock_runners
 
         assert self.boxscore.home_inherited_runners is None
 
     def test_invalid_home_inherited_score_returns_default(self):
-        mock_score = PropertyMock(return_value='')
+        mock_score = PropertyMock(return_value="")
         type(self.boxscore)._home_inherited_score = mock_score
 
         assert self.boxscore.home_inherited_score is None
@@ -327,37 +316,36 @@ Day Game, on grass
         assert self.boxscore.dataframe is None
 
     def test_attendance_with_empty_string(self):
-        fake_attendance = PropertyMock(return_value='')
+        fake_attendance = PropertyMock(return_value="")
         type(self.boxscore)._attendance = fake_attendance
 
         assert self.boxscore.attendance is None
 
     def test_night_game_returns_night(self):
-        fake_time_of_day = PropertyMock(return_value='night game on grass')
+        fake_time_of_day = PropertyMock(return_value="night game on grass")
         type(self.boxscore)._time_of_day = fake_time_of_day
 
         assert self.boxscore.time_of_day == NIGHT
 
     def test_night_game_returns_night(self):
-        fake_time_of_day = PropertyMock(return_value='day game on grass')
+        fake_time_of_day = PropertyMock(return_value="day game on grass")
         type(self.boxscore)._time_of_day = fake_time_of_day
 
         assert self.boxscore.time_of_day == DAY
 
 
 class TestMLBBoxscores:
-    @patch('requests.get', side_effect=mock_pyquery)
+    @patch("requests.get", side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
-        flexmock(Boxscores) \
-            .should_receive('_find_games') \
-            .and_return(None)
+        flexmock(Boxscores).should_receive("_find_games").and_return(None)
         self.boxscores = Boxscores(None)
 
     def test_improper_loser_boxscore_format_skips_game(self):
-        flexmock(Boxscores) \
-            .should_receive('_get_team_details') \
-            .and_return((None, None, None, None, None, None))
-        mock_html = pq("""<table class="teams">
+        flexmock(Boxscores).should_receive("_get_team_details").and_return(
+            (None, None, None, None, None, None)
+        )
+        mock_html = pq(
+            """<table class="teams">
 <tbody>
 <tr class="loser">
     <td class="right">1</td>
@@ -371,16 +359,18 @@ class TestMLBBoxscores:
     </td>
 </tr>
 </tbody>
-</table>""")
+</table>"""
+        )
         games = self.boxscores._extract_game_info([mock_html])
 
         assert len(games) == 0
 
     def test_improper_winner_boxscore_format_skips_game(self):
-        flexmock(Boxscores) \
-            .should_receive('_get_team_details') \
-            .and_return((None, None, None, None, None, None))
-        mock_html = pq("""<table class="teams">
+        flexmock(Boxscores).should_receive("_get_team_details").and_return(
+            (None, None, None, None, None, None)
+        )
+        mock_html = pq(
+            """<table class="teams">
 <tbody>
 <tr class="loser">
     <td><a href="/teams/TEX/2017.shtml">Texas Rangers</a></td>
@@ -395,13 +385,15 @@ class TestMLBBoxscores:
     </td>
 </tr>
 </tbody>
-</table>""")
+</table>"""
+        )
         games = self.boxscores._extract_game_info([mock_html])
 
         assert len(games) == 0
 
     def test_boxscore_with_no_score_returns_none(self):
-        mock_html = pq("""<table class="teams">
+        mock_html = pq(
+            """<table class="teams">
 <tbody>
 <tr class="loser">
     <td><a href="/teams/TEX/2017.shtml">Texas Rangers</a></td>
@@ -415,21 +407,22 @@ class TestMLBBoxscores:
     </td>
 </tr>
 </tbody>
-</table>""")
+</table>"""
+        )
         games = self.boxscores._extract_game_info([mock_html])
 
         assert games == [
             {
-                'away_abbr': 'TEX',
-                'away_name': 'Texas Rangers',
-                'away_score': None,
-                'boxscore': 'BAL/BAL201707170',
-                'home_abbr': 'BAL',
-                'home_name': 'Baltimore Orioles',
-                'home_score': None,
-                'losing_abbr': None,
-                'losing_name': None,
-                'winning_abbr': None,
-                'winning_name': None
+                "away_abbr": "TEX",
+                "away_name": "Texas Rangers",
+                "away_score": None,
+                "boxscore": "BAL/BAL201707170",
+                "home_abbr": "BAL",
+                "home_name": "Baltimore Orioles",
+                "home_score": None,
+                "losing_abbr": None,
+                "losing_name": None,
+                "winning_abbr": None,
+                "winning_name": None,
             }
         ]

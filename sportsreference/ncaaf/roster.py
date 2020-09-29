@@ -20,6 +20,7 @@ def _int_property_decorator(func):
         except (ValueError, TypeError, IndexError):
             # If there is no value, default to None
             return None
+
     return wrapper
 
 
@@ -34,6 +35,7 @@ def _float_property_decorator(func):
         except (ValueError, TypeError, IndexError):
             # If there is no value, default to None
             return None
+
     return wrapper
 
 
@@ -61,8 +63,9 @@ class Player(AbstractPlayer):
         number starting at '1' for the first time that player ID has been used
         and increments by 1 for every successive player.
     """
+
     def __init__(self, player_id):
-        self._most_recent_season = ''
+        self._most_recent_season = ""
         self._index = None
         self._player_id = player_id
         self._season = None
@@ -132,7 +135,7 @@ class Player(AbstractPlayer):
         """
         Return the string representation of the class.
         """
-        return f'{self.name} ({self.player_id})'
+        return f"{self.name} ({self.player_id})"
 
     def __repr__(self):
         """
@@ -194,8 +197,8 @@ class Player(AbstractPlayer):
             A string representation of the season in the format 'YYYY', such as
             '2017'.
         """
-        season = utils._parse_field(PLAYER_SCHEME, row, 'season')
-        return season.replace('*', '').replace('+', '')
+        season = utils._parse_field(PLAYER_SCHEME, row, "season")
+        return season.replace("*", "").replace("+", "")
 
     def _combine_season_stats(self, table_rows, career_stats, all_stats_dict):
         """
@@ -230,17 +233,17 @@ class Player(AbstractPlayer):
         for row in table_rows:
             season = self._parse_season(row)
             try:
-                all_stats_dict[season]['data'] += str(row)
+                all_stats_dict[season]["data"] += str(row)
             except KeyError:
-                all_stats_dict[season] = {'data': str(row)}
+                all_stats_dict[season] = {"data": str(row)}
             most_recent_season = season
         self._most_recent_season = most_recent_season
         if not career_stats:
             return all_stats_dict
         try:
-            all_stats_dict['Career']['data'] += str(next(career_stats))
+            all_stats_dict["Career"]["data"] += str(next(career_stats))
         except KeyError:
-            all_stats_dict['Career'] = {'data': str(next(career_stats))}
+            all_stats_dict["Career"] = {"data": str(next(career_stats))}
         return all_stats_dict
 
     def _combine_all_stats(self, player_info):
@@ -265,16 +268,21 @@ class Player(AbstractPlayer):
         """
         all_stats_dict = {}
 
-        for table_id in ['passing', 'rushing', 'defense', 'scoring',
-                         'receiving', 'kicking']:
-            table_items = utils._get_stats_table(player_info,
-                                                 'table#%s' % table_id)
-            career_items = utils._get_stats_table(player_info,
-                                                  'table#%s' % table_id,
-                                                  footer=True)
-            all_stats_dict = self._combine_season_stats(table_items,
-                                                        career_items,
-                                                        all_stats_dict)
+        for table_id in [
+            "passing",
+            "rushing",
+            "defense",
+            "scoring",
+            "receiving",
+            "kicking",
+        ]:
+            table_items = utils._get_stats_table(player_info, "table#%s" % table_id)
+            career_items = utils._get_stats_table(
+                player_info, "table#%s" % table_id, footer=True
+            )
+            all_stats_dict = self._combine_season_stats(
+                table_items, career_items, all_stats_dict
+            )
         return all_stats_dict
 
     def _parse_player_information(self, player_info):
@@ -290,7 +298,7 @@ class Player(AbstractPlayer):
         player_info : PyQuery object
             A PyQuery object containing the HTML from the player's stats page.
         """
-        for field in ['_height', '_weight', '_name']:
+        for field in ["_height", "_weight", "_name"]:
             short_field = str(field)[1:]
             value = utils._parse_field(PLAYER_SCHEME, player_info, short_field)
             setattr(self, field, value)
@@ -316,7 +324,7 @@ class Player(AbstractPlayer):
             return
         self._parse_player_information(player_info)
         all_stats = self._combine_all_stats(player_info)
-        setattr(self, '_season', list(all_stats.keys()))
+        setattr(self, "_season", list(all_stats.keys()))
         return all_stats
 
     def _find_initial_index(self):
@@ -328,13 +336,13 @@ class Player(AbstractPlayer):
         element should be the index value.
         """
         index = 0
-        for season in self._season or season == 'Career':
-            if season == 'Career':
+        for season in self._season or season == "Career":
+            if season == "Career":
                 self._index = index
                 break
             index += 1
 
-    def __call__(self, requested_season=''):
+    def __call__(self, requested_season=""):
         """
         Specify a different season to pull stats from.
 
@@ -353,9 +361,8 @@ class Player(AbstractPlayer):
         Player class instance
             Returns the class instance with the updated stats being referenced.
         """
-        if requested_season.lower() == 'career' or \
-           requested_season == '':
-            requested_season = 'Career'
+        if requested_season.lower() == "career" or requested_season == "":
+            requested_season = "Career"
         index = 0
         if not self._season:
             return self
@@ -382,66 +389,59 @@ class Player(AbstractPlayer):
             attribute for the specified index.
         """
         fields_to_include = {
-            'adjusted_yards_per_attempt': self.adjusted_yards_per_attempt,
-            'assists_on_tackles': self.assists_on_tackles,
-            'completed_passes': self.completed_passes,
-            'extra_points_made': self.extra_points_made,
-            'field_goals_made': self.field_goals_made,
-            'fumbles_forced': self.fumbles_forced,
-            'fumbles_recovered': self.fumbles_recovered,
-            'fumbles_recovered_for_touchdown':
-            self.fumbles_recovered_for_touchdown,
-            'games': self.games,
-            'height': self.height,
-            'interceptions': self.interceptions,
-            'interceptions_returned_for_touchdown':
-            self.interceptions_returned_for_touchdown,
-            'interceptions_thrown': self.interceptions_thrown,
-            'kickoff_return_touchdowns': self.kickoff_return_touchdowns,
-            'name': self.name,
-            'other_touchdowns': self.other_touchdowns,
-            'pass_attempts': self.pass_attempts,
-            'passes_defended': self.passes_defended,
-            'passing_completion': self.passing_completion,
-            'passing_touchdowns': self.passing_touchdowns,
-            'passing_yards': self.passing_yards,
-            'passing_yards_per_attempt': self.passing_yards_per_attempt,
-            'player_id': self.player_id,
-            'plays_from_scrimmage': self.plays_from_scrimmage,
-            'points': self.points,
-            'position': self.position,
-            'punt_return_touchdowns': self.punt_return_touchdowns,
-            'quarterback_rating': self.quarterback_rating,
-            'receiving_touchdowns': self.receiving_touchdowns,
-            'receiving_yards': self.receiving_yards,
-            'receiving_yards_per_reception':
-            self.receiving_yards_per_reception,
-            'receptions': self.receptions,
-            'rush_attempts': self.rush_attempts,
-            'rush_touchdowns': self.rush_touchdowns,
-            'rush_yards': self.rush_yards,
-            'rush_yards_per_attempt': self.rush_yards_per_attempt,
-            'rushing_and_receiving_touchdowns':
-            self.rushing_and_receiving_touchdowns,
-            'sacks': self.sacks,
-            'safeties': self.safeties,
-            'season': self.season,
-            'solo_tackles': self.solo_tackles,
-            'tackles_for_loss': self.tackles_for_loss,
-            'team_abbreviation': self.team_abbreviation,
-            'total_tackles': self.total_tackles,
-            'total_touchdowns': self.total_touchdowns,
-            'two_point_conversions': self.two_point_conversions,
-            'weight': self.weight,
-            'yards_from_scrimmage': self.yards_from_scrimmage,
-            'yards_from_scrimmage_per_play':
-            self.yards_from_scrimmage_per_play,
-            'yards_recovered_from_fumble': self.yards_recovered_from_fumble,
-            'yards_returned_from_interceptions':
-            self.yards_returned_from_interceptions,
-            'yards_returned_per_interception':
-            self.yards_returned_per_interception,
-            'year': self.year
+            "adjusted_yards_per_attempt": self.adjusted_yards_per_attempt,
+            "assists_on_tackles": self.assists_on_tackles,
+            "completed_passes": self.completed_passes,
+            "extra_points_made": self.extra_points_made,
+            "field_goals_made": self.field_goals_made,
+            "fumbles_forced": self.fumbles_forced,
+            "fumbles_recovered": self.fumbles_recovered,
+            "fumbles_recovered_for_touchdown": self.fumbles_recovered_for_touchdown,
+            "games": self.games,
+            "height": self.height,
+            "interceptions": self.interceptions,
+            "interceptions_returned_for_touchdown": self.interceptions_returned_for_touchdown,
+            "interceptions_thrown": self.interceptions_thrown,
+            "kickoff_return_touchdowns": self.kickoff_return_touchdowns,
+            "name": self.name,
+            "other_touchdowns": self.other_touchdowns,
+            "pass_attempts": self.pass_attempts,
+            "passes_defended": self.passes_defended,
+            "passing_completion": self.passing_completion,
+            "passing_touchdowns": self.passing_touchdowns,
+            "passing_yards": self.passing_yards,
+            "passing_yards_per_attempt": self.passing_yards_per_attempt,
+            "player_id": self.player_id,
+            "plays_from_scrimmage": self.plays_from_scrimmage,
+            "points": self.points,
+            "position": self.position,
+            "punt_return_touchdowns": self.punt_return_touchdowns,
+            "quarterback_rating": self.quarterback_rating,
+            "receiving_touchdowns": self.receiving_touchdowns,
+            "receiving_yards": self.receiving_yards,
+            "receiving_yards_per_reception": self.receiving_yards_per_reception,
+            "receptions": self.receptions,
+            "rush_attempts": self.rush_attempts,
+            "rush_touchdowns": self.rush_touchdowns,
+            "rush_yards": self.rush_yards,
+            "rush_yards_per_attempt": self.rush_yards_per_attempt,
+            "rushing_and_receiving_touchdowns": self.rushing_and_receiving_touchdowns,
+            "sacks": self.sacks,
+            "safeties": self.safeties,
+            "season": self.season,
+            "solo_tackles": self.solo_tackles,
+            "tackles_for_loss": self.tackles_for_loss,
+            "team_abbreviation": self.team_abbreviation,
+            "total_tackles": self.total_tackles,
+            "total_touchdowns": self.total_touchdowns,
+            "two_point_conversions": self.two_point_conversions,
+            "weight": self.weight,
+            "yards_from_scrimmage": self.yards_from_scrimmage,
+            "yards_from_scrimmage_per_play": self.yards_from_scrimmage_per_play,
+            "yards_recovered_from_fumble": self.yards_recovered_from_fumble,
+            "yards_returned_from_interceptions": self.yards_returned_from_interceptions,
+            "yards_returned_per_interception": self.yards_returned_per_interception,
+            "year": self.year,
         }
         return fields_to_include
 
@@ -490,7 +490,7 @@ class Player(AbstractPlayer):
         # the player as not having a position. Since player stats default to
         # career, this will make it appear no players have a position. Instead,
         # default to the most recent season.
-        if self.season == 'Career' and self._position[self._index] == '':
+        if self.season == "Career" and self._position[self._index] == "":
             index = self._season.index(self._most_recent_season)
             return self._position[index]
         return self._position[self._index]
@@ -509,7 +509,7 @@ class Player(AbstractPlayer):
         Returns an ``int`` of the player's weight in pounds.
         """
         try:
-            return int(self._weight.replace('lb', ''))
+            return int(self._weight.replace("lb", ""))
         except AttributeError:
             return None
 
@@ -880,6 +880,7 @@ class Roster:
         respective stats which greatly reduces the time to return a response if
         just the names and IDs are desired. Defaults to False.
     """
+
     def __init__(self, team, year=None, slim=False):
         self._team = team
         self._slim = slim
@@ -894,9 +895,10 @@ class Roster:
         """
         Return the string representation of the class.
         """
-        players = [f'{player.name} ({player.player_id})'.strip()
-                   for player in self._players]
-        return '\n'.join(players)
+        players = [
+            f"{player.name} ({player.player_id})".strip() for player in self._players
+        ]
+        return "\n".join(players)
 
     def __repr__(self):
         """
@@ -964,8 +966,8 @@ class Roster:
             Returns a string of the player ID.
         """
         name_tag = player('th[data-stat="player"] a')
-        name = re.sub(r'.*/players/', '', str(name_tag))
-        return re.sub(r'\.htm.*', '', name)
+        name = re.sub(r".*/players/", "", str(name_tag))
+        return re.sub(r"\.htm.*", "", name)
 
     def _get_name(self, player):
         """
@@ -1005,21 +1007,24 @@ class Roster:
             from.
         """
         if not year:
-            year = utils._find_year_for_season('ncaaf')
+            year = utils._find_year_for_season("ncaaf")
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(self._create_url(year)) and \
-               utils._url_exists(self._create_url(str(int(year) - 1))):
+            if not utils._url_exists(self._create_url(year)) and utils._url_exists(
+                self._create_url(str(int(year) - 1))
+            ):
                 year = str(int(year) - 1)
         url = self._create_url(year)
         page = self._pull_team_page(url)
         if not page:
-            output = ("Can't pull requested team page. Ensure the following "
-                      "URL exists: %s" % url)
+            output = (
+                "Can't pull requested team page. Ensure the following "
+                "URL exists: %s" % url
+            )
             raise ValueError(output)
-        for player in page('table#roster tbody tr').items():
+        for player in page("table#roster tbody tr").items():
             player_id = self._get_id(player)
             if self._slim:
                 name = self._get_name(player)

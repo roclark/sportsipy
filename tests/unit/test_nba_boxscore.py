@@ -40,16 +40,14 @@ def mock_pyquery(url):
             self.html_contents = html_contents
             self.text = html_contents
 
-    boxscore = read_file('%s.html' % BOXSCORE)
+    boxscore = read_file("%s.html" % BOXSCORE)
     return MockPQ(boxscore)
 
 
 class TestNBABoxscore:
-    @patch('requests.get', side_effect=mock_pyquery)
+    @patch("requests.get", side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
-        flexmock(Boxscore) \
-            .should_receive('_parse_game_data') \
-            .and_return(None)
+        flexmock(Boxscore).should_receive("_parse_game_data").and_return(None)
 
         self.boxscore = Boxscore(None)
 
@@ -70,7 +68,7 @@ class TestNBABoxscore:
         assert self.boxscore.winner == HOME
 
     def test_winning_name_is_home(self):
-        expected_name = 'Home Name'
+        expected_name = "Home Name"
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_home_name = PropertyMock(return_value=MockName(expected_name))
@@ -80,7 +78,7 @@ class TestNBABoxscore:
         assert self.boxscore.winning_name == expected_name
 
     def test_winning_name_is_away(self):
-        expected_name = 'Away Name'
+        expected_name = "Away Name"
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_away_name = PropertyMock(return_value=MockName(expected_name))
@@ -90,11 +88,9 @@ class TestNBABoxscore:
         assert self.boxscore.winning_name == expected_name
 
     def test_winning_abbr_is_home(self):
-        expected_name = 'HOME'
+        expected_name = "HOME"
 
-        flexmock(utils) \
-            .should_receive('_parse_abbreviation') \
-            .and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_home_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -104,11 +100,9 @@ class TestNBABoxscore:
         assert self.boxscore.winning_abbr == expected_name
 
     def test_winning_abbr_is_away(self):
-        expected_name = 'AWAY'
+        expected_name = "AWAY"
 
-        flexmock(utils) \
-            .should_receive('_parse_abbreviation') \
-            .and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_away_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -118,7 +112,7 @@ class TestNBABoxscore:
         assert self.boxscore.winning_abbr == expected_name
 
     def test_losing_name_is_home(self):
-        expected_name = 'Home Name'
+        expected_name = "Home Name"
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_home_name = PropertyMock(return_value=MockName(expected_name))
@@ -128,7 +122,7 @@ class TestNBABoxscore:
         assert self.boxscore.losing_name == expected_name
 
     def test_losing_name_is_away(self):
-        expected_name = 'Away Name'
+        expected_name = "Away Name"
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_away_name = PropertyMock(return_value=MockName(expected_name))
@@ -138,11 +132,9 @@ class TestNBABoxscore:
         assert self.boxscore.losing_name == expected_name
 
     def test_losing_abbr_is_home(self):
-        expected_name = 'HOME'
+        expected_name = "HOME"
 
-        flexmock(utils) \
-            .should_receive('_parse_abbreviation') \
-            .and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_home_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -152,11 +144,9 @@ class TestNBABoxscore:
         assert self.boxscore.losing_abbr == expected_name
 
     def test_losing_abbr_is_away(self):
-        expected_name = 'AWAY'
+        expected_name = "AWAY"
 
-        flexmock(utils) \
-            .should_receive('_parse_abbreviation') \
-            .and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_away_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -166,25 +156,25 @@ class TestNBABoxscore:
         assert self.boxscore.losing_abbr == expected_name
 
     def test_invalid_away_record_returns_default_wins(self):
-        fake_record = PropertyMock(return_value='Golden State Warriors 1')
+        fake_record = PropertyMock(return_value="Golden State Warriors 1")
         type(self.boxscore)._away_record = fake_record
 
         assert self.boxscore.away_wins == 0
 
     def test_invalid_away_record_returns_default_losses(self):
-        fake_record = PropertyMock(return_value='Golden State Warriors 1')
+        fake_record = PropertyMock(return_value="Golden State Warriors 1")
         type(self.boxscore)._away_record = fake_record
 
         assert self.boxscore.away_losses == 0
 
     def test_invalid_home_record_returns_default_wins(self):
-        fake_record = PropertyMock(return_value='Golden State Warriors 1')
+        fake_record = PropertyMock(return_value="Golden State Warriors 1")
         type(self.boxscore)._home_record = fake_record
 
         assert self.boxscore.home_wins == 0
 
     def test_invalid_home_record_returns_default_losses(self):
-        fake_record = PropertyMock(return_value='Golden State Warriors 1')
+        fake_record = PropertyMock(return_value="Golden State Warriors 1")
         type(self.boxscore)._home_record = fake_record
 
         assert self.boxscore.home_losses == 0
@@ -231,8 +221,7 @@ class TestNBABoxscore:
         type(self.boxscore)._away_field_goal_attempts = fake_int
         type(self.boxscore)._away_three_point_field_goal_attempts = fake_int
 
-        assert isinstance(
-            self.boxscore.away_two_point_field_goal_attempts, int)
+        assert isinstance(self.boxscore.away_two_point_field_goal_attempts, int)
 
     def test_away_two_point_field_goal_percentage_calc(self):
         fake_none = PropertyMock(return_value=None)
@@ -254,8 +243,7 @@ class TestNBABoxscore:
         type(self.boxscore).away_two_point_field_goals = fake_int
         type(self.boxscore).away_two_point_field_goal_attempts = fake_int
 
-        assert isinstance(
-            self.boxscore.away_two_point_field_goal_percentage, float)
+        assert isinstance(self.boxscore.away_two_point_field_goal_percentage, float)
 
     def test_home_to_point_field_goals_calc(self):
         fake_none = PropertyMock(return_value=None)
@@ -299,8 +287,7 @@ class TestNBABoxscore:
         type(self.boxscore)._home_field_goal_attempts = fake_int
         type(self.boxscore)._home_three_point_field_goal_attempts = fake_int
 
-        assert isinstance(
-            self.boxscore.home_two_point_field_goal_attempts, int)
+        assert isinstance(self.boxscore.home_two_point_field_goal_attempts, int)
 
     def test_home_two_point_field_goal_percentage_calc(self):
         fake_none = PropertyMock(return_value=None)
@@ -322,12 +309,12 @@ class TestNBABoxscore:
         type(self.boxscore).home_two_point_field_goals = fake_int
         type(self.boxscore).home_two_point_field_goal_attempts = fake_int
 
-        assert isinstance(
-            self.boxscore.home_two_point_field_goal_percentage, float)
+        assert isinstance(self.boxscore.home_two_point_field_goal_percentage, float)
 
     def test_game_summary_with_no_scores_returns_none(self):
-        result = Boxscore(None)._parse_summary(pq(
-            """<table id="line_score">
+        result = Boxscore(None)._parse_summary(
+            pq(
+                """<table id="line_score">
     <tbody>
         <tr>
             <td class="center"></td>
@@ -339,15 +326,13 @@ class TestNBABoxscore:
         </tr>
     </tbody>
 </table>"""
-        ))
+            )
+        )
 
-        assert result == {
-            'away': [None],
-            'home': [None]
-        }
+        assert result == {"away": [None], "home": [None]}
 
     def test_invalid_url_returns_none(self):
-        result = Boxscore(None)._retrieve_html_page('')
+        result = Boxscore(None)._retrieve_html_page("")
 
         assert result is None
 
@@ -360,8 +345,8 @@ class TestNBABoxscore:
 
     def test_nba_game_info(self):
         fields = {
-            'date': '7:30 PM, November 9, 2018',
-            'location': 'State Farm Arena, Atlanta, Georgia'
+            "date": "7:30 PM, November 9, 2018",
+            "location": "State Farm Arena, Atlanta, Georgia",
         }
 
         mock_field = """7:30 PM, November 9, 2018
@@ -376,10 +361,7 @@ Logos via Sports Logos.net / About logos
             assert value == result
 
     def test_nba_partial_game_info(self):
-        fields = {
-            'date': '7:30 PM, November 9, 2018',
-            'location': None
-        }
+        fields = {"date": "7:30 PM, November 9, 2018", "location": None}
 
         mock_field = """7:30 PM, November 9, 2018
 Logos via Sports Logos.net / About logos"""
@@ -392,18 +374,17 @@ Logos via Sports Logos.net / About logos"""
 
 
 class TestNBABoxscores:
-    @patch('requests.get', side_effect=mock_pyquery)
+    @patch("requests.get", side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
-        flexmock(Boxscores) \
-            .should_receive('_find_games') \
-            .and_return(None)
+        flexmock(Boxscores).should_receive("_find_games").and_return(None)
         self.boxscores = Boxscores(None)
 
     def test_improper_loser_boxscore_format_skips_game(self):
-        flexmock(Boxscores) \
-            .should_receive('_get_team_details') \
-            .and_return((None, None, None, None, None, None))
-        mock_html = pq("""<table class="teams">
+        flexmock(Boxscores).should_receive("_get_team_details").and_return(
+            (None, None, None, None, None, None)
+        )
+        mock_html = pq(
+            """<table class="teams">
 <tbody>
     <tr class="loser">
             <td class="right">84</td>
@@ -417,16 +398,18 @@ class TestNBABoxscores:
             </td>
     </tr>
     </tbody>
-</table>""")
+</table>"""
+        )
         games = self.boxscores._extract_game_info([mock_html])
 
         assert len(games) == 0
 
     def test_improper_winner_boxscore_format_skips_game(self):
-        flexmock(Boxscores) \
-            .should_receive('_get_team_details') \
-            .and_return((None, None, None, None, None, None))
-        mock_html = pq("""<table class="teams">
+        flexmock(Boxscores).should_receive("_get_team_details").and_return(
+            (None, None, None, None, None, None)
+        )
+        mock_html = pq(
+            """<table class="teams">
 <tbody>
     <tr class="loser">
             <td><a href="/teams/DET/2017.html">Detroit</a></td>
@@ -441,13 +424,15 @@ class TestNBABoxscores:
             </td>
     </tr>
     </tbody>
-</table>""")
+</table>"""
+        )
         games = self.boxscores._extract_game_info([mock_html])
 
         assert len(games) == 0
 
     def test_boxscore_with_no_score_returns_none(self):
-        mock_html = pq("""<table class="teams">
+        mock_html = pq(
+            """<table class="teams">
 <tbody>
     <tr class="loser">
             <td><a href="/teams/DET/2017.html">Detroit</a></td>
@@ -461,21 +446,22 @@ class TestNBABoxscores:
             </td>
     </tr>
     </tbody>
-</table>""")
+</table>"""
+        )
         games = self.boxscores._extract_game_info([mock_html])
 
         assert games == [
             {
-                'home_name': 'Indiana',
-                'home_abbr': 'IND',
-                'away_name': 'Detroit',
-                'away_abbr': 'DET',
-                'boxscore': '201702040IND',
-                'winning_name': None,
-                'winning_abbr': None,
-                'losing_name': None,
-                'losing_abbr': None,
-                'home_score': None,
-                'away_score': None
+                "home_name": "Indiana",
+                "home_abbr": "IND",
+                "away_name": "Detroit",
+                "away_abbr": "DET",
+                "boxscore": "201702040IND",
+                "winning_name": None,
+                "winning_abbr": None,
+                "losing_name": None,
+                "losing_abbr": None,
+                "home_score": None,
+                "away_score": None,
             }
         ]

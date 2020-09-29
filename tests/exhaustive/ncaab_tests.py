@@ -1,4 +1,5 @@
 import sys, os
+
 sys.path.append(os.path.dirname(os.path.dirname(sys.path[0])))
 from sportsreference.ncaab.conferences import Conferences
 from sportsreference.ncaab.rankings import Rankings

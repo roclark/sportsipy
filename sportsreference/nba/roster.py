@@ -12,14 +12,14 @@ from .player import AbstractPlayer
 
 def _cleanup(prop):
     try:
-        prop = prop.replace('%', '')
-        prop = prop.replace('$', '')
-        prop = prop.replace(',', '')
-        return prop.replace('+', '')
+        prop = prop.replace("%", "")
+        prop = prop.replace("$", "")
+        prop = prop.replace(",", "")
+        return prop.replace("+", "")
     # Occurs when a value is of Nonetype. When that happens, return a blank
     # string as whatever have come in had an incomplete value.
     except AttributeError:
-        return ''
+        return ""
 
 
 def _int_property_decorator(func):
@@ -34,6 +34,7 @@ def _int_property_decorator(func):
         except ValueError:
             # If there is no value, default to None
             return None
+
     return wrapper
 
 
@@ -49,6 +50,7 @@ def _int_property_decorator_default_zero(func):
         except ValueError:
             # If there is no value, default to 0
             return 0
+
     return wrapper
 
 
@@ -64,6 +66,7 @@ def _float_property_decorator(func):
         except ValueError:
             # If there is no value, default to None
             return None
+
     return wrapper
 
 
@@ -76,6 +79,7 @@ def _most_recent_decorator(func):
         index = seasons.index(season)
         prop = func(*args)
         return prop[index]
+
     return wrapper
 
 
@@ -106,7 +110,7 @@ class Player(AbstractPlayer):
     """
 
     def __init__(self, player_id):
-        self._most_recent_season = ''
+        self._most_recent_season = ""
         self._index = None
         self._player_id = player_id
         self._season = None
@@ -195,7 +199,7 @@ class Player(AbstractPlayer):
         """
         Return the string representation of the class.
         """
-        return f'{self.name} ({self.player_id})'
+        return f"{self.name} ({self.player_id})"
 
     def __repr__(self):
         """
@@ -259,7 +263,7 @@ class Player(AbstractPlayer):
             A string representation of the season in the format 'YYYY-YY', such
             as '2017-18'.
         """
-        return utils._parse_field(PLAYER_SCHEME, row, 'season')
+        return utils._parse_field(PLAYER_SCHEME, row, "season")
 
     def _combine_season_stats(self, table_rows, career_stats, all_stats_dict):
         """
@@ -294,17 +298,17 @@ class Player(AbstractPlayer):
         for row in table_rows:
             season = self._parse_season(row)
             try:
-                all_stats_dict[season]['data'] += str(row)
+                all_stats_dict[season]["data"] += str(row)
             except KeyError:
-                all_stats_dict[season] = {'data': str(row)}
+                all_stats_dict[season] = {"data": str(row)}
             most_recent_season = season
         self._most_recent_season = most_recent_season
         if not career_stats:
             return all_stats_dict
         try:
-            all_stats_dict['Career']['data'] += str(next(career_stats))
+            all_stats_dict["Career"]["data"] += str(next(career_stats))
         except KeyError:
-            all_stats_dict['Career'] = {'data': str(next(career_stats))}
+            all_stats_dict["Career"] = {"data": str(next(career_stats))}
         return all_stats_dict
 
     def _combine_all_stats(self, player_info):
@@ -329,16 +333,21 @@ class Player(AbstractPlayer):
         """
         all_stats_dict = {}
 
-        for table_id in ['totals', 'per_poss', 'advanced', 'shooting',
-                         'advanced_pbp', 'all_salaries']:
-            table_items = utils._get_stats_table(player_info,
-                                                 'table#%s' % table_id)
-            career_items = utils._get_stats_table(player_info,
-                                                  'table#%s' % table_id,
-                                                  footer=True)
-            all_stats_dict = self._combine_season_stats(table_items,
-                                                        career_items,
-                                                        all_stats_dict)
+        for table_id in [
+            "totals",
+            "per_poss",
+            "advanced",
+            "shooting",
+            "advanced_pbp",
+            "all_salaries",
+        ]:
+            table_items = utils._get_stats_table(player_info, "table#%s" % table_id)
+            career_items = utils._get_stats_table(
+                player_info, "table#%s" % table_id, footer=True
+            )
+            all_stats_dict = self._combine_season_stats(
+                table_items, career_items, all_stats_dict
+            )
         return all_stats_dict
 
     def _parse_nationality(self, player_info):
@@ -355,11 +364,11 @@ class Player(AbstractPlayer):
         player_info : PyQuery object
             A PyQuery object containing the HTML from the player's stats page.
         """
-        for span in player_info('span').items():
+        for span in player_info("span").items():
             if 'class="f-i' in str(span):
                 nationality = span.text()
                 nationality = NATIONALITY[nationality]
-                setattr(self, '_nationality', nationality)
+                setattr(self, "_nationality", nationality)
                 break
 
     def _parse_player_information(self, player_info):
@@ -375,7 +384,7 @@ class Player(AbstractPlayer):
         player_info : PyQuery object
             A PyQuery object containing the HTML from the player's stats page.
         """
-        for field in ['_height', '_weight', '_name']:
+        for field in ["_height", "_weight", "_name"]:
             short_field = str(field)[1:]
             value = utils._parse_field(PLAYER_SCHEME, player_info, short_field)
             setattr(self, field, value)
@@ -392,8 +401,8 @@ class Player(AbstractPlayer):
         player_info : PyQuery object
             A PyQuery object containing the HTML from the player's stats page.
         """
-        date = player_info('span[itemprop="birthDate"]').attr('data-birth')
-        setattr(self, '_birth_date', date)
+        date = player_info('span[itemprop="birthDate"]').attr("data-birth")
+        setattr(self, "_birth_date", date)
 
     def _parse_contract_headers(self, table):
         """
@@ -414,8 +423,8 @@ class Player(AbstractPlayer):
             Returns a list where each element is a string denoting the season,
             such as '2017-18'.
         """
-        years = [i.text() for i in table('th').items()]
-        years.remove('Team')
+        years = [i.text() for i in table("th").items()]
+        years.remove("Team")
         return years
 
     def _parse_contract_wages(self, table):
@@ -437,9 +446,10 @@ class Player(AbstractPlayer):
             Returns a list of all wages where each element is a string denoting
             the dollar amount, such as '$40,000,000'.
         """
-        wages = [i.text() if i.text().startswith('$') else ''
-                 for i in table('td').items()]
-        wages.remove('')
+        wages = [
+            i.text() if i.text().startswith("$") else "" for i in table("td").items()
+        ]
+        wages.remove("")
         return wages
 
     def _combine_contract(self, years, wages):
@@ -484,11 +494,11 @@ class Player(AbstractPlayer):
         player_info : PyQuery object
             A PyQuery object containing the HTML from the player's stats page.
         """
-        tables = player_info('table').items()
+        tables = player_info("table").items()
         for table in tables:
-            id_attr = table.attr('id')
+            id_attr = table.attr("id")
             if id_attr:
-                if id_attr.startswith('contracts_'):
+                if id_attr.startswith("contracts_"):
                     years = self._parse_contract_headers(table)
                     wages = self._parse_contract_wages(table)
                     contract = self._combine_contract(years, wages)
@@ -496,7 +506,7 @@ class Player(AbstractPlayer):
                     # a contract and should have a value of None instead.
                     if contract == {}:
                         contract = None
-                    setattr(self, '_contract', contract)
+                    setattr(self, "_contract", contract)
                     break
 
     def _pull_player_data(self):
@@ -523,7 +533,7 @@ class Player(AbstractPlayer):
         self._parse_birth_date(player_info)
         self._parse_contract(player_info)
         all_stats = self._combine_all_stats(player_info)
-        setattr(self, '_season', all_stats.keys())
+        setattr(self, "_season", all_stats.keys())
         return all_stats
 
     def _find_initial_index(self):
@@ -536,12 +546,12 @@ class Player(AbstractPlayer):
         """
         index = 0
         for season in self._season:
-            if season == 'Career':
+            if season == "Career":
                 self._index = index
                 break
             index += 1
 
-    def __call__(self, requested_season=''):
+    def __call__(self, requested_season=""):
         """
         Specify a different season to pull stats from.
 
@@ -560,9 +570,8 @@ class Player(AbstractPlayer):
         Player class instance
             Returns the class instance with the updated stats being referenced.
         """
-        if requested_season.lower() == 'career' or \
-           requested_season == '':
-            requested_season = 'Career'
+        if requested_season.lower() == "career" or requested_season == "":
+            requested_season = "Career"
         index = 0
         for season in self._season:
             if season == requested_season:
@@ -587,130 +596,112 @@ class Player(AbstractPlayer):
             attribute for the specified index.
         """
         fields_to_include = {
-            'and_ones': self.and_ones,
-            'assist_percentage': self.assist_percentage,
-            'assists': self.assists,
-            'assists_per_poss': self.assists_per_poss,
-            'block_percentage': self.block_percentage,
-            'blocking_fouls': self.blocking_fouls,
-            'blocks': self.blocks,
-            'blocks_per_poss': self.blocks_per_poss,
-            'box_plus_minus': self.box_plus_minus,
-            'center_percentage': self.center_percentage,
-            'defensive_box_plus_minus': self.defensive_box_plus_minus,
-            'defensive_rebound_percentage': self.defensive_rebound_percentage,
-            'defensive_rebounds': self.defensive_rebounds,
-            'defensive_rebounds_per_poss': self.defensive_rebounds_per_poss,
-            'defensive_win_shares': self.defensive_win_shares,
-            'dunks': self.dunks,
-            'effective_field_goal_percentage':
-            self.effective_field_goal_percentage,
-            'field_goal_attempts': self.field_goal_attempts,
-            'field_goal_attempts_per_poss': self.field_goal_attempts_per_poss,
-            'field_goal_perc_sixteen_foot_plus_two_pointers':
-            self.field_goal_perc_sixteen_foot_plus_two_pointers,
-            'field_goal_perc_ten_to_sixteen_feet':
-            self.field_goal_perc_ten_to_sixteen_feet,
-            'field_goal_perc_three_to_ten_feet':
-            self.field_goal_perc_three_to_ten_feet,
-            'field_goal_perc_zero_to_three_feet':
-            self.field_goal_perc_zero_to_three_feet,
-            'field_goal_percentage': self.field_goal_percentage,
-            'field_goals': self.field_goals,
-            'field_goals_per_poss': self.field_goals_per_poss,
-            'free_throw_attempt_rate': self.free_throw_attempt_rate,
-            'free_throw_attempts': self.free_throw_attempts,
-            'free_throw_attempts_per_poss': self.free_throw_attempts_per_poss,
-            'free_throw_percentage': self.free_throw_percentage,
-            'free_throws': self.free_throws,
-            'free_throws_per_poss': self.free_throws_per_poss,
-            'games_played': self.games_played,
-            'games_started': self.games_started,
-            'half_court_heaves': self.half_court_heaves,
-            'half_court_heaves_made': self.half_court_heaves_made,
-            'height': self.height,
-            'lost_ball_turnovers': self.lost_ball_turnovers,
-            'minutes_played': self.minutes_played,
-            'nationality': self.nationality,
-            'net_plus_minus': self.net_plus_minus,
-            'offensive_box_plus_minus': self.offensive_box_plus_minus,
-            'offensive_fouls': self.offensive_fouls,
-            'offensive_rebound_percentage': self.offensive_rebound_percentage,
-            'offensive_rebounds': self.offensive_rebounds,
-            'offensive_rebounds_per_poss': self.offensive_rebounds_per_poss,
-            'offensive_win_shares': self.offensive_win_shares,
-            'on_court_plus_minus': self.on_court_plus_minus,
-            'other_turnovers': self.other_turnovers,
-            'passing_turnovers': self.passing_turnovers,
-            'percentage_field_goals_as_dunks':
-            self.percentage_field_goals_as_dunks,
-            'percentage_of_three_pointers_from_corner':
-            self.percentage_of_three_pointers_from_corner,
-            'percentage_shots_three_pointers':
-            self.percentage_shots_three_pointers,
-            'percentage_shots_two_pointers':
-            self.percentage_shots_two_pointers,
-            'percentage_sixteen_foot_plus_two_pointers':
-            self.percentage_sixteen_foot_plus_two_pointers,
-            'percentage_ten_to_sixteen_footers':
-            self.percentage_ten_to_sixteen_footers,
-            'percentage_three_to_ten_footers':
-            self.percentage_three_to_ten_footers,
-            'percentage_zero_to_three_footers':
-            self.percentage_zero_to_three_footers,
-            'personal_fouls': self.personal_fouls,
-            'personal_fouls_per_poss': self.personal_fouls_per_poss,
-            'player_efficiency_rating': self.player_efficiency_rating,
-            'player_id': self.player_id,
-            'point_guard_percentage': self.point_guard_percentage,
-            'points': self.points,
-            'points_per_poss': self.points_per_poss,
-            'points_generated_by_assists': self.points_generated_by_assists,
-            'position': self.position,
-            'power_forward_percentage': self.power_forward_percentage,
-            'salary': self.salary,
-            'shooting_distance': self.shooting_distance,
-            'shooting_fouls': self.shooting_fouls,
-            'shooting_fouls_drawn': self.shooting_fouls_drawn,
-            'shooting_guard_percentage': self.shooting_guard_percentage,
-            'shots_blocked': self.shots_blocked,
-            'small_forward_percentage': self.small_forward_percentage,
-            'steal_percentage': self.steal_percentage,
-            'steals': self.steals,
-            'steals_per_poss': self.steals_per_poss,
-            'take_fouls': self.take_fouls,
-            'team_abbreviation': self.team_abbreviation,
-            'three_point_attempt_rate': self.three_point_attempt_rate,
-            'three_point_attempts': self.three_point_attempts,
-            'three_point_attempts_per_poss':
-            self.three_point_attempts_per_poss,
-            'three_point_percentage': self.three_point_percentage,
-            'three_point_shot_percentage_from_corner':
-            self.three_point_shot_percentage_from_corner,
-            'three_pointers': self.three_pointers,
-            'three_pointers_assisted_percentage':
-            self.three_pointers_assisted_percentage,
-            'three_pointers_per_poss': self.three_pointers_per_poss,
-            'total_rebound_percentage': self.total_rebound_percentage,
-            'total_rebounds': self.total_rebounds,
-            'total_rebounds_per_poss': self.total_rebounds_per_poss,
-            'true_shooting_percentage': self.true_shooting_percentage,
-            'turnover_percentage': self.turnover_percentage,
-            'turnovers': self.turnovers,
-            'turnovers_per_poss': self.turnovers_per_poss,
-            'two_point_attempts': self.two_point_attempts,
-            'two_point_attempts_per_poss': self.two_point_attempts_per_poss,
-            'two_point_percentage': self.two_point_percentage,
-            'two_pointers': self.two_pointers,
-            'two_pointers_per_poss': self.two_pointers_per_poss,
-            'two_pointers_assisted_percentage':
-            self.two_pointers_assisted_percentage,
-            'usage_percentage': self.usage_percentage,
-            'value_over_replacement_player':
-            self.value_over_replacement_player,
-            'weight': self.weight,
-            'win_shares': self.win_shares,
-            'win_shares_per_48_minutes': self.win_shares_per_48_minutes
+            "and_ones": self.and_ones,
+            "assist_percentage": self.assist_percentage,
+            "assists": self.assists,
+            "assists_per_poss": self.assists_per_poss,
+            "block_percentage": self.block_percentage,
+            "blocking_fouls": self.blocking_fouls,
+            "blocks": self.blocks,
+            "blocks_per_poss": self.blocks_per_poss,
+            "box_plus_minus": self.box_plus_minus,
+            "center_percentage": self.center_percentage,
+            "defensive_box_plus_minus": self.defensive_box_plus_minus,
+            "defensive_rebound_percentage": self.defensive_rebound_percentage,
+            "defensive_rebounds": self.defensive_rebounds,
+            "defensive_rebounds_per_poss": self.defensive_rebounds_per_poss,
+            "defensive_win_shares": self.defensive_win_shares,
+            "dunks": self.dunks,
+            "effective_field_goal_percentage": self.effective_field_goal_percentage,
+            "field_goal_attempts": self.field_goal_attempts,
+            "field_goal_attempts_per_poss": self.field_goal_attempts_per_poss,
+            "field_goal_perc_sixteen_foot_plus_two_pointers": self.field_goal_perc_sixteen_foot_plus_two_pointers,
+            "field_goal_perc_ten_to_sixteen_feet": self.field_goal_perc_ten_to_sixteen_feet,
+            "field_goal_perc_three_to_ten_feet": self.field_goal_perc_three_to_ten_feet,
+            "field_goal_perc_zero_to_three_feet": self.field_goal_perc_zero_to_three_feet,
+            "field_goal_percentage": self.field_goal_percentage,
+            "field_goals": self.field_goals,
+            "field_goals_per_poss": self.field_goals_per_poss,
+            "free_throw_attempt_rate": self.free_throw_attempt_rate,
+            "free_throw_attempts": self.free_throw_attempts,
+            "free_throw_attempts_per_poss": self.free_throw_attempts_per_poss,
+            "free_throw_percentage": self.free_throw_percentage,
+            "free_throws": self.free_throws,
+            "free_throws_per_poss": self.free_throws_per_poss,
+            "games_played": self.games_played,
+            "games_started": self.games_started,
+            "half_court_heaves": self.half_court_heaves,
+            "half_court_heaves_made": self.half_court_heaves_made,
+            "height": self.height,
+            "lost_ball_turnovers": self.lost_ball_turnovers,
+            "minutes_played": self.minutes_played,
+            "nationality": self.nationality,
+            "net_plus_minus": self.net_plus_minus,
+            "offensive_box_plus_minus": self.offensive_box_plus_minus,
+            "offensive_fouls": self.offensive_fouls,
+            "offensive_rebound_percentage": self.offensive_rebound_percentage,
+            "offensive_rebounds": self.offensive_rebounds,
+            "offensive_rebounds_per_poss": self.offensive_rebounds_per_poss,
+            "offensive_win_shares": self.offensive_win_shares,
+            "on_court_plus_minus": self.on_court_plus_minus,
+            "other_turnovers": self.other_turnovers,
+            "passing_turnovers": self.passing_turnovers,
+            "percentage_field_goals_as_dunks": self.percentage_field_goals_as_dunks,
+            "percentage_of_three_pointers_from_corner": self.percentage_of_three_pointers_from_corner,
+            "percentage_shots_three_pointers": self.percentage_shots_three_pointers,
+            "percentage_shots_two_pointers": self.percentage_shots_two_pointers,
+            "percentage_sixteen_foot_plus_two_pointers": self.percentage_sixteen_foot_plus_two_pointers,
+            "percentage_ten_to_sixteen_footers": self.percentage_ten_to_sixteen_footers,
+            "percentage_three_to_ten_footers": self.percentage_three_to_ten_footers,
+            "percentage_zero_to_three_footers": self.percentage_zero_to_three_footers,
+            "personal_fouls": self.personal_fouls,
+            "personal_fouls_per_poss": self.personal_fouls_per_poss,
+            "player_efficiency_rating": self.player_efficiency_rating,
+            "player_id": self.player_id,
+            "point_guard_percentage": self.point_guard_percentage,
+            "points": self.points,
+            "points_per_poss": self.points_per_poss,
+            "points_generated_by_assists": self.points_generated_by_assists,
+            "position": self.position,
+            "power_forward_percentage": self.power_forward_percentage,
+            "salary": self.salary,
+            "shooting_distance": self.shooting_distance,
+            "shooting_fouls": self.shooting_fouls,
+            "shooting_fouls_drawn": self.shooting_fouls_drawn,
+            "shooting_guard_percentage": self.shooting_guard_percentage,
+            "shots_blocked": self.shots_blocked,
+            "small_forward_percentage": self.small_forward_percentage,
+            "steal_percentage": self.steal_percentage,
+            "steals": self.steals,
+            "steals_per_poss": self.steals_per_poss,
+            "take_fouls": self.take_fouls,
+            "team_abbreviation": self.team_abbreviation,
+            "three_point_attempt_rate": self.three_point_attempt_rate,
+            "three_point_attempts": self.three_point_attempts,
+            "three_point_attempts_per_poss": self.three_point_attempts_per_poss,
+            "three_point_percentage": self.three_point_percentage,
+            "three_point_shot_percentage_from_corner": self.three_point_shot_percentage_from_corner,
+            "three_pointers": self.three_pointers,
+            "three_pointers_assisted_percentage": self.three_pointers_assisted_percentage,
+            "three_pointers_per_poss": self.three_pointers_per_poss,
+            "total_rebound_percentage": self.total_rebound_percentage,
+            "total_rebounds": self.total_rebounds,
+            "total_rebounds_per_poss": self.total_rebounds_per_poss,
+            "true_shooting_percentage": self.true_shooting_percentage,
+            "turnover_percentage": self.turnover_percentage,
+            "turnovers": self.turnovers,
+            "turnovers_per_poss": self.turnovers_per_poss,
+            "two_point_attempts": self.two_point_attempts,
+            "two_point_attempts_per_poss": self.two_point_attempts_per_poss,
+            "two_point_percentage": self.two_point_percentage,
+            "two_pointers": self.two_pointers,
+            "two_pointers_per_poss": self.two_pointers_per_poss,
+            "two_pointers_assisted_percentage": self.two_pointers_assisted_percentage,
+            "usage_percentage": self.usage_percentage,
+            "value_over_replacement_player": self.value_over_replacement_player,
+            "weight": self.weight,
+            "win_shares": self.win_shares,
+            "win_shares_per_48_minutes": self.win_shares_per_48_minutes,
         }
         return fields_to_include
 
@@ -769,7 +760,7 @@ class Player(AbstractPlayer):
         Returns an ``int`` of the player's weight in pounds.
         """
         try:
-            result = int(self._weight.replace('lb', ''))
+            result = int(self._weight.replace("lb", ""))
         except AttributeError:
             result = None
         return result
@@ -779,7 +770,7 @@ class Player(AbstractPlayer):
         """
         Returns a ``datetime`` object of the day and year the player was born.
         """
-        return datetime.strptime(self._birth_date, '%Y-%m-%d')
+        return datetime.strptime(self._birth_date, "%Y-%m-%d")
 
     @property
     def nationality(self):
@@ -1395,9 +1386,10 @@ class Roster:
         """
         Return the string representation of the class.
         """
-        players = [f'{player.name} ({player.player_id})'.strip()
-                   for player in self._players]
-        return '\n'.join(players)
+        players = [
+            f"{player.name} ({player.player_id})".strip() for player in self._players
+        ]
+        return "\n".join(players)
 
     def __repr__(self):
         """
@@ -1465,8 +1457,8 @@ class Roster:
             Returns a string of the player ID.
         """
         name_tag = player('td[data-stat="player"] a')
-        name = re.sub(r'.*/players/./', '', str(name_tag))
-        return re.sub(r'\.html.*', '', name)
+        name = re.sub(r".*/players/./", "", str(name_tag))
+        return re.sub(r"\.html.*", "", name)
 
     def _get_name(self, player):
         """
@@ -1506,7 +1498,7 @@ class Roster:
             from.
         """
         if not year:
-            year = utils._find_year_for_season('nba')
+            year = utils._find_year_for_season("nba")
             # Given the delays to the NBA season in 2020, the default season
             # selection logic is no longer valid after the original season
             # should have concluded. In this case, the previous season should
@@ -1520,19 +1512,22 @@ class Roster:
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(self._create_url(year)) and \
-               utils._url_exists(self._create_url(str(int(year) - 1))):
+            if not utils._url_exists(self._create_url(year)) and utils._url_exists(
+                self._create_url(str(int(year) - 1))
+            ):
                 year = str(int(year) - 1)
         url = self._create_url(year)
         page = self._pull_team_page(url)
         if not page:
-            output = ("Can't pull requested team page. Ensure the following "
-                      "URL exists: %s" % url)
+            output = (
+                "Can't pull requested team page. Ensure the following "
+                "URL exists: %s" % url
+            )
             raise ValueError(output)
-        players = page('table#roster tbody tr').items()
+        players = page("table#roster tbody tr").items()
         for player in players:
             player_id = self._get_id(player)
-            if not player_id or player_id == '':
+            if not player_id or player_id == "":
                 continue  # pragma: no cover
             if self._slim:
                 name = self._get_name(player)

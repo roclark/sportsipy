@@ -1,23 +1,27 @@
 import pandas as pd
 import re
 from ..decorators import int_property_decorator
-from .constants import (SCHEDULE_SCHEME,
-                        SCHEDULE_URL,
-                        NCAA_TOURNAMENT,
-                        NIT_TOURNAMENT,
-                        CBI_TOURNAMENT,
-                        CIT_TOURNAMENT)
+from .constants import (
+    SCHEDULE_SCHEME,
+    SCHEDULE_URL,
+    NCAA_TOURNAMENT,
+    NIT_TOURNAMENT,
+    CBI_TOURNAMENT,
+    CIT_TOURNAMENT,
+)
 from datetime import datetime
 from pyquery import PyQuery as pq
 from sportsreference import utils
-from sportsreference.constants import (WIN,
-                                       LOSS,
-                                       HOME,
-                                       AWAY,
-                                       NEUTRAL,
-                                       NON_DI,
-                                       REGULAR_SEASON,
-                                       CONFERENCE_TOURNAMENT)
+from sportsreference.constants import (
+    WIN,
+    LOSS,
+    HOME,
+    AWAY,
+    NEUTRAL,
+    NON_DI,
+    REGULAR_SEASON,
+    CONFERENCE_TOURNAMENT,
+)
 from sportsreference.ncaab.boxscore import Boxscore
 
 
@@ -33,6 +37,7 @@ class Game:
     game_data : string
         The row containing the specified game information.
     """
+
     def __init__(self, game_data):
         self._game = None
         self._date = None
@@ -60,7 +65,7 @@ class Game:
         """
         Return the string representation of the class.
         """
-        return f'{self.date} - {self.opponent_abbr}'
+        return f"{self.date} - {self.opponent_abbr}"
 
     def __repr__(self):
         """
@@ -84,12 +89,12 @@ class Game:
         name = game_data('td[data-stat="opp_name"]:first')
         # Non-DI schools do not have abbreviations and should be handled
         # differently by just using the team's name as the abbreviation.
-        if 'cbb/schools' not in str(name):
-            setattr(self, '_opponent_abbr', name.text())
+        if "cbb/schools" not in str(name):
+            setattr(self, "_opponent_abbr", name.text())
             return
-        name = re.sub(r'.*/cbb/schools/', '', str(name))
-        name = re.sub('/.*', '', name)
-        setattr(self, '_opponent_abbr', name)
+        name = re.sub(r".*/cbb/schools/", "", str(name))
+        name = re.sub("/.*", "", name)
+        setattr(self, "_opponent_abbr", name)
 
     def _parse_boxscore(self, game_data):
         """
@@ -106,11 +111,11 @@ class Game:
         boxscore = game_data('td[data-stat="date_game"]:first')
         # Happens if the game hasn't been played yet as there is no boxscore
         # to display.
-        if boxscore('a').text() == '':
+        if boxscore("a").text() == "":
             return
-        boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
-        boxscore = re.sub(r'\.html.*', '', str(boxscore))
-        setattr(self, '_boxscore', boxscore)
+        boxscore = re.sub(r".*/boxscores/", "", str(boxscore))
+        boxscore = re.sub(r"\.html.*", "", str(boxscore))
+        setattr(self, "_boxscore", boxscore)
 
     def _parse_game_data(self, game_data):
         """
@@ -133,13 +138,12 @@ class Game:
         for field in self.__dict__:
             # Remove the leading '_' from the name
             short_name = str(field)[1:]
-            if short_name == 'datetime' or \
-               short_name == 'opponent_rank':
+            if short_name == "datetime" or short_name == "opponent_rank":
                 continue
-            elif short_name == 'opponent_abbr':
+            elif short_name == "opponent_abbr":
                 self._parse_abbreviation(game_data)
                 continue
-            elif short_name == 'boxscore':
+            elif short_name == "boxscore":
                 self._parse_boxscore(game_data)
                 continue
             value = utils._parse_field(SCHEDULE_SCHEME, game_data, short_name)
@@ -154,25 +158,25 @@ class Game:
         if self._points_for is None and self._points_against is None:
             return None
         fields_to_include = {
-            'arena': self.arena,
-            'boxscore_index': self.boxscore_index,
-            'date': self.date,
-            'datetime': self.datetime,
-            'game': self.game,
-            'location': self.location,
-            'opponent_abbr': self.opponent_abbr,
-            'opponent_conference': self.opponent_conference,
-            'opponent_name': self.opponent_name,
-            'opponent_rank': self.opponent_rank,
-            'overtimes': self.overtimes,
-            'points_against': self.points_against,
-            'points_for': self.points_for,
-            'result': self.result,
-            'season_losses': self.season_losses,
-            'season_wins': self.season_wins,
-            'streak': self.streak,
-            'time': self.time,
-            'type': self.type
+            "arena": self.arena,
+            "boxscore_index": self.boxscore_index,
+            "date": self.date,
+            "datetime": self.datetime,
+            "game": self.game,
+            "location": self.location,
+            "opponent_abbr": self.opponent_abbr,
+            "opponent_conference": self.opponent_conference,
+            "opponent_name": self.opponent_name,
+            "opponent_rank": self.opponent_rank,
+            "overtimes": self.overtimes,
+            "points_against": self.points_against,
+            "points_for": self.points_for,
+            "result": self.result,
+            "season_losses": self.season_losses,
+            "season_wins": self.season_wins,
+            "streak": self.streak,
+            "time": self.time,
+            "type": self.type,
         }
         return pd.DataFrame([fields_to_include], index=[self._boxscore])
 
@@ -215,19 +219,19 @@ class Game:
         # the time can't properly be parsed, a default start time of midnight
         # should be used in this scenario, allowing users to decide if and how
         # they want to handle the time being empty.
-        if not self._time or self._time.upper() == '':
-            time = '12:00A'
+        if not self._time or self._time.upper() == "":
+            time = "12:00A"
         else:
             time = self._time.upper()
-        date_string = '%s %s' % (self._date, time)
-        date_string = re.sub(r'/.*', '', date_string)
-        date_string = re.sub(r' ET', '', date_string)
-        date_string += 'M'
-        date_string = re.sub(r'PMM', 'PM', date_string, flags=re.IGNORECASE)
-        date_string = re.sub(r'AMM', 'AM', date_string, flags=re.IGNORECASE)
-        date_string = re.sub(r' PM', 'PM', date_string, flags=re.IGNORECASE)
-        date_string = re.sub(r' AM', 'AM', date_string, flags=re.IGNORECASE)
-        return datetime.strptime(date_string, '%a, %b %d, %Y %I:%M%p')
+        date_string = "%s %s" % (self._date, time)
+        date_string = re.sub(r"/.*", "", date_string)
+        date_string = re.sub(r" ET", "", date_string)
+        date_string += "M"
+        date_string = re.sub(r"PMM", "PM", date_string, flags=re.IGNORECASE)
+        date_string = re.sub(r"AMM", "AM", date_string, flags=re.IGNORECASE)
+        date_string = re.sub(r" PM", "PM", date_string, flags=re.IGNORECASE)
+        date_string = re.sub(r" AM", "AM", date_string, flags=re.IGNORECASE)
+        return datetime.strptime(date_string, "%a, %b %d, %Y %I:%M%p")
 
     @property
     def time(self):
@@ -259,17 +263,17 @@ class Game:
         Returns a ``string`` constant to indicate whether the game was played
         during the regular season or in the post season.
         """
-        if self._type.lower() == 'reg':
+        if self._type.lower() == "reg":
             return REGULAR_SEASON
-        if self._type.lower() == 'ctourn':
+        if self._type.lower() == "ctourn":
             return CONFERENCE_TOURNAMENT
-        if self._type.lower() == 'ncaa':
+        if self._type.lower() == "ncaa":
             return NCAA_TOURNAMENT
-        if self._type.lower() == 'nit':
+        if self._type.lower() == "nit":
             return NIT_TOURNAMENT
-        if self._type.lower() == 'cbi':
+        if self._type.lower() == "cbi":
             return CBI_TOURNAMENT
-        if self._type.lower() == 'cit':
+        if self._type.lower() == "cit":
             return CIT_TOURNAMENT
 
     @property
@@ -278,11 +282,11 @@ class Game:
         Returns a ``string`` constant to indicate whether the game was played
         at the team's home venue, the opponent's venue, or at a neutral site.
         """
-        if self._location == '':
+        if self._location == "":
             return HOME
-        if self._location == 'N':
+        if self._location == "N":
             return NEUTRAL
-        if self._location == '@':
+        if self._location == "@":
             return AWAY
 
     @property
@@ -299,8 +303,8 @@ class Game:
         Returns a ``string`` of the opponent's name, such as the 'Purdue
         Boilermakers'.
         """
-        name = re.sub(r'\(\d+\)', '', self._opponent_name)
-        name = name.replace(u'\xa0', '')
+        name = re.sub(r"\(\d+\)", "", self._opponent_name)
+        name = name.replace("\xa0", "")
         return name
 
     @property
@@ -309,7 +313,7 @@ class Game:
         Returns a ``string`` of the opponent's rank when the game was played
         and None if the team was unranked.
         """
-        rank = re.findall(r'\d+', self._opponent_name)
+        rank = re.findall(r"\d+", self._opponent_name)
         if len(rank) > 0:
             return int(rank[0])
         return None
@@ -321,7 +325,7 @@ class Game:
         for a team participating in the Big Ten Conference. If the team is not
         a Division-I school, a string constant for non-majors is returned.
         """
-        if self._opponent_conference == '':
+        if self._opponent_conference == "":
             return NON_DI
         return self._opponent_conference
 
@@ -331,7 +335,7 @@ class Game:
         Returns a ``string`` constant to indicate whether the team won or lost
         the game.
         """
-        if self._result.lower() == 'w':
+        if self._result.lower() == "w":
             return WIN
         return LOSS
 
@@ -357,11 +361,11 @@ class Game:
         Returns an ``int`` of the number of overtimes that were played during
         the game and 0 if the game finished at the end of regulation time.
         """
-        if self._overtimes == '' or self._overtimes is None:
+        if self._overtimes == "" or self._overtimes is None:
             return 0
-        if self._overtimes.lower() == 'ot':
+        if self._overtimes.lower() == "ot":
             return 1
-        num_overtimes = re.findall(r'\d+', self._overtimes)
+        num_overtimes = re.findall(r"\d+", self._overtimes)
         try:
             return int(num_overtimes[0])
         except (ValueError, IndexError):
@@ -414,6 +418,7 @@ class Schedule:
     year : string (optional)
         The requested year to pull stats from.
     """
+
     def __init__(self, abbreviation, year=None):
         self._games = []
         self._pull_schedule(abbreviation, year)
@@ -464,19 +469,20 @@ class Schedule:
             schedule.
         """
         for game in self._games:
-            if game.datetime.year == date.year and \
-               game.datetime.month == date.month and \
-               game.datetime.day == date.day:
+            if (
+                game.datetime.year == date.year
+                and game.datetime.month == date.month
+                and game.datetime.day == date.day
+            ):
                 return game
-        raise ValueError('No games found for requested date')
+        raise ValueError("No games found for requested date")
 
     def __str__(self):
         """
         Return the string representation of the class.
         """
-        games = [f'{game.date} - {game.opponent_abbr}'.strip()
-                 for game in self._games]
-        return '\n'.join(games)
+        games = [f"{game.date} - {game.opponent_abbr}".strip() for game in self._games]
+        return "\n".join(games)
 
     def __repr__(self):
         """
@@ -511,18 +517,19 @@ class Schedule:
             The requested year to pull stats from.
         """
         if not year:
-            year = utils._find_year_for_season('ncaab')
+            year = utils._find_year_for_season("ncaab")
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(SCHEDULE_URL % (abbreviation.lower(),
-                                                     year)) and \
-               utils._url_exists(SCHEDULE_URL % (abbreviation.lower(),
-                                                 str(int(year) - 1))):
+            if not utils._url_exists(
+                SCHEDULE_URL % (abbreviation.lower(), year)
+            ) and utils._url_exists(
+                SCHEDULE_URL % (abbreviation.lower(), str(int(year) - 1))
+            ):
                 year = str(int(year) - 1)
         doc = pq(SCHEDULE_URL % (abbreviation.lower(), year))
-        schedule = utils._get_stats_table(doc, 'table#schedule')
+        schedule = utils._get_stats_table(doc, "table#schedule")
         if not schedule:
             utils._no_data_found()
             return

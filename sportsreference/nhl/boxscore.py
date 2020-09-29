@@ -6,13 +6,13 @@ from urllib.error import HTTPError
 from .. import utils
 from ..constants import AWAY, HOME
 from ..decorators import float_property_decorator, int_property_decorator
-from .constants import (BOXSCORE_ELEMENT_INDEX,
-                        BOXSCORE_SCHEME,
-                        BOXSCORE_URL,
-                        BOXSCORES_URL)
-from .player import (AbstractPlayer,
-                     _float_property_decorator,
-                     _int_property_decorator)
+from .constants import (
+    BOXSCORE_ELEMENT_INDEX,
+    BOXSCORE_SCHEME,
+    BOXSCORE_URL,
+    BOXSCORES_URL,
+)
+from .player import AbstractPlayer, _float_property_decorator, _int_property_decorator
 from functools import wraps
 
 
@@ -27,14 +27,18 @@ def nhl_int_property_decorator(func):
         # If the field is specific to goalie stats, use the number of goalies
         # as an index instead of the number of skaters.
         index = num_skaters
-        if func.__name__ in ['away_saves', 'away_shutout', 'home_saves',
-                             'home_shutout']:
+        if func.__name__ in [
+            "away_saves",
+            "away_shutout",
+            "home_saves",
+            "home_shutout",
+        ]:
             index = num_goalies
         # For properties dedicated to the away team, reference the first chunk
         # of skaters. Otherwise, reference the second chunk for home team
         # properties.
         value_subset = value[:index]
-        if 'home' in func.__name__:
+        if "home" in func.__name__:
             value_subset = value[index:]
         for x in value_subset:
             try:
@@ -42,6 +46,7 @@ def nhl_int_property_decorator(func):
             except ValueError:
                 continue
         return num
+
     return wrapper
 
 
@@ -78,6 +83,7 @@ class BoxscorePlayer(AbstractPlayer):
         page. If the player appears in multiple tables, all of their
         information will appear in one single string concatenated together.
     """
+
     def __init__(self, player_id, player_name, player_data):
         self._index = 0
         self._player_id = player_id
@@ -97,44 +103,41 @@ class BoxscorePlayer(AbstractPlayer):
         properties and values for the specified game.
         """
         fields_to_include = {
-            'assists': self.assists,
-            'blocks_at_even_strength': self.blocks_at_even_strength,
-            'corsi_for_percentage': self.corsi_for_percentage,
-            'decision': self.decision,
-            'defensive_zone_starts': self.defensive_zone_starts,
-            'defensive_zone_start_percentage':
-            self.defensive_zone_start_percentage,
-            'even_strength_assists': self.even_strength_assists,
-            'even_strength_goals': self.even_strength_goals,
-            'game_winning_goals': self.game_winning_goals,
-            'goals': self.goals,
-            'goals_against': self.goals_against,
-            'hits_at_even_strength': self.hits_at_even_strength,
-            'invidual_corsi_for_events': self.individual_corsi_for_events,
-            'name': self.name,
-            'offensive_zone_start_percentage':
-            self.offensive_zone_start_percentage,
-            'offensive_zone_starts': self.offensive_zone_starts,
-            'on_ice_shot_attempts_against': self.on_ice_shot_attempts_against,
-            'on_ice_shot_attempts_for': self.on_ice_shot_attempts_for,
-            'penalties_in_minutes': self.penalties_in_minutes,
-            'player_id': self.player_id,
-            'plus_minus': self.plus_minus,
-            'points': self.points,
-            'power_play_assists': self.power_play_assists,
-            'power_play_goals': self.power_play_goals,
-            'relative_corsi_for_percentage':
-            self.relative_corsi_for_percentage,
-            'save_percentage': self.save_percentage,
-            'saves': self.saves,
-            'shifts': self.shifts,
-            'shooting_percentage': self.shooting_percentage,
-            'short_handed_assists': self.short_handed_assists,
-            'short_handed_goals': self.short_handed_goals,
-            'shots_against': self.shots_against,
-            'shots_on_goal': self.shots_on_goal,
-            'shutouts': self.shutouts,
-            'time_on_ice': self.time_on_ice
+            "assists": self.assists,
+            "blocks_at_even_strength": self.blocks_at_even_strength,
+            "corsi_for_percentage": self.corsi_for_percentage,
+            "decision": self.decision,
+            "defensive_zone_starts": self.defensive_zone_starts,
+            "defensive_zone_start_percentage": self.defensive_zone_start_percentage,
+            "even_strength_assists": self.even_strength_assists,
+            "even_strength_goals": self.even_strength_goals,
+            "game_winning_goals": self.game_winning_goals,
+            "goals": self.goals,
+            "goals_against": self.goals_against,
+            "hits_at_even_strength": self.hits_at_even_strength,
+            "invidual_corsi_for_events": self.individual_corsi_for_events,
+            "name": self.name,
+            "offensive_zone_start_percentage": self.offensive_zone_start_percentage,
+            "offensive_zone_starts": self.offensive_zone_starts,
+            "on_ice_shot_attempts_against": self.on_ice_shot_attempts_against,
+            "on_ice_shot_attempts_for": self.on_ice_shot_attempts_for,
+            "penalties_in_minutes": self.penalties_in_minutes,
+            "player_id": self.player_id,
+            "plus_minus": self.plus_minus,
+            "points": self.points,
+            "power_play_assists": self.power_play_assists,
+            "power_play_goals": self.power_play_goals,
+            "relative_corsi_for_percentage": self.relative_corsi_for_percentage,
+            "save_percentage": self.save_percentage,
+            "saves": self.saves,
+            "shifts": self.shifts,
+            "shooting_percentage": self.shooting_percentage,
+            "short_handed_assists": self.short_handed_assists,
+            "short_handed_goals": self.short_handed_goals,
+            "shots_against": self.shots_against,
+            "shots_on_goal": self.shots_on_goal,
+            "shutouts": self.shutouts,
+            "time_on_ice": self.time_on_ice,
         }
         return pd.DataFrame([fields_to_include], index=[self._player_id])
 
@@ -226,6 +229,7 @@ class Boxscore:
         The relative link to the boxscore HTML page, such as
         '201806070VEG'.
     """
+
     def __init__(self, uri):
         self._uri = uri
         self._date = None
@@ -279,8 +283,10 @@ class Boxscore:
         """
         Return the string representation of the class.
         """
-        return (f'Boxscore for {self._away_name.text()} at '
-                f'{self._home_name.text()} ({self.date})')
+        return (
+            f"Boxscore for {self._away_name.text()} at "
+            f"{self._home_name.text()} ({self.date})"
+        )
 
     def __repr__(self):
         """
@@ -333,39 +339,41 @@ class Boxscore:
         """
         scheme = BOXSCORE_SCHEME["game_info"]
         items = [i.text() for i in boxscore(scheme).items()]
-        game_info = items[0].split('\n')
+        game_info = items[0].split("\n")
         arena = None
         attendance = None
         date = None
         duration = None
         playoff_round = None
         time = None
-        if game_info[0].count(',') == 2:
-            date = ','.join(game_info[0].split(',')[0:2]).strip()
-            time = game_info[0].split(',')[-1].strip()
+        if game_info[0].count(",") == 2:
+            date = ",".join(game_info[0].split(",")[0:2]).strip()
+            time = game_info[0].split(",")[-1].strip()
         else:
             date = game_info[0]
         for line in game_info:
-            if 'Arena: ' in line:
-                arena = line.replace('Arena: ', '')
-            if 'Attendance: ' in line:
-                attendance = line.replace('Attendance: ', '').replace(',', '')
-            if 'Game Duration: ' in line:
-                duration = line.replace('Game Duration: ', '')
-            if 'eastern first round' in line.lower() or \
-               'western first round' in line.lower() or \
-               'eastern second round' in line.lower() or \
-               'western second round' in line.lower() or \
-               'eastern conference finals' in line.lower() or \
-               'western conference finals' in line.lower() or \
-               'stanley cup final' in line.lower():
+            if "Arena: " in line:
+                arena = line.replace("Arena: ", "")
+            if "Attendance: " in line:
+                attendance = line.replace("Attendance: ", "").replace(",", "")
+            if "Game Duration: " in line:
+                duration = line.replace("Game Duration: ", "")
+            if (
+                "eastern first round" in line.lower()
+                or "western first round" in line.lower()
+                or "eastern second round" in line.lower()
+                or "western second round" in line.lower()
+                or "eastern conference finals" in line.lower()
+                or "western conference finals" in line.lower()
+                or "stanley cup final" in line.lower()
+            ):
                 playoff_round = line
-        setattr(self, '_arena', arena)
-        setattr(self, '_attendance', attendance)
-        setattr(self, '_date', date)
-        setattr(self, '_duration', duration)
-        setattr(self, '_playoff_round', playoff_round)
-        setattr(self, '_time', time)
+        setattr(self, "_arena", arena)
+        setattr(self, "_attendance", attendance)
+        setattr(self, "_date", date)
+        setattr(self, "_duration", duration)
+        setattr(self, "_playoff_round", playoff_round)
+        setattr(self, "_time", time)
 
     def _parse_name(self, field, boxscore):
         """
@@ -411,11 +419,13 @@ class Boxscore:
         """
         tables = []
 
-        for table in boxscore('table').items():
+        for table in boxscore("table").items():
             try:
-                if '_adv' in table.attr['id'] or \
-                   '_skaters' in table.attr['id'] or \
-                   '_goalies' in table.attr['id']:
+                if (
+                    "_adv" in table.attr["id"]
+                    or "_skaters" in table.attr["id"]
+                    or "_goalies" in table.attr["id"]
+                ):
                     tables.append(table)
             except (KeyError, TypeError):
                 continue
@@ -440,9 +450,9 @@ class Boxscore:
             Returns a ``string`` of the player's ID, such as 'zettehe01' for
             Henrik Zetterberg.
         """
-        player_id = row('th').attr('data-append-csv')
+        player_id = row("th").attr("data-append-csv")
         if not player_id:
-            player_id = row('td').attr('data-append-csv')
+            player_id = row("td").attr("data-append-csv")
         return player_id
 
     def _find_player_name(self, row):
@@ -464,7 +474,7 @@ class Boxscore:
             Returns a ``string`` of the player's full name, such as 'Henrik
             Zetterberg'.
         """
-        return row('a').text()
+        return row("a").text()
 
     def _extract_player_stats(self, table, player_dict, home_or_away):
         """
@@ -498,19 +508,19 @@ class Boxscore:
             player's name, HTML data, and a string constant indicating which
             team the player is a member of.
         """
-        for row in table('tbody tr').items():
+        for row in table("tbody tr").items():
             player_id = self._find_player_id(row)
             # Occurs when a header row is identified instead of a player.
             if not player_id:
                 continue
             name = self._find_player_name(row)
             try:
-                player_dict[player_id]['data'] += str(row).strip()
+                player_dict[player_id]["data"] += str(row).strip()
             except KeyError:
                 player_dict[player_id] = {
-                    'name': name,
-                    'data': str(row).strip(),
-                    'team': home_or_away
+                    "name": name,
+                    "data": str(row).strip(),
+                    "team": home_or_away,
                 }
         return player_dict
 
@@ -541,10 +551,8 @@ class Boxscore:
         home_players = []
         away_players = []
         for player_id, details in player_dict.items():
-            player = BoxscorePlayer(player_id,
-                                    details['name'],
-                                    details['data'])
-            if details['team'] == HOME:
+            player = BoxscorePlayer(player_id, details["name"], details["data"])
+            if details["team"] == HOME:
                 home_players.append(player)
             else:
                 away_players.append(player)
@@ -582,9 +590,7 @@ class Boxscore:
             # the fifth table also belonging to the away team's skaters.
             if table_count in [0, 1, 4]:
                 home_or_away = AWAY
-            player_dict = self._extract_player_stats(table,
-                                                     player_dict,
-                                                     home_or_away)
+            player_dict = self._extract_player_stats(table, player_dict, home_or_away)
             table_count += 1
         away_players, home_players = self._instantiate_players(player_dict)
         return away_players, home_players
@@ -615,40 +621,41 @@ class Boxscore:
             return
 
         fields_to_special_parse = [
-            'away_even_strength_assists',
-            'away_power_play_assists',
-            'away_short_handed_assists',
-            'away_game_winning_goals',
-            'away_saves',
-            'away_save_percentage',
-            'away_shutout',
-            'home_even_strength_assists',
-            'home_power_play_assists',
-            'home_short_handed_assists',
-            'home_game_winning_goals',
-            'home_saves',
-            'home_save_percentage',
-            'home_shutout'
+            "away_even_strength_assists",
+            "away_power_play_assists",
+            "away_short_handed_assists",
+            "away_game_winning_goals",
+            "away_saves",
+            "away_save_percentage",
+            "away_shutout",
+            "home_even_strength_assists",
+            "home_power_play_assists",
+            "home_short_handed_assists",
+            "home_game_winning_goals",
+            "home_saves",
+            "home_save_percentage",
+            "home_shutout",
         ]
 
         for field in self.__dict__:
             # Remove the '_' from the name
             short_field = str(field)[1:]
-            if short_field == 'winner' or \
-               short_field == 'winning_name' or \
-               short_field == 'winning_abbr' or \
-               short_field == 'losing_name' or \
-               short_field == 'losing_abbr' or \
-               short_field == 'uri' or \
-               short_field == 'date' or \
-               short_field == 'time' or \
-               short_field == 'arena' or \
-               short_field == 'attendance' or \
-               short_field == 'time_of_day' or \
-               short_field == 'duration':
+            if (
+                short_field == "winner"
+                or short_field == "winning_name"
+                or short_field == "winning_abbr"
+                or short_field == "losing_name"
+                or short_field == "losing_abbr"
+                or short_field == "uri"
+                or short_field == "date"
+                or short_field == "time"
+                or short_field == "arena"
+                or short_field == "attendance"
+                or short_field == "time_of_day"
+                or short_field == "duration"
+            ):
                 continue
-            if short_field == 'away_name' or \
-               short_field == 'home_name':
+            if short_field == "away_name" or short_field == "home_name":
                 value = self._parse_name(short_field, boxscore)
                 setattr(self, field, value)
                 continue
@@ -660,17 +667,14 @@ class Boxscore:
             index = 0
             if short_field in BOXSCORE_ELEMENT_INDEX.keys():
                 index = BOXSCORE_ELEMENT_INDEX[short_field]
-            value = utils._parse_field(BOXSCORE_SCHEME,
-                                       boxscore,
-                                       short_field,
-                                       index)
+            value = utils._parse_field(BOXSCORE_SCHEME, boxscore, short_field, index)
             setattr(self, field, value)
 
-        self._away_skaters = len(boxscore(BOXSCORE_SCHEME['away_skaters']))
-        num_away_goalies = boxscore(BOXSCORE_SCHEME['away_goalies']).items()
+        self._away_skaters = len(boxscore(BOXSCORE_SCHEME["away_skaters"]))
+        num_away_goalies = boxscore(BOXSCORE_SCHEME["away_goalies"]).items()
         # Skip the first element as it is dedicated to skaters and not goalies.
         next(num_away_goalies)
-        self._away_goalies = len(next(num_away_goalies)('tbody tr'))
+        self._away_goalies = len(next(num_away_goalies)("tbody tr"))
         self._parse_game_date_and_location(boxscore)
         self._away_players, self._home_players = self._find_players(boxscore)
 
@@ -684,48 +688,48 @@ class Boxscore:
         if self._away_goals is None and self._home_goals is None:
             return None
         fields_to_include = {
-            'arena': self.arena,
-            'attendance': self.attendance,
-            'away_assists': self.away_assists,
-            'away_even_strength_assists': self.away_even_strength_assists,
-            'away_even_strength_goals': self.away_even_strength_goals,
-            'away_game_winning_goals': self.away_game_winning_goals,
-            'away_goals': self.away_goals,
-            'away_penalties_in_minutes': self.away_penalties_in_minutes,
-            'away_points': self.away_points,
-            'away_power_play_assists': self.away_power_play_assists,
-            'away_power_play_goals': self.away_power_play_goals,
-            'away_save_percentage': self.away_save_percentage,
-            'away_saves': self.away_saves,
-            'away_shooting_percentage': self.away_shooting_percentage,
-            'away_short_handed_assists': self.away_short_handed_assists,
-            'away_short_handed_goals': self.away_short_handed_goals,
-            'away_shots_on_goal': self.away_shots_on_goal,
-            'away_shutout': self.away_shutout,
-            'date': self.date,
-            'duration': self.duration,
-            'home_assists': self.home_assists,
-            'home_even_strength_assists': self.home_even_strength_assists,
-            'home_even_strength_goals': self.home_even_strength_goals,
-            'home_game_winning_goals': self.home_game_winning_goals,
-            'home_goals': self.home_goals,
-            'home_penalties_in_minutes': self.home_penalties_in_minutes,
-            'home_points': self.home_points,
-            'home_power_play_assists': self.home_power_play_assists,
-            'home_power_play_goals': self.home_power_play_goals,
-            'home_save_percentage': self.home_save_percentage,
-            'home_saves': self.home_saves,
-            'home_shooting_percentage': self.home_shooting_percentage,
-            'home_short_handed_assists': self.home_short_handed_assists,
-            'home_short_handed_goals': self.home_short_handed_goals,
-            'home_shots_on_goal': self.home_shots_on_goal,
-            'home_shutout': self.home_shutout,
-            'losing_abbr': self.losing_abbr,
-            'losing_name': self.losing_name,
-            'time': self.time,
-            'winner': self.winner,
-            'winning_abbr': self.winning_abbr,
-            'winning_name': self.winning_name
+            "arena": self.arena,
+            "attendance": self.attendance,
+            "away_assists": self.away_assists,
+            "away_even_strength_assists": self.away_even_strength_assists,
+            "away_even_strength_goals": self.away_even_strength_goals,
+            "away_game_winning_goals": self.away_game_winning_goals,
+            "away_goals": self.away_goals,
+            "away_penalties_in_minutes": self.away_penalties_in_minutes,
+            "away_points": self.away_points,
+            "away_power_play_assists": self.away_power_play_assists,
+            "away_power_play_goals": self.away_power_play_goals,
+            "away_save_percentage": self.away_save_percentage,
+            "away_saves": self.away_saves,
+            "away_shooting_percentage": self.away_shooting_percentage,
+            "away_short_handed_assists": self.away_short_handed_assists,
+            "away_short_handed_goals": self.away_short_handed_goals,
+            "away_shots_on_goal": self.away_shots_on_goal,
+            "away_shutout": self.away_shutout,
+            "date": self.date,
+            "duration": self.duration,
+            "home_assists": self.home_assists,
+            "home_even_strength_assists": self.home_even_strength_assists,
+            "home_even_strength_goals": self.home_even_strength_goals,
+            "home_game_winning_goals": self.home_game_winning_goals,
+            "home_goals": self.home_goals,
+            "home_penalties_in_minutes": self.home_penalties_in_minutes,
+            "home_points": self.home_points,
+            "home_power_play_assists": self.home_power_play_assists,
+            "home_power_play_goals": self.home_power_play_goals,
+            "home_save_percentage": self.home_save_percentage,
+            "home_saves": self.home_saves,
+            "home_shooting_percentage": self.home_shooting_percentage,
+            "home_short_handed_assists": self.home_short_handed_assists,
+            "home_short_handed_goals": self.home_short_handed_goals,
+            "home_shots_on_goal": self.home_shots_on_goal,
+            "home_shutout": self.home_shutout,
+            "losing_abbr": self.losing_abbr,
+            "losing_name": self.losing_name,
+            "time": self.time,
+            "winner": self.winner,
+            "winning_abbr": self.winning_abbr,
+            "winning_name": self.winning_name,
         }
         return pd.DataFrame([fields_to_include], index=[self._uri])
 
@@ -1118,6 +1122,7 @@ class Boxscores:
         empty, or if 'end_date' is prior to 'date', only the games from the day
         specified in the 'date' parameter will be saved.
     """
+
     def __init__(self, date, end_date=None):
         self._boxscores = {}
 
@@ -1233,8 +1238,8 @@ class Boxscores:
             Returns a ``string`` containing the link to the game's boxscore
             page.
         """
-        uri = re.sub(r'.*/boxscores/', '', str(url))
-        uri = re.sub(r'\.html.*', '', uri).strip()
+        uri = re.sub(r".*/boxscores/", "", str(url))
+        uri = re.sub(r"\.html.*", "", uri).strip()
         return uri
 
     def _parse_abbreviation(self, abbr):
@@ -1253,8 +1258,8 @@ class Boxscores:
         string
             Returns a ``string`` of the team's abbreviation.
         """
-        abbr = re.sub(r'.*/teams/', '', str(abbr))
-        abbr = re.sub(r'/.*', '', abbr)
+        abbr = re.sub(r".*/teams/", "", str(abbr))
+        abbr = re.sub(r"/.*", "", abbr)
         return abbr
 
     def _get_name(self, name):
@@ -1296,8 +1301,8 @@ class Boxscores:
         int
             Returns an int representing the team's final score in runs.
         """
-        score = score_link.replace('<td class="right">', '')
-        score = score.replace('</td>', '')
+        score = score_link.replace('<td class="right">', "")
+        score = score.replace("</td>", "")
         return int(score)
 
     def _get_team_details(self, game):
@@ -1320,7 +1325,7 @@ class Boxscores:
             teams in the following order: Away Name, Away Abbreviation, Away
             Score, Home Name, Home Abbreviation, Home Score.
         """
-        links = [i for i in game('td a').items()]
+        links = [i for i in game("td a").items()]
         # The away team is the first link in the boxscore
         away = links[0]
         # The home team is the last (3rd) link in the boxscore
@@ -1335,8 +1340,7 @@ class Boxscores:
             home_score = self._get_score(scores[1])
         away_name, away_abbr = self._get_name(away)
         home_name, home_abbr = self._get_name(home)
-        return (away_name, away_abbr, away_score, home_name, home_abbr,
-                home_score)
+        return (away_name, away_abbr, away_score, home_name, home_abbr, home_score)
 
     def _get_team_results(self, team_result_html):
         """
@@ -1357,7 +1361,7 @@ class Boxscores:
         tuple
             Returns a tuple of the team's name followed by the abbreviation.
         """
-        link = [i for i in team_result_html('td a').items()]
+        link = [i for i in team_result_html("td a").items()]
         # If there are no links, the boxscore is likely misformed and can't be
         # parsed. In this case, the boxscore should be skipped.
         if len(link) < 1:
@@ -1389,8 +1393,7 @@ class Boxscores:
 
         for game in games:
             details = self._get_team_details(game)
-            away_name, away_abbr, away_score, home_name, home_abbr, \
-                home_score = details
+            away_name, away_abbr, away_score, home_name, home_abbr, home_score = details
             boxscore_url = game('td[class="right gamelink"] a')
             boxscore_uri = self._get_boxscore_uri(boxscore_url)
             losers = [loser for loser in game('tr[class="loser"]').items()]
@@ -1398,8 +1401,9 @@ class Boxscores:
             loser = self._get_team_results(game('tr[class="loser"]'))
             # Occurs when the boxscore format is invalid and the game should be
             # skipped to avoid conflicts populating the game information.
-            if (len(losers) != 2 and loser and not winner) or \
-               (len(losers) != 2 and winner and not loser):
+            if (len(losers) != 2 and loser and not winner) or (
+                len(losers) != 2 and winner and not loser
+            ):
                 continue
             # Occurs when information couldn't be parsed from the boxscore or
             # the game hasn't occurred yet. In this case, the winner should be
@@ -1418,17 +1422,17 @@ class Boxscores:
             else:
                 losing_name, losing_abbreviation = loser
             game_info = {
-                'boxscore': boxscore_uri,
-                'away_name': away_name,
-                'away_abbr': away_abbr,
-                'away_score': away_score,
-                'home_name': home_name,
-                'home_abbr': home_abbr,
-                'home_score': home_score,
-                'winning_name': winning_name,
-                'winning_abbr': winning_abbreviation,
-                'losing_name': losing_name,
-                'losing_abbr': losing_abbreviation
+                "boxscore": boxscore_uri,
+                "away_name": away_name,
+                "away_abbr": away_abbr,
+                "away_score": away_score,
+                "home_name": home_name,
+                "home_abbr": home_abbr,
+                "home_score": home_score,
+                "winning_name": winning_name,
+                "winning_abbr": winning_abbreviation,
+                "losing_name": losing_name,
+                "losing_abbr": losing_abbreviation,
             }
             all_boxscores.append(game_info)
         return all_boxscores
@@ -1466,7 +1470,6 @@ class Boxscores:
             page = self._get_requested_page(url)
             games = page('table[class="teams"]').items()
             boxscores = self._extract_game_info(games)
-            timestamp = '%s-%s-%s' % (date_step.month, date_step.day,
-                                      date_step.year)
+            timestamp = "%s-%s-%s" % (date_step.month, date_step.day, date_step.year)
             self._boxscores[timestamp] = boxscores
             date_step += timedelta(days=1)

@@ -29,7 +29,7 @@ function vjs_ready(e){"loading"!=document.readyState?e():document.addEventListen
 <script>
 if (Modernizr.is_modern) { loadJS( "https://d2p3bygnnzw9w3.cloudfront.net/req/201809181/js/br/sr-min.js"     , function() { vjs_ready(sr_fire_js); }); }
 else                     { loadJS( "https://d2p3bygnnzw9w3.cloudfront.net/req/201809181/js/br/sr-basic-min.js", function() { vjs_ready(sr_fire_js); }); }
-</script>    
+</script>
 
 <script>sr_utilities_js_loader.push(function() { vjs_createCookie('srcssfull', 'yes', 0.5 )});</script>
 
@@ -44,7 +44,7 @@ else                     { loadJS( "https://d2p3bygnnzw9w3.cloudfront.net/req/20
     <meta name="theme-color" content="4d383b" />
     <meta name="msapplication-navbutton-color" content="4d383b" />
     <meta name="apple-mobile-web-app-status-bar-style" content="4d383b" />
-        
+
 
 <meta name="keywords" content="">
     <link rel="canonical" href="https://www.baseball-reference.com/players/v/verlaju01.shtml" />
@@ -67,7 +67,7 @@ else                     { loadJS( "https://d2p3bygnnzw9w3.cloudfront.net/req/20
     <meta name="twitter:domain"       content="Baseball-Reference.com">
     <meta name="referrer" content="unsafe-url">
 
-    
+
     <!-- tiles, touch, favicons -->
     <link rel="icon"                         sizes="192x192" href="https://d2p3bygnnzw9w3.cloudfront.net/req/201809111/favicons/br/apple-touch-icon-192x192-precomposed.png">
     <link rel="apple-touch-icon"             sizes="228x228" href="https://d2p3bygnnzw9w3.cloudfront.net/req/201809111/favicons/br/apple-touch-icon-228x228-precomposed.png">
@@ -108,7 +108,7 @@ else                     { loadJS( "https://d2p3bygnnzw9w3.cloudfront.net/req/20
     else {
          freestar.config.enabled_slots.push('div-gpt-ad-160x600-1');
          freestar.config.enabled_slots.push('div-gpt-ad-160x600-2');
-    } 
+    }
 
 </script>
 <script data-cfasync="false" type="text/javascript">
@@ -123,7 +123,7 @@ else                     { loadJS( "https://d2p3bygnnzw9w3.cloudfront.net/req/20
 !function(a,b){
     if (sr_detect_ie || sr_detect_edge || Modernizr.adfree) {
         return;
-    }  
+    }
     var c=b.getElementsByTagName("script")[0],
     d=b.createElement("script"),
     e="https://a.pub.network/baseball-reference";
@@ -170,7 +170,7 @@ else                     { loadJS( "https://d2p3bygnnzw9w3.cloudfront.net/req/20
 		<li id="header_leagues" ><a href="/leagues/">Seasons</a></li>
 		<li id="header_leaders" ><a href="/leaders/">Leaders</a></li>
 		<li id="header_scores" ><a href="/boxes/">MLB Scores</a></li>
-		<li id="header_playoffs" class=""><a href="/postseason/">MLB Playoffs</a></li>	
+		<li id="header_playoffs" class=""><a href="/postseason/">MLB Playoffs</a></li>
 		<li id="header_playindex" class=""><a href="/play-index/">Play Index</a></li>
 		<li><a data-scroll href="#site_menu_link" class="opener">Full Site Menu Below</a></li>
 	</ul>
@@ -233,7 +233,7 @@ sr_menus_setupMainNav_button_inline();
 
 <div id="info" class="players">
 	<div id="meta">
-	
+
 
 <div class="media-item multiple"><img src="https://d3k2oh6evki4b7.cloudfront.net/req/201808271/images/headshots/2/216e5d91_mlbam.jpg" class=""><img src="https://d3k2oh6evki4b7.cloudfront.net/req/201808271/images/headshots/2/216e5d91_davis.jpg" class="additional">
 </div><!-- div.media-item --><div itemscope itemtype="https://schema.org/Person" >
@@ -241,7 +241,7 @@ sr_menus_setupMainNav_button_inline();
 	<p>
     <strong>Position:</strong>
     Pitcher
-  
+
 </p>
 
 <p>
@@ -278,75 +278,75 @@ sr_menus_setupMainNav_button_inline();
 
 
 
-  
+
     <p><strong>High School:</strong>        <a title="" href="/schools/index.cgi?key_school=8fd83028">Goochland HS (Goochland, VA)</a></p>
-  
-  
-  
+
+
+
     <p><strong>School:</strong>        <a title="2002-2004" href="/schools/index.cgi?key_school=99a855d1">Old Dominion University (Norfolk, VA)</a></p>
-  
 
 
 
-  
-  
-  
-    
+
+
+
+
+
    <p><strong><a href="/leagues/MLB/2005-debuts.shtml">Debut:</a></strong>
     <a href="/play-index/route.cgi?dest=debut&amp;id=verlaju01&amp;game_id=CLE200507042">July 4, 2005</a>
     (Age 22-134d,
-    16,315th in MLB history) 
+    16,315th in MLB history)
     <br>&nbsp;&nbsp;&nbsp;<a href="/boxes/CLE/CLE200507042.shtml">vs. CLE</A> 5.1 IP, 7 H, 4 SO, 3 BB, 4 ER, L
-    
+
   </p>
 
 
-    
+
 
 
 
   <p>
     <strong><a href="/leagues/MLB/2006-rookies.shtml">Rookie Status:</a></strong>
-      
+
         Exceeded rookie limits during 2006 season
-      
+
 
   </p>
 
 
 
-  
+
   <p>
     <strong>2018 Contract Status</strong>:
     Signed thru 2019, 10 yrs/$219.5M (10-19)
-    
+
   </p>
 
-  
+
   <p>
-  
-  
-  
+
+
+
   <strong>Service Time (01/2018)</strong>: 12.002
 
-  
-  
-  
 
-  
-  &nbsp;&bull;&nbsp;    
+
+
+
+
+  &nbsp;&bull;&nbsp;
   <strong>Free Agent</strong>: 2020
-  
 
-  
+
+
   </p>
-  
+
 
 
 
   <p>
     <strong>Agents</strong>: ISE Baseball      &bull; <strong>Previously</strong>: Richard Verlander  </p>
-    
+
 
 
   <p>
@@ -357,20 +357,20 @@ sr_menus_setupMainNav_button_inline();
 
 
 
-  
-  
-  
 
-  
+
+
+
+
 <p>
-  <strong>Full Name:</strong> Justin Brooks Verlander 
+  <strong>Full Name:</strong> Justin Brooks Verlander
 </p>
 
 
 
 
-  
-  
+
+
 
 
 <p>
@@ -380,21 +380,21 @@ sr_menus_setupMainNav_button_inline();
 
 
 
-  
-  
-    
-  
-  
-  
+
+
+
+
+
+
   <p><strong>Pronunciation</strong>: \<a title="Click for all players' pronunciations" href="/friv/baseball-player-name-pronunciation-guide.shtml">VUHR-land-er</a>\</p>
 
 
 
 
-  
+
   <p><strong><a title="Click for all ballplayers Twitter accounts" href="/friv/baseball-player-twitter-accounts.shtml">Twitter:</a></strong>
     <a rel="nofollow" href="https://twitter.com/JustinVerlander">@JustinVerlander</a></p>
-    
+
 
 
 
@@ -409,11 +409,11 @@ sr_menus_setupMainNav_button_inline();
 </div><!-- div#meta -->
 
 
-			
+
 	<ul id="bling">
 	<li data-tip="Most Valuable Player Award" class=" poptip"><a>MVP</a></li>	<li data-tip="Cy Young Award" class=" poptip"><a>Cy Young</a></li>	<li data-tip="Rookie of the Year Award" class=" poptip"><a>Rookie of the Year</a></li>	<li data-tip="Triple Crown" class=" poptip"><a>Triple Crown</a></li>	<li class="bling_special bling_all_star"><a href="/allstar/">7x All-Star</a></li>	<li class=""><a href="/postseason/">2017 World Series</a></li>	<li data-tip="ERA Pitching Champion<br>&nbsp;&nbsp;(lowest ERA as recognized at time)" class=" poptip"><a>ERA Title</a></li>	<li data-tip="ALCS MVP" class=" poptip"><a>ALCS MVP</a></li>	<li data-tip="TSN Major League Player of the Year" class=" poptip"><a>ML PoY</a></li>
 </ul>
-		
+
 	<div class="uni_holder br">
 	<a href="/friv/numbers.cgi?number=59" class="poptip" data-tip="2005-2005 Detroit Tigers">
         <svg viewBox="0,0,50,50" class="medal"> <rect x="0" y="0" width="51" height="51" fill="white"></rect> <circle cx="25" cy="25" r="23" stroke="#002244" stroke-width="4" fill="#fff" fill-opacity="0.0"></circle> <circle cx="25" cy="25" r="20" stroke="" stroke-width="3" fill="#fff" fill-opacity="0.0"></circle> <text x="11" y="34" fill="#002244" >59</text> </svg>
@@ -429,8 +429,8 @@ sr_menus_setupMainNav_button_inline();
 	</a>
 	<div class="counter opener" data-class="open" data-id="info" data-control-id="meta_more_button" data-type="hide_after">+2</div>
 </div>
-		
-	
+
+
 <div class="adblock ad300">
 
 <div><a href="/my/?do=ad_free_browsing">Support us without the ads? Go Ad-Free.</a></div>
@@ -500,10 +500,10 @@ sr_menus_setupMainNav_button_inline();
 
 
 </div>
-	
+
 </div><!-- div#info -->
 <div id="srcom">
-	
+
 <div class="adblock ad728">
 
 <!-- div#fs_fs_728_atf  -->
@@ -522,7 +522,7 @@ sr_menus_setupMainNav_button_inline();
 
 </div>
 
-	
+
 </div><!-- div#srcom -->
 <div id="inner_nav" role="navigation" aria-label="Sections on this page and/or other pages related to this page" class="">
 	<ul class="hoversmooth">
@@ -532,7 +532,7 @@ sr_menus_setupMainNav_button_inline();
 
 					<section>
 						<p><a href="/register/player.fcgi?id=verlan001jus">Minor Lg Stats</a></p>
-						
+
 					</section>
 
 
@@ -852,23 +852,23 @@ sr_menus_setupMainNav_button_inline();
 </div><!-- div#inner_nav -->
 
 <div id="content" role="main">
-   
 
-          
-      
-      
-      
-      
-                  	 
-      
+
+
+
+
+
+
+
+
       <!-- no Local/Partials/NoteTop.tt2 -->
-      
-         
-      
-         
-      
-         
-            
+
+
+
+
+
+
+
 <div id="all_pitching_standard" class="table_wrapper">
 
 <div class="section_heading">
@@ -877,12 +877,12 @@ sr_menus_setupMainNav_button_inline();
       <ul>
 	  <li><button class="sr_preset tooltip" type="button" data-toggle=".minors_table">Show Minors</button></li>
       </ul>
-    </div>		
+    </div>
 </div>   <div class="table_outer_container">
       <div class="overthrow table_container" id="div_pitching_standard">
   <table class="row_summable sortable stats_table" id="pitching_standard" data-cols-to-freeze=3><caption>Standard Pitching</caption>
    <colgroup><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col></colgroup>
-   <thead>      
+   <thead>
       <tr>
          <th aria-label="Year" data-stat="year_ID" scope="col" class=" poptip sort_default_asc show_partial_when_sorting left" data-tip="A Star indicates an all-star that season.&lt;br&gt;A Ring indicates the player appeared in WS for winning team." >Year</th>
          <th aria-label="Player&#x2019;s age at midnight of June 30th of that year" data-stat="age" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Player&#x2019;s age at midnight of June 30th of that year" >Age</th>
@@ -920,7 +920,7 @@ sr_menus_setupMainNav_button_inline();
          <th aria-label="Strikeouts / Base On Balls" data-stat="strikeouts_per_base_on_balls" scope="col" class=" poptip hide_non_quals center" data-tip="&lt;strong&gt;SO/W or SO/BB&lt;/strong&gt;&lt;br&gt;For recent years, pitching leaders need 1 IP&lt;br&gt;per team game played.&lt;br&gt;No batting leaders computed." data-filter="1" data-name="Strikeouts / Base On Balls" >SO/W</th>
          <th aria-label="Summary of how player did in awards voting that year. GG - Gold Glove SS - Silver Slugger MVP - Most Valuable Player CYA - Cy Young Award ROY - Rookie of the Year" data-stat="award_summary" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Summary of how player did in awards voting that year.&lt;br&gt;GG - Gold Glove&lt;br&gt;SS - Silver Slugger&lt;br&gt;MVP - Most Valuable Player&lt;br&gt;CYA - Cy Young Award&lt;br&gt;ROY - Rookie of the Year" >Awards</th>
       </tr>
-      
+
    </thead>
    <tbody>
 <tr id="pitching_standard.2014" class="full" ><th scope="row" class="left " data-stat="year_ID" csk="2014" >2014</th><td class="right " data-stat="age" >31</td><td class="left " data-stat="team_ID" ><a href="/teams/DET/2014.shtml" title="Detroit Tigers">DET</a></td><td class="left " data-stat="lg_ID" ><a href="/leagues/AL/2014.shtml">AL</a></td><td class="right " data-stat="W" >15</td><td class="right " data-stat="L" >12</td><td class="right " data-stat="win_loss_perc" >.556</td><td class="right poptip" data-stat="earned_run_avg" data-tip="&lt;pre class=large_text&gt;ERA: 4.54&lt;br&gt;FIP: 3.74&lt;br&gt;&lt;span class=green_text&gt;Dif: 0.80&lt;/span&gt;&lt;/pre&gt;" >4.54</td><td class="right " data-stat="G" >32</td><td class="right " data-stat="GS" >32</td><td class="right " data-stat="GF" >0</td><td class="right " data-stat="CG" >0</td><td class="right " data-stat="SHO" >0</td><td class="right poptip" data-stat="SV" data-tip="&lt;pre&gt;Saves&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;: 0 &lt;br&gt;BlownSaves&amp;nbsp;: 0 &lt;br&gt;Oppor(S+BS): 0 &lt;br&gt;Sv%&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;: undef&lt;br&gt;Holds&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;: 0 &lt;br&gt;SvSit&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;: 0 &lt;br&gt;SvSit is # of times appeared with save&lt;br&gt;in order by rulebook. May have been&lt;br&gt;replaced later in game.&lt;/pre&gt;&lt;/pre&gt;" >0</td><td class="right " data-stat="IP" >206.0</td><td class="right " data-stat="H" >223</td><td class="right " data-stat="R" >114</td><td class="right " data-stat="ER" ><strong>104</strong></td><td class="right " data-stat="HR" >18</td><td class="right " data-stat="BB" >65</td><td class="right " data-stat="IBB" >1</td><td class="right " data-stat="SO" >159</td><td class="right " data-stat="HBP" >5</td><td class="right " data-stat="BK" >1</td><td class="right " data-stat="WP" >5</td><td class="right " data-stat="batters_faced" >893</td><td class="right " data-stat="earned_run_avg_plus" >85</td><td class="right poptip" data-stat="fip" data-tip="&lt;pre class=large_text&gt;ERA: 4.54&lt;br&gt;FIP: 3.74&lt;br&gt;&lt;span class=green_text&gt;Dif: 0.80&lt;/span&gt;&lt;/pre&gt;" >3.74</td><td class="right " data-stat="whip" >1.398</td><td class="right " data-stat="hits_per_nine" >9.7</td><td class="right " data-stat="home_runs_per_nine" >0.8</td><td class="right " data-stat="bases_on_balls_per_nine" >2.8</td><td class="right " data-stat="strikeouts_per_nine" >6.9</td><td class="right " data-stat="strikeouts_per_base_on_balls" >2.45</td><td class="left " data-stat="award_summary" ></td></tr>
@@ -947,12 +947,12 @@ sr_menus_setupMainNav_button_inline();
    </div>
 </div>
 
-            
-            
-         
-      
-         
-            
+
+
+
+
+
+
 <div id="all_pitching_value" class="table_wrapper setup_commented commented">
 
 <div class="section_heading">
@@ -960,7 +960,7 @@ sr_menus_setupMainNav_button_inline();
     <h2>Player Value--Pitching</h2>    <div class="section_heading_text">
       <ul> <li><a href="/about/war_explained.shtml">WAR Explained (v2.2)</a>: 8+ MVP, 5+ A-S, 2+ Starter, 0-2 Sub, &lt; 0 Repl</li>
       </ul>
-    </div>		
+    </div>
 </div>
 <div class="placeholder"></div>
 <!--
@@ -968,7 +968,7 @@ sr_menus_setupMainNav_button_inline();
       <div class="overthrow table_container" id="div_pitching_value">
   <table class="row_summable sortable stats_table" id="pitching_value" data-cols-to-freeze=3><caption>Player Value--Pitching</caption>
    <colgroup><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col></colgroup>
-   <thead>      
+   <thead>
       <tr>
          <th aria-label="Year" data-stat="year_ID" scope="col" class=" poptip sort_default_asc show_partial_when_sorting left" data-tip="A Star indicates an all-star that season.&lt;br&gt;A Ring indicates the player appeared in WS for winning team." >Year</th>
          <th aria-label="Player&#x2019;s age at midnight of June 30th of that year" data-stat="age" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Player&#x2019;s age at midnight of June 30th of that year" >Age</th>
@@ -995,7 +995,7 @@ sr_menus_setupMainNav_button_inline();
          <th aria-label="Salary" data-stat="Salary" scope="col" class=" poptip hide_non_quals center" data-tip="These values may not include every bonus the player received in a season.&lt;br&gt;They are also often missing values for mid-season callups or players acquired in-season.&lt;br&gt;Post-1984 seasons are mostly complete, pre-1985 is mostly incomplete." >Salary</th>
          <th aria-label="Summary of how player did in awards voting that year. GG - Gold Glove SS - Silver Slugger MVP - Most Valuable Player CYA - Cy Young Award ROY - Rookie of the Year" data-stat="award_summary" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Summary of how player did in awards voting that year.&lt;br&gt;GG - Gold Glove&lt;br&gt;SS - Silver Slugger&lt;br&gt;MVP - Most Valuable Player&lt;br&gt;CYA - Cy Young Award&lt;br&gt;ROY - Rookie of the Year" >Awards</th>
       </tr>
-      
+
    </thead>
    <tbody>
 <tr id="pitching_value.2014" class="full" ><th scope="row" class="left " data-stat="year_ID" >2014</th><td class="right " data-stat="age" >31</td><td class="left " data-stat="team_ID" ><a href="/teams/DET/2014.shtml" title="Detroit Tigers">DET</a></td><td class="left " data-stat="lg_ID" ><a href="/leagues/AL/2014.shtml">AL</a></td><td class="right " data-stat="IP" >206.0</td><td class="right " data-stat="G" >32</td><td class="right " data-stat="GS" >32</td><td class="right " data-stat="R" >114</td><td class="right " data-stat="runs_avg" >4.98</td><td class="right " data-stat="opp_runs_avg" >4.14</td><td class="right " data-stat="runs_avg_defense" >-0.40</td><td class="right " data-stat="runs_avg_sprp" >0.16</td><td class="right " data-stat="PPF_custom" >100.6</td><td class="right " data-stat="runs_avg_avg_pitcher" >4.73</td><td class="right " data-stat="runs_above_avg_pitch" >-9</td><td class="right " data-stat="WAA" csk="-0.94" >-0.9</td><td class="right " data-stat="GR_leverage_index_avg" ></td><td class="right " data-stat="WAA_adj" >-0.1</td><td class="right " data-stat="WAR_pitch" csk="0.91" >0.9</td><td class="right " data-stat="runs_above_rep_pitch" >13</td><td class="right " data-stat="waa_win_perc" >.471</td><td class="right " data-stat="waa_win_perc_162" >.494</td><td class="right " data-stat="Salary" >$20,000,000</td><td class="left " data-stat="award_summary" ></td></tr>
@@ -1020,9 +1020,9 @@ sr_menus_setupMainNav_button_inline();
 -->
 </div>
 
-            
-            
-	       	
+
+
+
 
 <!-- fs_btf_1 -->
 <div class="adblock">
@@ -1043,10 +1043,10 @@ sr_menus_setupMainNav_button_inline();
 </div>
 
 
-            
-         
-      
-         
+
+
+
+
             <div class="section_wrapper setup_commented commented" id="all_3209643615">
 <div class="section_heading">
   <span class="section_anchor" id="3209643615_link" data-label="Player News"></span>
@@ -1057,9 +1057,9 @@ sr_menus_setupMainNav_button_inline();
 	  <li><a href="/players/news.fcgi?id=verlaju01&amp;rss=1">Player News RSS Feed</a></li>
 	  <li><button data-delete-id="news_stories_toggler" id="news_top_toggler" class="tooltip opener" data-class="open" data-selector=".news_stories.more" data-textopen="Hide" data-textclosed="Show"><span>Show/Hide</span> More Stories</button></li>
       </ul>
-    </div>		
+    </div>
 </div><div class="placeholder"></div>
-<!--  
+<!--
     <div class="section_content" id="div_3209643615">
     <ul class="news_stories">
        <li><strong>9/19</strong> <a rel="nofollow noopener" target="_blank"  href="https://www.beisbolmlb.com/premios-mlb-2018-nuestras-predicciones/" onclick="sr_record_analytics_event('newsfeed_click','Beisbol MLB', sr_record_directory(),'sr_tracker');">Beisbol MLB: Premios MLB 2018, nuestras predicciones</a>:  <em>El equipo de Pitcheos Salvajes ha realizado sus predicciones para</em>...
@@ -1113,16 +1113,16 @@ When you look throughout the history of the MVP award, the winners</em>...
      </ul>
     </div>
 
--->  
+-->
 </div>
 
 
-            
-            
-         
-      
-         
-            
+
+
+
+
+
+
 <div id="all_pitching_postseason" class="table_wrapper setup_commented commented">
 
 <div class="section_heading">
@@ -1131,7 +1131,7 @@ When you look throughout the history of the MVP award, the winners</em>...
       <ul>
 	  <li><a href="/players/gl.fcgi?id=verlaju01&amp;t=p&amp;post=1">Postseason Game Log</a></li>
       </ul>
-    </div>		
+    </div>
 </div>
 <div class="placeholder"></div>
 <!--
@@ -1139,7 +1139,7 @@ When you look throughout the history of the MVP award, the winners</em>...
       <div class="overthrow table_container" id="div_pitching_postseason">
   <table class="sortable stats_table" id="pitching_postseason" data-cols-to-freeze=1><caption>Postseason Pitching</caption>
    <colgroup><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col></colgroup>
-   <thead>      
+   <thead>
       <tr>
          <th aria-label="Year" data-stat="year_ID" scope="col" class=" poptip sort_default_asc show_partial_when_sorting left" data-tip="A Star indicates an all-star that season.&lt;br&gt;A Ring indicates the player appeared in WS for winning team." >Year</th>
          <th aria-label="Player&#x2019;s age at midnight of June 30th of that year" data-stat="age" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Player&#x2019;s age at midnight of June 30th of that year" >Age</th>
@@ -1177,7 +1177,7 @@ When you look throughout the history of the MVP award, the winners</em>...
          <th aria-label="Strikeouts per 9 IP" data-stat="strikeouts_per_nine" scope="col" class=" poptip hide_non_quals center" data-tip="&lt;strong&gt;9 x SO / IP&lt;/strong&gt;&lt;br&gt;For recent years, leaders need 1 IP&lt;br&gt;per team game played" data-filter="1" data-name="Strikeouts per 9 IP" >SO9</th>
          <th aria-label="Strikeouts / Base On Balls" data-stat="strikeouts_per_base_on_balls" scope="col" class=" poptip hide_non_quals center" data-tip="&lt;strong&gt;SO/W or SO/BB&lt;/strong&gt;&lt;br&gt;For recent years, pitching leaders need 1 IP&lt;br&gt;per team game played.&lt;br&gt;No batting leaders computed." data-filter="1" data-name="Strikeouts / Base On Balls" >SO/W</th>
       </tr>
-      
+
    </thead>
    <tbody>
 <tr ><th scope="row" class="left " data-stat="year_ID" csk="2014" >2014</th><td class="right " data-stat="age" >31</td><td class="left " data-stat="team_ID" ><a href="/teams/DET/2014.shtml" title="Detroit Tigers">DET</a></td><td class="left " data-stat="lg_ID" ><a href="/leagues/AL/2014.shtml">AL</a></td><td class="left " data-stat="ps_round" csk="2" ><a href="/postseason/2014_ALDS2.shtml">ALDS</a></td><td class="left " data-stat="ps_team_win_loss" >L</td><td class="left " data-stat="opp_ID" >BAL</td><td class="right " data-stat="W" >0</td><td class="right " data-stat="L" >0</td><td class="right " data-stat="win_loss_perc" ></td><td class="right " data-stat="earned_run_avg" >5.40</td><td class="right " data-stat="G" >1</td><td class="right " data-stat="GS" >1</td><td class="right " data-stat="GF" >0</td><td class="right " data-stat="CG" >0</td><td class="right " data-stat="SHO" >0</td><td class="right " data-stat="SV" >0</td><td class="right " data-stat="IP" >5.0</td><td class="right " data-stat="H" >6</td><td class="right " data-stat="R" >3</td><td class="right " data-stat="ER" >3</td><td class="right " data-stat="HR" >1</td><td class="right " data-stat="BB" >1</td><td class="right " data-stat="IBB" >0</td><td class="right " data-stat="SO" >4</td><td class="right " data-stat="HBP" >0</td><td class="right " data-stat="BK" >0</td><td class="right " data-stat="WP" >0</td><td class="right " data-stat="batters_faced" >22</td><td class="right " data-stat="whip" >1.400</td><td class="right " data-stat="hits_per_nine" >10.8</td><td class="right " data-stat="home_runs_per_nine" >1.8</td><td class="right " data-stat="bases_on_balls_per_nine" >1.8</td><td class="right " data-stat="strikeouts_per_nine" >7.2</td><td class="right " data-stat="strikeouts_per_base_on_balls" >4.00</td></tr>
@@ -1201,9 +1201,9 @@ When you look throughout the history of the MVP award, the winners</em>...
 -->
 </div>
 
-            
-            
-	       	
+
+
+
 
 <!-- fs_btf_2 -->
 <div class="adblock">
@@ -1224,11 +1224,11 @@ When you look throughout the history of the MVP award, the winners</em>...
 </div>
 
 
-            
-         
-      
-         
-            
+
+
+
+
+
 <div id="all_batting_standard" class="table_wrapper setup_commented commented">
 
 <div class="section_heading">
@@ -1238,7 +1238,7 @@ When you look throughout the history of the MVP award, the winners</em>...
 	  <li><button class="sr_preset tooltip" type="button" data-toggle=".minors_table">Show Minors</button></li>
 	  <li><a data-scroll href="#all_appearances">Games by Position</a></li>
       </ul>
-    </div>		
+    </div>
 </div>
 <div class="placeholder"></div>
 <!--
@@ -1246,7 +1246,7 @@ When you look throughout the history of the MVP award, the winners</em>...
       <div class="overthrow table_container" id="div_batting_standard">
   <table class="row_summable sortable stats_table" id="batting_standard" data-cols-to-freeze=3><caption>Standard Batting</caption>
    <colgroup><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col></colgroup>
-   <thead>      
+   <thead>
       <tr>
          <th aria-label="Year" data-stat="year_ID" scope="col" class=" poptip sort_default_asc show_partial_when_sorting left" data-tip="A Star indicates an all-star that season.&lt;br&gt;A Ring indicates the player appeared in WS for winning team." >Year</th>
          <th aria-label="Player&#x2019;s age at midnight of June 30th of that year" data-stat="age" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Player&#x2019;s age at midnight of June 30th of that year" >Age</th>
@@ -1279,7 +1279,7 @@ When you look throughout the history of the MVP award, the winners</em>...
          <th aria-label=" Position &amp;#x2019;*&amp;#x2019; indicates position played in 2/3rds of team games, &amp;#x2019;/&amp;#x2019; less than 10 games played." data-stat="pos_season" scope="col" class=" poptip sort_default_asc left" data-tip="&lt;strong&gt;Position&lt;/strong&gt;&lt;br&gt;&amp;#x2019;*&amp;#x2019; indicates position played in 2/3rds of team games,&lt;br&gt;&amp;#x2019;/&amp;#x2019; less than 10 games played." >Pos</th>
          <th aria-label="Summary of how player did in awards voting that year. GG - Gold Glove SS - Silver Slugger MVP - Most Valuable Player CYA - Cy Young Award ROY - Rookie of the Year" data-stat="award_summary" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Summary of how player did in awards voting that year.&lt;br&gt;GG - Gold Glove&lt;br&gt;SS - Silver Slugger&lt;br&gt;MVP - Most Valuable Player&lt;br&gt;CYA - Cy Young Award&lt;br&gt;ROY - Rookie of the Year" >Awards</th>
       </tr>
-      
+
    </thead>
    <tbody>
 <tr class="minors_table hidden" ><th scope="row" class="left " data-stat="year_ID" >2005</th><td class="right " data-stat="age" >22</td><td class="left " data-stat="team_ID" >DET-min</td><td class="left " data-stat="lg_ID" >AA,A+</td><td class="right " data-stat="G" >20</td><td class="right " data-stat="PA" >0</td><td class="right " data-stat="AB" >0</td><td class="right " data-stat="R" >0</td><td class="right " data-stat="H" >0</td><td class="right " data-stat="2B" >0</td><td class="right " data-stat="3B" >0</td><td class="right " data-stat="HR" >0</td><td class="right " data-stat="RBI" >0</td><td class="right " data-stat="SB" >0</td><td class="right " data-stat="CS" >0</td><td class="right " data-stat="BB" >0</td><td class="right " data-stat="SO" >0</td><td class="right " data-stat="batting_avg" ></td><td class="right " data-stat="onbase_perc" ></td><td class="right " data-stat="slugging_perc" ></td><td class="right " data-stat="onbase_plus_slugging" ></td><td class="right " data-stat="onbase_plus_slugging_plus" ></td><td class="right " data-stat="TB" >0</td><td class="right " data-stat="GIDP" >0</td><td class="right " data-stat="HBP" >0</td><td class="right " data-stat="SH" >0</td><td class="right " data-stat="SF" >0</td><td class="right " data-stat="IBB" >0</td><td class="right " data-stat="POS" ></td><td class="right " data-stat="summary_column" ><a href="/register/team.cgi?id=89e13311" title="Erie SeaWolves">ERI</a>,<a href="/register/team.cgi?id=072fd208" title="Lakeland Tigers">LAK</a>&nbsp;&#183; <a href="/register/league.cgi?id=b7a21100" title="Eastern League">EL</a>,<a href="/register/league.cgi?id=6557437b" title="Florida State League">FLOR</a></td></tr>
@@ -1308,12 +1308,12 @@ When you look throughout the history of the MVP award, the winners</em>...
 -->
 </div>
 
-            
-            
-         
-      
-         
-            
+
+
+
+
+
+
 <div id="all_batting_value" class="table_wrapper setup_commented commented">
 
 <div class="section_heading">
@@ -1321,7 +1321,7 @@ When you look throughout the history of the MVP award, the winners</em>...
     <h2>Player Value--Batting</h2>    <div class="section_heading_text">
       <ul> <li><a href="/about/war_explained.shtml">WAR Explained (v2.2)</a>: 8+ MVP, 5+ A-S, 2+ Starter, 0-2 Sub, &lt; 0 Repl</li>
       </ul>
-    </div>		
+    </div>
 </div>
 <div class="placeholder"></div>
 <!--
@@ -1329,7 +1329,7 @@ When you look throughout the history of the MVP award, the winners</em>...
       <div class="overthrow table_container" id="div_batting_value">
   <table class="row_summable sortable stats_table" id="batting_value" data-cols-to-freeze=3><caption>Player Value--Batting</caption>
    <colgroup><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col></colgroup>
-   <thead>      
+   <thead>
       <tr>
          <th aria-label="Year" data-stat="year_ID" scope="col" class=" poptip sort_default_asc show_partial_when_sorting left" data-tip="A Star indicates an all-star that season.&lt;br&gt;A Ring indicates the player appeared in WS for winning team." >Year</th>
          <th aria-label="Player&#x2019;s age at midnight of June 30th of that year" data-stat="age" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Player&#x2019;s age at midnight of June 30th of that year" >Age</th>
@@ -1356,7 +1356,7 @@ When you look throughout the history of the MVP award, the winners</em>...
          <th aria-label=" Position &amp;#x2019;*&amp;#x2019; indicates position played in 2/3rds of team games, &amp;#x2019;/&amp;#x2019; less than 10 games played." data-stat="pos_season" scope="col" class=" poptip sort_default_asc left" data-tip="&lt;strong&gt;Position&lt;/strong&gt;&lt;br&gt;&amp;#x2019;*&amp;#x2019; indicates position played in 2/3rds of team games,&lt;br&gt;&amp;#x2019;/&amp;#x2019; less than 10 games played." >Pos</th>
          <th aria-label="Summary of how player did in awards voting that year. GG - Gold Glove SS - Silver Slugger MVP - Most Valuable Player CYA - Cy Young Award ROY - Rookie of the Year" data-stat="award_summary" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Summary of how player did in awards voting that year.&lt;br&gt;GG - Gold Glove&lt;br&gt;SS - Silver Slugger&lt;br&gt;MVP - Most Valuable Player&lt;br&gt;CYA - Cy Young Award&lt;br&gt;ROY - Rookie of the Year" >Awards</th>
       </tr>
-      
+
    </thead>
    <tbody>
 <tr id="batting_value.2014" class="full" ><th scope="row" class="left " data-stat="year_ID" csk="2014" >2014</th><td class="right " data-stat="age" >31</td><td class="left " data-stat="team_ID" ><a href="/teams/DET/2014.shtml" title="Detroit Tigers">DET</a></td><td class="left " data-stat="lg_ID" ><a href="/leagues/AL/2014.shtml">AL</a></td><td class="right " data-stat="G" >3</td><td class="right " data-stat="PA" >7</td><td class="right " data-stat="runs_bat" >0</td><td class="right " data-stat="runs_br" >0</td><td class="right " data-stat="runs_dp" >0</td><td class="right " data-stat="runs_fielding" >0</td><td class="right " data-stat="runs_pos" >1</td><td class="right " data-stat="runs_above_avg_bat" >1</td><td class="right " data-stat="WAA" csk="0.08" >0.1</td><td class="right " data-stat="runs_replacement" >0</td><td class="right " data-stat="runs_above_rep" >1</td><td class="right " data-stat="WAR" csk="0.08" >0.1</td><td class="right " data-stat="waa_win_perc" >.527</td><td class="right " data-stat="waa_win_perc_162" >.501</td><td class="right " data-stat="WAR_off" csk="0.08" >0.1</td><td class="right " data-stat="WAR_def" csk="0.00" >0.0</td><td class="right " data-stat="runs_above_rep_off" >1</td><td class="right " data-stat="Salary" >$20,000,000</td><td class="left " data-stat="pos_season" >1</td><td class="left " data-stat="award_summary" ></td></tr>
@@ -1381,9 +1381,9 @@ When you look throughout the history of the MVP award, the winners</em>...
 -->
 </div>
 
-            
-            
-	       	
+
+
+
 
 <!-- fs_btf_3 -->
 <div class="adblock">
@@ -1404,11 +1404,11 @@ When you look throughout the history of the MVP award, the winners</em>...
 </div>
 
 
-            
-         
-      
-         
-            
+
+
+
+
+
 <div id="all_batting_postseason" class="table_wrapper setup_commented commented">
 
 <div class="section_heading">
@@ -1417,7 +1417,7 @@ When you look throughout the history of the MVP award, the winners</em>...
       <ul>
 	  <li><a href="/players/gl.fcgi?id=verlaju01&amp;t=b&amp;post=1">Postseason Game Log</a></li>
       </ul>
-    </div>		
+    </div>
 </div>
 <div class="placeholder"></div>
 <!--
@@ -1425,7 +1425,7 @@ When you look throughout the history of the MVP award, the winners</em>...
       <div class="overthrow table_container" id="div_batting_postseason">
   <table class="sortable stats_table" id="batting_postseason" data-cols-to-freeze=1><caption>Postseason Batting</caption>
    <colgroup><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col></colgroup>
-   <thead>      
+   <thead>
       <tr>
          <th aria-label="Year" data-stat="year_ID" scope="col" class=" poptip sort_default_asc show_partial_when_sorting left" data-tip="A Star indicates an all-star that season.&lt;br&gt;A Ring indicates the player appeared in WS for winning team." >Year</th>
          <th aria-label="Player&#x2019;s age at midnight of June 30th of that year" data-stat="age" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Player&#x2019;s age at midnight of June 30th of that year" >Age</th>
@@ -1458,7 +1458,7 @@ When you look throughout the history of the MVP award, the winners</em>...
          <th aria-label="Sacrifice Flies" data-stat="SF" scope="col" class=" poptip center" data-tip="<strong>Sacrifice Flies</strong><br>First tracked in 1954." >SF</th>
          <th aria-label="Intentional Bases on Balls" data-stat="IBB" scope="col" class=" poptip center" data-tip="&lt;strong&gt;Intentional Bases on Balls&lt;/strong&gt;&lt;br&gt;First tracked in 1955." >IBB</th>
       </tr>
-      
+
    </thead>
    <tbody>
 <tr ><th scope="row" class="left " data-stat="year_ID" csk="2014" >2014</th><td class="right " data-stat="age" >31</td><td class="left " data-stat="team_ID" ><a href="/teams/DET/2014.shtml" title="Detroit Tigers">DET</a></td><td class="left " data-stat="lg_ID" ><a href="/leagues/AL/2014.shtml">AL</a></td><td class="left " data-stat="ps_round" csk="2" ><a href="/postseason/2014_ALDS2.shtml">ALDS</a></td><td class="left " data-stat="opp_ID" >BAL</td><td class="left " data-stat="ps_team_win_loss" >L</td><td class="right " data-stat="G" >1</td><td class="right " data-stat="PA" >0</td><td class="right " data-stat="AB" >0</td><td class="right " data-stat="R" >0</td><td class="right " data-stat="H" >0</td><td class="right " data-stat="2B" >0</td><td class="right " data-stat="3B" >0</td><td class="right " data-stat="HR" >0</td><td class="right " data-stat="RBI" >0</td><td class="right " data-stat="SB" >0</td><td class="right " data-stat="CS" >0</td><td class="right " data-stat="BB" >0</td><td class="right " data-stat="SO" >0</td><td class="right " data-stat="batting_avg" ></td><td class="right " data-stat="onbase_perc" ></td><td class="right " data-stat="slugging_perc" ></td><td class="right " data-stat="onbase_plus_slugging" ></td><td class="right " data-stat="TB" >0</td><td class="right " data-stat="GIDP" >0</td><td class="right " data-stat="HBP" >0</td><td class="right " data-stat="SH" >0</td><td class="right " data-stat="SF" >0</td><td class="right " data-stat="IBB" >0</td></tr>
@@ -1482,12 +1482,12 @@ When you look throughout the history of the MVP award, the winners</em>...
 -->
 </div>
 
-            
-            
-         
-      
-         
-            
+
+
+
+
+
+
 <div id="all_standard_fielding" class="table_wrapper setup_commented commented">
 
 <div class="section_heading">
@@ -1495,7 +1495,7 @@ When you look throughout the history of the MVP award, the winners</em>...
     <h2>Standard Fielding</h2>    <div class="section_heading_text">
       <ul>
       </ul>
-    </div>		
+    </div>
 </div>
 <div class="placeholder"></div>
 <!--
@@ -1503,7 +1503,7 @@ When you look throughout the history of the MVP award, the winners</em>...
       <div class="overthrow table_container" id="div_standard_fielding">
   <table class="sortable stats_table" id="standard_fielding" data-cols-to-freeze=4><caption>Standard Fielding</caption>
    <colgroup><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col></colgroup>
-   <thead>      
+   <thead>
       <tr>
          <th aria-label="Year" data-stat="year_ID" scope="col" class=" poptip sort_default_asc show_partial_when_sorting left" data-tip="A Star indicates an all-star that season.&lt;br&gt;A Ring indicates the player appeared in WS for winning team." >Year</th>
          <th aria-label="Player&#x2019;s age at midnight of June 30th of that year" data-stat="age" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Player&#x2019;s age at midnight of June 30th of that year" >Age</th>
@@ -1534,7 +1534,7 @@ When you look throughout the history of the MVP award, the winners</em>...
          <th aria-label="Pickoffs" data-stat="pickoffs" scope="col" class=" poptip center" data-tip="&lt;strong&gt;Pickoffs&lt;/strong&gt;&lt;br&gt;Runner picked off a base. May include cases they were safe on an error. &lt;br&gt;Also includes Pickoff Caught Stealing plays." >PO</th>
          <th aria-label="Summary of how player did in awards voting that year. GG - Gold Glove SS - Silver Slugger MVP - Most Valuable Player CYA - Cy Young Award ROY - Rookie of the Year" data-stat="award_summary" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Summary of how player did in awards voting that year.&lt;br&gt;GG - Gold Glove&lt;br&gt;SS - Silver Slugger&lt;br&gt;MVP - Most Valuable Player&lt;br&gt;CYA - Cy Young Award&lt;br&gt;ROY - Rookie of the Year" >Awards</th>
       </tr>
-      
+
    </thead>
    <tbody>
 <tr id="2014:standard_fielding" class=" top_border full" onclick="sumSpan(this);"><th scope="row" class="left " data-stat="year_ID" csk="2014" >2014</th><td class="right " data-stat="age" >31</td><td class="left " data-stat="team_ID" ><a href="/teams/DET/2014.shtml" title="Detroit Tigers">DET</a></td><td class="left " data-stat="pos" csk="P.201400" >P</td><td class="left " data-stat="lg_ID" ><a href="/leagues/AL/2014.shtml">AL</a></td><td class="right " data-stat="G" >32</td><td class="right " data-stat="GS" >32</td><td class="right " data-stat="CG" >0</td><td class="right " data-stat="Inn_def" >206.0</td><td class="right " data-stat="chances" >39</td><td class="right " data-stat="PO" >10</td><td class="right " data-stat="A" >23</td><td class="right " data-stat="E_def" >6</td><td class="right " data-stat="DP_def" >2</td><td class="right " data-stat="fielding_perc" csk="0.8461538460000" >.846</td><td class="right " data-stat="bis_runs_total" >0</td><td class="right " data-stat="bis_runs_total_per_season" >0</td><td class="right " data-stat="range_factor_per_nine" csk="1.441747572000" >1.44</td><td class="right " data-stat="range_factor_per_game" csk="1.031250000000" >1.03</td><td class="right " data-stat="fielding_perc_lg" csk="0.9500000000" >.950</td><td class="right " data-stat="range_factor_per_nine_lg" >1.46</td><td class="right " data-stat="range_factor_per_game_lg" >1.46</td><td class="right " data-stat="SB" >13</td><td class="right " data-stat="CS" >4</td><td class="right " data-stat="caught_stealing_perc" >24%</td><td class="right " data-stat="caught_stealing_perc_lg" >27%</td><td class="right " data-stat="pickoffs" >0</td><td class="left " data-stat="award_summary" ></td></tr>
@@ -1556,40 +1556,40 @@ When you look throughout the history of the MVP award, the winners</em>...
       </div>
    </div>
    <div class="footer no_hide_long" id="tfooter_standard_fielding">
-   
+
     <div class="note"><strong>Note:</strong>
 <a href="/players/v/verlaju01-field.shtml#appearances::none">Complete player games played data</a>.<br>
 Fielding stats are a combination of official records and <a rel="nofollow" href="https://www.retrosheet.org/">RetroSheet</a> records.  Both are likely to have substantial errors and will not match perfectly.
 <p class="tooltip opener" data-id="fielding_extra" data-textopen="Hide" data-textclosed="View" data-class="open"><span>View</span> Complete Notes on Fielding Data</p>
 <div id="fielding_extra" class="toggleable">
-  Leagues historically made no effort to balance team, league, and player 
-  fielding stats.  Since 1990 or so, computers have made this feasible, but 
-  prior to that there are hundreds or thousands of discrepancies each year in 
-  games played (even whether a player played a position), putouts, assists, 
+  Leagues historically made no effort to balance team, league, and player
+  fielding stats.  Since 1990 or so, computers have made this feasible, but
+  prior to that there are hundreds or thousands of discrepancies each year in
+  games played (even whether a player played a position), putouts, assists,
   double plays and errors.
   <ul class="bullets">
-    <li>Pre-1925 SB &amp; CS data for catchers is estimated 
+    <li>Pre-1925 SB &amp; CS data for catchers is estimated
         from catcher assists, games started and opposition stolen bases.</li>
-    <li>From 1925 on SB, CS, Pickoff, &amp; WP data for 
-        catchers and pitchers is taken from play-by-play accounts in the 
-        retrosheet files.  There are several hundred games without pbp from 
-        1925 to 1973 and for those we may not 
+    <li>From 1925 on SB, CS, Pickoff, &amp; WP data for
+        catchers and pitchers is taken from play-by-play accounts in the
+        retrosheet files.  There are several hundred games without pbp from
+        1925 to 1973 and for those we may not
         have any data.</li>
-    <li>CG &amp; GS come from the retrosheet data and should be complete and 
+    <li>CG &amp; GS come from the retrosheet data and should be complete and
         pretty accurate from 1908 on.</li>
-    <li>Innings played (like SB and CS) come from the retrosheet play-by-play 
-        data and should be considered mostly complete from 1925 
+    <li>Innings played (like SB and CS) come from the retrosheet play-by-play
+        data and should be considered mostly complete from 1925
         to 1973 and complete from then on.</li>
-    <li>Stats (PO,A,G, etc) for LF-CF-RF positions  (since 1908) is 
+    <li>Stats (PO,A,G, etc) for LF-CF-RF positions  (since 1908) is
         taken from play-by-play or box score data as available.</li>
-    <li>Stats (PO,A,G,etc) for C,P,1B,2B,3B,SS,OF positions is taken from the 
-        official reported totals and may have been corrected at various times 
+    <li>Stats (PO,A,G,etc) for C,P,1B,2B,3B,SS,OF positions is taken from the
+        official reported totals and may have been corrected at various times
         since their publication.</li>
-    <li>For detailed information on which games retrosheet is missing 
-        play-by-play from 1925 to 1973, 
-        please see 
+    <li>For detailed information on which games retrosheet is missing
+        play-by-play from 1925 to 1973,
+        please see
         <a rel="nofollow" href="https://www.retrosheet.org/wanted/index.html">their most wanted games list</a></li>
-    <li>For detailed information on the availability of data on this site by 
+    <li>For detailed information on the availability of data on this site by
         year, see our <a href="/about/coverage.shtml">data coverage page</a></li>
   </ul>
 </div>
@@ -1598,12 +1598,12 @@ Fielding stats are a combination of official records and <a rel="nofollow" href=
 -->
 </div>
 
-            
-            
-         
-      
-         
-            
+
+
+
+
+
+
 <div id="all_appearances" class="table_wrapper setup_commented commented">
 
 <div class="section_heading">
@@ -1611,7 +1611,7 @@ Fielding stats are a combination of official records and <a rel="nofollow" href=
     <h2>Appearances</h2>    <div class="section_heading_text">
       <ul>
       </ul>
-    </div>		
+    </div>
 </div>
 <div class="placeholder"></div>
 <!--
@@ -1619,7 +1619,7 @@ Fielding stats are a combination of official records and <a rel="nofollow" href=
       <div class="overthrow table_container" id="div_appearances">
   <table class="sortable stats_table" id="appearances" data-cols-to-freeze=3><caption>Appearances</caption>
    <colgroup><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col><col></colgroup>
-   <thead>      
+   <thead>
       <tr>
          <th aria-label="Year" data-stat="year_ID" scope="col" class=" poptip sort_default_asc show_partial_when_sorting left" data-tip="A Star indicates an all-star that season.&lt;br&gt;A Ring indicates the player appeared in WS for winning team." >Year</th>
          <th aria-label="Player&#x2019;s age at midnight of June 30th of that year" data-stat="age" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Player&#x2019;s age at midnight of June 30th of that year" >Age</th>
@@ -1643,7 +1643,7 @@ Fielding stats are a combination of official records and <a rel="nofollow" href=
          <th aria-label="Games Played" data-stat="G_ph" scope="col" class=" poptip center" data-tip="Games in lineup as a pinch hitter<br>May have played another position as well." >PH</th>
          <th aria-label="Games Played" data-stat="G_pr" scope="col" class=" poptip center" data-tip="Games in lineup as a pinch runner<br>May have played another position as well." >PR</th>
       </tr>
-      
+
    </thead>
    <tbody>
 <tr ><th scope="row" class="left " data-stat="year_ID" csk="2014" >2014</th><td class="right " data-stat="age" >31</td><td class="left " data-stat="team_ID" ><a href="/teams/DET/2014.shtml" title="Detroit Tigers">DET</a></td><td class="left " data-stat="lg_ID" ><a href="/leagues/AL/2014.shtml">AL</a></td><td class="right " data-stat="G_all" >32</td><td class="right " data-stat="GS" >32</td><td class="right " data-stat="G_batting" >3</td><td class="right " data-stat="G_defense" >32</td><td class="right " data-stat="G_p_app" >32</td><td class="right " data-stat="G_c" >0</td><td class="right " data-stat="G_1b" >0</td><td class="right " data-stat="G_2b" >0</td><td class="right " data-stat="G_3b" >0</td><td class="right " data-stat="G_ss" >0</td><td class="right " data-stat="G_lf_app" >0</td><td class="right " data-stat="G_cf_app" >0</td><td class="right " data-stat="G_rf_app" >0</td><td class="right " data-stat="G_of_app" >0</td><td class="right " data-stat="G_dh" >0</td><td class="right " data-stat="G_ph" >0</td><td class="right " data-stat="G_pr" >0</td></tr>
@@ -1663,7 +1663,7 @@ Fielding stats are a combination of official records and <a rel="nofollow" href=
       </div>
    </div>
    <div class="footer no_hide_long" id="tfooter_appearances">
-   
+
     <div>
 Appearances table is calculated solely
 from full <a rel="nofollow" href="https://www.retrosheet.org/">RetroSheet</a>
@@ -1675,12 +1675,12 @@ is used for other seasons.
 -->
 </div>
 
-            
-            
-         
-      
-         
-            
+
+
+
+
+
+
 <div class="leaderboard_wrapper commented" id="all_leaderboard">
 
 <div class="section_heading">
@@ -1688,29 +1688,29 @@ is used for other seasons.
     <h2>Appearances on Leaderboards, Awards, and Honors</h2>    <div class="section_heading_text">
       <ul>
       </ul>
-    </div>		
+    </div>
 </div><!-- 	<div class="data_grid" id="div_leaderboard" data-entry-type="Leaderboards">
 <div id="leaderboard_allstar" class="data_grid_box">
 	<table class="no_columns">
 		<caption class="poptip" data-tip="">All-Star Games</caption>		<tr class="">			<td class="single">  <a href="/allstar/2007-allstar-game.shtml">2007</a> *
 </td>
 		</tr>
-				<tr class="">			<td class="single">  <a href="/allstar/2009-allstar-game.shtml">2009</a> 
+				<tr class="">			<td class="single">  <a href="/allstar/2009-allstar-game.shtml">2009</a>
 </td>
 		</tr>
 				<tr class="">			<td class="single">  <a href="/allstar/2010-allstar-game.shtml">2010</a> *
 </td>
 		</tr>
-				<tr class="">			<td class="single">  <a href="/allstar/2011-allstar-game.shtml">2011</a> 
+				<tr class="">			<td class="single">  <a href="/allstar/2011-allstar-game.shtml">2011</a>
 </td>
 		</tr>
 				<tr class="">			<td class="single">  <a href="/allstar/2012-allstar-game.shtml">2012</a> (P)
 </td>
 		</tr>
-				<tr class="">			<td class="single">  <a href="/allstar/2013-allstar-game.shtml">2013</a> 
+				<tr class="">			<td class="single">  <a href="/allstar/2013-allstar-game.shtml">2013</a>
 </td>
 		</tr>
-				<tr class="">			<td class="single">  <a href="/allstar/2018-allstar-game.shtml">2018</a> 
+				<tr class="">			<td class="single">  <a href="/allstar/2018-allstar-game.shtml">2018</a>
 </td>
 		</tr>
 			</table>
@@ -2609,20 +2609,20 @@ is used for other seasons.
 	</div>-->
 </div>
 
-            
-            
-         
-      
-         
+
+
+
+
+
             <div class="section_wrapper setup_commented commented" id="all_hof_other">
 <div class="section_heading">
   <span class="section_anchor" id="hof_other_link" data-label="Hall of Fame Statistics"></span>
     <h2>Hall of Fame Statistics</h2>    <div class="section_heading_text">
       <ul>
       </ul>
-    </div>		
+    </div>
 </div><div class="placeholder"></div>
-<!--  
+<!--
     <div class="section_content" id="div_hof_other">
 <table class="columns nohover">
   <tr>
@@ -2681,374 +2681,374 @@ is used for other seasons.
 
     </div>
 
--->  
+-->
 </div>
 
-            
-            
-         
-      
-         
+
+
+
+
+
             <div class="section_wrapper setup_commented commented" id="all_ss_other">
 <div class="section_heading">
   <span class="section_anchor" id="ss_other_link" data-label="Similarity Scores"></span>
     <h2>Similarity Scores</h2>    <div class="section_heading_text">
       <ul> <li><a href="/about/similarity.shtml">Explanation of Similarity Scores</a></li>
       </ul>
-    </div>		
+    </div>
 </div><div class="placeholder"></div>
-<!--  
+<!--
     <div class="section_content" id="div_ss_other">
 <div class="data_grid unfixed" id="ss_data_grid">
     <div class="data_grid_box">
       <div class="gridtitle">Similar Pitchers</div>
-      
-                                                          
-      
+
+
+
       <ol>
             <li><a href="/players/g/greinza01.shtml">Zack Greinke</a> (942.7) </li>
-            
+
             <li><a href="/players/g/goodedw01.shtml">Dwight Gooden</a> (938.7) </li>
-            
+
             <li><a href="/players/h/hernafe02.shtml">Felix Hernandez</a> (928.9) </li>
-            
+
             <li><a href="/players/k/keyji01.shtml">Jimmy Key</a> (920.1) </li>
-            
+
             <li><a href="/players/h/hallaro01.shtml">Roy Halladay</a> (909.8) </li>
-            
+
             <li><a href="/players/c/coneda01.shtml">David Cone</a> (909.4) </li>
-            
+
             <li><a href="/players/l/lackejo01.shtml">John Lackey</a> (907.5) </li>
-            
+
             <li><a href="/players/m/mcnalda01.shtml">Dave McNally</a> (905.2) </li>
-            
+
             <li><a href="/players/o/oswalro01.shtml">Roy Oswalt</a> (904.8) </li>
-            
+
             <li><a href="/players/l/lestejo01.shtml">Jon Lester</a> (904.4) </li>
                   </ol>
           </div>
-  
+
     <div class="data_grid_box">
       <div class="gridtitle">Similar Pitchers through 34</div>
-      
-                              
-      
+
+
+
       <ol>
             <li><a href="/players/g/goodedw01.shtml">Dwight Gooden</a> (957.6) </li>
-            
+
             <li><a href="/players/m/mussimi01.shtml">Mike Mussina</a> (933.7) </li>
-            
+
             <li><a href="/players/w/welchbo01.shtml">Bob Welch</a> (927.2) </li>
-            
+
             <li><a href="/players/s/smoltjo01.shtml">John Smoltz</a> (922.7) *</li>
-            
+
             <li><a href="/players/p/pettian01.shtml">Andy Pettitte</a> (917.0) </li>
-            
+
             <li><a href="/players/g/gibsobo01.shtml">Bob Gibson</a> (916.5) *</li>
-            
+
             <li><a href="/players/b/bunniji01.shtml">Jim Bunning</a> (915.0) *</li>
-            
+
             <li><a href="/players/h/hallaro01.shtml">Roy Halladay</a> (913.8) </li>
-            
+
             <li><a href="/players/m/morrija02.shtml">Jack Morris</a> (896.5) *</li>
-            
+
             <li><a href="/players/h/hudsoti01.shtml">Tim Hudson</a> (895.8) </li>
                   </ol>
               <p>* - Signifies Hall of Famer</p>
           </div>
-  
+
     <div class="data_grid_box">
       <div class="gridtitle">Most Similar by Ages</div>
-      
-      
+
+
       <ol>
             <li value="23">
-                  <a href="/players/d/davieza02.shtml">Zach Davies</a> (987.8)                 
+                  <a href="/players/d/davieza02.shtml">Zach Davies</a> (987.8)
                   &nbsp;<a href="/players/g/griffcl01.shtml" class="poptip"
-                           data-tip="2. Clark Griffith (987.1) *">2</a>                
+                           data-tip="2. Clark Griffith (987.1) *">2</a>
                   &nbsp;<a href="/players/b/bystrma01.shtml" class="poptip"
-                           data-tip="3. Marty Bystrom (987.0) ">3</a>                
+                           data-tip="3. Marty Bystrom (987.0) ">3</a>
                   &nbsp;<a href="/players/m/mcdonbe01.shtml" class="poptip"
-                           data-tip="4. Ben McDonald (986.2) ">4</a>                
+                           data-tip="4. Ben McDonald (986.2) ">4</a>
                   &nbsp;<a href="/players/a/aukerel01.shtml" class="poptip"
-                           data-tip="5. Elden Auker (985.3) ">5</a>                
+                           data-tip="5. Elden Auker (985.3) ">5</a>
                   &nbsp;<a href="/players/m/martide01.shtml" class="poptip"
-                           data-tip="6. Dennis Martinez (984.6) ">6</a>                
+                           data-tip="6. Dennis Martinez (984.6) ">6</a>
                   &nbsp;<a href="/players/a/aasedo01.shtml" class="poptip"
-                           data-tip="7. Don Aase (984.4) ">7</a>                
+                           data-tip="7. Don Aase (984.4) ">7</a>
                   &nbsp;<a href="/players/p/preskjo01.shtml" class="poptip"
-                           data-tip="8. Joe Presko (983.4) ">8</a>                
+                           data-tip="8. Joe Presko (983.4) ">8</a>
                   &nbsp;<a href="/players/n/navarja01.shtml" class="poptip"
-                           data-tip="9. Jaime Navarro (981.2) ">9</a>                
+                           data-tip="9. Jaime Navarro (981.2) ">9</a>
                   &nbsp;<a href="/players/p/pondar01.shtml" class="poptip"
-                           data-tip="10. Arlie Pond (980.0) ">10</a>                
-              
+                           data-tip="10. Arlie Pond (980.0) ">10</a>
+
                 &nbsp;<a href="/play-index/player-comparison.cgi?request=1&sum=0&type=p&player_id_1=verlaju01&fromyear_1=2006&toyear_1=2006&player_id_2=davieza02&fromyear_2=2016&toyear_2=2016&player_id_3=griffcl01&fromyear_3=1893&toyear_3=1893&player_id_4=bystrma01&fromyear_4=1982&toyear_4=1982&player_id_5=mcdonbe01&fromyear_5=1991&toyear_5=1991&player_id_6=aukerel01&fromyear_6=1934&toyear_6=1934&player_id_7=martide01&fromyear_7=1977&toyear_7=1977&player_id_8=aasedo01&fromyear_8=1978&toyear_8=1978&player_id_9=preskjo01&fromyear_9=1952&toyear_9=1952&player_id_10=navarja01&fromyear_10=1990&toyear_10=1990&player_id_11=pondar01&fromyear_11=1896&toyear_11=1896" class="poptip" data-tip="Compare first five players most similar at this age">C</a>
-              
+
             </li>
             <li value="24">
-                  <a href="/players/a/aukerel01.shtml">Elden Auker</a> (978.4)                 
+                  <a href="/players/a/aukerel01.shtml">Elden Auker</a> (978.4)
                   &nbsp;<a href="/players/w/wachami01.shtml" class="poptip"
-                           data-tip="2. Michael Wacha (977.1) ">2</a>                
+                           data-tip="2. Michael Wacha (977.1) ">2</a>
                   &nbsp;<a href="/players/d/davieza02.shtml" class="poptip"
-                           data-tip="3. Zach Davies (975.7) ">3</a>                
+                           data-tip="3. Zach Davies (975.7) ">3</a>
                   &nbsp;<a href="/players/p/pondar01.shtml" class="poptip"
-                           data-tip="4. Arlie Pond (974.1) ">4</a>                
+                           data-tip="4. Arlie Pond (974.1) ">4</a>
                   &nbsp;<a href="/players/h/hudsoti01.shtml" class="poptip"
-                           data-tip="5. Tim Hudson (973.2) ">5</a>                
+                           data-tip="5. Tim Hudson (973.2) ">5</a>
                   &nbsp;<a href="/players/h/harderi01.shtml" class="poptip"
-                           data-tip="6. Rich Harden (970.9) ">6</a>                
+                           data-tip="6. Rich Harden (970.9) ">6</a>
                   &nbsp;<a href="/players/m/martide01.shtml" class="poptip"
-                           data-tip="7. Dennis Martinez (970.9) ">7</a>                
+                           data-tip="7. Dennis Martinez (970.9) ">7</a>
                   &nbsp;<a href="/players/p/pettian01.shtml" class="poptip"
-                           data-tip="8. Andy Pettitte (969.1) ">8</a>                
+                           data-tip="8. Andy Pettitte (969.1) ">8</a>
                   &nbsp;<a href="/players/v/ventuyo01.shtml" class="poptip"
-                           data-tip="9. Yordano Ventura (968.1) ">9</a>                
+                           data-tip="9. Yordano Ventura (968.1) ">9</a>
                   &nbsp;<a href="/players/n/newcodo01.shtml" class="poptip"
-                           data-tip="10. Don Newcombe (967.6) ">10</a>                
-              
+                           data-tip="10. Don Newcombe (967.6) ">10</a>
+
                 &nbsp;<a href="/play-index/player-comparison.cgi?request=1&sum=0&type=p&player_id_1=verlaju01&fromyear_1=2007&toyear_1=2007&player_id_2=aukerel01&fromyear_2=1935&toyear_2=1935&player_id_3=wachami01&fromyear_3=2016&toyear_3=2016&player_id_4=davieza02&fromyear_4=2017&toyear_4=2017&player_id_5=pondar01&fromyear_5=1897&toyear_5=1897&player_id_6=hudsoti01&fromyear_6=2000&toyear_6=2000&player_id_7=harderi01&fromyear_7=2006&toyear_7=2006&player_id_8=martide01&fromyear_8=1978&toyear_8=1978&player_id_9=pettian01&fromyear_9=1996&toyear_9=1996&player_id_10=ventuyo01&fromyear_10=2015&toyear_10=2015&player_id_11=newcodo01&fromyear_11=1950&toyear_11=1950" class="poptip" data-tip="Compare first five players most similar at this age">C</a>
-              
+
             </li>
             <li value="25">
-                  <a href="/players/e/ellissa01.shtml">Sammy Ellis</a> (980.1)                 
+                  <a href="/players/e/ellissa01.shtml">Sammy Ellis</a> (980.1)
                   &nbsp;<a href="/players/p/pennybr01.shtml" class="poptip"
-                           data-tip="2. Brad Penny (974.6) ">2</a>                
+                           data-tip="2. Brad Penny (974.6) ">2</a>
                   &nbsp;<a href="/players/w/wachami01.shtml" class="poptip"
-                           data-tip="3. Michael Wacha (969.6) ">3</a>                
+                           data-tip="3. Michael Wacha (969.6) ">3</a>
                   &nbsp;<a href="/players/a/aukerel01.shtml" class="poptip"
-                           data-tip="4. Elden Auker (967.6) ">4</a>                
+                           data-tip="4. Elden Auker (967.6) ">4</a>
                   &nbsp;<a href="/players/l/leakemi01.shtml" class="poptip"
-                           data-tip="5. Mike Leake (966.8) ">5</a>                
+                           data-tip="5. Mike Leake (966.8) ">5</a>
                   &nbsp;<a href="/players/b/bankhsc01.shtml" class="poptip"
-                           data-tip="6. Scott Bankhead (966.5) ">6</a>                
+                           data-tip="6. Scott Bankhead (966.5) ">6</a>
                   &nbsp;<a href="/players/h/hernali01.shtml" class="poptip"
-                           data-tip="7. Livan Hernandez (965.7) ">7</a>                
+                           data-tip="7. Livan Hernandez (965.7) ">7</a>
                   &nbsp;<a href="/players/h/harpeja01.shtml" class="poptip"
-                           data-tip="8. Jack Harper (965.2) ">8</a>                
+                           data-tip="8. Jack Harper (965.2) ">8</a>
                   &nbsp;<a href="/players/m/morrija02.shtml" class="poptip"
-                           data-tip="9. Jack Morris (965.1) *">9</a>                
+                           data-tip="9. Jack Morris (965.1) *">9</a>
                   &nbsp;<a href="/players/s/santaer01.shtml" class="poptip"
-                           data-tip="10. Ervin Santana (964.9) ">10</a>                
-              
+                           data-tip="10. Ervin Santana (964.9) ">10</a>
+
                 &nbsp;<a href="/play-index/player-comparison.cgi?request=1&sum=0&type=p&player_id_1=verlaju01&fromyear_1=2008&toyear_1=2008&player_id_2=ellissa01&fromyear_2=1966&toyear_2=1966&player_id_3=pennybr01&fromyear_3=2003&toyear_3=2003&player_id_4=wachami01&fromyear_4=2017&toyear_4=2017&player_id_5=aukerel01&fromyear_5=1936&toyear_5=1936&player_id_6=leakemi01&fromyear_6=2013&toyear_6=2013&player_id_7=bankhsc01&fromyear_7=1989&toyear_7=1989&player_id_8=hernali01&fromyear_8=2000&toyear_8=2000&player_id_9=harpeja01&fromyear_9=1903&toyear_9=1903&player_id_10=morrija02&fromyear_10=1980&toyear_10=1980&player_id_11=santaer01&fromyear_11=2008&toyear_11=2008" class="poptip" data-tip="Compare first five players most similar at this age">C</a>
-              
+
             </li>
             <li value="26">
-                  <a href="/players/m/millwke01.shtml">Kevin Millwood</a> (975.3)                 
+                  <a href="/players/m/millwke01.shtml">Kevin Millwood</a> (975.3)
                   &nbsp;<a href="/players/b/beckejo02.shtml" class="poptip"
-                           data-tip="2. Josh Beckett (968.9) ">2</a>                
+                           data-tip="2. Josh Beckett (968.9) ">2</a>
                   &nbsp;<a href="/players/g/garcifr03.shtml" class="poptip"
-                           data-tip="3. Freddy Garcia (962.9) ">3</a>                
+                           data-tip="3. Freddy Garcia (962.9) ">3</a>
                   &nbsp;<a href="/players/m/mcdowja01.shtml" class="poptip"
-                           data-tip="4. Jack McDowell (960.7) ">4</a>                
+                           data-tip="4. Jack McDowell (960.7) ">4</a>
                   &nbsp;<a href="/players/c/cuetojo01.shtml" class="poptip"
-                           data-tip="5. Johnny Cueto (960.3) ">5</a>                
+                           data-tip="5. Johnny Cueto (960.3) ">5</a>
                   &nbsp;<a href="/players/p/pettian01.shtml" class="poptip"
-                           data-tip="6. Andy Pettitte (959.5) ">6</a>                
+                           data-tip="6. Andy Pettitte (959.5) ">6</a>
                   &nbsp;<a href="/players/m/mcdonbe01.shtml" class="poptip"
-                           data-tip="7. Ben McDonald (957.9) ">7</a>                
+                           data-tip="7. Ben McDonald (957.9) ">7</a>
                   &nbsp;<a href="/players/c/chrisla01.shtml" class="poptip"
-                           data-tip="8. Larry Christenson (957.3) ">8</a>                
+                           data-tip="8. Larry Christenson (957.3) ">8</a>
                   &nbsp;<a href="/players/g/gallayo01.shtml" class="poptip"
-                           data-tip="9. Yovani Gallardo (957.1) ">9</a>                
+                           data-tip="9. Yovani Gallardo (957.1) ">9</a>
                   &nbsp;<a href="/players/h/hallaro01.shtml" class="poptip"
-                           data-tip="10. Roy Halladay (956.3) ">10</a>                
-              
+                           data-tip="10. Roy Halladay (956.3) ">10</a>
+
                 &nbsp;<a href="/play-index/player-comparison.cgi?request=1&sum=0&type=p&player_id_1=verlaju01&fromyear_1=2009&toyear_1=2009&player_id_2=millwke01&fromyear_2=2001&toyear_2=2001&player_id_3=beckejo02&fromyear_3=2006&toyear_3=2006&player_id_4=garcifr03&fromyear_4=2003&toyear_4=2003&player_id_5=mcdowja01&fromyear_5=1992&toyear_5=1992&player_id_6=cuetojo01&fromyear_6=2012&toyear_6=2012&player_id_7=pettian01&fromyear_7=1998&toyear_7=1998&player_id_8=mcdonbe01&fromyear_8=1994&toyear_8=1994&player_id_9=chrisla01&fromyear_9=1980&toyear_9=1980&player_id_10=gallayo01&fromyear_10=2012&toyear_10=2012&player_id_11=hallaro01&fromyear_11=2003&toyear_11=2003" class="poptip" data-tip="Compare first five players most similar at this age">C</a>
-              
+
             </li>
             <li value="27">
-                  <a href="/players/b/beckejo02.shtml">Josh Beckett</a> (976.2)                 
+                  <a href="/players/b/beckejo02.shtml">Josh Beckett</a> (976.2)
                   &nbsp;<a href="/players/g/gallayo01.shtml" class="poptip"
-                           data-tip="2. Yovani Gallardo (975.6) ">2</a>                
+                           data-tip="2. Yovani Gallardo (975.6) ">2</a>
                   &nbsp;<a href="/players/g/garcifr03.shtml" class="poptip"
-                           data-tip="3. Freddy Garcia (971.4) ">3</a>                
+                           data-tip="3. Freddy Garcia (971.4) ">3</a>
                   &nbsp;<a href="/players/m/millwke01.shtml" class="poptip"
-                           data-tip="4. Kevin Millwood (969.9) ">4</a>                
+                           data-tip="4. Kevin Millwood (969.9) ">4</a>
                   &nbsp;<a href="/players/m/mcdowja01.shtml" class="poptip"
-                           data-tip="5. Jack McDowell (960.4) ">5</a>                
+                           data-tip="5. Jack McDowell (960.4) ">5</a>
                   &nbsp;<a href="/players/p/pettian01.shtml" class="poptip"
-                           data-tip="6. Andy Pettitte (959.0) ">6</a>                
+                           data-tip="6. Andy Pettitte (959.0) ">6</a>
                   &nbsp;<a href="/players/z/zitoba01.shtml" class="poptip"
-                           data-tip="7. Barry Zito (950.5) ">7</a>                
+                           data-tip="7. Barry Zito (950.5) ">7</a>
                   &nbsp;<a href="/players/h/hentgpa01.shtml" class="poptip"
-                           data-tip="8. Pat Hentgen (949.7) ">8</a>                
+                           data-tip="8. Pat Hentgen (949.7) ">8</a>
                   &nbsp;<a href="/players/b/billich01.shtml" class="poptip"
-                           data-tip="9. Chad Billingsley (949.7) ">9</a>                
+                           data-tip="9. Chad Billingsley (949.7) ">9</a>
                   &nbsp;<a href="/players/a/appieke01.shtml" class="poptip"
-                           data-tip="10. Kevin Appier (947.6) ">10</a>                
-              
+                           data-tip="10. Kevin Appier (947.6) ">10</a>
+
                 &nbsp;<a href="/play-index/player-comparison.cgi?request=1&sum=0&type=p&player_id_1=verlaju01&fromyear_1=2010&toyear_1=2010&player_id_2=beckejo02&fromyear_2=2007&toyear_2=2007&player_id_3=gallayo01&fromyear_3=2013&toyear_3=2013&player_id_4=garcifr03&fromyear_4=2004&toyear_4=2004&player_id_5=millwke01&fromyear_5=2002&toyear_5=2002&player_id_6=mcdowja01&fromyear_6=1993&toyear_6=1993&player_id_7=pettian01&fromyear_7=1999&toyear_7=1999&player_id_8=zitoba01&fromyear_8=2005&toyear_8=2005&player_id_9=hentgpa01&fromyear_9=1996&toyear_9=1996&player_id_10=billich01&fromyear_10=2012&toyear_10=2012&player_id_11=appieke01&fromyear_11=1995&toyear_11=1995" class="poptip" data-tip="Compare first five players most similar at this age">C</a>
-              
+
             </li>
             <li value="28">
-                  <a href="/players/m/mussimi01.shtml">Mike Mussina</a> (963.1)                 
+                  <a href="/players/m/mussimi01.shtml">Mike Mussina</a> (963.1)
                   &nbsp;<a href="/players/m/martira02.shtml" class="poptip"
-                           data-tip="2. Ramon Martinez (944.8) ">2</a>                
+                           data-tip="2. Ramon Martinez (944.8) ">2</a>
                   &nbsp;<a href="/players/z/zitoba01.shtml" class="poptip"
-                           data-tip="3. Barry Zito (944.4) ">3</a>                
+                           data-tip="3. Barry Zito (944.4) ">3</a>
                   &nbsp;<a href="/players/m/mcdowja01.shtml" class="poptip"
-                           data-tip="4. Jack McDowell (943.3) ">4</a>                
+                           data-tip="4. Jack McDowell (943.3) ">4</a>
                   &nbsp;<a href="/players/m/muldema01.shtml" class="poptip"
-                           data-tip="5. Mark Mulder (934.4) ">5</a>                
+                           data-tip="5. Mark Mulder (934.4) ">5</a>
                   &nbsp;<a href="/players/z/zambrca01.shtml" class="poptip"
-                           data-tip="6. Carlos Zambrano (934.0) ">6</a>                
+                           data-tip="6. Carlos Zambrano (934.0) ">6</a>
                   &nbsp;<a href="/players/g/garcifr03.shtml" class="poptip"
-                           data-tip="7. Freddy Garcia (934.0) ">7</a>                
+                           data-tip="7. Freddy Garcia (934.0) ">7</a>
                   &nbsp;<a href="/players/p/peavyja01.shtml" class="poptip"
-                           data-tip="8. Jake Peavy (932.9) ">8</a>                
+                           data-tip="8. Jake Peavy (932.9) ">8</a>
                   &nbsp;<a href="/players/p/pettian01.shtml" class="poptip"
-                           data-tip="9. Andy Pettitte (932.7) ">9</a>                
+                           data-tip="9. Andy Pettitte (932.7) ">9</a>
                   &nbsp;<a href="/players/n/nolanga01.shtml" class="poptip"
-                           data-tip="10. Gary Nolan (932.1) ">10</a>                
-              
+                           data-tip="10. Gary Nolan (932.1) ">10</a>
+
                 &nbsp;<a href="/play-index/player-comparison.cgi?request=1&sum=0&type=p&player_id_1=verlaju01&fromyear_1=2011&toyear_1=2011&player_id_2=mussimi01&fromyear_2=1997&toyear_2=1997&player_id_3=martira02&fromyear_3=1996&toyear_3=1996&player_id_4=zitoba01&fromyear_4=2006&toyear_4=2006&player_id_5=mcdowja01&fromyear_5=1994&toyear_5=1994&player_id_6=muldema01&fromyear_6=2006&toyear_6=2006&player_id_7=zambrca01&fromyear_7=2009&toyear_7=2009&player_id_8=garcifr03&fromyear_8=2005&toyear_8=2005&player_id_9=peavyja01&fromyear_9=2009&toyear_9=2009&player_id_10=pettian01&fromyear_10=2000&toyear_10=2000&player_id_11=nolanga01&fromyear_11=1976&toyear_11=1976" class="poptip" data-tip="Compare first five players most similar at this age">C</a>
-              
+
             </li>
             <li value="29">
-                  <a href="/players/m/mussimi01.shtml">Mike Mussina</a> (954.6)                 
+                  <a href="/players/m/mussimi01.shtml">Mike Mussina</a> (954.6)
                   &nbsp;<a href="/players/h/hudsoti01.shtml" class="poptip"
-                           data-tip="2. Tim Hudson (930.5) ">2</a>                
+                           data-tip="2. Tim Hudson (930.5) ">2</a>
                   &nbsp;<a href="/players/m/martira02.shtml" class="poptip"
-                           data-tip="3. Ramon Martinez (930.3) ">3</a>                
+                           data-tip="3. Ramon Martinez (930.3) ">3</a>
                   &nbsp;<a href="/players/p/peavyja01.shtml" class="poptip"
-                           data-tip="4. Jake Peavy (929.0) ">4</a>                
+                           data-tip="4. Jake Peavy (929.0) ">4</a>
                   &nbsp;<a href="/players/p/priceda01.shtml" class="poptip"
-                           data-tip="5. David Price (927.0) ">5</a>                
+                           data-tip="5. David Price (927.0) ">5</a>
                   &nbsp;<a href="/players/m/mcdowja01.shtml" class="poptip"
-                           data-tip="6. Jack McDowell (926.7) ">6</a>                
+                           data-tip="6. Jack McDowell (926.7) ">6</a>
                   &nbsp;<a href="/players/g/glavito02.shtml" class="poptip"
-                           data-tip="7. Tom Glavine (926.2) *">7</a>                
+                           data-tip="7. Tom Glavine (926.2) *">7</a>
                   &nbsp;<a href="/players/o/oswalro01.shtml" class="poptip"
-                           data-tip="8. Roy Oswalt (926.2) ">8</a>                
+                           data-tip="8. Roy Oswalt (926.2) ">8</a>
                   &nbsp;<a href="/players/w/weaveje02.shtml" class="poptip"
-                           data-tip="9. Jered Weaver (924.6) ">9</a>                
+                           data-tip="9. Jered Weaver (924.6) ">9</a>
                   &nbsp;<a href="/players/z/zambrca01.shtml" class="poptip"
-                           data-tip="10. Carlos Zambrano (923.4) ">10</a>                
-              
+                           data-tip="10. Carlos Zambrano (923.4) ">10</a>
+
                 &nbsp;<a href="/play-index/player-comparison.cgi?request=1&sum=0&type=p&player_id_1=verlaju01&fromyear_1=2012&toyear_1=2012&player_id_2=mussimi01&fromyear_2=1998&toyear_2=1998&player_id_3=hudsoti01&fromyear_3=2005&toyear_3=2005&player_id_4=martira02&fromyear_4=1997&toyear_4=1997&player_id_5=peavyja01&fromyear_5=2010&toyear_5=2010&player_id_6=priceda01&fromyear_6=2015&toyear_6=2015&player_id_7=mcdowja01&fromyear_7=1995&toyear_7=1995&player_id_8=glavito02&fromyear_8=1995&toyear_8=1995&player_id_9=oswalro01&fromyear_9=2007&toyear_9=2007&player_id_10=weaveje02&fromyear_10=2012&toyear_10=2012&player_id_11=zambrca01&fromyear_11=2010&toyear_11=2010" class="poptip" data-tip="Compare first five players most similar at this age">C</a>
-              
+
             </li>
             <li value="30">
-                  <a href="/players/m/mussimi01.shtml">Mike Mussina</a> (951.8)                 
+                  <a href="/players/m/mussimi01.shtml">Mike Mussina</a> (951.8)
                   &nbsp;<a href="/players/m/martira02.shtml" class="poptip"
-                           data-tip="2. Ramon Martinez (938.1) ">2</a>                
+                           data-tip="2. Ramon Martinez (938.1) ">2</a>
                   &nbsp;<a href="/players/l/lestejo01.shtml" class="poptip"
-                           data-tip="3. Jon Lester (937.2) ">3</a>                
+                           data-tip="3. Jon Lester (937.2) ">3</a>
                   &nbsp;<a href="/players/m/malonji01.shtml" class="poptip"
-                           data-tip="4. Jim Maloney (935.1) ">4</a>                
+                           data-tip="4. Jim Maloney (935.1) ">4</a>
                   &nbsp;<a href="/players/p/priceda01.shtml" class="poptip"
-                           data-tip="5. David Price (931.8) ">5</a>                
+                           data-tip="5. David Price (931.8) ">5</a>
                   &nbsp;<a href="/players/h/hudsoti01.shtml" class="poptip"
-                           data-tip="6. Tim Hudson (930.0) ">6</a>                
+                           data-tip="6. Tim Hudson (930.0) ">6</a>
                   &nbsp;<a href="/players/m/mcdowja01.shtml" class="poptip"
-                           data-tip="7. Jack McDowell (924.0) ">7</a>                
+                           data-tip="7. Jack McDowell (924.0) ">7</a>
                   &nbsp;<a href="/players/g/glavito02.shtml" class="poptip"
-                           data-tip="8. Tom Glavine (923.7) *">8</a>                
+                           data-tip="8. Tom Glavine (923.7) *">8</a>
                   &nbsp;<a href="/players/c/cuetojo01.shtml" class="poptip"
-                           data-tip="9. Johnny Cueto (922.9) ">9</a>                
+                           data-tip="9. Johnny Cueto (922.9) ">9</a>
                   &nbsp;<a href="/players/o/oswalro01.shtml" class="poptip"
-                           data-tip="10. Roy Oswalt (922.8) ">10</a>                
-              
+                           data-tip="10. Roy Oswalt (922.8) ">10</a>
+
                 &nbsp;<a href="/play-index/player-comparison.cgi?request=1&sum=0&type=p&player_id_1=verlaju01&fromyear_1=2013&toyear_1=2013&player_id_2=mussimi01&fromyear_2=1999&toyear_2=1999&player_id_3=martira02&fromyear_3=1998&toyear_3=1998&player_id_4=lestejo01&fromyear_4=2014&toyear_4=2014&player_id_5=malonji01&fromyear_5=1970&toyear_5=1970&player_id_6=priceda01&fromyear_6=2016&toyear_6=2016&player_id_7=hudsoti01&fromyear_7=2006&toyear_7=2006&player_id_8=mcdowja01&fromyear_8=1996&toyear_8=1996&player_id_9=glavito02&fromyear_9=1996&toyear_9=1996&player_id_10=cuetojo01&fromyear_10=2016&toyear_10=2016&player_id_11=oswalro01&fromyear_11=2008&toyear_11=2008" class="poptip" data-tip="Compare first five players most similar at this age">C</a>
-              
+
             </li>
             <li value="31">
-                  <a href="/players/m/mussimi01.shtml">Mike Mussina</a> (952.2)                 
+                  <a href="/players/m/mussimi01.shtml">Mike Mussina</a> (952.2)
                   &nbsp;<a href="/players/g/greinza01.shtml" class="poptip"
-                           data-tip="2. Zack Greinke (938.8) ">2</a>                
+                           data-tip="2. Zack Greinke (938.8) ">2</a>
                   &nbsp;<a href="/players/l/lestejo01.shtml" class="poptip"
-                           data-tip="3. Jon Lester (935.6) ">3</a>                
+                           data-tip="3. Jon Lester (935.6) ">3</a>
                   &nbsp;<a href="/players/h/hudsoti01.shtml" class="poptip"
-                           data-tip="4. Tim Hudson (931.9) ">4</a>                
+                           data-tip="4. Tim Hudson (931.9) ">4</a>
                   &nbsp;<a href="/players/s/smoltjo01.shtml" class="poptip"
-                           data-tip="5. John Smoltz (929.8) *">5</a>                
+                           data-tip="5. John Smoltz (929.8) *">5</a>
                   &nbsp;<a href="/players/m/morrija02.shtml" class="poptip"
-                           data-tip="6. Jack Morris (929.8) *">6</a>                
+                           data-tip="6. Jack Morris (929.8) *">6</a>
                   &nbsp;<a href="/players/g/glavito02.shtml" class="poptip"
-                           data-tip="7. Tom Glavine (924.7) *">7</a>                
+                           data-tip="7. Tom Glavine (924.7) *">7</a>
                   &nbsp;<a href="/players/p/pettian01.shtml" class="poptip"
-                           data-tip="8. Andy Pettitte (919.8) ">8</a>                
+                           data-tip="8. Andy Pettitte (919.8) ">8</a>
                   &nbsp;<a href="/players/s/scherma01.shtml" class="poptip"
-                           data-tip="9. Max Scherzer (917.3) ">9</a>                
+                           data-tip="9. Max Scherzer (917.3) ">9</a>
                   &nbsp;<a href="/players/g/goodedw01.shtml" class="poptip"
-                           data-tip="10. Dwight Gooden (917.3) ">10</a>                
-              
+                           data-tip="10. Dwight Gooden (917.3) ">10</a>
+
                 &nbsp;<a href="/play-index/player-comparison.cgi?request=1&sum=0&type=p&player_id_1=verlaju01&fromyear_1=2014&toyear_1=2014&player_id_2=mussimi01&fromyear_2=2000&toyear_2=2000&player_id_3=greinza01&fromyear_3=2015&toyear_3=2015&player_id_4=lestejo01&fromyear_4=2015&toyear_4=2015&player_id_5=hudsoti01&fromyear_5=2007&toyear_5=2007&player_id_6=smoltjo01&fromyear_6=1998&toyear_6=1998&player_id_7=morrija02&fromyear_7=1986&toyear_7=1986&player_id_8=glavito02&fromyear_8=1997&toyear_8=1997&player_id_9=pettian01&fromyear_9=2003&toyear_9=2003&player_id_10=scherma01&fromyear_10=2016&toyear_10=2016&player_id_11=goodedw01&fromyear_11=1996&toyear_11=1996" class="poptip" data-tip="Compare first five players most similar at this age">C</a>
-              
+
             </li>
             <li value="32">
-                  <a href="/players/g/greinza01.shtml">Zack Greinke</a> (957.9)                 
+                  <a href="/players/g/greinza01.shtml">Zack Greinke</a> (957.9)
                   &nbsp;<a href="/players/l/lestejo01.shtml" class="poptip"
-                           data-tip="2. Jon Lester (952.7) ">2</a>                
+                           data-tip="2. Jon Lester (952.7) ">2</a>
                   &nbsp;<a href="/players/m/mussimi01.shtml" class="poptip"
-                           data-tip="3. Mike Mussina (947.7) ">3</a>                
+                           data-tip="3. Mike Mussina (947.7) ">3</a>
                   &nbsp;<a href="/players/s/smoltjo01.shtml" class="poptip"
-                           data-tip="4. John Smoltz (938.9) *">4</a>                
+                           data-tip="4. John Smoltz (938.9) *">4</a>
                   &nbsp;<a href="/players/p/peavyja01.shtml" class="poptip"
-                           data-tip="5. Jake Peavy (934.3) ">5</a>                
+                           data-tip="5. Jake Peavy (934.3) ">5</a>
                   &nbsp;<a href="/players/h/hudsoti01.shtml" class="poptip"
-                           data-tip="6. Tim Hudson (932.7) ">6</a>                
+                           data-tip="6. Tim Hudson (932.7) ">6</a>
                   &nbsp;<a href="/players/m/morrija02.shtml" class="poptip"
-                           data-tip="7. Jack Morris (930.1) *">7</a>                
+                           data-tip="7. Jack Morris (930.1) *">7</a>
                   &nbsp;<a href="/players/o/oswalro01.shtml" class="poptip"
-                           data-tip="8. Roy Oswalt (926.1) ">8</a>                
+                           data-tip="8. Roy Oswalt (926.1) ">8</a>
                   &nbsp;<a href="/players/b/bunniji01.shtml" class="poptip"
-                           data-tip="9. Jim Bunning (925.8) *">9</a>                
+                           data-tip="9. Jim Bunning (925.8) *">9</a>
                   &nbsp;<a href="/players/h/hamelco01.shtml" class="poptip"
-                           data-tip="10. Cole Hamels (924.4) ">10</a>                
-              
+                           data-tip="10. Cole Hamels (924.4) ">10</a>
+
                 &nbsp;<a href="/play-index/player-comparison.cgi?request=1&sum=0&type=p&player_id_1=verlaju01&fromyear_1=2015&toyear_1=2015&player_id_2=greinza01&fromyear_2=2016&toyear_2=2016&player_id_3=lestejo01&fromyear_3=2016&toyear_3=2016&player_id_4=mussimi01&fromyear_4=2001&toyear_4=2001&player_id_5=smoltjo01&fromyear_5=1999&toyear_5=1999&player_id_6=peavyja01&fromyear_6=2013&toyear_6=2013&player_id_7=hudsoti01&fromyear_7=2008&toyear_7=2008&player_id_8=morrija02&fromyear_8=1987&toyear_8=1987&player_id_9=oswalro01&fromyear_9=2010&toyear_9=2010&player_id_10=bunniji01&fromyear_10=1964&toyear_10=1964&player_id_11=hamelco01&fromyear_11=2016&toyear_11=2016" class="poptip" data-tip="Compare first five players most similar at this age">C</a>
-              
+
             </li>
             <li value="33">
-                  <a href="/players/g/greinza01.shtml">Zack Greinke</a> (964.9)                 
+                  <a href="/players/g/greinza01.shtml">Zack Greinke</a> (964.9)
                   &nbsp;<a href="/players/l/lestejo01.shtml" class="poptip"
-                           data-tip="2. Jon Lester (948.5) ">2</a>                
+                           data-tip="2. Jon Lester (948.5) ">2</a>
                   &nbsp;<a href="/players/m/mussimi01.shtml" class="poptip"
-                           data-tip="3. Mike Mussina (940.5) ">3</a>                
+                           data-tip="3. Mike Mussina (940.5) ">3</a>
                   &nbsp;<a href="/players/s/smoltjo01.shtml" class="poptip"
-                           data-tip="4. John Smoltz (939.1) *">4</a>                
+                           data-tip="4. John Smoltz (939.1) *">4</a>
                   &nbsp;<a href="/players/g/goodedw01.shtml" class="poptip"
-                           data-tip="5. Dwight Gooden (933.2) ">5</a>                
+                           data-tip="5. Dwight Gooden (933.2) ">5</a>
                   &nbsp;<a href="/players/h/hamelco01.shtml" class="poptip"
-                           data-tip="6. Cole Hamels (932.5) ">6</a>                
+                           data-tip="6. Cole Hamels (932.5) ">6</a>
                   &nbsp;<a href="/players/w/welchbo01.shtml" class="poptip"
-                           data-tip="7. Bob Welch (931.3) ">7</a>                
+                           data-tip="7. Bob Welch (931.3) ">7</a>
                   &nbsp;<a href="/players/b/bunniji01.shtml" class="poptip"
-                           data-tip="8. Jim Bunning (926.2) *">8</a>                
+                           data-tip="8. Jim Bunning (926.2) *">8</a>
                   &nbsp;<a href="/players/o/oswalro01.shtml" class="poptip"
-                           data-tip="9. Roy Oswalt (920.0) ">9</a>                
+                           data-tip="9. Roy Oswalt (920.0) ">9</a>
                   &nbsp;<a href="/players/p/pettian01.shtml" class="poptip"
-                           data-tip="10. Andy Pettitte (919.2) ">10</a>                
-              
+                           data-tip="10. Andy Pettitte (919.2) ">10</a>
+
                 &nbsp;<a href="/play-index/player-comparison.cgi?request=1&sum=0&type=p&player_id_1=verlaju01&fromyear_1=2016&toyear_1=2016&player_id_2=greinza01&fromyear_2=2017&toyear_2=2017&player_id_3=lestejo01&fromyear_3=2017&toyear_3=2017&player_id_4=mussimi01&fromyear_4=2002&toyear_4=2002&player_id_5=smoltjo01&fromyear_5=2000&toyear_5=2000&player_id_6=goodedw01&fromyear_6=1998&toyear_6=1998&player_id_7=hamelco01&fromyear_7=2017&toyear_7=2017&player_id_8=welchbo01&fromyear_8=1990&toyear_8=1990&player_id_9=bunniji01&fromyear_9=1965&toyear_9=1965&player_id_10=oswalro01&fromyear_10=2011&toyear_10=2011&player_id_11=pettian01&fromyear_11=2005&toyear_11=2005" class="poptip" data-tip="Compare first five players most similar at this age">C</a>
-              
+
             </li>
             <li value="34">
-                  <a href="/players/g/goodedw01.shtml">Dwight Gooden</a> (957.6)                 
+                  <a href="/players/g/goodedw01.shtml">Dwight Gooden</a> (957.6)
                   &nbsp;<a href="/players/m/mussimi01.shtml" class="poptip"
-                           data-tip="2. Mike Mussina (933.7) ">2</a>                
+                           data-tip="2. Mike Mussina (933.7) ">2</a>
                   &nbsp;<a href="/players/w/welchbo01.shtml" class="poptip"
-                           data-tip="3. Bob Welch (927.2) ">3</a>                
+                           data-tip="3. Bob Welch (927.2) ">3</a>
                   &nbsp;<a href="/players/s/smoltjo01.shtml" class="poptip"
-                           data-tip="4. John Smoltz (922.7) *">4</a>                
+                           data-tip="4. John Smoltz (922.7) *">4</a>
                   &nbsp;<a href="/players/p/pettian01.shtml" class="poptip"
-                           data-tip="5. Andy Pettitte (917.0) ">5</a>                
+                           data-tip="5. Andy Pettitte (917.0) ">5</a>
                   &nbsp;<a href="/players/g/gibsobo01.shtml" class="poptip"
-                           data-tip="6. Bob Gibson (916.5) *">6</a>                
+                           data-tip="6. Bob Gibson (916.5) *">6</a>
                   &nbsp;<a href="/players/b/bunniji01.shtml" class="poptip"
-                           data-tip="7. Jim Bunning (915.0) *">7</a>                
+                           data-tip="7. Jim Bunning (915.0) *">7</a>
                   &nbsp;<a href="/players/h/hallaro01.shtml" class="poptip"
-                           data-tip="8. Roy Halladay (913.8) ">8</a>                
+                           data-tip="8. Roy Halladay (913.8) ">8</a>
                   &nbsp;<a href="/players/m/morrija02.shtml" class="poptip"
-                           data-tip="9. Jack Morris (896.5) *">9</a>                
+                           data-tip="9. Jack Morris (896.5) *">9</a>
                   &nbsp;<a href="/players/h/hudsoti01.shtml" class="poptip"
-                           data-tip="10. Tim Hudson (895.8) ">10</a>                
-              
+                           data-tip="10. Tim Hudson (895.8) ">10</a>
+
                 &nbsp;<a href="/play-index/player-comparison.cgi?request=1&sum=0&type=p&player_id_1=verlaju01&fromyear_1=2017&toyear_1=2017&player_id_2=goodedw01&fromyear_2=1999&toyear_2=1999&player_id_3=mussimi01&fromyear_3=2003&toyear_3=2003&player_id_4=welchbo01&fromyear_4=1991&toyear_4=1991&player_id_5=smoltjo01&fromyear_5=2001&toyear_5=2001&player_id_6=pettian01&fromyear_6=2006&toyear_6=2006&player_id_7=gibsobo01&fromyear_7=1970&toyear_7=1970&player_id_8=bunniji01&fromyear_8=1966&toyear_8=1966&player_id_9=hallaro01&fromyear_9=2011&toyear_9=2011&player_id_10=morrija02&fromyear_10=1989&toyear_10=1989&player_id_11=hudsoti01&fromyear_11=2010&toyear_11=2010" class="poptip" data-tip="Compare first five players most similar at this age">C</a>
-              
+
             </li>      </ol>
               <p>* - Signifies Hall of Famer</p>
           </div>
@@ -3056,23 +3056,23 @@ is used for other seasons.
 
     </div>
 
--->  
+-->
 </div>
 
-            
-            
-         
-      
-         
+
+
+
+
+
             <div class="section_wrapper setup_commented commented" id="all_transactions_other">
 <div class="section_heading">
   <span class="section_anchor" id="transactions_other_link" data-label="Transactions"></span>
     <h2>Transactions</h2>    <div class="section_heading_text">
       <ul>
       </ul>
-    </div>		
+    </div>
 </div><div class="placeholder"></div>
-<!--  
+<!--
     <div class="section_content" id="div_transactions_other">
 
 <p><strong>June 7, 2004:</strong> Drafted by the <a href="/teams/DET/2004.shtml">Detroit Tigers</a>  in the <a href="/draft/?query_type=year_round&amp;year_ID=2004&amp;draft_round=1&amp;draft_type=junreg">1st round</a> (2nd pick) of the 2004 amateur draft. Player signed October 25, 2004.</p><p><strong>August 31, 2017:</strong> Traded by the <a href="/teams/DET/2017.shtml">Detroit Tigers</a> with a player to be named later and cash to the <a href="/teams/HOU/2017.shtml">Houston Astros</a> for <a href="/register/player.fcgi?id=camero000daz">Daz Cameron</a> (minors), <a href="/register/player.fcgi?id=perez-019fra">Franklin Perez</a> (minors) and <a href="/register/player.fcgi?id=rogers003jak">Jake Rogers</a> (minors). The <a href="/teams/DET/2017.shtml">Detroit Tigers</a> sent <a href="/register/player.fcgi?id=ramire009jua">Juan Ramirez</a> (minors) (October 13, 2017) to the <a href="/teams/HOU/2017.shtml">Houston Astros</a> to complete the trade.
@@ -3083,15 +3083,15 @@ is used for other seasons.
 
     </div>
 
--->  
+-->
 </div>
 
-            
-            
-         
-      
-         
-            
+
+
+
+
+
+
 <div id="all_br-salaries" class="table_wrapper setup_commented commented">
 
 <div class="section_heading">
@@ -3102,13 +3102,13 @@ is used for other seasons.
 
 
 <div class="fieldset dropdown cpi_year" data-type="dropdown">
-	
-	<div class="formfield">
-		
-		<select id="cpi_year" name="cpi_year" class="" >
-	
 
-	
+	<div class="formfield">
+
+		<select id="cpi_year" name="cpi_year" class="" >
+
+
+
 			<option value="--" selected disabled>Convert to YYYY $'s</option>
 			<option value="actual">Back to Actual</option>
 			<option value="1871">1871</option>
@@ -3138,7 +3138,7 @@ is used for other seasons.
 </li>
 	  <li>Salaries may not be complete (especially pre-1985) and may not include some earned bonuses</li>
       </ul>
-    </div>		
+    </div>
 </div>
 <div class="placeholder"></div>
 <!--
@@ -3146,7 +3146,7 @@ is used for other seasons.
       <div class="overthrow table_container" id="div_br-salaries">
   <table class="sortable stats_table" id="br-salaries" data-cols-to-freeze=2><caption>Salaries</caption>
    <colgroup><col><col><col><col><col><col><col></colgroup>
-   <thead>      
+   <thead>
       <tr>
          <th aria-label="Year" data-stat="year_ID" scope="col" class=" poptip sort_default_asc show_partial_when_sorting left" data-tip="A Star indicates an all-star that season.&lt;br&gt;A Ring indicates the player appeared in WS for winning team." >Year</th>
          <th aria-label="Player&#x2019;s age at midnight of June 30th of that year" data-stat="age" scope="col" class=" poptip sort_default_asc show_partial_when_sorting center" data-tip="Player&#x2019;s age at midnight of June 30th of that year" >Age</th>
@@ -3156,7 +3156,7 @@ is used for other seasons.
          <th aria-label="Sources" data-stat="source" scope="col" class=" poptip center" >Sources</th>
          <th aria-label="Notes/Other Sources" data-stat="notes" scope="col" class=" poptip center" >Notes/Other Sources</th>
       </tr>
-      
+
    </thead>
    <tbody>
 <tr ><th scope="row" class="left " data-stat="year_ID" >2006</th><td class="left " data-stat="age" >23</td><td class="left " data-stat="team_name" >Detroit&nbsp;Tigers</td><td class="right " data-stat="Salary" data-year="2006" data-amount="980000.00" csk="980000.00" >$980,000</td><td class="right " data-stat="service_time" >?</td><td class="left " data-stat="source" ></td><td class="left " data-stat="notes" ></td></tr>
@@ -3186,26 +3186,26 @@ is used for other seasons.
       </div>
    </div>
    <div class="footer no_hide_long" id="tfooter_br-salaries">
-   
+
     Primary salary data (<a href="/about/salary.shtml">about</a>) courtesy Doug Pappas, and the <a rel="nofollow" href="http://www.sabr.org/">Society for American Baseball Research</a>. Additional 1915-1969 salaries researched via Baseball Hall of Fame contract archives by Dr. Michael Haupert of UW-LaCrosse. Salaries for mid-season call-ups or traded players may not be shown. Salaries converted to alternate years using Consumer Price Index (CPI) data courtesy of the <a rel="nofollow" href="http://www.minneapolisfed.org/community_education/teacher/calc/hist1800.cfm">Minneapolis Federal Reserve Board</a>.
 </div>
 -->
 </div>
 
-            
-            
-         
-      
-         
+
+
+
+
+
             <div class="section_wrapper setup_commented commented" id="all_9075337960">
 <div class="section_heading">
   <span class="section_anchor" id="9075337960_link" data-label="Name + &quot;Statistics&quot; Translations"></span>
     <h2>Name + &quot;Statistics&quot; Translations</h2>    <div class="section_heading_text">
       <ul> <li>Note, this is done in an automated way, so we apologize for any errors, &amp; please <a href="/feedback/">report any suggested corrections.</a> "Statistics" is included to allow non-English speakers to find our pages.</li>
       </ul>
-    </div>		
+    </div>
 </div><div class="placeholder"></div>
-<!--  
+<!--
     <div class="section_content" id="div_9075337960">
 <p>German: Justin Verlander Statistik</p>
 
@@ -3235,23 +3235,23 @@ is used for other seasons.
 
     </div>
 
--->  
+-->
 </div>
 
-            
-            
-         
-      
-         
+
+
+
+
+
             <div class="section_wrapper setup_commented commented" id="all_resources_other">
 <div class="section_heading">
   <span class="section_anchor" id="resources_other_link" data-label="Other Resources &amp; Links"></span>
     <h2>Other Resources &amp; Links</h2>    <div class="section_heading_text">
       <ul>
       </ul>
-    </div>		
+    </div>
 </div><div class="placeholder"></div>
-<!--  
+<!--
     <div class="section_content" id="div_resources_other">
 <a rel="nofollow" href="http://www.baseball-almanac.com/players/player.php?p=verlaju01">Baseball-Almanac.com</a> &nbsp; &nbsp;
 <a rel="nofollow" href="http://sportsillustrated.cnn.com/baseball/mlb/players/7590/">CNN/SI</a> &nbsp; &nbsp;
@@ -3262,13 +3262,13 @@ is used for other seasons.
 
     </div>
 
--->  
+-->
 </div>
 
-            
-            
-         
-      
+
+
+
+
 
 <!-- global.nonempty_tables_num: 16, table_count: 16 -->
    <!-- no Local/Partials/NoteBottom.tt2 -->
@@ -3387,7 +3387,7 @@ is used for other seasons.
 </div>
 </div>
 
-   
+
 
 <!-- fs_footer -->
 <div class="adblock">
@@ -3422,79 +3422,79 @@ is used for other seasons.
 		 <div class="breadcrumbs" itemscope itemtype="https://schema.org/Other">You are here: <span><a href="/">BR Home</a></span> &gt; <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a itemprop="item" href="/players/"><span itemprop="name">MLB Players</span></a> <meta itemprop="position" content="1" /></span> &gt; <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a itemprop="item" href="/players/v/"><span itemprop="name">V Listing</span></a> <meta itemprop="position" content="2" /></span> &gt; <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><strong><span itemprop="name">Justin Verlander Statistics and History</span></strong> <meta itemprop="position" content="3" /></span></div>
 	</div><!-- div#footer_header -->
 	<div id="site_menu" role="navigation" aria-label="complete site index">
-		
+
 <div class="section_heading">
   <span class="section_anchor" id="site_menu_link" data-label="Full Site Menu"></span>
     <h2>Full Site Menu</h2>    <div class="section_heading_text">
       <ul> <li><a data-scroll href="#header">Return to Top</a></li>
       </ul>
-    </div>		
+    </div>
 </div>
 		<ul>
 	<li><a href="/players/">MLB Players</a>
-	<div>Current Greats: <a href="/players/k/kershcl01.shtml">Clayton Kershaw</a>, 
-<a href="/players/h/harpebr03.shtml">Bryce Harper</a>, 
-<a href="/players/t/troutmi01.shtml">Mike Trout</a>, 
-<a href="/players/a/arrieja01.shtml">Jake Arrieta</a>, 
-<a href="/players/c/cabremi01.shtml">Miguel Cabrera</a>, 
-<a href="/players/g/greinza01.shtml">Zack Greinke</a>, 
+	<div>Current Greats: <a href="/players/k/kershcl01.shtml">Clayton Kershaw</a>,
+<a href="/players/h/harpebr03.shtml">Bryce Harper</a>,
+<a href="/players/t/troutmi01.shtml">Mike Trout</a>,
+<a href="/players/a/arrieja01.shtml">Jake Arrieta</a>,
+<a href="/players/c/cabremi01.shtml">Miguel Cabrera</a>,
+<a href="/players/g/greinza01.shtml">Zack Greinke</a>,
 <a href="/players/a/altuvjo01.shtml">Jose Altuve</a>,
 ...   </div>
 
-	<div>All-Time Greats:  
-<a href="/players/m/musiast01.shtml">Stan Musial</a>, 
-<a href="/players/b/bondsba01.shtml">Barry Bonds</a>, 
-<a href="/players/r/ruthba01.shtml">Babe Ruth</a>, 
-<a href="/players/j/jeterde01.shtml">Derek Jeter</a>, 
-<a href="/players/g/griffke02.shtml">Ken Griffey Jr</a>, 
-<a href="/players/r/robinja02.shtml">Jackie Robinson</a>, 
+	<div>All-Time Greats:
+<a href="/players/m/musiast01.shtml">Stan Musial</a>,
+<a href="/players/b/bondsba01.shtml">Barry Bonds</a>,
+<a href="/players/r/ruthba01.shtml">Babe Ruth</a>,
+<a href="/players/j/jeterde01.shtml">Derek Jeter</a>,
+<a href="/players/g/griffke02.shtml">Ken Griffey Jr</a>,
+<a href="/players/r/robinja02.shtml">Jackie Robinson</a>,
 <a href="/players/a/aaronha01.shtml">Hank Aaron</a>, ...</div>
 </li>
 
 
 	 <li><a href="/teams/">MLB Teams</a>
 	 	<div class="division"><strong>NL East</strong>:
-<a href="/teams/ATL/">Atlanta Braves</a>, 
-<a href="/teams/FLA/">Miami Marlins</a>, 
-<a href="/teams/NYM/">New York Mets</a>, 
-<a href="/teams/PHI/">Philadelphia Phillies</a>, 
+<a href="/teams/ATL/">Atlanta Braves</a>,
+<a href="/teams/FLA/">Miami Marlins</a>,
+<a href="/teams/NYM/">New York Mets</a>,
+<a href="/teams/PHI/">Philadelphia Phillies</a>,
 <a href="/teams/WSN/">Washington Nationals</a>
-		</div>	
+		</div>
 	 	<div class="division"><strong>NL Central</strong>:
-<a href="/teams/CHC/">Chicago Cubs</a>, 
-<a href="/teams/CIN/">Cincinnati Reds</a>, 
-<a href="/teams/MIL/">Milwaukee Brewers</a>, 
-<a href="/teams/PIT/">Pittsburgh Pirates</a>, 
+<a href="/teams/CHC/">Chicago Cubs</a>,
+<a href="/teams/CIN/">Cincinnati Reds</a>,
+<a href="/teams/MIL/">Milwaukee Brewers</a>,
+<a href="/teams/PIT/">Pittsburgh Pirates</a>,
 <a href="/teams/STL/">St. Louis Cardinals</a>
-		</div>	
+		</div>
 	 	<div class="division"><strong>NL West</strong>:
-<a href="/teams/ARI/">Arizona Diamondbacks</a>, 
-<a href="/teams/COL/">Colorado Rockies</a>, 
-<a href="/teams/LAD/">Los Angeles Dodgers </a>, 
-<a href="/teams/SDP/">San Diego Padres</a>, 
+<a href="/teams/ARI/">Arizona Diamondbacks</a>,
+<a href="/teams/COL/">Colorado Rockies</a>,
+<a href="/teams/LAD/">Los Angeles Dodgers </a>,
+<a href="/teams/SDP/">San Diego Padres</a>,
 <a href="/teams/SFG/">San Francisco Giants</a>
-		</div>	
+		</div>
 	 	<div class="division"><strong>AL East</strong>:
-<a href="/teams/BAL/">Baltimore Orioles</a>, 
-<a href="/teams/BOS/">Boston Red Sox</a>, 
-<a href="/teams/NYY/">New York Yankees</a>, 
-<a href="/teams/TBR/">Tampa Bay Rays</a>, 
+<a href="/teams/BAL/">Baltimore Orioles</a>,
+<a href="/teams/BOS/">Boston Red Sox</a>,
+<a href="/teams/NYY/">New York Yankees</a>,
+<a href="/teams/TBR/">Tampa Bay Rays</a>,
 <a href="/teams/TOR/">Toronto Blue Jays</a>
-		</div>	
+		</div>
 	 	<div class="division"><strong>AL Central</strong>:
-<a href="/teams/CHW/">Chicago White Sox</a>, 
-<a href="/teams/CLE/">Cleveland Indians</a>, 
-<a href="/teams/DET/">Detroit Tigers</a>, 
-<a href="/teams/KCR/">Kansas City Royals</a>, 
+<a href="/teams/CHW/">Chicago White Sox</a>,
+<a href="/teams/CLE/">Cleveland Indians</a>,
+<a href="/teams/DET/">Detroit Tigers</a>,
+<a href="/teams/KCR/">Kansas City Royals</a>,
 <a href="/teams/MIN/">Minnesota Twins</a>
-		</div>	
+		</div>
 	 	<div class="division"><strong>AL West</strong>:
-<a href="/teams/HOU/">Houston Astros</a>, 
-<a href="/teams/LAA/">Los Angeles Angels</a>, 
-<a href="/teams/OAK/">Oakland Athletics</a>, 
-<a href="/teams/SEA/">Seattle Mariners</a>, 
+<a href="/teams/HOU/">Houston Astros</a>,
+<a href="/teams/LAA/">Los Angeles Angels</a>,
+<a href="/teams/OAK/">Oakland Athletics</a>,
+<a href="/teams/SEA/">Seattle Mariners</a>,
 <a href="/teams/TEX/">Texas Rangers</a>
-		</div>	
+		</div>
 	 </li>
 
 <li><a href="/leagues/">Seasons</a>
@@ -3651,21 +3651,21 @@ is used for other seasons.
 	 </li>
 
 
-</ul>   
+</ul>
 
 	</div><!-- div#site_menu -->
 	<div id="social" class="icon_group noload">
-	
+
 <div class="section_heading">
   <span class="section_anchor" id="verlaju01_link" data-label="We're Social...for Statheads" data-no-inpage="1"></span>
-    <h2>We're Social...for Statheads</h2>		
+    <h2>We're Social...for Statheads</h2>
 </div>
 	<a href="tel://888-512-8907" data-tip="Call us on Telephone" data-label="Telephone" class="poptip"><svg class="icon phone"><use xlink:href="#ic-phone"></use></svg></a>
 	<a href="//www.sports-reference.com/blog/" data-tip="The Sports Reference Blog" data-label="Our Blog" class="poptip"><svg class="icon wordpress"><use xlink:href="#ic-wordpress"></use></svg></a>
 	<a href="https://www.sports-reference.com/blog/feed/" data-tip="Our Blog's RSS Feed" data-label="RSS Feed" class="poptip"><svg class="icon rss"><use xlink:href="#ic-rss"></use></svg></a>
-	
+
 		<a href="https://twitter.com/baseball_ref" data-tip="Baseball-Reference.com at Twitter" data-label="Twitter" class="poptip"><svg class="icon twitter"><use xlink:href="#ic-twitter"></use></svg></a>
-	
+
 	<a href="https://reddit.com/r/SportsReference" data-tip="Reddit/r/SportsReference" data-label="Reddit/r/SR" class="poptip"><svg class="icon reddit"><use xlink:href="#ic-reddit"></use></svg></a>
 	<a href="https://www.youtube.com/user/sportsreference" data-tip="YouTube/SportsReference" data-label="YouTube" class="poptip"><svg class="icon youtube"><use xlink:href="#ic-youtube"></use></svg></a>
 	<a href="https://www.linkedin.com/company/sports-reference-llc" data-tip="Follow SR on LinkedIn" data-label="LinkedIn" class="poptip"><svg class="icon linkedin"><use xlink:href="#ic-linkedin"></use></svg></a>
@@ -3680,10 +3680,10 @@ is used for other seasons.
 </div><!-- div#social -->
 
 	<div id="tips_tricks">
-   
+
 <div class="section_heading">
   <span class="section_anchor" id="tips_link" data-label="FAQs, Tip &amp; Tricks" data-no-inpage="1"></span>
-    <h2>FAQs, Tip &amp; Tricks</h2>		
+    <h2>FAQs, Tip &amp; Tricks</h2>
 </div>
    <ul>
 <li>Learn about the <a href="//www.baseball-reference.com/about/war_explained.shtml">Wins Above Replacement Formula</a></li>
@@ -3701,8 +3701,8 @@ is used for other seasons.
         <a href="https://www.sports-reference.com/blog/2016/06/redesign-team-and-league-logos-courtesy-sportslogos-net/">Our reasoning for presenting offensive logos.</a></p>
         <p>Logos were compiled by the amazing <a href="http://sportslogos.net/">SportsLogos.net.</a></p>
 
-        
-     
+
+
      <div class="notice">Primary Data Provided By
 	<a href="http://www.gracenote.com/sports/sports-data/" rel="nofollow"><img alt="Gracenote Sports" border=0 width=275 src="https://d2p3bygnnzw9w3.cloudfront.net/req/201809111/images/klecko/gracenote-2.png"></a>
 </div>
@@ -3730,7 +3730,7 @@ is used for other seasons.
         <li><a href="https://stathead.com/">Stathead</a></li>
         <li><a href="https://widgets.sports-reference.com/">Widgets</a></li>
 
-        
+
 </ul>
 
 	<div id="about"><a href="//www.sports-reference.com/about.html">About</a> &bull; <a href="//www.sports-reference.com/privacy.html">Privacy Statement</a> &bull; <a href="//www.sports-reference.com/termsofuse.html">Conditions &amp; Terms of Service</a> &bull; <a href="//www.sports-reference.com/data_use.html">Use of Data</a></div><!-- div#about -->
@@ -3771,7 +3771,3 @@ is used for other seasons.
 <!-- Google Analytics --><script> String.prototype.sr_isMatch = function(s){ return this.match(s)!==null}; function getCookie(name) { var prefix = name + "="; var begin = document.cookie.indexOf("; " + prefix); if (begin == -1) { begin = document.cookie.indexOf(prefix); if (begin != 0) return null; } else { begin += 2; var end = document.cookie.indexOf(";", begin); if (end == -1) { end = document.cookie.length; } } return unescape(document.cookie.substring(begin + prefix.length, end));} var sr_cookie = getCookie('SR_user') || ''; var sr_is_ad_free = sr_cookie.sr_isMatch('Z6SON8tTdJid'); var sr_is_user = sr_cookie !== null && sr_cookie !== ''; var sr_seen_modal = getCookie('modal_ad') !== null; (function(i,s,o,g,r,a,m){ i['GoogleAnalyticsObject']=r; i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date(); a=s.createElement(o),m=s.getElementsByTagName(o)[0]; a.async=1; a.src=g; m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-1890630-1', 'auto'); ga('require', 'linkid', 'linkid.js'); ga('require', 'ecommerce', 'ecommerce.js'); ga('send', 'pageview'); ga('create', 'UA-1890630-19', 'auto', {'name': 'combined_tracker', 'allowLinker': true }); ga('combined_tracker.send', 'pageview'); var sr_device = 'unk'; if (Modernizr.phone) { sr_device = 'phone'; } else if (Modernizr.tablet) { sr_device = 'tablet'; } else if (Modernizr.laptop) { sr_device = 'laptop'; } else if (Modernizr.desktop) { sr_device = 'desktop'; } ga('create', 'UA-1890630-9', 'auto', {'name': 'sr_tracker', 'allowLinker': true }); ga('sr_tracker.require', 'displayfeatures'); ga('sr_tracker.set', 'dimension1','br'); ga('sr_tracker.set', 'dimension2',sr_is_ad_free); ga('sr_tracker.set', 'dimension3',sr_is_user); ga('sr_tracker.set', 'dimension4',sr_seen_modal); ga('sr_tracker.set', 'dimension5',sr_device); ga('sr_tracker.set', 'dimension6',Modernizr.is_modern?'yes':'no'); ga('sr_tracker.set', 'dimension7',Modernizr.viewport_width); /* note that this requires the Assets/AdBlockTest.tt2 to be included above. */ ga('sr_tracker.set', 'dimension8',(typeof sr_test == 'undefined')?'no-test':( sr_test ? 'non-blocking':'blocking')); ga('sr_tracker.send', 'pageview'); /* cribbed from: http://www.axllent.org/docs/view/track-outbound-links-with-analytics-js/ */ function _gaLt(event) { if (!ga.hasOwnProperty("loaded") || ga.loaded != true) { return; } var el = event.srcElement || event.target; /* if a link has been clicked */ if (el && el.href) { var link = el.href; /* Only if it is an external link */ if (link.indexOf(location.host) == -1 && !link.match(/^javascript\:/i)) { /* Is target set and not _(self|parent|top)? */ var target = (el.target && !el.target.match(/^_(self|parent|top)/i)) ? el.target : false; /* If target opens a new window then just track */ if (el.target && !el.target.match(/^_(self|parent|top)/i)) { ga("send", "event", "Outgoing Links", link, document.location.pathname + document.location.search); } }; } } window.addEventListener ? window.addEventListener("load", function() { document.body.addEventListener("click", _gaLt, !1)}, !1) : window.attachEvent && window.attachEvent("onload", function() { document.body.attachEvent("onclick", _gaLt) }); </script><!-- End Google Analytics -->
 </body><!-- SR -->
 </html>
-
-
-
-
