@@ -3,6 +3,7 @@ import requests
 from datetime import datetime
 from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
+from typing import Iterator
 
 
 # {
@@ -15,12 +16,12 @@ from pyquery import PyQuery as pq
 #   }
 # }
 SEASON_START_MONTH = {
-    'mlb': {'start': 4, 'wrap': False},
-    'nba': {'start': 10, 'wrap': True},
-    'ncaab': {'start': 11, 'wrap': True},
-    'ncaaf': {'start': 8, 'wrap': False},
-    'nfl': {'start': 9, 'wrap': False},
-    'nhl': {'start': 10, 'wrap': True}
+    "mlb": {"start": 4, "wrap": False},
+    "nba": {"start": 10, "wrap": True},
+    "ncaab": {"start": 11, "wrap": True},
+    "ncaaf": {"start": 8, "wrap": False},
+    "nfl": {"start": 9, "wrap": False},
+    "nhl": {"start": 10, "wrap": True},
 }
 
 
@@ -39,7 +40,7 @@ def _todays_date():
     return datetime.now()
 
 
-def _url_exists(url):
+def _url_exists(url: str) -> bool:
     """
     Determine if a URL is valid and exists.
 
@@ -69,7 +70,7 @@ def _url_exists(url):
         return False
 
 
-def _find_year_for_season(league):
+def _find_year_for_season(league: str) -> int:
     """
     Return the necessary seaons's year based on the current date.
 
@@ -109,8 +110,8 @@ def _find_year_for_season(league):
     today = _todays_date()
     if league not in SEASON_START_MONTH:
         raise ValueError('"%s" league cannot be found!')
-    start = SEASON_START_MONTH[league]['start']
-    wrap = SEASON_START_MONTH[league]['wrap']
+    start = SEASON_START_MONTH[league]["start"]
+    wrap = SEASON_START_MONTH[league]["wrap"]
     if wrap and start - 1 <= today.month <= 12:
         return today.year + 1
     elif not wrap and start == 1 and today.month == 12:
@@ -121,7 +122,7 @@ def _find_year_for_season(league):
         return today.year
 
 
-def _parse_abbreviation(uri_link):
+def _parse_abbreviation(uri_link: str) -> str:
     """
     Returns a team's abbreviation.
 
@@ -142,13 +143,19 @@ def _parse_abbreviation(uri_link):
     string
         The shortened uppercase abbreviation for a given team.
     """
-    abbr = re.sub(r'/[0-9]+\..*htm.*', '', uri_link('a').attr('href'))
-    abbr = re.sub(r'/.*/schools/', '', abbr)
-    abbr = re.sub(r'/teams/', '', abbr)
+    abbr = re.sub(r"/[0-9]+\..*htm.*", "", uri_link("a").attr("href"))
+    abbr = re.sub(r"/.*/schools/", "", abbr)
+    abbr = re.sub(r"/teams/", "", abbr)
     return abbr.upper()
 
 
-def _parse_field(parsing_scheme, html_data, field, index=0, strip=False):
+def _parse_field(
+    parsing_scheme: dict,
+    html_data: str,
+    field: str,
+    index: int = 0,
+    strip: bool = False,
+) -> str:
     """
     Parse an HTML table to find the requested field's value.
 
@@ -189,7 +196,7 @@ def _parse_field(parsing_scheme, html_data, field, index=0, strip=False):
         The value at the specified index for the requested field. If no value
         could be found, returns None.
     """
-    if field == 'abbreviation':
+    if field == "abbreviation":
         return _parse_abbreviation(html_data)
     scheme = parsing_scheme[field]
     if strip:
@@ -208,7 +215,7 @@ def _parse_field(parsing_scheme, html_data, field, index=0, strip=False):
         return None
 
 
-def _remove_html_comment_tags(html):
+def _remove_html_comment_tags(html: pq) -> str:
     """
     Returns the passed HTML contents with all comment tags removed while
     keeping the contents within the tags.
@@ -227,10 +234,10 @@ def _remove_html_comment_tags(html):
     string
         The passed HTML contents with all comment tags removed.
     """
-    return str(html).replace('<!--', '').replace('-->', '')
+    return str(html).replace("<!--", "").replace("-->", "")
 
 
-def _get_stats_table(html_page, div, footer=False):
+def _get_stats_table(html_page: pq, div: str, footer: bool = False) -> Iterator[pq]:
     """
     Returns a generator of all rows in a requested table.
 
@@ -261,9 +268,9 @@ def _get_stats_table(html_page, div, footer=False):
     except (ParserError, XMLSyntaxError):
         return None
     if footer:
-        teams_list = stats_table('tfoot tr').items()
+        teams_list = stats_table("tfoot tr").items()
     else:
-        teams_list = stats_table('tbody tr').items()
+        teams_list = stats_table("tbody tr").items()
     return teams_list
 
 
@@ -277,7 +284,9 @@ def _no_data_found():
     can't parse any information and should indicate the lack of data and return
     safely.
     """
-    print('The requested page returned a valid response, but no data could be '
-          'found. Has the season begun, and is the data available on '
-          'www.sports-reference.com?')
+    print(
+        "The requested page returned a valid response, but no data could be "
+        "found. Has the season begun, and is the data available on "
+        "www.sports-reference.com?"
+    )
     return
