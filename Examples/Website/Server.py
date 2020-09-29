@@ -1,5 +1,7 @@
 # importing flask framework to make a server
 from flask import Flask, render_template
+# importing sportsreference
+import sportsreference
 
 app = Flask(__name__)  # initializing flask
 
