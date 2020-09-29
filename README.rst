@@ -66,14 +66,14 @@ that can be pulled using sportsreference. Visit the documentation on
 `Read The Docs <http://sportsreference.readthedocs.io/en/latest/>`_ for a
 complete list of all information exposed by the API.
 
-Get instances of all NHL teams for the 2018 season
+Get instances of all NHL teams for the 2020 season
 --------------------------------------------------
 
 .. code-block:: python
 
     from sportsreference.nhl.teams import Teams
 
-    teams = Teams(2018)
+    teams = Teams(2020)
 
 Print every NBA team's name and abbreviation
 --------------------------------------------
