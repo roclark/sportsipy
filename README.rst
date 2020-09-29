@@ -64,7 +64,7 @@ an abundance of metrics and information from all of the tracked leagues. The
 examples below are only a miniscule subset of the total number of statistics
 that can be pulled using sportsreference. Visit the documentation on
 `Read The Docs <http://sportsreference.readthedocs.io/en/latest/>`_ for a
-complete list of all information exposed by the API.
+complete list of all information exposed by the API. Explore the "Examples" directory for a ML and a website example.
 
 Get instances of all NHL teams for the 2020 season
 --------------------------------------------------
