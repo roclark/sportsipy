@@ -156,6 +156,11 @@ the documentation for a full list of all metrics and information exposed by
 sportsreference. The documentation is auto-generated using Sphinx based on the
 docstrings in the sportsreference package.
 
+Application
+=============
+
+This module can be used for machine learning projects and to build websites based on sports. In the Example directory you will find a simple website as an example.
+
 Testing
 =======
 
