@@ -3,7 +3,7 @@ from sportsreference import utils
 from .constants import SEASON_PAGE_URL
 
 
-def _retrieve_all_teams(year):
+def _retrieve_all_teams(year, season_page=None):
     """
     Find and create Team instances for all teams in the given season.
 
@@ -19,6 +19,8 @@ def _retrieve_all_teams(year):
     ----------
     year : string
         The requested year to pull stats from.
+    teams_file : string (optional)
+        Link with filename to the local season page.
 
     Returns
     -------
@@ -35,7 +37,7 @@ def _retrieve_all_teams(year):
         if not utils._url_exists(SEASON_PAGE_URL % year) and \
            utils._url_exists(SEASON_PAGE_URL % str(int(year) - 1)):
             year = str(int(year) - 1)
-    doc = pq(SEASON_PAGE_URL % year)
+    doc = utils._pull_page(SEASON_PAGE_URL % year, season_page)
     teams_list = utils._get_stats_table(doc, 'div#all_stats')
     if not teams_list:
         utils._no_data_found()

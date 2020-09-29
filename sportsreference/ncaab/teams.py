@@ -32,9 +32,26 @@ class Team:
         A string of the team's conference abbreviation, such as 'big-12'.
     year : string (optional)
         The requested year to pull stats from.
+    basic_stats : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should be
+        of the Basic Stats page for the designated year.
+    basic_opp_stats : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should be
+        of the Basic Opponent Stats page for the designated year.
+    adv_stats : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should be
+        of the Advanced Stats page for the designated year.
+    adv_opp_stats : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should be
+        of the Advanced Opponent Stats page for the designated year.
     """
     def __init__(self, team_name=None, team_data=None, team_conference=None,
-                 year=None):
+                 year=None, basic_stats=None, basic_opp_stats=None,
+                 adv_stats=None, adv_opp_stats=None):
         self._team_conference = team_conference
         self._year = year
         self._abbreviation = None
@@ -121,7 +138,9 @@ class Team:
         self._opp_free_throws_per_field_goal_attempt = None
 
         if team_name:
-            team_data = self._retrieve_team_data(year, team_name)
+            team_data = self._retrieve_team_data(year, team_name, basic_stats,
+                                                 basic_opp_stats, adv_stats,
+                                                 adv_opp_stats)
             conferences_dict = Conferences(year).team_conference
             self._team_conference = conferences_dict[team_name.lower()]
         self._parse_team_data(team_data)
@@ -138,7 +157,9 @@ class Team:
         """
         return self.__str__()
 
-    def _retrieve_team_data(self, year, team_name):
+    def _retrieve_team_data(self, year, team_name, basic_stats=None,
+                            basic_opp_stats=None, adv_stats=None,
+                            adv_opp_stats=None):
         """
         Pull all stats for a specific team.
 
@@ -153,6 +174,22 @@ class Team:
         team_name : string
             A ``string`` of the team's abbreviation, such as 'PURDUE' for the
             Purdue Boilermakers.
+        basic_stats : string (optional)
+            Optionally specify the filename of a local file to use to pull data
+            instead of downloading from sports-reference.com. This file should
+            be of the Basic Stats page for the designated year.
+        basic_opp_stats : string (optional)
+            Optionally specify the filename of a local file to use to pull data
+            instead of downloading from sports-reference.com. This file should
+            be of the Basic Opponent Stats page for the designated year.
+        adv_stats : string (optional)
+            Optionally specify the filename of a local file to use to pull data
+            instead of downloading from sports-reference.com. This file should
+            be of the Advanced Stats page for the designated year.
+        adv_opp_stats : string (optional)
+            Optionally specify the filename of a local file to use to pull data
+            instead of downloading from sports-reference.com. This file should
+            be of the Advanced Opponent Stats page for the designated year.
 
         Returns
         -------
@@ -160,7 +197,9 @@ class Team:
             Returns a PyQuery object containing all stats and information for
             the specified team.
         """
-        team_data_dict, year = _retrieve_all_teams(year)
+        team_data_dict, year = _retrieve_all_teams(year, basic_stats,
+                                                   basic_opp_stats, adv_stats,
+                                                   adv_opp_stats)
         self._year = year
         team_data = team_data_dict[team_name]['data']
         return team_data
@@ -1036,12 +1075,31 @@ class Teams:
     ----------
     year : string (optional)
         The requested year to pull stats from.
+    basic_stats : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should
+        be of the Basic Stats page for the designated year.
+    basic_opp_stats : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should
+        be of the Basic Opponent Stats page for the designated year.
+    adv_stats : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should
+        be of the Advanced Stats page for the designated year.
+    adv_opp_stats : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should
+        be of the Advanced Opponent Stats page for the designated year.
     """
-    def __init__(self, year=None):
+    def __init__(self, year=None, basic_stats=None, basic_opp_stats=None,
+                 adv_stats=None, adv_opp_stats=None):
         self._teams = []
         self._conferences_dict = Conferences(year).team_conference
 
-        team_data_dict, year = _retrieve_all_teams(year)
+        team_data_dict, year = _retrieve_all_teams(year, basic_stats,
+                                                   basic_opp_stats, adv_stats,
+                                                   adv_opp_stats)
         self._instantiate_teams(team_data_dict, year)
 
     def __getitem__(self, abbreviation):

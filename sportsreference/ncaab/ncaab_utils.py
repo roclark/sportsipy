@@ -41,7 +41,8 @@ def _add_stats_data(teams_list, team_data_dict):
     return team_data_dict
 
 
-def _retrieve_all_teams(year):
+def _retrieve_all_teams(year, basic_stats=None, basic_opp_stats=None,
+                        adv_stats=None, adv_opp_stats=None):
     """
     Find and create Team instances for all teams in the given season.
 
@@ -57,6 +58,14 @@ def _retrieve_all_teams(year):
     ----------
     year : string
         The requested year to pull stats from.
+    basic_stats : string (optional)
+        Link with filename to the local basic stats page.
+    basic_opp_stats : string (optional)
+        Link with filename to the local basic opponent stats page.
+    adv_stats : string (optional)
+        Link with filename to the local advanved stats page.
+    adv_opp_stats : string (optional)
+        Link with filename to the local advanced opponents stats page.
 
     Returns
     -------
@@ -75,13 +84,13 @@ def _retrieve_all_teams(year):
         if not utils._url_exists(BASIC_STATS_URL % year) and \
            utils._url_exists(BASIC_STATS_URL % str(int(year) - 1)):
             year = str(int(year) - 1)
-    doc = pq(BASIC_STATS_URL % year)
+    doc = utils._pull_page(BASIC_STATS_URL % year, basic_stats)
     teams_list = utils._get_stats_table(doc, 'table#basic_school_stats')
-    doc = pq(BASIC_OPPONENT_STATS_URL % year)
+    doc = utils._pull_page(BASIC_OPPONENT_STATS_URL % year, basic_opp_stats)
     opp_list = utils._get_stats_table(doc, 'table#basic_opp_stats')
-    doc = pq(ADVANCED_STATS_URL % year)
+    doc = utils._pull_page(ADVANCED_STATS_URL % year, adv_stats)
     adv_teams_list = utils._get_stats_table(doc, 'table#adv_school_stats')
-    doc = pq(ADVANCED_OPPONENT_STATS_URL % year)
+    doc = utils._pull_page(ADVANCED_OPPONENT_STATS_URL % year, adv_opp_stats)
     adv_opp_list = utils._get_stats_table(doc, 'table#adv_opp_stats')
     if not teams_list and not opp_list and not adv_teams_list \
        and not adv_opp_list:

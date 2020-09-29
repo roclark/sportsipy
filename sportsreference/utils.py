@@ -267,6 +267,42 @@ def _get_stats_table(html_page, div, footer=False):
     return teams_list
 
 
+def _pull_page(url=None, local_file=None):
+    """
+    Pull data from a local file if exists, or download data from the website.
+
+    If local_file is passed, users can pull data directly from a local file
+    which has already been downloaded instead of downloading from
+    sports-reference.com using the package. This reduces server load on their
+    end, and allows package users to work offline.
+
+    Parameters
+    ----------
+    url : string (optional)
+        A ``string`` of the URL to pull data from.
+    local_file : string (optional)
+        A link to a local file which has been pre-downloaded from the website.
+
+    Returns
+    -------
+    PyQuery object
+        Returns a ``PyQuery`` object representing the file that was either
+        downloaded or read.
+
+    Raises
+    ------
+    ValueError
+        Raises a ``ValueError`` if neither the URL nor the local_file
+        parameters were specified.
+    """
+    if local_file:
+        with open(local_file, 'r', encoding='utf8') as filehandle:
+            return pq(filehandle.read())
+    if url:
+        return pq(url)
+    raise ValueError('Expected either a URL or a local data file!')
+
+
 def _no_data_found():
     """
     Print a message that no data could be found on the page.

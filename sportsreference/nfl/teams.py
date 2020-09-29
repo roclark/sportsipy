@@ -42,8 +42,13 @@ class Team:
         A team's position in the league based on the number of points they
         obtained during the season. Is only used when called directly from the
         Teams class.
+    season_page : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should be
+        of the Season page for the designated year.
     """
-    def __init__(self, team_name=None, team_data=None, rank=None, year=None):
+    def __init__(self, team_name=None, team_data=None, rank=None, year=None,
+                 season_page=None):
         self._year = year
         self._rank = rank
         self._abbreviation = None
@@ -86,7 +91,7 @@ class Team:
         self._points_contributed_by_offense = None
 
         if team_name:
-            team_data = self._retrieve_team_data(year, team_name)
+            team_data = self._retrieve_team_data(year, team_name, season_page)
         self._parse_team_data(team_data)
 
     def __str__(self):
@@ -101,7 +106,7 @@ class Team:
         """
         return self.__str__()
 
-    def _retrieve_team_data(self, year, team_name):
+    def _retrieve_team_data(self, year, team_name, season_page):
         """
         Pull all stats for a specific team.
 
@@ -116,6 +121,10 @@ class Team:
         team_name : string
             A ``string`` of the team's 3-letter abbreviation, such as 'KAN' for
             the Kansas City Chiefs.
+        season_page : string (optional)
+            Optionally specify the filename of a local file to use to pull data
+            instead of downloading from sports-reference.com. This file should
+            be of the Season page for the designated year.
 
         Returns
         -------
@@ -123,7 +132,7 @@ class Team:
             Returns a PyQuery object containing all stats and information for
             the specified team.
         """
-        team_data_dict, year = _retrieve_all_teams(year)
+        team_data_dict, year = _retrieve_all_teams(year, season_page)
         self._year = year
         team_data = team_data_dict[team_name]['data']
         self._rank = team_data_dict[team_name]['rank']
@@ -578,11 +587,15 @@ class Teams:
     ----------
     year : string (optional)
         The requested year to pull stats from.
+    season_page : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should be
+        of the Season page for the designated year.
     """
-    def __init__(self, year=None):
+    def __init__(self, year=None, season_page=None):
         self._teams = []
 
-        team_data_dict, year = _retrieve_all_teams(year)
+        team_data_dict, year = _retrieve_all_teams(year, season_page)
         self._instantiate_teams(team_data_dict, year)
 
     def __getitem__(self, abbreviation):
