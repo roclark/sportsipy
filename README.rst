@@ -159,7 +159,7 @@ docstrings in the sportsreference package.
 Application
 =============
 
-This module can be used for machine learning projects and to build websites based on sports. In the Example directory you will find a simple website as an example.
+This module can be used for machine learning projects and to build sports website. In the Example directory you will find a simple website and a ML model(Linear Regression) using this package.
 
 Testing
 =======
