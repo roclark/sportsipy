@@ -187,8 +187,8 @@ class TestNCAABSchedule:
 
 class TestNCAABScheduleNames:
     def test_non_major_school_returns_name_for_abbreviation(self):
-        text = '<td class="left " data-stat="opp_name">'
-        "City College of New York</td>"
+        text = ('<td class="left " data-stat="opp_name">'
+                'City College of New York</td>')
         game_data = pq(text)
 
         game = Game(game_data)
