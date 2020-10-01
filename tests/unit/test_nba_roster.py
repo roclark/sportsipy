@@ -1,7 +1,8 @@
+from sportsreference.nba.roster import _cleanup, Player
 from flexmock import flexmock
 from mock import patch, PropertyMock
-from sportsreference.nba.player import AbstractPlayer, _cleanup as _cleanup_player
-from sportsreference.nba.roster import _cleanup, Player
+from sportsreference.nba.player import AbstractPlayer, \
+    _cleanup as _cleanup_player
 
 
 class MockItem:
@@ -32,7 +33,8 @@ def mock_pyquery(url):
 
 class TestNBAPlayer:
     def setup_method(self):
-        flexmock(AbstractPlayer).should_receive("_parse_player_data").and_return(None)
+        flexmock(AbstractPlayer).should_receive(
+            "_parse_player_data").and_return(None)
         flexmock(Player).should_receive("__init__").and_return(None)
 
     def test_no_float_returns_default_value_abstract_class(self):
@@ -80,9 +82,11 @@ class TestNBAPlayer:
     def test_empty_contract_is_none(self):
         player_info = MockInfo()
 
-        flexmock(Player).should_receive("_parse_contract_headers").and_return(None)
+        flexmock(Player).should_receive(
+            "_parse_contract_headers").and_return(None)
 
-        flexmock(Player).should_receive("_parse_contract_wages").and_return(None)
+        flexmock(Player).should_receive(
+            "_parse_contract_wages").and_return(None)
 
         flexmock(Player).should_receive("_combine_contract").and_return({})
 

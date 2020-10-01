@@ -357,7 +357,9 @@ Sunday, Oct 1 - TOR"""
 class TestMLBScheduleInvalidYear:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_mlb_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
+    def test_mlb_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
         results = {
             "game": 2,
             "boxscore_index": "TBA/TBA201704040",
@@ -385,7 +387,9 @@ class TestMLBScheduleInvalidYear:
         flexmock(Boxscore).should_receive("dataframe").and_return(
             pd.DataFrame([{"key": "value"}])
         )
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2018
+        )
 
         schedule = Schedule("NYY")
 

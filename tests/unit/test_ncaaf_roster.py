@@ -20,7 +20,9 @@ def mock_pyquery(url):
 
 class TestNCAAFPlayer:
     def setup_method(self):
-        flexmock(AbstractPlayer).should_receive("_parse_player_data").and_return(None)
+        flexmock(AbstractPlayer).should_receive(
+            "_parse_player_data"
+        ).and_return(None)
         flexmock(Player).should_receive("_pull_player_data").and_return(None)
         flexmock(Player).should_receive("_find_initial_index").and_return(None)
 

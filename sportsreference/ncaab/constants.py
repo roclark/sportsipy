@@ -42,7 +42,8 @@ PARSING_SCHEME = {
     "opp_field_goal_percentage": 'td[data-stat="opp_fg_pct"]:first',
     "opp_three_point_field_goals": 'td[data-stat="opp_fg3"]:first',
     "opp_three_point_field_goal_attempts": 'td[data-stat="opp_fg3a"]:first',
-    "opp_three_point_field_goal_percentage": 'td[data-stat="opp_fg3_pct"]:first',
+    "opp_three_point_field_goal_percentage":
+    'td[data-stat="opp_fg3_pct"]:first',
     "opp_two_point_field_goals": 'td[data-stat="opp_fg2"]:first',
     "opp_two_point_field_goal_attempts": 'td[data-stat="opp_fg2a"]:first',
     "opp_two_point_field_goal_percentage": 'td[data-stat="opp_fg2_pct"]:first',
@@ -73,7 +74,8 @@ PARSING_SCHEME = {
     "free_throws_per_field_goal_attempt": 'td[data-stat="ft_rate"]:first',
     "opp_offensive_rating": 'td[data-stat="def_rtg"]:first',
     "opp_free_throw_attempt_rate": 'td[data-stat="opp_fta_per_fga_pct"]:first',
-    "opp_three_point_attempt_rate": 'td[data-stat="opp_fg3a_per_fga_pct"]:first',
+    "opp_three_point_attempt_rate":
+    'td[data-stat="opp_fg3a_per_fga_pct"]:first',
     "opp_true_shooting_percentage": 'td[data-stat="opp_ts_pct"]:first',
     "opp_total_rebound_percentage": 'td[data-stat="opp_trb_pct"]:first',
     "opp_assist_percentage": 'td[data-stat="opp_ast_pct"]:first',
@@ -82,7 +84,8 @@ PARSING_SCHEME = {
     "opp_effective_field_goal_percentage": 'td[data-stat="opp_efg_pct"]:first',
     "opp_turnover_percentage": 'td[data-stat="opp_tov_pct"]:first',
     "opp_offensive_rebound_percentage": 'td[data-stat="opp_orb_pct"]:first',
-    "opp_free_throws_per_field_goal_attempt": 'td[data-stat="opp_ft_rate"]:first',
+    "opp_free_throws_per_field_goal_attempt":
+    'td[data-stat="opp_ft_rate"]:first',
 }
 
 SCHEDULE_SCHEME = {
@@ -303,18 +306,24 @@ PLAYER_SCHEME = {
     "defensive_rating": 'td[data-stat="def_rtg"]',
 }
 
-BASIC_STATS_URL = "https://www.sports-reference.com/cbb/seasons/" "%s-school-stats.html"
+BASIC_STATS_URL = (
+    "https://www.sports-reference.com/cbb/seasons/" "%s-school-stats.html"
+)
 BASIC_OPPONENT_STATS_URL = (
     "https://www.sports-reference.com/cbb/seasons/" "%s-opponent-stats.html"
 )
 ADVANCED_STATS_URL = (
-    "https://www.sports-reference.com/cbb/seasons/" "%s-advanced-school-stats.html"
+    "https://www.sports-reference.com/cbb/seasons/"
+    "%s-advanced-school-stats.html"
 )
 ADVANCED_OPPONENT_STATS_URL = (
-    "https://www.sports-reference.com/cbb/seasons/" "%s-advanced-opponent-stats.html"
+    "https://www.sports-reference.com/cbb/seasons/"
+    "%s-advanced-opponent-stats.html"
 )
 
-SCHEDULE_URL = "https://www.sports-reference.com/cbb/schools/%s/" "%s-schedule.html"
+SCHEDULE_URL = (
+    "https://www.sports-reference.com/cbb/schools/%s/" "%s-schedule.html"
+)
 BOXSCORE_URL = "https://www.sports-reference.com/cbb/boxscores/%s.html"
 BOXSCORES_URL = (
     "https://www.sports-reference.com/cbb/boxscores/index.cgi?"

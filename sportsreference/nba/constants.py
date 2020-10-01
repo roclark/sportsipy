@@ -29,7 +29,8 @@ PARSING_SCHEME = {
     "opp_field_goal_percentage": 'td[data-stat="opp_fg_pct"]:first',
     "opp_three_point_field_goals": 'td[data-stat="opp_fg3"]:first',
     "opp_three_point_field_goal_attempts": 'td[data-stat="opp_fg3a"]:first',
-    "opp_three_point_field_goal_percentage": 'td[data-stat="opp_fg3_pct"]:first',
+    "opp_three_point_field_goal_percentage":
+    'td[data-stat="opp_fg3_pct"]:first',
     "opp_two_point_field_goals": 'td[data-stat="opp_fg2"]:first',
     "opp_two_point_field_goal_attempts": 'td[data-stat="opp_fg2a"]:first',
     "opp_two_point_field_goal_percentage": 'td[data-stat="opp_fg2_pct"]:first',
@@ -252,18 +253,22 @@ PLAYER_SCHEME = {
     "percentage_zero_to_three_footers": 'td[data-stat="pct_fga_00_03"]',
     "percentage_three_to_ten_footers": 'td[data-stat="pct_fga_03_10"]',
     "percentage_ten_to_sixteen_footers": 'td[data-stat="pct_fga_10_16"]',
-    "percentage_sixteen_foot_plus_two_pointers": 'td[data-stat="pct_fga_16_xx"]',
+    "percentage_sixteen_foot_plus_two_pointers":
+    'td[data-stat="pct_fga_16_xx"]',
     "percentage_shots_three_pointers": 'td[data-stat="fg3a_pct_fga"]',
     "field_goal_perc_zero_to_three_feet": 'td[data-stat="fg_pct_00_03"]',
     "field_goal_perc_three_to_ten_feet": 'td[data-stat="fg_pct_03_10"]',
     "field_goal_perc_ten_to_sixteen_feet": 'td[data-stat="fg_pct_10_16"]',
-    "field_goal_perc_sixteen_foot_plus_two_pointers": 'td[data-stat="fg_pct_16_xx"]',
+    "field_goal_perc_sixteen_foot_plus_two_pointers":
+    'td[data-stat="fg_pct_16_xx"]',
     "two_pointers_assisted_percentage": 'td[data-stat="fg2_pct_ast"]',
     "percentage_field_goals_as_dunks": 'td[data-stat="pct_fg2_dunk"]',
     "dunks": 'td[data-stat="fg2_dunk"]',
     "three_pointers_assisted_percentage": 'td[data-stat="fg3_pct_ast"]',
-    "percentage_of_three_pointers_from_corner": 'td[data-stat="pct_fg3a_corner"]',
-    "three_point_shot_percentage_from_corner": 'td[data-stat="fg3_pct_corner"]',
+    "percentage_of_three_pointers_from_corner":
+    'td[data-stat="pct_fg3a_corner"]',
+    "three_point_shot_percentage_from_corner":
+    'td[data-stat="fg3_pct_corner"]',
     "half_court_heaves": 'td[data-stat="fg3a_heave"]',
     "half_court_heaves_made": 'td[data-stat="fg3_heave"]',
     "point_guard_percentage": 'td[data-stat="pct_1"]',
@@ -404,7 +409,8 @@ SCHEDULE_URL = "http://www.basketball-reference.com/teams/%s/%s_games.html"
 BOXSCORE_URL = "https://www.basketball-reference.com/boxscores/%s.html"
 
 BOXSCORES_URL = (
-    "https://www.basketball-reference.com/boxscores/" "?month=%s&day=%s&year=%s"
+    "https://www.basketball-reference.com/boxscores/"
+    "?month=%s&day=%s&year=%s"
 )
 
 PLAYER_URL = "https://www.basketball-reference.com/players/%s/%s.html"

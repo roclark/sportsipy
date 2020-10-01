@@ -39,7 +39,8 @@ ROSTER_SCHEME = {
     "assists_per_90": 'td[data-stat="assists_per90"]',
     "goals_and_assists_per_90": 'td[data-stat="goals_assists_per90"]',
     "goals_non_penalty_per_90": 'td[data-stat="goals_pens_per90"]',
-    "goals_and_assists_non_penalty_per_90": 'td[data-stat="goals_assists_pens_per90"]',
+    "goals_and_assists_non_penalty_per_90":
+    'td[data-stat="goals_assists_pens_per90"]',
     "expected_goals": 'td[data-stat="xg"]',
     "expected_goals_non_penalty": 'td[data-stat="npxg"]',
     "expected_assists": 'td[data-stat="xa"]',
@@ -47,7 +48,8 @@ ROSTER_SCHEME = {
     "expected_assists_per_90": 'td[data-stat="xa_per90"]',
     "expected_goals_and_assists_per_90": 'td[data-stat="xg_xa_per90"]',
     "expected_goals_non_penalty_per_90": 'td[data-stat="npxg_per90"]',
-    "expected_goals_and_assists_non_penalty_per_90": 'td[data-stat="npxg_xa_per90"]',
+    "expected_goals_and_assists_non_penalty_per_90":
+    'td[data-stat="npxg_xa_per90"]',
     "own_goals": 'td[data-stat="own_goals"]',
     "goals_against": 'td[data-stat="goals_against"]',
     "own_goals_against": 'td[data-stat="own_goals_against"]',
@@ -67,9 +69,11 @@ ROSTER_SCHEME = {
     "free_kick_goals_against": 'td[data-stat="free_kick_goals_against"]',
     "corner_kick_goals_against": 'td[data-stat="corner_kick_goals_against"]',
     "post_shot_expected_goals": 'td[data-stat="psxg_gk"]',
-    "post_shot_expected_goals_per_shot": 'td[data-stat="psnpxg_per_shot_on_target_against"]',
+    "post_shot_expected_goals_per_shot":
+    'td[data-stat="psnpxg_per_shot_on_target_against"]',
     "post_shot_expected_goals_minus_allowed": 'td[data-stat="psxg_net_gk"]',
-    "post_shot_expected_goals_minus_allowed_per_90": 'td[data-stat="psxg_net_per90_gk"]',
+    "post_shot_expected_goals_minus_allowed_per_90":
+    'td[data-stat="psxg_net_per90_gk"]',
     "launches_completed": 'td[data-stat="passes_completed_launched_gk"]',
     "launches_attempted": 'td[data-stat="passes_launched_gk"]',
     "launch_completion_percentage": 'td[data-stat="passes_pct_launched_gk"]',
@@ -83,9 +87,12 @@ ROSTER_SCHEME = {
     "opponent_cross_attempts": 'td[data-stat="crosses_gk"]',
     "opponent_cross_stops": 'td[data-stat="crosses_stopped_gk"]',
     "opponent_cross_stop_percentage": 'td[data-stat="crosses_stopped_pct_gk"]',
-    "keeper_actions_outside_penalty_area": 'td[data-stat="def_actions_outside_pen_area_gk"]',
-    "keeper_actions_outside_penalty_area_per_90": 'td[data-stat="def_actions_outside_pen_area_per90_gk"]',
-    "average_keeper_action_outside_penalty_distance": 'td[data-stat="avg_distance_def_actions_gk"]',
+    "keeper_actions_outside_penalty_area":
+    'td[data-stat="def_actions_outside_pen_area_gk"]',
+    "keeper_actions_outside_penalty_area_per_90":
+    'td[data-stat="def_actions_outside_pen_area_per90_gk"]',
+    "average_keeper_action_outside_penalty_distance":
+    'td[data-stat="avg_distance_def_actions_gk"]',
     "shots": 'td[data-stat="shots_total"]',
     "shots_on_target": 'td[data-stat="shots_on_target"]',
     "free_kick_shots": 'td[data-stat="shots_free_kicks"]',
@@ -137,7 +144,8 @@ ROSTER_SCHEME = {
     "expected_goals_against_on_pitch": 'td[data-stat="on_xg_against"]',
     "expected_goal_difference": 'td[data-stat="xg_plus_minus"]',
     "expected_goal_difference_per_90": 'td[data-stat="xg_plus_minus_per90"]',
-    "net_expected_goal_difference_per_90": 'td[data-stat="xg_plus_minus_wowy"]',
+    "net_expected_goal_difference_per_90":
+    'td[data-stat="xg_plus_minus_wowy"]',
     "soft_reds": 'td[data-stat="cards_yellow_red"]',
     "fouls_committed": 'td[data-stat="fouls"]',
     "fouls_drawn": 'td[data-stat="fouled"]',

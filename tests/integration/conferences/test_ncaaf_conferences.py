@@ -129,7 +129,9 @@ class TestNCAAFConferences:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_conferences_integration(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(YEAR)
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            YEAR
+        )
 
         conferences = Conferences()
 
@@ -148,7 +150,9 @@ class TestNCAAFConferences:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_conference_with_no_names_is_empty(self, *args, **kwargs):
-        flexmock(Conference).should_receive("_get_team_abbreviation").and_return("")
+        flexmock(Conference).should_receive(
+            "_get_team_abbreviation"
+        ).and_return("")
 
         conference = Conference("acc")
 
@@ -156,8 +160,12 @@ class TestNCAAFConferences:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2019)
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2019
+        )
 
         conferences = Conferences()
 
@@ -166,8 +174,12 @@ class TestNCAAFConferences:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_invalid_conference_year_reverts_to_previous_year(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2019)
+    def test_invalid_conference_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2019
+        )
 
         conference = Conference("acc")
 

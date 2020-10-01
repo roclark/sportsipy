@@ -131,7 +131,9 @@ class Team:
         match_records = re.findall(r"\(.*?\)", records)
         p = re.compile(r"[\(\)]")
         if len(match_records) == 2:
-            home_record, away_record = [p.sub(" ", x).strip() for x in match_records]
+            home_record, away_record = [
+                p.sub(" ", x).strip() for x in match_records
+            ]
         points = re.sub(r"\(.*?\)", "", records)
         points = re.findall(r"\d+", points)
         if len(points) == 2:

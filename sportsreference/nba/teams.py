@@ -153,7 +153,9 @@ class Team:
             # instantiation.
             if field == "_rank" or field == "_year":
                 continue
-            value = utils._parse_field(PARSING_SCHEME, team_data, str(field)[1:])
+            value = utils._parse_field(
+                PARSING_SCHEME, team_data, str(field)[1:]
+            )
             setattr(self, field, value)
 
     @property
@@ -191,25 +193,33 @@ class Team:
             "opp_personal_fouls": self.opp_personal_fouls,
             "opp_points": self.opp_points,
             "opp_steals": self.opp_steals,
-            "opp_three_point_field_goal_attempts": self.opp_three_point_field_goal_attempts,
-            "opp_three_point_field_goal_percentage": self.opp_three_point_field_goal_percentage,
+            "opp_three_point_field_goal_attempts":
+            self.opp_three_point_field_goal_attempts,
+            "opp_three_point_field_goal_percentage":
+            self.opp_three_point_field_goal_percentage,
             "opp_three_point_field_goals": self.opp_three_point_field_goals,
             "opp_total_rebounds": self.opp_total_rebounds,
             "opp_turnovers": self.opp_turnovers,
-            "opp_two_point_field_goal_attempts": self.opp_two_point_field_goal_attempts,
-            "opp_two_point_field_goal_percentage": self.opp_two_point_field_goal_percentage,
+            "opp_two_point_field_goal_attempts":
+            self.opp_two_point_field_goal_attempts,
+            "opp_two_point_field_goal_percentage":
+            self.opp_two_point_field_goal_percentage,
             "opp_two_point_field_goals": self.opp_two_point_field_goals,
             "personal_fouls": self.personal_fouls,
             "points": self.points,
             "rank": self.rank,
             "steals": self.steals,
-            "three_point_field_goal_attempts": self.three_point_field_goal_attempts,
-            "three_point_field_goal_percentage": self.three_point_field_goal_percentage,
+            "three_point_field_goal_attempts":
+            self.three_point_field_goal_attempts,
+            "three_point_field_goal_percentage":
+            self.three_point_field_goal_percentage,
             "three_point_field_goals": self.three_point_field_goals,
             "total_rebounds": self.total_rebounds,
             "turnovers": self.turnovers,
-            "two_point_field_goal_attempts": self.two_point_field_goal_attempts,
-            "two_point_field_goal_percentage": self.two_point_field_goal_percentage,
+            "two_point_field_goal_attempts":
+            self.two_point_field_goal_attempts,
+            "two_point_field_goal_percentage":
+            self.two_point_field_goal_percentage,
             "two_point_field_goals": self.two_point_field_goals,
         }
         return pd.DataFrame([fields_to_include], index=[self._abbreviation])
@@ -682,7 +692,10 @@ class Teams:
         """
         Return the string representation of the class.
         """
-        teams = [f"{team.name} ({team.abbreviation})".strip() for team in self._teams]
+        teams = [
+            f"{team.name} ({team.abbreviation})".strip()
+            for team in self._teams
+        ]
         return "\n".join(teams)
 
     def __repr__(self):
@@ -718,7 +731,9 @@ class Teams:
         if not team_data_dict:
             return
         for team_data in team_data_dict.values():
-            team = Team(team_data=team_data["data"], rank=team_data["rank"], year=year)
+            team = Team(
+                team_data=team_data["data"], rank=team_data["rank"], year=year
+            )
             self._teams.append(team)
 
     @property

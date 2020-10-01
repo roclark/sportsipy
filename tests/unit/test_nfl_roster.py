@@ -19,7 +19,9 @@ def mock_pyquery(url):
 
 class TestNFLPlayer:
     def setup_method(self):
-        flexmock(AbstractPlayer).should_receive("_parse_player_data").and_return(None)
+        flexmock(AbstractPlayer).should_receive(
+            "_parse_player_data"
+        ).and_return(None)
         flexmock(Player).should_receive("_pull_player_data").and_return(None)
         flexmock(Player).should_receive("_find_initial_index").and_return(None)
 
@@ -42,8 +44,12 @@ class TestNFLPlayer:
         assert not player.weight
 
     @patch("requests.get", side_effect=mock_pyquery)
-    def test_requesting_detailed_season_returns_proper_index(self, *args, **kwargs):
-        mock_detailed_seasons = PropertyMock(return_value=["2017", "2018", "Career"])
+    def test_requesting_detailed_season_returns_proper_index(
+        self, *args, **kwargs
+    ):
+        mock_detailed_seasons = PropertyMock(
+            return_value=["2017", "2018", "Career"]
+        )
         mock_seasons = PropertyMock(
             return_value=["2015", "2016", "2017", "2018", "Career"]
         )

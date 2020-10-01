@@ -511,7 +511,9 @@ class TestNCAAFPlayer:
 class TestNCAAFRoster:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_roster_class_pulls_all_player_stats(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("PURDUE")
 
         assert len(roster.players) == 2
@@ -539,7 +541,9 @@ class TestNCAAFRoster:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_roster_class_with_slim_parameter(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("PURDUE", slim=True)
 
         assert len(roster.players) == 2
@@ -550,8 +554,12 @@ class TestNCAAFRoster:
 
     @mock.patch("requests.head", side_effect=mock_request)
     @mock.patch("requests.get", side_effect=mock_pyquery)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2019")
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2019"
+        )
 
         roster = Roster("PURDUE")
 
@@ -564,7 +572,9 @@ class TestNCAAFRoster:
         expected = """David Blough (david-blough-1)
 David Blough (rondale-moore-1)"""
 
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("PURDUE")
 
         assert roster.__repr__() == expected

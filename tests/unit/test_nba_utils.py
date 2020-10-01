@@ -21,14 +21,17 @@ def mock_pyquery(url):
         return MockPQ("<div/>", status_code=404)
     else:
         return MockPQ(
-            '<div id="all_team-stats-base"/>' '<div id="all_opponent-stats-base"/>'
+            '<div id="all_team-stats-base"/>'
+            '<div id="all_opponent-stats-base"/>'
         )
 
 
 class TestNBAUtils:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_nba_2020_season_default_to_previous(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2021)
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2021
+        )
 
         _, year = _retrieve_all_teams(None)
 

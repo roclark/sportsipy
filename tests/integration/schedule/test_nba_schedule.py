@@ -270,7 +270,9 @@ Mon, Jun 12, 2017 - CLE"""
 class TestNBAScheduleInvalidError:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
         results = {
             "game": 2,
             "boxscore_index": "201610280NOP",
@@ -291,7 +293,9 @@ class TestNBAScheduleInvalidError:
         flexmock(Boxscore).should_receive("dataframe").and_return(
             pd.DataFrame([{"key": "value"}])
         )
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2018
+        )
 
         schedule = Schedule("GSW")
 
@@ -300,8 +304,12 @@ class TestNBAScheduleInvalidError:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_invalid_2020_default_reverts_to_previous_year(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2021)
+    def test_invalid_2020_default_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2021
+        )
 
         schedule = Schedule("2017")
 

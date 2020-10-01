@@ -273,15 +273,19 @@ class SquadPlayer:
             "assists_per_90": self.assists_per_90,
             "goals_and_assists_per_90": self.goals_and_assists_per_90,
             "goals_non_penalty_per_90": self.goals_non_penalty_per_90,
-            "goals_and_assists_non_penalty_per_90": self.goals_and_assists_non_penalty_per_90,
+            "goals_and_assists_non_penalty_per_90":
+            self.goals_and_assists_non_penalty_per_90,
             "expected_goals": self.expected_goals,
             "expected_goals_non_penalty": self.expected_goals_non_penalty,
             "expected_assists": self.expected_assists,
             "expected_goals_per_90": self.expected_goals_per_90,
             "expected_assists_per_90": self.expected_assists_per_90,
-            "expected_goals_and_assists_per_90": self.expected_goals_and_assists_per_90,
-            "expected_goals_non_penalty_per_90": self.expected_goals_non_penalty_per_90,
-            "expected_goals_and_assists_non_penalty_per_90": self.expected_goals_and_assists_non_penalty_per_90,
+            "expected_goals_and_assists_per_90":
+            self.expected_goals_and_assists_per_90,
+            "expected_goals_non_penalty_per_90":
+            self.expected_goals_non_penalty_per_90,
+            "expected_goals_and_assists_non_penalty_per_90":
+            self.expected_goals_and_assists_non_penalty_per_90,
             "own_goals": self.own_goals,
             "goals_against": self.goals_against,
             "own_goals_against": self.own_goals_against,
@@ -301,8 +305,10 @@ class SquadPlayer:
             "free_kick_goals_against": self.free_kick_goals_against,
             "corner_kick_goals_against": self.corner_kick_goals_against,
             "post_shot_expected_goals": self.post_shot_expected_goals,
-            "post_shot_expected_goals_per_shot": self.post_shot_expected_goals_per_shot,
-            "post_shot_expected_goals_minus_allowed": self.post_shot_expected_goals_minus_allowed,
+            "post_shot_expected_goals_per_shot":
+            self.post_shot_expected_goals_per_shot,
+            "post_shot_expected_goals_minus_allowed":
+            self.post_shot_expected_goals_minus_allowed,
             "launches_completed": self.launches_completed,
             "launches_attempted": self.launches_attempted,
             "launch_completion_percentage": self.launch_completion_percentage,
@@ -315,10 +321,14 @@ class SquadPlayer:
             "average_goal_kick_length": self.average_goal_kick_length,
             "opponent_cross_attempts": self.opponent_cross_attempts,
             "opponent_cross_stops": self.opponent_cross_stops,
-            "opponent_cross_stop_percentage": self.opponent_cross_stop_percentage,
-            "keeper_actions_outside_penalty_area": self.keeper_actions_outside_penalty_area,
-            "keeper_actions_outside_penalty_area_per_90": self.keeper_actions_outside_penalty_area_per_90,
-            "average_keeper_action_outside_penalty_distance": self.average_keeper_action_outside_penalty_distance,
+            "opponent_cross_stop_percentage":
+            self.opponent_cross_stop_percentage,
+            "keeper_actions_outside_penalty_area":
+            self.keeper_actions_outside_penalty_area,
+            "keeper_actions_outside_penalty_area_per_90":
+            self.keeper_actions_outside_penalty_area_per_90,
+            "average_keeper_action_outside_penalty_distance":
+            self.average_keeper_action_outside_penalty_distance,
             "shots": self.shots,
             "shots_on_target": self.shots_on_target,
             "free_kick_shots": self.free_kick_shots,
@@ -327,9 +337,11 @@ class SquadPlayer:
             "shots_on_target_per_90": self.shots_on_target_per_90,
             "goals_per_shot": self.goals_per_shot,
             "goals_per_shot_on_target": self.goals_per_shot_on_target,
-            "expected_goals_non_penalty_per_shot": self.expected_goals_non_penalty_per_shot,
+            "expected_goals_non_penalty_per_shot":
+            self.expected_goals_non_penalty_per_shot,
             "goals_minus_expected": self.goals_minus_expected,
-            "non_penalty_minus_expected_non_penalty": self.non_penalty_minus_expected_non_penalty,
+            "non_penalty_minus_expected_non_penalty":
+            self.non_penalty_minus_expected_non_penalty,
             "assists_minus_expected": self.assists_minus_expected,
             "key_passes": self.key_passes,
             "passes_completed": self.passes_completed,
@@ -364,13 +376,18 @@ class SquadPlayer:
             "goals_scored_on_pitch": self.goals_scored_on_pitch,
             "goals_against_on_pitch": self.goals_against_on_pitch,
             "goal_difference_on_pitch": self.goal_difference_on_pitch,
-            "goal_difference_on_pitch_per_90": self.goal_difference_on_pitch_per_90,
-            "net_difference_on_pitch_per_90": self.net_difference_on_pitch_per_90,
+            "goal_difference_on_pitch_per_90":
+            self.goal_difference_on_pitch_per_90,
+            "net_difference_on_pitch_per_90":
+            self.net_difference_on_pitch_per_90,
             "expected_goals_on_pitch": self.expected_goals_on_pitch,
-            "expected_goals_against_on_pitch": self.expected_goals_against_on_pitch,
+            "expected_goals_against_on_pitch":
+            self.expected_goals_against_on_pitch,
             "expected_goal_difference": self.expected_goal_difference,
-            "expected_goal_difference_per_90": self.expected_goal_difference_per_90,
-            "net_expected_goal_difference_per_90": self.net_expected_goal_difference_per_90,
+            "expected_goal_difference_per_90":
+            self.expected_goal_difference_per_90,
+            "net_expected_goal_difference_per_90":
+            self.net_expected_goal_difference_per_90,
             "soft_reds": self.soft_reds,
             "fouls_committed": self.fouls_committed,
             "fouls_drawn": self.fouls_drawn,

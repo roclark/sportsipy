@@ -73,7 +73,8 @@ class BoxscorePlayer(AbstractPlayer):
             "defensive_rating": self.defensive_rating,
             "defensive_rebound_percentage": self.defensive_rebound_percentage,
             "defensive_rebounds": self.defensive_rebounds,
-            "effective_field_goal_percentage": self.effective_field_goal_percentage,
+            "effective_field_goal_percentage":
+            self.effective_field_goal_percentage,
             "field_goal_attempts": self.field_goal_attempts,
             "field_goal_percentage": self.field_goal_percentage,
             "field_goals": self.field_goals,
@@ -540,7 +541,9 @@ class Boxscore:
         home_players = []
         away_players = []
         for player_id, details in player_dict.items():
-            player = BoxscorePlayer(player_id, details["name"], details["data"])
+            player = BoxscorePlayer(
+                player_id, details["name"], details["data"]
+            )
             if details["team"] == HOME:
                 home_players.append(player)
             else:
@@ -578,7 +581,9 @@ class Boxscore:
             # to the home team.
             if table_count < 2:
                 home_or_away = AWAY
-            player_dict = self._extract_player_stats(table, player_dict, home_or_away)
+            player_dict = self._extract_player_stats(
+                table, player_dict, home_or_away
+            )
             table_count += 1
         away_players, home_players = self._instantiate_players(player_dict)
         return away_players, home_players
@@ -656,7 +661,9 @@ class Boxscore:
             if short_field == "winner" or short_field == "uri":
                 continue
             if short_field == "location" or short_field == "date":
-                value = self._parse_game_date_and_location(short_field, boxscore)
+                value = self._parse_game_date_and_location(
+                    short_field, boxscore
+                )
                 setattr(self, field, value)
                 continue
             if short_field == "away_name" or short_field == "home_name":
@@ -678,7 +685,9 @@ class Boxscore:
                 value = self._parse_record(short_field, boxscore, index)
                 setattr(self, field, value)
                 continue
-            value = utils._parse_field(BOXSCORE_SCHEME, boxscore, short_field, index)
+            value = utils._parse_field(
+                BOXSCORE_SCHEME, boxscore, short_field, index
+            )
             setattr(self, field, value)
         self._away_players, self._home_players = self._find_players(boxscore)
 
@@ -697,9 +706,11 @@ class Boxscore:
             "away_block_percentage": self.away_block_percentage,
             "away_blocks": self.away_blocks,
             "away_defensive_rating": self.away_defensive_rating,
-            "away_defensive_rebound_percentage": self.away_defensive_rebound_percentage,
+            "away_defensive_rebound_percentage":
+            self.away_defensive_rebound_percentage,
             "away_defensive_rebounds": self.away_defensive_rebounds,
-            "away_effective_field_goal_percentage": self.away_effective_field_goal_percentage,
+            "away_effective_field_goal_percentage":
+            self.away_effective_field_goal_percentage,
             "away_field_goal_attempts": self.away_field_goal_attempts,
             "away_field_goal_percentage": self.away_field_goal_percentage,
             "away_field_goals": self.away_field_goals,
@@ -710,24 +721,32 @@ class Boxscore:
             "away_losses": self.away_losses,
             "away_minutes_played": self.away_minutes_played,
             "away_offensive_rating": self.away_offensive_rating,
-            "away_offensive_rebound_percentage": self.away_offensive_rebound_percentage,
+            "away_offensive_rebound_percentage":
+            self.away_offensive_rebound_percentage,
             "away_offensive_rebounds": self.away_offensive_rebounds,
             "away_personal_fouls": self.away_personal_fouls,
             "away_points": self.away_points,
             "away_ranking": self.away_ranking,
             "away_steal_percentage": self.away_steal_percentage,
             "away_steals": self.away_steals,
-            "away_three_point_attempt_rate": self.away_three_point_attempt_rate,
-            "away_three_point_field_goal_attempts": self.away_three_point_field_goal_attempts,
-            "away_three_point_field_goal_percentage": self.away_three_point_field_goal_percentage,
+            "away_three_point_attempt_rate":
+            self.away_three_point_attempt_rate,
+            "away_three_point_field_goal_attempts":
+            self.away_three_point_field_goal_attempts,
+            "away_three_point_field_goal_percentage":
+            self.away_three_point_field_goal_percentage,
             "away_three_point_field_goals": self.away_three_point_field_goals,
-            "away_total_rebound_percentage": self.away_total_rebound_percentage,
+            "away_total_rebound_percentage":
+            self.away_total_rebound_percentage,
             "away_total_rebounds": self.away_total_rebounds,
-            "away_true_shooting_percentage": self.away_true_shooting_percentage,
+            "away_true_shooting_percentage":
+            self.away_true_shooting_percentage,
             "away_turnover_percentage": self.away_turnover_percentage,
             "away_turnovers": self.away_turnovers,
-            "away_two_point_field_goal_attempts": self.away_two_point_field_goal_attempts,
-            "away_two_point_field_goal_percentage": self.away_two_point_field_goal_percentage,
+            "away_two_point_field_goal_attempts":
+            self.away_two_point_field_goal_attempts,
+            "away_two_point_field_goal_percentage":
+            self.away_two_point_field_goal_percentage,
             "away_two_point_field_goals": self.away_two_point_field_goals,
             "away_win_percentage": self.away_win_percentage,
             "away_wins": self.away_wins,
@@ -737,9 +756,11 @@ class Boxscore:
             "home_block_percentage": self.home_block_percentage,
             "home_blocks": self.home_blocks,
             "home_defensive_rating": self.home_defensive_rating,
-            "home_defensive_rebound_percentage": self.home_defensive_rebound_percentage,
+            "home_defensive_rebound_percentage":
+            self.home_defensive_rebound_percentage,
             "home_defensive_rebounds": self.home_defensive_rebounds,
-            "home_effective_field_goal_percentage": self.home_effective_field_goal_percentage,
+            "home_effective_field_goal_percentage":
+            self.home_effective_field_goal_percentage,
             "home_field_goal_attempts": self.home_field_goal_attempts,
             "home_field_goal_percentage": self.home_field_goal_percentage,
             "home_field_goals": self.home_field_goals,
@@ -750,24 +771,32 @@ class Boxscore:
             "home_losses": self.home_losses,
             "home_minutes_played": self.home_minutes_played,
             "home_offensive_rating": self.home_offensive_rating,
-            "home_offensive_rebound_percentage": self.home_offensive_rebound_percentage,
+            "home_offensive_rebound_percentage":
+            self.home_offensive_rebound_percentage,
             "home_offensive_rebounds": self.home_offensive_rebounds,
             "home_personal_fouls": self.home_personal_fouls,
             "home_points": self.home_points,
             "home_ranking": self.home_ranking,
             "home_steal_percentage": self.home_steal_percentage,
             "home_steals": self.home_steals,
-            "home_three_point_attempt_rate": self.home_three_point_attempt_rate,
-            "home_three_point_field_goal_attempts": self.home_three_point_field_goal_attempts,
-            "home_three_point_field_goal_percentage": self.home_three_point_field_goal_percentage,
+            "home_three_point_attempt_rate":
+            self.home_three_point_attempt_rate,
+            "home_three_point_field_goal_attempts":
+            self.home_three_point_field_goal_attempts,
+            "home_three_point_field_goal_percentage":
+            self.home_three_point_field_goal_percentage,
             "home_three_point_field_goals": self.home_three_point_field_goals,
-            "home_total_rebound_percentage": self.home_total_rebound_percentage,
+            "home_total_rebound_percentage":
+            self.home_total_rebound_percentage,
             "home_total_rebounds": self.home_total_rebounds,
-            "home_true_shooting_percentage": self.home_true_shooting_percentage,
+            "home_true_shooting_percentage":
+            self.home_true_shooting_percentage,
             "home_turnover_percentage": self.home_turnover_percentage,
             "home_turnovers": self.home_turnovers,
-            "home_two_point_field_goal_attempts": self.home_two_point_field_goal_attempts,
-            "home_two_point_field_goal_percentage": self.home_two_point_field_goal_percentage,
+            "home_two_point_field_goal_attempts":
+            self.home_two_point_field_goal_attempts,
+            "home_two_point_field_goal_percentage":
+            self.home_two_point_field_goal_percentage,
             "home_two_point_field_goals": self.home_two_point_field_goals,
             "home_win_percentage": self.home_win_percentage,
             "home_wins": self.home_wins,
@@ -916,7 +945,9 @@ class Boxscore:
         after the conclusion of the game. Percentage ranges from 0-1.
         """
         try:
-            result = float(self.away_wins) / float(self.away_wins + self.away_losses)
+            result = float(self.away_wins) / float(
+                self.away_wins + self.away_losses
+            )
             return round(result, 3)
         except ZeroDivisionError:
             return 0.0
@@ -1238,7 +1269,9 @@ class Boxscore:
         after the conclusion of the game. Percentage ranges from 0-1.
         """
         try:
-            result = float(self.home_wins) / float(self.home_wins + self.home_losses)
+            result = float(self.home_wins) / float(
+                self.home_wins + self.home_losses
+            )
             return round(result, 3)
         except ZeroDivisionError:
             return 0.0
@@ -1861,7 +1894,13 @@ class Boxscores:
         )
 
     def _get_team_results(
-        self, away_name, away_abbr, away_score, home_name, home_abbr, home_score
+        self,
+        away_name,
+        away_abbr,
+        away_score,
+        home_name,
+        home_abbr,
+        home_score,
     ):
         """
         Determine the winner and loser of the game.
@@ -1946,7 +1985,12 @@ class Boxscores:
             losing_name = None
             losing_abbr = None
             winner, loser = self._get_team_results(
-                away_name, away_abbr, away_score, home_name, home_abbr, home_score
+                away_name,
+                away_abbr,
+                away_score,
+                home_name,
+                home_abbr,
+                home_score,
             )
             if winner and loser:
                 winning_name, winning_abbr = winner
@@ -2004,6 +2048,10 @@ class Boxscores:
             page = self._get_requested_page(url)
             games = page('table[class="teams"]').items()
             boxscores = self._extract_game_info(games)
-            timestamp = "%s-%s-%s" % (date_step.month, date_step.day, date_step.year)
+            timestamp = "%s-%s-%s" % (
+                date_step.month,
+                date_step.day,
+                date_step.year,
+            )
             self._boxscores[timestamp] = boxscores
             date_step += timedelta(days=1)

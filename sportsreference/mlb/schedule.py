@@ -447,7 +447,10 @@ class Schedule:
         """
         Return the string representation of the class.
         """
-        games = [f"{game.date} - {game.opponent_abbr}".strip() for game in self._games]
+        games = [
+            f"{game.date} - {game.opponent_abbr}".strip()
+            for game in self._games
+        ]
         return "\n".join(games)
 
     def __repr__(self):
@@ -490,7 +493,9 @@ class Schedule:
             # instead.
             if not utils._url_exists(
                 SCHEDULE_URL % (abbreviation, year)
-            ) and utils._url_exists(SCHEDULE_URL % (abbreviation, str(int(year) - 1))):
+            ) and utils._url_exists(
+                SCHEDULE_URL % (abbreviation, str(int(year) - 1))
+            ):
                 year = str(int(year) - 1)
         doc = pq(SCHEDULE_URL % (abbreviation, year))
         schedule = utils._get_stats_table(doc, "table#team_schedule")

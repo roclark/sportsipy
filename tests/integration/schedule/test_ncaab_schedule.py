@@ -205,7 +205,9 @@ Sat, Mar 31, 2018 - villanova"""
 class TestNCAABScheduleInvalidYear:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
         results = {
             "game": 2,
             "boxscore_index": "2017-11-14-21-kansas",
@@ -227,7 +229,9 @@ class TestNCAABScheduleInvalidYear:
             "streak": "W 2",
             "arena": "United Center",
         }
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2018
+        )
         flexmock(Boxscore).should_receive("_parse_game_data").and_return(None)
         flexmock(Boxscore).should_receive("dataframe").and_return(
             pd.DataFrame([{"key": "value"}])

@@ -764,7 +764,9 @@ class TestNCAAFRankings:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_rankings_integration(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(YEAR)
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            YEAR
+        )
 
         rankings = Rankings()
 
@@ -779,8 +781,12 @@ class TestNCAAFRankings:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2018
+        )
 
         rankings = Rankings()
 
@@ -2415,7 +2421,9 @@ class TestCFPNCAAFRankings:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_rankings_integration(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(YEAR)
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            YEAR
+        )
 
         rankings = CFPRankings()
 
@@ -2430,8 +2438,12 @@ class TestCFPNCAAFRankings:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2018
+        )
 
         rankings = CFPRankings()
 

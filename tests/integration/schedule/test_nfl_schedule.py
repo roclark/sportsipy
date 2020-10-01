@@ -205,7 +205,9 @@ February 4 - PHI"""
 class TestNFLScheduleInvalidYear:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
         results = {
             "week": 2,
             "boxscore_index": "201709170nor",
@@ -246,7 +248,9 @@ class TestNFLScheduleInvalidYear:
             "fourth_down_attempts": 0,
             "time_of_possession": "35:06",
         }
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2018
+        )
         flexmock(Boxscore).should_receive("_parse_game_data").and_return(None)
         flexmock(Boxscore).should_receive("dataframe").and_return(
             pd.DataFrame([{"key": "value"}])

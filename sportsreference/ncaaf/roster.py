@@ -276,7 +276,9 @@ class Player(AbstractPlayer):
             "receiving",
             "kicking",
         ]:
-            table_items = utils._get_stats_table(player_info, "table#%s" % table_id)
+            table_items = utils._get_stats_table(
+                player_info, "table#%s" % table_id
+            )
             career_items = utils._get_stats_table(
                 player_info, "table#%s" % table_id, footer=True
             )
@@ -396,11 +398,13 @@ class Player(AbstractPlayer):
             "field_goals_made": self.field_goals_made,
             "fumbles_forced": self.fumbles_forced,
             "fumbles_recovered": self.fumbles_recovered,
-            "fumbles_recovered_for_touchdown": self.fumbles_recovered_for_touchdown,
+            "fumbles_recovered_for_touchdown":
+            self.fumbles_recovered_for_touchdown,
             "games": self.games,
             "height": self.height,
             "interceptions": self.interceptions,
-            "interceptions_returned_for_touchdown": self.interceptions_returned_for_touchdown,
+            "interceptions_returned_for_touchdown":
+            self.interceptions_returned_for_touchdown,
             "interceptions_thrown": self.interceptions_thrown,
             "kickoff_return_touchdowns": self.kickoff_return_touchdowns,
             "name": self.name,
@@ -419,13 +423,15 @@ class Player(AbstractPlayer):
             "quarterback_rating": self.quarterback_rating,
             "receiving_touchdowns": self.receiving_touchdowns,
             "receiving_yards": self.receiving_yards,
-            "receiving_yards_per_reception": self.receiving_yards_per_reception,
+            "receiving_yards_per_reception":
+            self.receiving_yards_per_reception,
             "receptions": self.receptions,
             "rush_attempts": self.rush_attempts,
             "rush_touchdowns": self.rush_touchdowns,
             "rush_yards": self.rush_yards,
             "rush_yards_per_attempt": self.rush_yards_per_attempt,
-            "rushing_and_receiving_touchdowns": self.rushing_and_receiving_touchdowns,
+            "rushing_and_receiving_touchdowns":
+            self.rushing_and_receiving_touchdowns,
             "sacks": self.sacks,
             "safeties": self.safeties,
             "season": self.season,
@@ -437,10 +443,13 @@ class Player(AbstractPlayer):
             "two_point_conversions": self.two_point_conversions,
             "weight": self.weight,
             "yards_from_scrimmage": self.yards_from_scrimmage,
-            "yards_from_scrimmage_per_play": self.yards_from_scrimmage_per_play,
+            "yards_from_scrimmage_per_play":
+            self.yards_from_scrimmage_per_play,
             "yards_recovered_from_fumble": self.yards_recovered_from_fumble,
-            "yards_returned_from_interceptions": self.yards_returned_from_interceptions,
-            "yards_returned_per_interception": self.yards_returned_per_interception,
+            "yards_returned_from_interceptions":
+            self.yards_returned_from_interceptions,
+            "yards_returned_per_interception":
+            self.yards_returned_per_interception,
             "year": self.year,
         }
         return fields_to_include
@@ -896,7 +905,8 @@ class Roster:
         Return the string representation of the class.
         """
         players = [
-            f"{player.name} ({player.player_id})".strip() for player in self._players
+            f"{player.name} ({player.player_id})".strip()
+            for player in self._players
         ]
         return "\n".join(players)
 
@@ -1012,9 +1022,9 @@ class Roster:
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(self._create_url(year)) and utils._url_exists(
-                self._create_url(str(int(year) - 1))
-            ):
+            if not utils._url_exists(
+                self._create_url(year)
+            ) and utils._url_exists(self._create_url(str(int(year) - 1))):
                 year = str(int(year) - 1)
         url = self._create_url(year)
         page = self._pull_team_page(url)

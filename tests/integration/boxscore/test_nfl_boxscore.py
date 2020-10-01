@@ -126,7 +126,9 @@ class TestNFLBoxscore:
         }
 
     def test_invalid_url_yields_empty_class(self):
-        flexmock(Boxscore).should_receive("_retrieve_html_page").and_return(None)
+        flexmock(Boxscore).should_receive("_retrieve_html_page").and_return(
+            None
+        )
 
         boxscore = Boxscore(BOXSCORE)
 
@@ -768,7 +770,9 @@ class TestNFLBoxscores:
         assert result.__repr__() == "NFL games for week 7"
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
-    def test_boxscores_search_string_representation_multi_week(self, *args, **kwargs):
+    def test_boxscores_search_string_representation_multi_week(
+        self, *args, **kwargs
+    ):
         result = Boxscores(7, 2017, 8)
 
         assert result.__repr__() == "NFL games for weeks 7, 8"

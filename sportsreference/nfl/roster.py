@@ -309,7 +309,9 @@ class Player(AbstractPlayer):
         season = utils._parse_field(PLAYER_SCHEME, row, "season")
         return season.replace("*", "").replace("+", "")
 
-    def _combine_season_stats(self, table_rows, career_stats, all_stats_dict, detailed):
+    def _combine_season_stats(
+        self, table_rows, career_stats, all_stats_dict, detailed
+    ):
         """
         Combine all stats for each season.
 
@@ -408,12 +410,17 @@ class Player(AbstractPlayer):
             "returns",
             "kicking",
         ]:
-            table_items = utils._get_stats_table(player_info, "table#%s" % table_id)
+            table_items = utils._get_stats_table(
+                player_info, "table#%s" % table_id
+            )
             career_items = utils._get_stats_table(
                 player_info, "table#%s" % table_id, footer=True
             )
             all_stats_dict = self._combine_season_stats(
-                table_items, career_items, all_stats_dict, "detailed" in table_id
+                table_items,
+                career_items,
+                all_stats_dict,
+                "detailed" in table_id,
             )
         return all_stats_dict
 
@@ -545,10 +552,14 @@ class Player(AbstractPlayer):
             attribute for the specified index.
         """
         fields_to_include = {
-            "adjusted_net_yards_per_attempt_index": self.adjusted_net_yards_per_attempt_index,
-            "adjusted_net_yards_per_pass_attempt": self.adjusted_net_yards_per_pass_attempt,
-            "adjusted_yards_per_attempt": self.adjusted_yards_per_attempt,
-            "adjusted_yards_per_attempt_index": self.adjusted_yards_per_attempt_index,
+            "adjusted_net_yards_per_attempt_index":
+            self.adjusted_net_yards_per_attempt_index,
+            "adjusted_net_yards_per_pass_attempt":
+            self.adjusted_net_yards_per_pass_attempt,
+            "adjusted_yards_per_attempt":
+            self.adjusted_yards_per_attempt,
+            "adjusted_yards_per_attempt_index":
+            self.adjusted_yards_per_attempt_index,
             "all_purpose_yards": self.all_purpose_yards,
             "approximate_value": self.approximate_value,
             "assists_on_tackles": self.assists_on_tackles,
@@ -567,31 +578,40 @@ class Player(AbstractPlayer):
             "field_goal_percentage": self.field_goal_percentage,
             "field_goals_attempted": self.field_goals_attempted,
             "field_goals_made": self.field_goals_made,
-            "fifty_plus_yard_field_goal_attempts": self.fifty_plus_yard_field_goal_attempts,
-            "fifty_plus_yard_field_goals_made": self.fifty_plus_yard_field_goals_made,
+            "fifty_plus_yard_field_goal_attempts":
+            self.fifty_plus_yard_field_goal_attempts,
+            "fifty_plus_yard_field_goals_made":
+            self.fifty_plus_yard_field_goals_made,
             "first_downs_receiving": self.first_downs_receiving,
             "first_downs_rushing": self.first_downs_rushing,
             "fourth_quarter_comebacks": self.fourth_quarter_comebacks,
-            "fourty_to_fourty_nine_yard_field_goal_attempts": self.fourty_to_fourty_nine_yard_field_goal_attempts,
-            "fourty_to_fourty_nine_yard_field_goals_made": self.fourty_to_fourty_nine_yard_field_goals_made,
+            "fourty_to_fourty_nine_yard_field_goal_attempts":
+            self.fourty_to_fourty_nine_yard_field_goal_attempts,
+            "fourty_to_fourty_nine_yard_field_goals_made":
+            self.fourty_to_fourty_nine_yard_field_goals_made,
             "fumbles": self.fumbles,
             "fumbles_forced": self.fumbles_forced,
             "fumbles_recovered": self.fumbles_recovered,
-            "fumbles_recovered_for_touchdown": self.fumbles_recovered_for_touchdown,
+            "fumbles_recovered_for_touchdown":
+            self.fumbles_recovered_for_touchdown,
             "game_winning_drives": self.game_winning_drives,
             "games": self.games,
             "games_started": self.games_started,
             "height": self.height,
             "interception_percentage": self.interception_percentage,
-            "interception_percentage_index": self.interception_percentage_index,
+            "interception_percentage_index":
+            self.interception_percentage_index,
             "interceptions": self.interceptions,
-            "interceptions_returned_for_touchdown": self.interceptions_returned_for_touchdown,
+            "interceptions_returned_for_touchdown":
+            self.interceptions_returned_for_touchdown,
             "interceptions_thrown": self.interceptions_thrown,
             "kickoff_return_touchdown": self.kickoff_return_touchdown,
             "kickoff_return_yards": self.kickoff_return_yards,
             "kickoff_returns": self.kickoff_returns,
-            "less_than_nineteen_yards_field_goal_attempts": self.less_than_nineteen_yards_field_goal_attempts,
-            "less_than_nineteen_yards_field_goals_made": self.less_than_nineteen_yards_field_goals_made,
+            "less_than_nineteen_yards_field_goal_attempts":
+            self.less_than_nineteen_yards_field_goal_attempts,
+            "less_than_nineteen_yards_field_goals_made":
+            self.less_than_nineteen_yards_field_goals_made,
             "longest_field_goal_made": self.longest_field_goal_made,
             "longest_interception_return": self.longest_interception_return,
             "longest_kickoff_return": self.longest_kickoff_return,
@@ -622,27 +642,34 @@ class Player(AbstractPlayer):
             "receiving_touchdowns": self.receiving_touchdowns,
             "receiving_yards": self.receiving_yards,
             "receiving_yards_after_catch": self.receiving_yards_after_catch,
-            "receiving_yards_after_catch_per_reception": self.receiving_yards_after_catch_per_reception,
+            "receiving_yards_after_catch_per_reception":
+            self.receiving_yards_after_catch_per_reception,
             "receiving_yards_before_catch": self.receiving_yards_before_catch,
-            "receiving_yards_before_catch_per_reception": self.receiving_yards_before_catch_per_reception,
+            "receiving_yards_before_catch_per_reception":
+            self.receiving_yards_before_catch_per_reception,
             "receiving_yards_per_game": self.receiving_yards_per_game,
-            "receiving_yards_per_reception": self.receiving_yards_per_reception,
+            "receiving_yards_per_reception":
+            self.receiving_yards_per_reception,
             "receptions": self.receptions,
             "receptions_per_broken_tackle": self.receptions_per_broken_tackle,
             "receptions_per_game": self.receptions_per_game,
             "rush_attempts": self.rush_attempts,
-            "rush_attempts_per_broken_tackle": self.rush_attempts_per_broken_tackle,
+            "rush_attempts_per_broken_tackle":
+            self.rush_attempts_per_broken_tackle,
             "rush_attempts_per_game": self.rush_attempts_per_game,
             "rush_broken_tackles": self.rush_broken_tackles,
             "rush_touchdowns": self.rush_touchdowns,
             "rush_yards": self.rush_yards,
             "rush_yards_after_contact": self.rush_yards_after_contact,
-            "rush_yards_after_contact_per_attempt": self.rush_yards_after_contact_per_attempt,
+            "rush_yards_after_contact_per_attempt":
+            self.rush_yards_after_contact_per_attempt,
             "rush_yards_before_contact": self.rush_yards_before_contact,
-            "rush_yards_before_contact_per_attempt": self.rush_yards_before_contact_per_attempt,
+            "rush_yards_before_contact_per_attempt":
+            self.rush_yards_before_contact_per_attempt,
             "rush_yards_per_attempt": self.rush_yards_per_attempt,
             "rush_yards_per_game": self.rush_yards_per_game,
-            "rushing_and_receiving_touchdowns": self.rushing_and_receiving_touchdowns,
+            "rushing_and_receiving_touchdowns":
+            self.rushing_and_receiving_touchdowns,
             "sack_percentage": self.sack_percentage,
             "sack_percentage_index": self.sack_percentage_index,
             "sacks": self.sacks,
@@ -650,15 +677,19 @@ class Player(AbstractPlayer):
             "season": self.season,
             "tackles": self.tackles,
             "team_abbreviation": self.team_abbreviation,
-            "thirty_to_thirty_nine_yard_field_goal_attempts": self.thirty_to_thirty_nine_yard_field_goal_attempts,
-            "thirty_to_thirty_nine_yard_field_goals_made": self.thirty_to_thirty_nine_yard_field_goals_made,
+            "thirty_to_thirty_nine_yard_field_goal_attempts":
+            self.thirty_to_thirty_nine_yard_field_goal_attempts,
+            "thirty_to_thirty_nine_yard_field_goals_made":
+            self.thirty_to_thirty_nine_yard_field_goals_made,
             "times_pass_target": self.times_pass_target,
             "times_sacked": self.times_sacked,
             "total_punt_yards": self.total_punt_yards,
             "touchdown_percentage_index": self.touchdown_percentage_index,
             "touches": self.touches,
-            "twenty_to_twenty_nine_yard_field_goal_attempts": self.twenty_to_twenty_nine_yard_field_goal_attempts,
-            "twenty_to_twenty_nine_yard_field_goals_made": self.twenty_to_twenty_nine_yard_field_goals_made,
+            "twenty_to_twenty_nine_yard_field_goal_attempts":
+            self.twenty_to_twenty_nine_yard_field_goal_attempts,
+            "twenty_to_twenty_nine_yard_field_goals_made":
+            self.twenty_to_twenty_nine_yard_field_goals_made,
             "weight": self.weight,
             "yards_from_scrimmage": self.yards_from_scrimmage,
             "yards_lost_to_sacks": self.yards_lost_to_sacks,
@@ -670,7 +701,8 @@ class Player(AbstractPlayer):
             "yards_per_punt_return": self.yards_per_punt_return,
             "yards_per_touch": self.yards_per_touch,
             "yards_recovered_from_fumble": self.yards_recovered_from_fumble,
-            "yards_returned_from_interception": self.yards_returned_from_interception,
+            "yards_returned_from_interception":
+            self.yards_returned_from_interception,
         }
         return fields_to_include
 
@@ -1702,7 +1734,8 @@ class Roster:
         Return the string representation of the class.
         """
         players = [
-            f"{player.name} ({player.player_id})".strip() for player in self._players
+            f"{player.name} ({player.player_id})".strip()
+            for player in self._players
         ]
         return "\n".join(players)
 
@@ -1818,9 +1851,9 @@ class Roster:
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(self._create_url(year)) and utils._url_exists(
-                self._create_url(str(int(year) - 1))
-            ):
+            if not utils._url_exists(
+                self._create_url(year)
+            ) and utils._url_exists(self._create_url(str(int(year) - 1))):
                 year = str(int(year) - 1)
         url = self._create_url(year)
         page = self._pull_team_page(url)

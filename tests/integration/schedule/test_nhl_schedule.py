@@ -260,7 +260,9 @@ class TestNHLSchedule:
 class TestNHLScheduleInvalidYear:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
         results = {
             "game": 2,
             "boxscore_index": "201610150STL",
@@ -295,7 +297,9 @@ class TestNHLScheduleInvalidYear:
             "offensive_zone_start_percentage": 55.2,
             "pdo": 92.4,
         }
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2018
+        )
         flexmock(Boxscore).should_receive("_parse_game_data").and_return(None)
         flexmock(Boxscore).should_receive("dataframe").and_return(
             pd.DataFrame([{"key": "value"}])

@@ -1,6 +1,11 @@
 import pandas as pd
 import re
-from .constants import ELEMENT_INDEX, PARSING_SCHEME, TEAM_ELEMENT, TEAM_STATS_URL
+from .constants import (
+    ELEMENT_INDEX,
+    PARSING_SCHEME,
+    TEAM_ELEMENT,
+    TEAM_STATS_URL,
+)
 from functools import wraps
 from .. import utils
 from ..decorators import float_property_decorator, int_property_decorator
@@ -244,7 +249,9 @@ class Team:
             index = 0
             if short_field in ELEMENT_INDEX.keys():
                 index = ELEMENT_INDEX[short_field]
-            value = utils._parse_field(PARSING_SCHEME, team_data, short_field, index)
+            value = utils._parse_field(
+                PARSING_SCHEME, team_data, short_field, index
+            )
             setattr(self, field, value)
 
     @property
@@ -265,7 +272,8 @@ class Team:
             "balks": self.balks,
             "bases_on_balls": self.bases_on_balls,
             "bases_on_walks_given": self.bases_on_walks_given,
-            "bases_on_walks_given_per_nine_innings": self.bases_on_walks_given_per_nine_innings,
+            "bases_on_walks_given_per_nine_innings":
+            self.bases_on_walks_given_per_nine_innings,
             "batters_faced": self.batters_faced,
             "batting_average": self.batting_average,
             "complete_game_shutouts": self.complete_game_shutouts,
@@ -276,7 +284,8 @@ class Team:
             "extra_inning_losses": self.extra_inning_losses,
             "extra_inning_record": self.extra_inning_record,
             "extra_inning_wins": self.extra_inning_wins,
-            "fielding_independent_pitching": self.fielding_independent_pitching,
+            "fielding_independent_pitching":
+            self.fielding_independent_pitching,
             "games": self.games,
             "games_finished": self.games_finished,
             "grounded_into_double_plays": self.grounded_into_double_plays,
@@ -301,8 +310,10 @@ class Team:
             "losses_last_ten_games": self.losses_last_ten_games,
             "losses_last_thirty_games": self.losses_last_thirty_games,
             "losses_last_twenty_games": self.losses_last_twenty_games,
-            "losses_vs_left_handed_pitchers": self.losses_vs_left_handed_pitchers,
-            "losses_vs_right_handed_pitchers": self.losses_vs_right_handed_pitchers,
+            "losses_vs_left_handed_pitchers":
+            self.losses_vs_left_handed_pitchers,
+            "losses_vs_right_handed_pitchers":
+            self.losses_vs_right_handed_pitchers,
             "losses_vs_teams_over_500": self.losses_vs_teams_over_500,
             "losses_vs_teams_under_500": self.losses_vs_teams_under_500,
             "luck": self.luck,
@@ -310,14 +321,19 @@ class Team:
             "number_of_pitchers": self.number_of_pitchers,
             "number_players_used": self.number_players_used,
             "on_base_percentage": self.on_base_percentage,
-            "on_base_plus_slugging_percentage": self.on_base_plus_slugging_percentage,
-            "on_base_plus_slugging_percentage_plus": self.on_base_plus_slugging_percentage_plus,
-            "opposing_runners_left_on_base": self.opposing_runners_left_on_base,
+            "on_base_plus_slugging_percentage":
+            self.on_base_plus_slugging_percentage,
+            "on_base_plus_slugging_percentage_plus":
+            self.on_base_plus_slugging_percentage_plus,
+            "opposing_runners_left_on_base":
+            self.opposing_runners_left_on_base,
             "plate_appearances": self.plate_appearances,
             "pythagorean_win_loss": self.pythagorean_win_loss,
             "rank": self.rank,
-            "record_vs_left_handed_pitchers": self.record_vs_left_handed_pitchers,
-            "record_vs_right_handed_pitchers": self.record_vs_right_handed_pitchers,
+            "record_vs_left_handed_pitchers":
+            self.record_vs_left_handed_pitchers,
+            "record_vs_right_handed_pitchers":
+            self.record_vs_right_handed_pitchers,
             "record_vs_teams_over_500": self.record_vs_teams_over_500,
             "record_vs_teams_under_500": self.record_vs_teams_under_500,
             "run_difference": self.run_difference,
@@ -355,7 +371,8 @@ class Team:
             "wins_last_thirty_games": self.wins_last_thirty_games,
             "wins_last_twenty_games": self.wins_last_twenty_games,
             "wins_vs_left_handed_pitchers": self.wins_vs_left_handed_pitchers,
-            "wins_vs_right_handed_pitchers": self.wins_vs_right_handed_pitchers,
+            "wins_vs_right_handed_pitchers":
+            self.wins_vs_right_handed_pitchers,
             "wins_vs_teams_over_500": self.wins_vs_teams_over_500,
             "wins_vs_teams_under_500": self.wins_vs_teams_under_500,
         }
@@ -1200,7 +1217,10 @@ class Teams:
         """
         Return the string representation of the class.
         """
-        teams = [f"{team.name} ({team.abbreviation})".strip() for team in self._teams]
+        teams = [
+            f"{team.name} ({team.abbreviation})".strip()
+            for team in self._teams
+        ]
         return "\n".join(teams)
 
     def __repr__(self):
@@ -1284,7 +1304,9 @@ class Teams:
         if not team_data_dict:
             return
         for team_data in team_data_dict.values():
-            team = Team(team_data=team_data["data"], rank=team_data["rank"], year=year)
+            team = Team(
+                team_data=team_data["data"], rank=team_data["rank"], year=year
+            )
             self._teams.append(team)
 
     @property

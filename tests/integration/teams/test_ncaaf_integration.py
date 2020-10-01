@@ -399,7 +399,9 @@ class TestNCAAFIntegration:
         flexmock(utils).should_receive("_todays_date").and_return(
             MockDateTime(YEAR, MONTH)
         )
-        flexmock(Conferences).should_receive("_find_conferences").and_return(None)
+        flexmock(Conferences).should_receive("_find_conferences").and_return(
+            None
+        )
         flexmock(Conferences).should_receive("team_conference").and_return(
             team_conference
         )
@@ -606,7 +608,9 @@ Texas State (TEXAS-STATE)"""
 class TestNCAAFIntegrationInvalidYear:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
         team_conference = {
             "florida-state": "acc",
             "boston-college": "acc",
@@ -741,11 +745,15 @@ class TestNCAAFIntegrationInvalidYear:
             "nebraska": "big-ten",
         }
 
-        flexmock(Conferences).should_receive("_find_conferences").and_return(None)
+        flexmock(Conferences).should_receive("_find_conferences").and_return(
+            None
+        )
         flexmock(Conferences).should_receive("team_conference").and_return(
             team_conference
         )
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2018
+        )
 
         teams = Teams()
 
@@ -880,7 +888,9 @@ class TestNCAAFIntegrationInvalidConference:
         flexmock(utils).should_receive("_todays_date").and_return(
             MockDateTime(YEAR, MONTH)
         )
-        flexmock(Conferences).should_receive("_find_conferences").and_return(None)
+        flexmock(Conferences).should_receive("_find_conferences").and_return(
+            None
+        )
         flexmock(Conferences).should_receive("team_conference").and_return(
             team_conference
         )

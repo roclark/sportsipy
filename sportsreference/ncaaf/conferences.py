@@ -28,7 +28,9 @@ class Conference:
         preventing the parsing from completing successfully.
     """
 
-    def __init__(self, conference_abbreviation, year=None, ignore_missing=False):
+    def __init__(
+        self, conference_abbreviation, year=None, ignore_missing=False
+    ):
         self._teams = {}
         self._ignore_missing = ignore_missing
         self._conference_abbreviation = conference_abbreviation
@@ -113,9 +115,9 @@ class Conference:
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(CONFERENCES_URL % year) and utils._url_exists(
-                CONFERENCES_URL % str(int(year) - 1)
-            ):
+            if not utils._url_exists(
+                CONFERENCES_URL % year
+            ) and utils._url_exists(CONFERENCES_URL % str(int(year) - 1)):
                 year = str(int(year) - 1)
         page = self._pull_conference_page(conference_abbreviation, year)
         if not page:
@@ -254,9 +256,9 @@ class Conferences:
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(CONFERENCES_URL % year) and utils._url_exists(
-                CONFERENCES_URL % str(int(year) - 1)
-            ):
+            if not utils._url_exists(
+                CONFERENCES_URL % year
+            ) and utils._url_exists(CONFERENCES_URL % str(int(year) - 1)):
                 year = str(int(year) - 1)
         page = self._pull_conference_page(year)
         if not page:

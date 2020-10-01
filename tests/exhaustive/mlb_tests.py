@@ -1,7 +1,8 @@
-import sys, os
+from sportsreference.mlb.teams import Teams
+import sys
+import os
 
 sys.path.append(os.path.dirname(os.path.dirname(sys.path[0])))
-from sportsreference.mlb.teams import Teams
 
 for team in Teams():
     print(team.name)

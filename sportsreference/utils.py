@@ -237,7 +237,9 @@ def _remove_html_comment_tags(html: pq) -> str:
     return str(html).replace("<!--", "").replace("-->", "")
 
 
-def _get_stats_table(html_page: pq, div: str, footer: bool = False) -> Iterator[pq]:
+def _get_stats_table(
+    html_page: pq, div: str, footer: bool = False
+) -> Iterator[pq]:
     """
     Returns a generator of all rows in a requested table.
 

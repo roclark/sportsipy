@@ -105,7 +105,9 @@ class Team:
         # Teams are listed in terms of rank with the first team being #1
         rank = 1
         for team_data in teams_list:
-            name = utils._parse_field(PARSING_SCHEME, team_data, "abbreviation")
+            name = utils._parse_field(
+                PARSING_SCHEME, team_data, "abbreviation"
+            )
             if name == team_name:
                 self._rank = rank
                 return team_data
@@ -135,7 +137,9 @@ class Team:
             # instantiation.
             if field == "_rank" or field == "_year":
                 continue
-            value = utils._parse_field(PARSING_SCHEME, team_data, str(field)[1:])
+            value = utils._parse_field(
+                PARSING_SCHEME, team_data, str(field)[1:]
+            )
             setattr(self, field, value)
 
     @property
@@ -161,7 +165,8 @@ class Team:
             "power_play_goals": self.power_play_goals,
             "power_play_goals_against": self.power_play_goals_against,
             "power_play_opportunities": self.power_play_opportunities,
-            "power_play_opportunities_against": self.power_play_opportunities_against,
+            "power_play_opportunities_against":
+            self.power_play_opportunities_against,
             "power_play_percentage": self.power_play_percentage,
             "rank": self.rank,
             "save_percentage": self.save_percentage,
@@ -493,7 +498,10 @@ class Teams:
         """
         Return the string representation of the class.
         """
-        teams = [f"{team.name} ({team.abbreviation})".strip() for team in self._teams]
+        teams = [
+            f"{team.name} ({team.abbreviation})".strip()
+            for team in self._teams
+        ]
         return "\n".join(teams)
 
     def __repr__(self):

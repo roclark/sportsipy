@@ -1,5 +1,6 @@
 import pytest
-from sportsreference.fb.fb_utils import _lookup_team, lookup_squad_id, _parse_squad_name
+from sportsreference.fb.fb_utils import _lookup_team, \
+    lookup_squad_id, _parse_squad_name
 
 
 class TestFBUtils:

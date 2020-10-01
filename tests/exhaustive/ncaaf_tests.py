@@ -1,9 +1,10 @@
-import sys, os
+from sportsreference.ncaaf.teams import Teams
+from sportsreference.ncaaf.rankings import Rankings
+from sportsreference.ncaaf.conferences import Conferences
+import sys
+import os
 
 sys.path.append(os.path.dirname(os.path.dirname(sys.path[0])))
-from sportsreference.ncaaf.conferences import Conferences
-from sportsreference.ncaaf.rankings import Rankings
-from sportsreference.ncaaf.teams import Teams
 
 for team in Teams():
     print(team.name)

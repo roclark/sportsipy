@@ -90,7 +90,9 @@ class TestNHLBoxscore:
     def test_winning_abbr_is_home(self):
         expected_name = "HOME"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_home_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -102,7 +104,9 @@ class TestNHLBoxscore:
     def test_winning_abbr_is_away(self):
         expected_name = "AWAY"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_away_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -134,7 +138,9 @@ class TestNHLBoxscore:
     def test_losing_abbr_is_home(self):
         expected_name = "HOME"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_home_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -146,7 +152,9 @@ class TestNHLBoxscore:
     def test_losing_abbr_is_away(self):
         expected_name = "AWAY"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_away_abbr = PropertyMock(return_value=MockName(expected_name))

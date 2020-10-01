@@ -32,9 +32,9 @@ def _add_stats_data(teams_list, team_data_dict):
         information included.
     """
     for team_data in teams_list:
-        if 'class="over_header thead"' in str(team_data) or 'class="thead"' in str(
+        if 'class="over_header thead"' in str(
             team_data
-        ):
+        ) or 'class="thead"' in str(team_data):
             continue
         abbr = utils._parse_field(PARSING_SCHEME, team_data, "abbreviation")
         try:
@@ -87,7 +87,12 @@ def _retrieve_all_teams(year):
     adv_teams_list = utils._get_stats_table(doc, "table#adv_school_stats")
     doc = pq(ADVANCED_OPPONENT_STATS_URL % year)
     adv_opp_list = utils._get_stats_table(doc, "table#adv_opp_stats")
-    if not teams_list and not opp_list and not adv_teams_list and not adv_opp_list:
+    if (
+        not teams_list
+        and not opp_list
+        and not adv_teams_list
+        and not adv_opp_list
+    ):
         utils._no_data_found()
         return None, None
     for stats_list in [teams_list, opp_list, adv_teams_list, adv_opp_list]:

@@ -144,10 +144,15 @@ class TestNCAABBoxscore:
     def test_ncaab_boxscore_returns_requested_boxscore(self):
         for attribute, value in self.results.items():
             assert getattr(self.boxscore, attribute) == value
-        assert getattr(self.boxscore, "summary") == {"away": [33, 31], "home": [50, 39]}
+        assert getattr(self.boxscore, "summary") == {
+            "away": [33, 31],
+            "home": [50, 39],
+        }
 
     def test_invalid_url_yields_empty_class(self):
-        flexmock(Boxscore).should_receive("_retrieve_html_page").and_return(None)
+        flexmock(Boxscore).should_receive("_retrieve_html_page").and_return(
+            None
+        )
 
         boxscore = Boxscore(BOXSCORE)
 
@@ -816,7 +821,9 @@ class TestNCAABBoxscores:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_boxscores_search_invalid_end(self, *args, **kwargs):
-        result = Boxscores(datetime(2017, 11, 11), datetime(2017, 11, 10)).games
+        result = Boxscores(
+            datetime(2017, 11, 11), datetime(2017, 11, 10)
+        ).games
 
         assert result == self.expected
 

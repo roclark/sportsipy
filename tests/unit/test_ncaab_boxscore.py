@@ -126,7 +126,9 @@ class TestNCAABBoxscore:
         expected_name = "Home"
         test_name = "<a>cbb/schools</a>HOME"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_home_name = PropertyMock(return_value=MockName(test_name))
@@ -139,7 +141,9 @@ class TestNCAABBoxscore:
         expected_name = "HOME"
         test_name = "HOME"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_home_name = PropertyMock(return_value=MockName(test_name))
@@ -152,7 +156,9 @@ class TestNCAABBoxscore:
         expected_name = "AWAY"
         test_name = "<a>cbb/schools</a>AWAY"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_away_name = PropertyMock(return_value=MockName(test_name))
@@ -165,7 +171,9 @@ class TestNCAABBoxscore:
         expected_name = "AWAY"
         test_name = "AWAY"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_away_name = PropertyMock(return_value=MockName(test_name))
@@ -222,7 +230,9 @@ class TestNCAABBoxscore:
         expected_name = "HOME"
         test_name = "<a>cbb/schools</a>HOME"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_home_name = PropertyMock(return_value=MockName(test_name))
@@ -235,7 +245,9 @@ class TestNCAABBoxscore:
         expected_name = "HOME"
         test_name = "HOME"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_home_name = PropertyMock(return_value=MockName(test_name))
@@ -248,7 +260,9 @@ class TestNCAABBoxscore:
         expected_name = "AWAY"
         test_name = "<a>cbb/schools</a>AWAY"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_away_name = PropertyMock(return_value=MockName(test_name))
@@ -261,7 +275,9 @@ class TestNCAABBoxscore:
         expected_name = "AWAY"
         test_name = "AWAY"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_away_name = PropertyMock(return_value=MockName(test_name))
@@ -367,7 +383,9 @@ class TestNCAABBoxscore:
         assert self.boxscore.home_win_percentage == 0.0
 
     def test_ranking_with_no_boxscores(self):
-        ranking = self.boxscore._parse_ranking("home_ranking", MockBoxscore(""))
+        ranking = self.boxscore._parse_ranking(
+            "home_ranking", MockBoxscore("")
+        )
 
         assert ranking is None
 

@@ -156,7 +156,11 @@ class Game:
         for field in self.__dict__:
             # Remove the leading '_' from the name
             short_name = str(field)[1:]
-            if short_name == "datetime" or short_name == "type" or short_name == "year":
+            if (
+                short_name == "datetime"
+                or short_name == "type"
+                or short_name == "year"
+            ):
                 continue
             if short_name == "opponent_abbr":
                 self._parse_abbreviation(game_data)
@@ -638,7 +642,10 @@ class Schedule:
         """
         Return the string representation of the class.
         """
-        games = [f"{game.date} - {game.opponent_abbr}".strip() for game in self._games]
+        games = [
+            f"{game.date} - {game.opponent_abbr}".strip()
+            for game in self._games
+        ]
         return "\n".join(games)
 
     def __repr__(self):
@@ -713,7 +720,9 @@ class Schedule:
             return
         self._add_games_to_schedule(schedule, REGULAR_SEASON, year)
         if "playoff_gamelog%s" % year in str(doc):
-            playoffs = utils._get_stats_table(doc, "table#playoff_gamelog%s" % year)
+            playoffs = utils._get_stats_table(
+                doc, "table#playoff_gamelog%s" % year
+            )
             self._add_games_to_schedule(playoffs, POST_SEASON, year)
 
     @property

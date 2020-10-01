@@ -34,9 +34,9 @@ def _add_stats_data(teams_list, team_data_dict):
         return team_data_dict
     for team_data in teams_list:
         # Skip the sub-header rows
-        if 'class="over_header thead"' in str(team_data) or 'class="thead"' in str(
+        if 'class="over_header thead"' in str(
             team_data
-        ):
+        ) or 'class="thead"' in str(team_data):
             continue
         abbr = utils._parse_field(PARSING_SCHEME, team_data, "abbreviation")
         try:

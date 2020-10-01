@@ -100,7 +100,9 @@ class TestNHLBoxscore:
             assert getattr(self.boxscore, attribute) == value
 
     def test_invalid_url_yields_empty_class(self):
-        flexmock(Boxscore).should_receive("_retrieve_html_page").and_return(None)
+        flexmock(Boxscore).should_receive("_retrieve_html_page").and_return(
+            None
+        )
 
         boxscore = Boxscore(BOXSCORE)
 
@@ -136,7 +138,8 @@ class TestNHLBoxscore:
 
     def test_nhl_boxscore_string_representation(self):
         expected = (
-            "Boxscore for Washington Capitals at Vegas Golden Knights " "(June 7, 2018)"
+            "Boxscore for Washington Capitals at Vegas Golden Knights "
+            "(June 7, 2018)"
         )
 
         boxscore = Boxscore(BOXSCORE)

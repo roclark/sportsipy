@@ -42,8 +42,10 @@ PARSING_SCHEME = {
     "batting_average": 'td[data-stat="batting_avg"]:first',
     "on_base_percentage": 'td[data-stat="onbase_perc"]:first',
     "slugging_percentage": 'td[data-stat="slugging_perc"]:first',
-    "on_base_plus_slugging_percentage": 'td[data-stat="onbase_plus_slugging"]:first',
-    "on_base_plus_slugging_percentage_plus": 'td[data-stat="onbase_plus_slugging_plus"]:first',
+    "on_base_plus_slugging_percentage":
+    'td[data-stat="onbase_plus_slugging"]:first',
+    "on_base_plus_slugging_percentage_plus":
+    'td[data-stat="onbase_plus_slugging_plus"]:first',
     "total_bases": 'td[data-stat="TB"]:first',
     "grounded_into_double_plays": 'td[data-stat="GIDP"]:first',
     "times_hit_by_pitch": 'td[data-stat="HBP"]:first',
@@ -74,9 +76,11 @@ PARSING_SCHEME = {
     "whip": 'td[data-stat="whip"]:first',
     "hits_per_nine_innings": 'td[data-stat="hits_per_nine"]:first',
     "home_runs_per_nine_innings": 'td[data-stat="home_runs_per_nine"]:first',
-    "bases_on_walks_given_per_nine_innings": 'td[data-stat="bases_on_balls_per_nine"]:first',
+    "bases_on_walks_given_per_nine_innings":
+    'td[data-stat="bases_on_balls_per_nine"]:first',
     "strikeouts_per_nine_innings": 'td[data-stat="strikeouts_per_nine"]:first',
-    "strikeouts_per_base_on_balls": 'td[data-stat="strikeouts_per_base_on_balls"]:first',
+    "strikeouts_per_base_on_balls":
+    'td[data-stat="strikeouts_per_base_on_balls"]:first',
     "opposing_runners_left_on_base": 'td[data-stat="LOB"]:first',
 }
 
@@ -160,7 +164,8 @@ BOXSCORE_SCHEME = {
     "away_on_base_plus": 'tfoot td[data-stat="onbase_plus_slugging"]',
     "away_pitches": 'tfoot td[data-stat="pitches"]',
     "away_strikes": 'tfoot td[data-stat="strikes_total"]',
-    "away_win_probability_for_offensive_player": 'tfoot td[data-stat="wpa_bat"]',
+    "away_win_probability_for_offensive_player":
+    'tfoot td[data-stat="wpa_bat"]',
     "away_average_leverage_index": 'tfoot td[data-stat="leverage_index_avg"]',
     "away_win_probability_added": 'tfoot td[data-stat="wpa_bat_pos"]',
     "away_win_probability_subtracted": 'tfoot td[data-stat="wpa_bat_neg"]',
@@ -196,7 +201,8 @@ BOXSCORE_SCHEME = {
     "home_on_base_plus": 'tfoot td[data-stat="onbase_plus_slugging"]',
     "home_pitches": 'tfoot td[data-stat="pitches"]',
     "home_strikes": 'tfoot td[data-stat="strikes_total"]',
-    "home_win_probability_for_offensive_player": 'tfoot td[data-stat="wpa_bat"]',
+    "home_win_probability_for_offensive_player":
+    'tfoot td[data-stat="wpa_bat"]',
     "home_average_leverage_index": 'tfoot td[data-stat="leverage_index_avg"]',
     "home_win_probability_added": 'tfoot td[data-stat="wpa_bat_pos"]',
     "home_win_probability_subtracted": 'tfoot td[data-stat="wpa_bat_neg"]',
@@ -326,7 +332,8 @@ PLAYER_SCHEME = {
     "on_base_percentage": 'td[data-stat="onbase_perc"]',
     "slugging_percentage": 'td[data-stat="slugging_perc"]',
     "on_base_plus_slugging_percentage": 'td[data-stat="onbase_plus_slugging"]',
-    "on_base_plus_slugging_percentage_plus": 'td[data-stat="onbase_plus_slugging_plus"]',
+    "on_base_plus_slugging_percentage_plus":
+    'td[data-stat="onbase_plus_slugging_plus"]',
     "total_bases": 'td[data-stat="TB"]',
     "grounded_into_double_plays": 'td[data-stat="GIDP"]',
     "times_hit_by_pitch": 'td[data-stat="HBP"]',
@@ -343,12 +350,15 @@ PLAYER_SCHEME = {
     "fielding_percentage": 'td[data-stat="fielding_perc"]',
     "total_fielding_runs_above_average": 'td[data-stat="tz_runs_total"]',
     "defensive_runs_saved_above_average": 'td[data-stat="bis_runs_total"]',
-    "total_fielding_runs_above_average_per_innings": 'td[data-stat="tz_runs_total_per_season"]',
-    "defensive_runs_saved_above_average_per_innings": 'td[data-stat="bis_runs_total_per_season"]',
+    "total_fielding_runs_above_average_per_innings":
+    'td[data-stat="tz_runs_total_per_season"]',
+    "defensive_runs_saved_above_average_per_innings":
+    'td[data-stat="bis_runs_total_per_season"]',
     "range_factor_per_nine_innings": 'td[data-stat="range_factor_per_nine"]',
     "range_factor_per_game": 'td[data-stat="range_factor_per_game"]',
     "league_fielding_percentage": 'td[data-stat="fielding_perc_lg"]',
-    "league_range_factor_per_nine_innings": 'td[data-stat="range_factor_per_nine_lg"]',
+    "league_range_factor_per_nine_innings":
+    'td[data-stat="range_factor_per_nine_lg"]',
     "league_range_factor_per_game": 'td[data-stat="range_factor_per_game_lg"]',
     "games_in_batting_order": 'td[data-stat="G_batting"]',
     "games_in_defensive_lineup": 'td[data-stat="G_defense"]',
@@ -388,9 +398,12 @@ PLAYER_SCHEME = {
     "whip": 'td[data-stat="whip"]',
     "hits_against_per_nine_innings": 'td[data-stat="hits_per_nine"]',
     "home_runs_against_per_nine_innings": 'td[data-stat="home_runs_per_nine"]',
-    "bases_on_balls_given_per_nine_innings": 'td[data-stat="bases_on_balls_per_nine"]',
-    "batters_struckout_per_nine_innings": 'td[data-stat="strikeouts_per_nine"]',
-    "strikeouts_thrown_per_walk": 'td[data-stat="strikeouts_per_base_on_balls"]',
+    "bases_on_balls_given_per_nine_innings":
+    'td[data-stat="bases_on_balls_per_nine"]',
+    "batters_struckout_per_nine_innings":
+    'td[data-stat="strikeouts_per_nine"]',
+    "strikeouts_thrown_per_walk":
+    'td[data-stat="strikeouts_per_base_on_balls"]',
     "win_probability_for_offensive_player": 'td[data-stat="wpa_bat"]',
     "win_probability_added": 'td[data-stat="wpa_bat_pos"]',
     "win_probability_subtracted": 'td[data-stat="wpa_bat_neg"]',
@@ -496,14 +509,20 @@ DOUBLE_HEADER_INDICES = {
     "duration": "game duration",
 }
 
-STANDINGS_URL = "https://www.baseball-reference.com/leagues/MLB/" "%s-standings.shtml"
+STANDINGS_URL = (
+    "https://www.baseball-reference.com/leagues/MLB/" "%s-standings.shtml"
+)
 TEAM_STATS_URL = "https://www.baseball-reference.com/leagues/MLB/%s.shtml"
 
-SCHEDULE_URL = "https://www.baseball-reference.com/teams/%s/" "%s-schedule-scores.shtml"
+SCHEDULE_URL = (
+    "https://www.baseball-reference.com/teams/%s/" "%s-schedule-scores.shtml"
+)
 
 BOXSCORE_URL = "https://www.baseball-reference.com/boxes/%s.shtml"
 
-BOXSCORES_URL = "https://www.baseball-reference.com/boxes/" "?year=%s&month=%s&day=%s"
+BOXSCORES_URL = (
+    "https://www.baseball-reference.com/boxes/" "?year=%s&month=%s&day=%s"
+)
 PLAYER_URL = "https://www.baseball-reference.com/players/%s/%s.shtml"
 ROSTER_URL = "https://www.baseball-reference.com/teams/%s/%s.shtml"
 

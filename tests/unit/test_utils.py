@@ -147,7 +147,9 @@ class TestUtils:
 
         for month in season_start_matrix:
             mock_datetime = MockDateTime(month.month, 2018)
-            flexmock(utils).should_receive("_todays_date").and_return(mock_datetime)
+            flexmock(utils).should_receive("_todays_date").and_return(
+                mock_datetime
+            )
 
             result = utils._find_year_for_season(month.league)
             assert result == month.expected_year
@@ -203,7 +205,9 @@ class TestUtils:
         parsing_scheme = {"abbreviation": "a"}
         input_abbreviation = "/teams/ARI/2018.shtml"
         expected = "ARI"
-        flexmock(utils).should_receive("_parse_abbreviation").and_return("ARI").once()
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            "ARI"
+        ).once()
 
         result = utils._parse_field(
             parsing_scheme, MockHtml(input_abbreviation, None), "abbreviation"
@@ -218,7 +222,10 @@ class TestUtils:
         expected = None
 
         result = utils._parse_field(
-            parsing_scheme, MockHtml(html_string, [expected]), "batters_used", index=3
+            parsing_scheme,
+            MockHtml(html_string, [expected]),
+            "batters_used",
+            index=3,
         )
         assert result == expected
 

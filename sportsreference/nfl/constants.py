@@ -258,14 +258,18 @@ PLAYER_SCHEME = {
     "times_sacked": 'td[data-stat="pass_sacked"]',
     "yards_lost_to_sacks": 'td[data-stat="pass_sacked_yds"]',
     "net_yards_per_pass_attempt": 'td[data-stat="pass_net_yds_per_att"]',
-    "adjusted_net_yards_per_pass_attempt": 'td[data-stat="pass_adj_net_yds_per_att"]',
+    "adjusted_net_yards_per_pass_attempt":
+    'td[data-stat="pass_adj_net_yds_per_att"]',
     "sack_percentage": 'td[data-stat="pass_sacked_per"]',
     "fourth_quarter_comebacks": 'td[data-stat="comebacks"]',
     "game_winning_drives": 'td[data-stat="gwd"]',
     "yards_per_attempt_index": 'td[data-stat="pass_yds_per_att_index"]',
-    "net_yards_per_attempt_index": 'td[data-stat="pass_net_yds_per_att_index"]',
-    "adjusted_yards_per_attempt_index": 'td[data-stat="pass_adj_yds_per_att_index"]',
-    "adjusted_net_yards_per_attempt_index": 'td[data-stat="pass_adj_net_yds_per_att_index"]',
+    "net_yards_per_attempt_index":
+    'td[data-stat="pass_net_yds_per_att_index"]',
+    "adjusted_yards_per_attempt_index":
+    'td[data-stat="pass_adj_yds_per_att_index"]',
+    "adjusted_net_yards_per_attempt_index":
+    'td[data-stat="pass_adj_net_yds_per_att_index"]',
     "completion_percentage_index": 'td[data-stat="pass_cmp_perc_index"]',
     "touchdown_percentage_index": 'td[data-stat="pass_td_perc_index"]',
     "interception_percentage_index": 'td[data-stat="pass_int_perc_index"]',
@@ -350,18 +354,24 @@ PLAYER_SCHEME = {
     "punt_return_touchdowns": 'td[data-stat="punt_ret_td"]',
     "first_downs_rushing": 'td[data-stat="rush_first_down"]',
     "rush_yards_before_contact": 'td[data-stat="rush_yds_before_contact"]',
-    "rush_yards_before_contact_per_attempt": 'td[data-stat="rush_yds_bc_per_rush"]',
+    "rush_yards_before_contact_per_attempt":
+    'td[data-stat="rush_yds_bc_per_rush"]',
     "rush_yards_after_contact": 'td[data-stat="rush_yac"]',
-    "rush_yards_after_contact_per_attempt": 'td[data-stat="rush_yac_per_rush"]',
+    "rush_yards_after_contact_per_attempt":
+    'td[data-stat="rush_yac_per_rush"]',
     "rush_broken_tackles": 'td[data-stat="rush_broken_tackles"]',
-    "rush_attempts_per_broken_tackle": 'td[data-stat="rush_broken_tackles_per_rush"]',
+    "rush_attempts_per_broken_tackle":
+    'td[data-stat="rush_broken_tackles_per_rush"]',
     "first_downs_receiving": 'td[data-stat="rec_first_down"]',
     "receiving_yards_before_catch": 'td[data-stat="rec_air_yds"]',
-    "receiving_yards_before_catch_per_reception": 'td[data-stat="rec_air_yds_per_rec"]',
+    "receiving_yards_before_catch_per_reception":
+    'td[data-stat="rec_air_yds_per_rec"]',
     "receiving_yards_after_catch": 'td[data-stat="rec_yac"]',
-    "receiving_yards_after_catch_per_reception": 'td[data-stat="rec_yac_per_rec"]',
+    "receiving_yards_after_catch_per_reception":
+    'td[data-stat="rec_yac_per_rec"]',
     "receiving_broken_tackles": 'td[data-stat="rec_broken_tackles"]',
-    "receptions_per_broken_tackle": 'td[data-stat="rec_broken_tackles_per_rec"]',
+    "receptions_per_broken_tackle":
+    'td[data-stat="rec_broken_tackles_per_rec"]',
     "dropped_passes": 'td[data-stat="rec_drops"]',
     "drop_percentage": 'td[data-stat="rec_drop_pct"]',
 }

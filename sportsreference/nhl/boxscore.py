@@ -12,7 +12,11 @@ from .constants import (
     BOXSCORE_URL,
     BOXSCORES_URL,
 )
-from .player import AbstractPlayer, _float_property_decorator, _int_property_decorator
+from .player import (
+    AbstractPlayer,
+    _float_property_decorator,
+    _int_property_decorator,
+)
 from functools import wraps
 
 
@@ -108,7 +112,8 @@ class BoxscorePlayer(AbstractPlayer):
             "corsi_for_percentage": self.corsi_for_percentage,
             "decision": self.decision,
             "defensive_zone_starts": self.defensive_zone_starts,
-            "defensive_zone_start_percentage": self.defensive_zone_start_percentage,
+            "defensive_zone_start_percentage":
+            self.defensive_zone_start_percentage,
             "even_strength_assists": self.even_strength_assists,
             "even_strength_goals": self.even_strength_goals,
             "game_winning_goals": self.game_winning_goals,
@@ -117,7 +122,8 @@ class BoxscorePlayer(AbstractPlayer):
             "hits_at_even_strength": self.hits_at_even_strength,
             "invidual_corsi_for_events": self.individual_corsi_for_events,
             "name": self.name,
-            "offensive_zone_start_percentage": self.offensive_zone_start_percentage,
+            "offensive_zone_start_percentage":
+            self.offensive_zone_start_percentage,
             "offensive_zone_starts": self.offensive_zone_starts,
             "on_ice_shot_attempts_against": self.on_ice_shot_attempts_against,
             "on_ice_shot_attempts_for": self.on_ice_shot_attempts_for,
@@ -127,7 +133,8 @@ class BoxscorePlayer(AbstractPlayer):
             "points": self.points,
             "power_play_assists": self.power_play_assists,
             "power_play_goals": self.power_play_goals,
-            "relative_corsi_for_percentage": self.relative_corsi_for_percentage,
+            "relative_corsi_for_percentage":
+            self.relative_corsi_for_percentage,
             "save_percentage": self.save_percentage,
             "saves": self.saves,
             "shifts": self.shifts,
@@ -551,7 +558,9 @@ class Boxscore:
         home_players = []
         away_players = []
         for player_id, details in player_dict.items():
-            player = BoxscorePlayer(player_id, details["name"], details["data"])
+            player = BoxscorePlayer(
+                player_id, details["name"], details["data"]
+            )
             if details["team"] == HOME:
                 home_players.append(player)
             else:
@@ -590,7 +599,9 @@ class Boxscore:
             # the fifth table also belonging to the away team's skaters.
             if table_count in [0, 1, 4]:
                 home_or_away = AWAY
-            player_dict = self._extract_player_stats(table, player_dict, home_or_away)
+            player_dict = self._extract_player_stats(
+                table, player_dict, home_or_away
+            )
             table_count += 1
         away_players, home_players = self._instantiate_players(player_dict)
         return away_players, home_players
@@ -667,7 +678,9 @@ class Boxscore:
             index = 0
             if short_field in BOXSCORE_ELEMENT_INDEX.keys():
                 index = BOXSCORE_ELEMENT_INDEX[short_field]
-            value = utils._parse_field(BOXSCORE_SCHEME, boxscore, short_field, index)
+            value = utils._parse_field(
+                BOXSCORE_SCHEME, boxscore, short_field, index
+            )
             setattr(self, field, value)
 
         self._away_skaters = len(boxscore(BOXSCORE_SCHEME["away_skaters"]))
@@ -1340,7 +1353,14 @@ class Boxscores:
             home_score = self._get_score(scores[1])
         away_name, away_abbr = self._get_name(away)
         home_name, home_abbr = self._get_name(home)
-        return (away_name, away_abbr, away_score, home_name, home_abbr, home_score)
+        return (
+            away_name,
+            away_abbr,
+            away_score,
+            home_name,
+            home_abbr,
+            home_score,
+        )
 
     def _get_team_results(self, team_result_html):
         """
@@ -1393,7 +1413,14 @@ class Boxscores:
 
         for game in games:
             details = self._get_team_details(game)
-            away_name, away_abbr, away_score, home_name, home_abbr, home_score = details
+            (
+                away_name,
+                away_abbr,
+                away_score,
+                home_name,
+                home_abbr,
+                home_score,
+            ) = details
             boxscore_url = game('td[class="right gamelink"] a')
             boxscore_uri = self._get_boxscore_uri(boxscore_url)
             losers = [loser for loser in game('tr[class="loser"]').items()]
@@ -1470,6 +1497,10 @@ class Boxscores:
             page = self._get_requested_page(url)
             games = page('table[class="teams"]').items()
             boxscores = self._extract_game_info(games)
-            timestamp = "%s-%s-%s" % (date_step.month, date_step.day, date_step.year)
+            timestamp = "%s-%s-%s" % (
+                date_step.month,
+                date_step.day,
+                date_step.year,
+            )
             self._boxscores[timestamp] = boxscores
             date_step += timedelta(days=1)

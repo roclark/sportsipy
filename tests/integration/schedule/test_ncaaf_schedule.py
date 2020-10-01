@@ -177,7 +177,9 @@ Jan 1, 2018 - south-carolina"""
 class TestNCAAFScheduleInvalidYear:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
         results = {
             "game": 2,
             "boxscore_index": "2017-09-09-michigan",
@@ -202,7 +204,9 @@ class TestNCAAFScheduleInvalidYear:
         flexmock(Boxscore).should_receive("dataframe").and_return(
             pd.DataFrame([{"key": "value"}])
         )
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2018
+        )
 
         schedule = Schedule("MICHIGAN")
 

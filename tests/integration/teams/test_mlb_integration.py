@@ -206,13 +206,17 @@ class TestMLBIntegration:
         )
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
-    def test_mlb_integration_returns_correct_number_of_teams(self, *args, **kwargs):
+    def test_mlb_integration_returns_correct_number_of_teams(
+        self, *args, **kwargs
+    ):
         teams = Teams()
 
         assert len(teams) == len(self.abbreviations)
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
-    def test_mlb_integration_returns_correct_attributes_for_team(self, *args, **kwargs):
+    def test_mlb_integration_returns_correct_attributes_for_team(
+        self, *args, **kwargs
+    ):
         teams = Teams()
 
         houston = teams("HOU")
@@ -221,14 +225,18 @@ class TestMLBIntegration:
             assert getattr(houston, attribute) == value
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
-    def test_mlb_integration_returns_correct_team_abbreviations(self, *args, **kwargs):
+    def test_mlb_integration_returns_correct_team_abbreviations(
+        self, *args, **kwargs
+    ):
         teams = Teams()
 
         for team in teams:
             assert team.abbreviation in self.abbreviations
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
-    def test_mlb_integration_dataframe_returns_dataframe(self, *args, **kwargs):
+    def test_mlb_integration_dataframe_returns_dataframe(
+        self, *args, **kwargs
+    ):
         teams = Teams()
         df = pd.DataFrame([self.results], index=["HOU"])
 
@@ -270,8 +278,12 @@ class TestMLBIntegration:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_mlb_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2018)
+    def test_mlb_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2018
+        )
 
         teams = Teams()
 

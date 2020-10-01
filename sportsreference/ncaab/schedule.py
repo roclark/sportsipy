@@ -481,7 +481,10 @@ class Schedule:
         """
         Return the string representation of the class.
         """
-        games = [f"{game.date} - {game.opponent_abbr}".strip() for game in self._games]
+        games = [
+            f"{game.date} - {game.opponent_abbr}".strip()
+            for game in self._games
+        ]
         return "\n".join(games)
 
     def __repr__(self):

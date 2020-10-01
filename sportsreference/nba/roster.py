@@ -341,7 +341,9 @@ class Player(AbstractPlayer):
             "advanced_pbp",
             "all_salaries",
         ]:
-            table_items = utils._get_stats_table(player_info, "table#%s" % table_id)
+            table_items = utils._get_stats_table(
+                player_info, "table#%s" % table_id
+            )
             career_items = utils._get_stats_table(
                 player_info, "table#%s" % table_id, footer=True
             )
@@ -447,7 +449,8 @@ class Player(AbstractPlayer):
             the dollar amount, such as '$40,000,000'.
         """
         wages = [
-            i.text() if i.text().startswith("$") else "" for i in table("td").items()
+            i.text() if i.text().startswith("$") else ""
+            for i in table("td").items()
         ]
         wages.remove("")
         return wages
@@ -612,13 +615,18 @@ class Player(AbstractPlayer):
             "defensive_rebounds_per_poss": self.defensive_rebounds_per_poss,
             "defensive_win_shares": self.defensive_win_shares,
             "dunks": self.dunks,
-            "effective_field_goal_percentage": self.effective_field_goal_percentage,
+            "effective_field_goal_percentage":
+            self.effective_field_goal_percentage,
             "field_goal_attempts": self.field_goal_attempts,
             "field_goal_attempts_per_poss": self.field_goal_attempts_per_poss,
-            "field_goal_perc_sixteen_foot_plus_two_pointers": self.field_goal_perc_sixteen_foot_plus_two_pointers,
-            "field_goal_perc_ten_to_sixteen_feet": self.field_goal_perc_ten_to_sixteen_feet,
-            "field_goal_perc_three_to_ten_feet": self.field_goal_perc_three_to_ten_feet,
-            "field_goal_perc_zero_to_three_feet": self.field_goal_perc_zero_to_three_feet,
+            "field_goal_perc_sixteen_foot_plus_two_pointers":
+            self.field_goal_perc_sixteen_foot_plus_two_pointers,
+            "field_goal_perc_ten_to_sixteen_feet":
+            self.field_goal_perc_ten_to_sixteen_feet,
+            "field_goal_perc_three_to_ten_feet":
+            self.field_goal_perc_three_to_ten_feet,
+            "field_goal_perc_zero_to_three_feet":
+            self.field_goal_perc_zero_to_three_feet,
             "field_goal_percentage": self.field_goal_percentage,
             "field_goals": self.field_goals,
             "field_goals_per_poss": self.field_goals_per_poss,
@@ -646,14 +654,22 @@ class Player(AbstractPlayer):
             "on_court_plus_minus": self.on_court_plus_minus,
             "other_turnovers": self.other_turnovers,
             "passing_turnovers": self.passing_turnovers,
-            "percentage_field_goals_as_dunks": self.percentage_field_goals_as_dunks,
-            "percentage_of_three_pointers_from_corner": self.percentage_of_three_pointers_from_corner,
-            "percentage_shots_three_pointers": self.percentage_shots_three_pointers,
-            "percentage_shots_two_pointers": self.percentage_shots_two_pointers,
-            "percentage_sixteen_foot_plus_two_pointers": self.percentage_sixteen_foot_plus_two_pointers,
-            "percentage_ten_to_sixteen_footers": self.percentage_ten_to_sixteen_footers,
-            "percentage_three_to_ten_footers": self.percentage_three_to_ten_footers,
-            "percentage_zero_to_three_footers": self.percentage_zero_to_three_footers,
+            "percentage_field_goals_as_dunks":
+            self.percentage_field_goals_as_dunks,
+            "percentage_of_three_pointers_from_corner":
+            self.percentage_of_three_pointers_from_corner,
+            "percentage_shots_three_pointers":
+            self.percentage_shots_three_pointers,
+            "percentage_shots_two_pointers":
+            self.percentage_shots_two_pointers,
+            "percentage_sixteen_foot_plus_two_pointers":
+            self.percentage_sixteen_foot_plus_two_pointers,
+            "percentage_ten_to_sixteen_footers":
+            self.percentage_ten_to_sixteen_footers,
+            "percentage_three_to_ten_footers":
+            self.percentage_three_to_ten_footers,
+            "percentage_zero_to_three_footers":
+            self.percentage_zero_to_three_footers,
             "personal_fouls": self.personal_fouls,
             "personal_fouls_per_poss": self.personal_fouls_per_poss,
             "player_efficiency_rating": self.player_efficiency_rating,
@@ -678,11 +694,15 @@ class Player(AbstractPlayer):
             "team_abbreviation": self.team_abbreviation,
             "three_point_attempt_rate": self.three_point_attempt_rate,
             "three_point_attempts": self.three_point_attempts,
-            "three_point_attempts_per_poss": self.three_point_attempts_per_poss,
+            "three_point_attempts_per_poss":
+
+            self.three_point_attempts_per_poss,
             "three_point_percentage": self.three_point_percentage,
-            "three_point_shot_percentage_from_corner": self.three_point_shot_percentage_from_corner,
+            "three_point_shot_percentage_from_corner":
+            self.three_point_shot_percentage_from_corner,
             "three_pointers": self.three_pointers,
-            "three_pointers_assisted_percentage": self.three_pointers_assisted_percentage,
+            "three_pointers_assisted_percentage":
+            self.three_pointers_assisted_percentage,
             "three_pointers_per_poss": self.three_pointers_per_poss,
             "total_rebound_percentage": self.total_rebound_percentage,
             "total_rebounds": self.total_rebounds,
@@ -696,9 +716,11 @@ class Player(AbstractPlayer):
             "two_point_percentage": self.two_point_percentage,
             "two_pointers": self.two_pointers,
             "two_pointers_per_poss": self.two_pointers_per_poss,
-            "two_pointers_assisted_percentage": self.two_pointers_assisted_percentage,
+            "two_pointers_assisted_percentage":
+            self.two_pointers_assisted_percentage,
             "usage_percentage": self.usage_percentage,
-            "value_over_replacement_player": self.value_over_replacement_player,
+            "value_over_replacement_player":
+            self.value_over_replacement_player,
             "weight": self.weight,
             "win_shares": self.win_shares,
             "win_shares_per_48_minutes": self.win_shares_per_48_minutes,
@@ -1387,7 +1409,8 @@ class Roster:
         Return the string representation of the class.
         """
         players = [
-            f"{player.name} ({player.player_id})".strip() for player in self._players
+            f"{player.name} ({player.player_id})".strip()
+            for player in self._players
         ]
         return "\n".join(players)
 
@@ -1512,9 +1535,9 @@ class Roster:
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(self._create_url(year)) and utils._url_exists(
-                self._create_url(str(int(year) - 1))
-            ):
+            if not utils._url_exists(
+                self._create_url(year)
+            ) and utils._url_exists(self._create_url(str(int(year) - 1))):
                 year = str(int(year) - 1)
         url = self._create_url(year)
         page = self._pull_team_page(url)

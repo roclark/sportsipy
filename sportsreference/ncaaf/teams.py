@@ -34,7 +34,9 @@ class Team:
         The requested year to pull stats from.
     """
 
-    def __init__(self, team_name=None, team_data=None, team_conference=None, year=None):
+    def __init__(
+        self, team_name=None, team_data=None, team_conference=None, year=None
+    ):
         self._team_conference = team_conference
         self._year = year
         self._abbreviation = None
@@ -160,7 +162,9 @@ class Team:
         for field in self.__dict__:
             if field == "_year" or field == "_team_conference":
                 continue
-            value = utils._parse_field(PARSING_SCHEME, team_data, str(field)[1:])
+            value = utils._parse_field(
+                PARSING_SCHEME, team_data, str(field)[1:]
+            )
             setattr(self, field, value)
 
     @property
@@ -179,7 +183,8 @@ class Team:
             "first_downs": self.first_downs,
             "opponents_first_downs": self.opponents_first_downs,
             "first_downs_from_penalties": self.first_downs_from_penalties,
-            "opponents_first_downs_from_penalties": self.opponents_first_downs_from_penalties,
+            "opponents_first_downs_from_penalties":
+            self.opponents_first_downs_from_penalties,
             "fumbles_lost": self.fumbles_lost,
             "opponents_fumbles_lost": self.opponents_fumbles_lost,
             "games": self.games,
@@ -190,7 +195,8 @@ class Team:
             "pass_attempts": self.pass_attempts,
             "opponents_pass_attempts": self.opponents_pass_attempts,
             "pass_completion_percentage": self.pass_completion_percentage,
-            "opponents_pass_completion_percentage": self.opponents_pass_completion_percentage,
+            "opponents_pass_completion_percentage":
+            self.opponents_pass_completion_percentage,
             "pass_completions": self.pass_completions,
             "opponents_pass_completions": self.opponents_pass_completions,
             "pass_first_downs": self.pass_first_downs,
@@ -214,7 +220,8 @@ class Team:
             "rush_yards": self.rush_yards,
             "opponents_rush_yards": self.opponents_rush_yards,
             "rush_yards_per_attempt": self.rush_yards_per_attempt,
-            "opponents_rush_yards_per_attempt": self.opponents_rush_yards_per_attempt,
+            "opponents_rush_yards_per_attempt":
+            self.opponents_rush_yards_per_attempt,
             "simple_rating_system": self.simple_rating_system,
             "strength_of_schedule": self.strength_of_schedule,
             "turnovers": self.turnovers,
@@ -224,7 +231,8 @@ class Team:
             "yards": self.yards,
             "opponents_yards": self.opponents_yards,
             "yards_from_penalties": self.yards_from_penalties,
-            "opponents_yards_from_penalties": self.opponents_yards_from_penalties,
+            "opponents_yards_from_penalties":
+            self.opponents_yards_from_penalties,
             "yards_per_play": self.yards_per_play,
             "opponents_yards_per_play": self.opponents_yards_per_play,
         }
@@ -766,7 +774,10 @@ class Teams:
         """
         Return the string representation of the class.
         """
-        teams = [f"{team.name} ({team.abbreviation})".strip() for team in self._teams]
+        teams = [
+            f"{team.name} ({team.abbreviation})".strip()
+            for team in self._teams
+        ]
         return "\n".join(teams)
 
     def __repr__(self):
@@ -807,7 +818,9 @@ class Teams:
             else:
                 conference = self._conferences_dict[team_name.lower()]
             team = Team(
-                team_data=team_data["data"], team_conference=conference, year=year
+                team_data=team_data["data"],
+                team_conference=conference,
+                year=year,
             )
             self._teams.append(team)
 

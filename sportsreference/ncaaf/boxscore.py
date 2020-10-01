@@ -13,7 +13,11 @@ from .constants import (
     BOXSCORE_URL,
     BOXSCORES_URL,
 )
-from .player import AbstractPlayer, _float_property_decorator, _int_property_decorator
+from .player import (
+    AbstractPlayer,
+    _float_property_decorator,
+    _int_property_decorator,
+)
 from functools import wraps
 
 
@@ -118,25 +122,32 @@ class BoxscorePlayer(AbstractPlayer):
             "rush_touchdowns": self.rush_touchdowns,
             "receptions": self.receptions,
             "receiving_yards": self.receiving_yards,
-            "receiving_yards_per_reception": self.receiving_yards_per_reception,
+            "receiving_yards_per_reception":
+            self.receiving_yards_per_reception,
             "receiving_touchdowns": self.receiving_touchdowns,
             "plays_from_scrimmage": self.plays_from_scrimmage,
             "yards_from_scrimmage": self.yards_from_scrimmage,
-            "yards_from_scrimmage_per_play": self.yards_from_scrimmage_per_play,
-            "rushing_and_receiving_touchdowns": self.rushing_and_receiving_touchdowns,
+            "yards_from_scrimmage_per_play":
+            self.yards_from_scrimmage_per_play,
+            "rushing_and_receiving_touchdowns":
+            self.rushing_and_receiving_touchdowns,
             "solo_tackles": self.solo_tackles,
             "assists_on_tackles": self.assists_on_tackles,
             "total_tackles": self.total_tackles,
             "tackles_for_loss": self.tackles_for_loss,
             "sacks": self.sacks,
             "interceptions": self.interceptions,
-            "yards_returned_from_interceptions": self.yards_returned_from_interceptions,
-            "yards_returned_per_interception": self.yards_returned_per_interception,
-            "interceptions_returned_for_touchdown": self.interceptions_returned_for_touchdown,
+            "yards_returned_from_interceptions":
+            self.yards_returned_from_interceptions,
+            "yards_returned_per_interception":
+            self.yards_returned_per_interception,
+            "interceptions_returned_for_touchdown":
+            self.interceptions_returned_for_touchdown,
             "passes_defended": self.passes_defended,
             "fumbles_recovered": self.fumbles_recovered,
             "yards_recovered_from_fumble": self.yards_recovered_from_fumble,
-            "fumbles_recovered_for_touchdown": self.fumbles_recovered_for_touchdown,
+            "fumbles_recovered_for_touchdown":
+            self.fumbles_recovered_for_touchdown,
             "fumbles_forced": self.fumbles_forced,
             "kickoff_returns": self.kickoff_returns,
             "kickoff_return_yards": self.kickoff_return_yards,
@@ -670,7 +681,9 @@ class Boxscore:
         home_players = []
         away_players = []
         for player_id, details in player_dict.items():
-            player = BoxscorePlayer(player_id, details["name"], details["data"])
+            player = BoxscorePlayer(
+                player_id, details["name"], details["data"]
+            )
             if details["team"] == HOME:
                 home_players.append(player)
             else:
@@ -757,7 +770,9 @@ class Boxscore:
             index = 0
             if short_field in BOXSCORE_ELEMENT_INDEX.keys():
                 index = BOXSCORE_ELEMENT_INDEX[short_field]
-            value = utils._parse_field(BOXSCORE_SCHEME, boxscore, short_field, index)
+            value = utils._parse_field(
+                BOXSCORE_SCHEME, boxscore, short_field, index
+            )
             setattr(self, field, value)
         self._parse_game_date_and_location(boxscore)
         self._away_players, self._home_players = self._find_players(boxscore)
@@ -1478,7 +1493,13 @@ class Boxscores:
         )
 
     def _get_team_results(
-        self, away_name, away_abbr, away_score, home_name, home_abbr, home_score
+        self,
+        away_name,
+        away_abbr,
+        away_score,
+        home_name,
+        home_abbr,
+        home_score,
     ):
         """
         Determine the winner and loser of the game.
@@ -1563,7 +1584,12 @@ class Boxscores:
             losing_name = None
             losing_abbr = None
             winner, loser = self._get_team_results(
-                away_name, away_abbr, away_score, home_name, home_abbr, home_score
+                away_name,
+                away_abbr,
+                away_score,
+                home_name,
+                home_abbr,
+                home_score,
             )
             if winner and loser:
                 winning_name, winning_abbr = winner
@@ -1621,6 +1647,10 @@ class Boxscores:
             page = self._get_requested_page(url)
             games = page('table[class="teams"]').items()
             boxscores = self._extract_game_info(games)
-            timestamp = "%s-%s-%s" % (date_step.month, date_step.day, date_step.year)
+            timestamp = "%s-%s-%s" % (
+                date_step.month,
+                date_step.day,
+                date_step.year,
+            )
             self._boxscores[timestamp] = boxscores
             date_step += timedelta(days=1)

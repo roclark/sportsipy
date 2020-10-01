@@ -376,13 +376,19 @@ class TestNCAABPlayer:
 class TestNCAABRoster:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_roster_class_pulls_all_player_stats(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("PURDUE")
 
         assert len(roster.players) == 3
 
         for player in roster.players:
-            assert player.name in ["Carsen Edwards", "Isaac Haas", "Vince Edwards"]
+            assert player.name in [
+                "Carsen Edwards",
+                "Isaac Haas",
+                "Vince Edwards",
+            ]
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_bad_url_raises_value_error(self, *args, **kwargs):
@@ -399,12 +405,18 @@ class TestNCAABRoster:
         assert len(team.roster.players) == 3
 
         for player in team.roster.players:
-            assert player.name in ["Carsen Edwards", "Isaac Haas", "Vince Edwards"]
+            assert player.name in [
+                "Carsen Edwards",
+                "Isaac Haas",
+                "Vince Edwards",
+            ]
         type(team)._abbreviation = None
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_roster_class_with_slim_parameter(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("PURDUE", slim=True)
 
         assert len(roster.players) == 3
@@ -416,15 +428,23 @@ class TestNCAABRoster:
 
     @mock.patch("requests.head", side_effect=mock_request)
     @mock.patch("requests.get", side_effect=mock_pyquery)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2019)
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2019
+        )
 
         roster = Roster("PURDUE")
 
         assert len(roster.players) == 3
 
         for player in roster.players:
-            assert player.name in ["Carsen Edwards", "Isaac Haas", "Vince Edwards"]
+            assert player.name in [
+                "Carsen Edwards",
+                "Isaac Haas",
+                "Vince Edwards",
+            ]
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_roster_class_string_representation(self, *args, **kwargs):
@@ -432,7 +452,9 @@ class TestNCAABRoster:
 Isaac Haas (isaac-haas-1)
 Vince Edwards (vince-edwards-2)"""
 
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("PURDUE")
 
         assert roster.__repr__() == expected

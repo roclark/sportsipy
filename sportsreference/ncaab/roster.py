@@ -244,7 +244,9 @@ class Player(AbstractPlayer):
         all_stats_dict = {}
 
         for table_id in ["players_totals", "players_advanced"]:
-            table_items = utils._get_stats_table(player_info, "table#%s" % table_id)
+            table_items = utils._get_stats_table(
+                player_info, "table#%s" % table_id
+            )
             career_items = utils._get_stats_table(
                 player_info, "table#%s" % table_id, footer=True
             )
@@ -309,7 +311,9 @@ class Player(AbstractPlayer):
             Returns a string of the conference abbreviation, such as 'big-12'.
         """
         conference_tag = stats(PLAYER_SCHEME["conference"])
-        conference = re.sub(r".*/cbb/conferences/", "", str(conference_tag("a")))
+        conference = re.sub(
+            r".*/cbb/conferences/", "", str(conference_tag("a"))
+        )
         conference = re.sub(r"/.*", "", conference)
         return conference
 
@@ -429,7 +433,8 @@ class Player(AbstractPlayer):
             "defensive_rebound_percentage": self.defensive_rebound_percentage,
             "defensive_rebounds": self.defensive_rebounds,
             "defensive_win_shares": self.defensive_win_shares,
-            "effective_field_goal_percentage": self.effective_field_goal_percentage,
+            "effective_field_goal_percentage":
+            self.effective_field_goal_percentage,
             "field_goal_attempts": self.field_goal_attempts,
             "field_goal_percentage": self.field_goal_percentage,
             "field_goals": self.field_goals,
@@ -668,7 +673,8 @@ class Roster:
         Return the string representation of the class.
         """
         players = [
-            f"{player.name} ({player.player_id})".strip() for player in self._players
+            f"{player.name} ({player.player_id})".strip()
+            for player in self._players
         ]
         return "\n".join(players)
 
@@ -784,9 +790,9 @@ class Roster:
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(self._create_url(year)) and utils._url_exists(
-                self._create_url(str(int(year) - 1))
-            ):
+            if not utils._url_exists(
+                self._create_url(year)
+            ) and utils._url_exists(self._create_url(str(int(year) - 1))):
                 year = str(int(year) - 1)
         url = self._create_url(year)
         page = self._pull_team_page(url)

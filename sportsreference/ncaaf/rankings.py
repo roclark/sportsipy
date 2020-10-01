@@ -107,9 +107,9 @@ class Rankings:
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(RANKINGS_URL % year) and utils._url_exists(
-                RANKINGS_URL % str(int(year) - 1)
-            ):
+            if not utils._url_exists(
+                RANKINGS_URL % year
+            ) and utils._url_exists(RANKINGS_URL % str(int(year) - 1)):
                 year = str(int(year) - 1)
         page = self._pull_rankings_page(year)
         if not page:
@@ -179,7 +179,9 @@ class Rankings:
             }
         """
         latest_week = max(self._rankings.keys())
-        ordered_dict = sorted(self._rankings[latest_week], key=lambda k: k["rank"])
+        ordered_dict = sorted(
+            self._rankings[latest_week], key=lambda k: k["rank"]
+        )
         return ordered_dict
 
     @property
@@ -325,9 +327,9 @@ class CFPRankings:
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(CFP_RANKINGS_URL % year) and utils._url_exists(
-                CFP_RANKINGS_URL % str(int(year) - 1)
-            ):
+            if not utils._url_exists(
+                CFP_RANKINGS_URL % year
+            ) and utils._url_exists(CFP_RANKINGS_URL % str(int(year) - 1)):
                 year = str(int(year) - 1)
         page = self._pull_rankings_page(year)
         if not page:
@@ -397,7 +399,9 @@ class CFPRankings:
             }
         """
         latest_week = max(self._rankings.keys())
-        ordered_dict = sorted(self._rankings[latest_week], key=lambda k: k["rank"])
+        ordered_dict = sorted(
+            self._rankings[latest_week], key=lambda k: k["rank"]
+        )
         return ordered_dict
 
     @property

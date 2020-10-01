@@ -1265,7 +1265,9 @@ class TestNBAPlayer:
 class TestNBARoster:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_roster_class_pulls_all_player_stats(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("HOU")
 
         assert len(roster.players) == 4
@@ -1304,7 +1306,9 @@ class TestNBARoster:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_roster_class_with_slim_parameter(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("HOU", slim=True)
 
         assert len(roster.players) == 4
@@ -1317,8 +1321,12 @@ class TestNBARoster:
 
     @mock.patch("requests.head", side_effect=mock_request)
     @mock.patch("requests.get", side_effect=mock_pyquery)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2019)
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2019
+        )
 
         roster = Roster("HOU")
 
@@ -1334,7 +1342,9 @@ class TestNBARoster:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_empty_rows_are_skipped(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         flexmock(Roster).should_receive("_get_id").and_return(None)
 
         roster = Roster("HOU")
@@ -1348,7 +1358,9 @@ Trevor Ariza (arizatr01)
 Tarik Black (blackta01)
 James Harden (hardeja01)"""
 
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("HOU")
 
         assert roster.__repr__() == expected

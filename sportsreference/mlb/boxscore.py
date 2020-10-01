@@ -15,7 +15,11 @@ from .constants import (
     DOUBLE_HEADER_INDICES,
     NIGHT,
 )
-from .player import AbstractPlayer, _float_property_decorator, _int_property_decorator
+from .player import (
+    AbstractPlayer,
+    _float_property_decorator,
+    _int_property_decorator,
+)
 
 
 class BoxscorePlayer(AbstractPlayer):
@@ -94,7 +98,8 @@ class BoxscorePlayer(AbstractPlayer):
             "assists": self.assists,
             "at_bats": self.at_bats,
             "average_leverage_index": self.average_leverage_index,
-            "average_leverage_index_pitcher": self.average_leverage_index_pitcher,
+            "average_leverage_index_pitcher":
+            self.average_leverage_index_pitcher,
             "bases_on_balls": self.bases_on_balls,
             "bases_on_balls_given": self.bases_on_balls_given,
             "base_out_runs_added": self.base_out_runs_added,
@@ -115,7 +120,8 @@ class BoxscorePlayer(AbstractPlayer):
             "line_drives": self.line_drives,
             "name": self.name,
             "on_base_percentage": self.on_base_percentage,
-            "on_base_plus_slugging_percentage": self.on_base_plus_slugging_percentage,
+            "on_base_plus_slugging_percentage":
+            self.on_base_plus_slugging_percentage,
             "pitches_thrown": self.pitches_thrown,
             "plate_appearances": self.plate_appearances,
             "putouts": self.putouts,
@@ -132,8 +138,10 @@ class BoxscorePlayer(AbstractPlayer):
             "times_struck_out": self.times_struck_out,
             "unknown_bat_types": self.unknown_bat_types,
             "win_probability_added": self.win_probability_added,
-            "win_probability_added_pitcher": self.win_probability_added_pitcher,
-            "win_probability_for_offensive_player": self.win_probability_for_offensive_player,
+            "win_probability_added_pitcher":
+            self.win_probability_added_pitcher,
+            "win_probability_for_offensive_player":
+            self.win_probability_for_offensive_player,
             "win_probability_subtracted": self.win_probability_subtracted,
         }
         return pd.DataFrame([fields_to_include], index=[self._player_id])
@@ -608,7 +616,10 @@ class Boxscore:
 
         for table in boxscore("table").items():
             try:
-                if "pitching" in table.attr["id"] or "batting" in table.attr["id"]:
+                if (
+                    "pitching" in table.attr["id"]
+                    or "batting" in table.attr["id"]
+                ):
                     tables.append(table)
             except (KeyError, TypeError):
                 continue
@@ -731,7 +742,9 @@ class Boxscore:
         home_players = []
         away_players = []
         for player_id, details in player_dict.items():
-            player = BoxscorePlayer(player_id, details["name"], details["data"])
+            player = BoxscorePlayer(
+                player_id, details["name"], details["data"]
+            )
             if details["team"] == HOME:
                 home_players.append(player)
             else:
@@ -769,7 +782,9 @@ class Boxscore:
             # the home team.
             if table_count % 2 == 1:
                 home_or_away = HOME
-            player_dict = self._extract_player_stats(table, player_dict, home_or_away)
+            player_dict = self._extract_player_stats(
+                table, player_dict, home_or_away
+            )
             table_count += 1
         away_players, home_players = self._instantiate_players(player_dict)
         return away_players, home_players
@@ -828,7 +843,9 @@ class Boxscore:
             index = 0
             if short_field in BOXSCORE_ELEMENT_INDEX.keys():
                 index = BOXSCORE_ELEMENT_INDEX[short_field]
-            value = utils._parse_field(BOXSCORE_SCHEME, boxscore, short_field, index)
+            value = utils._parse_field(
+                BOXSCORE_SCHEME, boxscore, short_field, index
+            )
             setattr(self, field, value)
         self._parse_game_date_and_location(boxscore)
         self._away_players, self._home_players = self._find_players(boxscore)
@@ -868,10 +885,12 @@ class Boxscore:
             "away_on_base_plus": self.away_on_base_plus,
             "away_pitches": self.away_pitches,
             "away_strikes": self.away_strikes,
-            "away_win_probability_for_offensive_player": self.away_win_probability_for_offensive_player,
+            "away_win_probability_for_offensive_player":
+            self.away_win_probability_for_offensive_player,
             "away_average_leverage_index": self.away_average_leverage_index,
             "away_win_probability_added": self.away_win_probability_added,
-            "away_win_probability_subtracted": self.away_win_probability_subtracted,
+            "away_win_probability_subtracted":
+            self.away_win_probability_subtracted,
             "away_base_out_runs_added": self.away_base_out_runs_added,
             "away_putouts": self.away_putouts,
             "away_assists": self.away_assists,
@@ -887,7 +906,8 @@ class Boxscore:
             "away_game_score": self.away_game_score,
             "away_inherited_runners": self.away_inherited_runners,
             "away_inherited_score": self.away_inherited_score,
-            "away_win_probability_by_pitcher": self.away_win_probability_by_pitcher,
+            "away_win_probability_by_pitcher":
+            self.away_win_probability_by_pitcher,
             "away_base_out_runs_saved": self.away_base_out_runs_saved,
             "home_at_bats": self.home_at_bats,
             "home_runs": self.home_runs,
@@ -903,10 +923,12 @@ class Boxscore:
             "home_on_base_plus": self.home_on_base_plus,
             "home_pitches": self.home_pitches,
             "home_strikes": self.home_strikes,
-            "home_win_probability_for_offensive_player": self.home_win_probability_for_offensive_player,
+            "home_win_probability_for_offensive_player":
+            self.home_win_probability_for_offensive_player,
             "home_average_leverage_index": self.home_average_leverage_index,
             "home_win_probability_added": self.home_win_probability_added,
-            "home_win_probability_subtracted": self.home_win_probability_subtracted,
+            "home_win_probability_subtracted":
+            self.home_win_probability_subtracted,
             "home_base_out_runs_added": self.home_base_out_runs_added,
             "home_putouts": self.home_putouts,
             "home_assists": self.home_assists,
@@ -922,7 +944,8 @@ class Boxscore:
             "home_game_score": self.home_game_score,
             "home_inherited_runners": self.home_inherited_runners,
             "home_inherited_score": self.home_inherited_score,
-            "home_win_probability_by_pitcher": self.home_win_probability_by_pitcher,
+            "home_win_probability_by_pitcher":
+            self.home_win_probability_by_pitcher,
             "home_base_out_runs_saved": self.home_base_out_runs_saved,
         }
         return pd.DataFrame([fields_to_include], index=[self._uri])
@@ -1843,7 +1866,14 @@ class Boxscores:
             home_score = self._get_score(scores[1])
         away_name, away_abbr = self._get_name(away)
         home_name, home_abbr = self._get_name(home)
-        return (away_name, away_abbr, away_score, home_name, home_abbr, home_score)
+        return (
+            away_name,
+            away_abbr,
+            away_score,
+            home_name,
+            home_abbr,
+            home_score,
+        )
 
     def _get_team_results(self, team_result_html):
         """
@@ -1896,7 +1926,14 @@ class Boxscores:
 
         for game in games:
             details = self._get_team_details(game)
-            away_name, away_abbr, away_score, home_name, home_abbr, home_score = details
+            (
+                away_name,
+                away_abbr,
+                away_score,
+                home_name,
+                home_abbr,
+                home_score,
+            ) = details
             boxscore_url = game('td[class="right gamelink"] a')
             boxscore_uri = self._get_boxscore_uri(boxscore_url)
             losers = [loser for loser in game('tr[class="loser"]').items()]
@@ -1973,6 +2010,10 @@ class Boxscores:
             page = self._get_requested_page(url)
             games = page('table[class="teams"]').items()
             boxscores = self._extract_game_info(games)
-            timestamp = "%s-%s-%s" % (date_step.month, date_step.day, date_step.year)
+            timestamp = "%s-%s-%s" % (
+                date_step.month,
+                date_step.day,
+                date_step.year,
+            )
             self._boxscores[timestamp] = boxscores
             date_step += timedelta(days=1)

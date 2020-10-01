@@ -34,7 +34,9 @@ class Team:
         The requested year to pull stats from.
     """
 
-    def __init__(self, team_name=None, team_data=None, team_conference=None, year=None):
+    def __init__(
+        self, team_name=None, team_data=None, team_conference=None, year=None
+    ):
         self._team_conference = team_conference
         self._year = year
         self._abbreviation = None
@@ -214,7 +216,8 @@ class Team:
             "conference_losses": self.conference_losses,
             "conference_wins": self.conference_wins,
             "defensive_rebounds": self.defensive_rebounds,
-            "effective_field_goal_percentage": self.effective_field_goal_percentage,
+            "effective_field_goal_percentage":
+            self.effective_field_goal_percentage,
             "field_goal_attempts": self.field_goal_attempts,
             "field_goal_percentage": self.field_goal_percentage,
             "field_goals": self.field_goals,
@@ -222,7 +225,8 @@ class Team:
             "free_throw_attempts": self.free_throw_attempts,
             "free_throw_percentage": self.free_throw_percentage,
             "free_throws": self.free_throws,
-            "free_throws_per_field_goal_attempt": self.free_throws_per_field_goal_attempt,
+            "free_throws_per_field_goal_attempt":
+            self.free_throws_per_field_goal_attempt,
             "games_played": self.games_played,
             "home_losses": self.home_losses,
             "home_wins": self.home_wins,
@@ -238,7 +242,8 @@ class Team:
             "opp_block_percentage": self.opp_block_percentage,
             "opp_blocks": self.opp_blocks,
             "opp_defensive_rebounds": self.opp_defensive_rebounds,
-            "opp_effective_field_goal_percentage": self.opp_effective_field_goal_percentage,
+            "opp_effective_field_goal_percentage":
+            self.opp_effective_field_goal_percentage,
             "opp_field_goal_attempts": self.opp_field_goal_attempts,
             "opp_field_goal_percentage": self.opp_field_goal_percentage,
             "opp_field_goals": self.opp_field_goals,
@@ -246,20 +251,26 @@ class Team:
             "opp_free_throw_attempts": self.opp_free_throw_attempts,
             "opp_free_throw_percentage": self.opp_free_throw_percentage,
             "opp_free_throws": self.opp_free_throws,
-            "opp_free_throws_per_field_goal_attempt": self.opp_free_throws_per_field_goal_attempt,
+            "opp_free_throws_per_field_goal_attempt":
+            self.opp_free_throws_per_field_goal_attempt,
             "opp_offensive_rating": self.opp_offensive_rating,
-            "opp_offensive_rebound_percentage": self.opp_offensive_rebound_percentage,
+            "opp_offensive_rebound_percentage":
+            self.opp_offensive_rebound_percentage,
             "opp_offensive_rebounds": self.opp_offensive_rebounds,
             "opp_personal_fouls": self.opp_personal_fouls,
             "opp_points": self.opp_points,
             "opp_steal_percentage": self.opp_steal_percentage,
             "opp_steals": self.opp_steals,
             "opp_three_point_attempt_rate": self.opp_three_point_attempt_rate,
-            "opp_three_point_field_goal_attempts": self.opp_three_point_field_goal_attempts,
-            "opp_three_point_field_goal_percentage": self.opp_three_point_field_goal_percentage,
+            "opp_three_point_field_goal_attempts":
+            self.opp_three_point_field_goal_attempts,
+            "opp_three_point_field_goal_percentage":
+            self.opp_three_point_field_goal_percentage,
             "opp_three_point_field_goals": self.opp_three_point_field_goals,
-            "opp_two_point_field_goal_attempts": self.opp_two_point_field_goal_attempts,
-            "opp_two_point_field_goal_percentage": self.opp_two_point_field_goal_percentage,
+            "opp_two_point_field_goal_attempts":
+            self.opp_two_point_field_goal_attempts,
+            "opp_two_point_field_goal_percentage":
+            self.opp_two_point_field_goal_percentage,
             "opp_two_point_field_goals": self.opp_two_point_field_goals,
             "opp_total_rebound_percentage": self.opp_total_rebound_percentage,
             "opp_total_rebounds": self.opp_total_rebounds,
@@ -274,11 +285,15 @@ class Team:
             "steals": self.steals,
             "strength_of_schedule": self.strength_of_schedule,
             "three_point_attempt_rate": self.three_point_attempt_rate,
-            "three_point_field_goal_attempts": self.three_point_field_goal_attempts,
-            "three_point_field_goal_percentage": self.three_point_field_goal_percentage,
+            "three_point_field_goal_attempts":
+            self.three_point_field_goal_attempts,
+            "three_point_field_goal_percentage":
+            self.three_point_field_goal_percentage,
             "three_point_field_goals": self.three_point_field_goals,
-            "two_point_field_goal_attempts": self.two_point_field_goal_attempts,
-            "two_point_field_goal_percentage": self.two_point_field_goal_percentage,
+            "two_point_field_goal_attempts":
+            self.two_point_field_goal_attempts,
+            "two_point_field_goal_percentage":
+            self.two_point_field_goal_percentage,
             "two_point_field_goals": self.two_point_field_goals,
             "total_rebound_percentage": self.total_rebound_percentage,
             "total_rebounds": self.total_rebounds,
@@ -659,7 +674,10 @@ class Team:
         Returns an ``int`` of the total number of two point field goal attempts
         during the season by opponents.
         """
-        return self.opp_field_goal_attempts - self.opp_three_point_field_goal_attempts
+        return (
+            self.opp_field_goal_attempts
+            - self.opp_three_point_field_goal_attempts
+        )
 
     @float_property_decorator
     def opp_two_point_field_goal_percentage(self):
@@ -1086,7 +1104,10 @@ class Teams:
         """
         Return the string representation of the class.
         """
-        teams = [f"{team.name} ({team.abbreviation})".strip() for team in self._teams]
+        teams = [
+            f"{team.name} ({team.abbreviation})".strip()
+            for team in self._teams
+        ]
         return "\n".join(teams)
 
     def __repr__(self):
@@ -1129,7 +1150,9 @@ class Teams:
                 continue
             conference = self._conferences_dict[team_name.lower()]
             team = Team(
-                team_data=team_data["data"], team_conference=conference, year=year
+                team_data=team_data["data"],
+                team_conference=conference,
+                year=year,
             )
             self._teams.append(team)
 

@@ -178,7 +178,8 @@ PLAYER_SCHEME = {
     "total_goals_for_on_ice": 'td[data-stat="total_goals_for"]',
     "power_play_goals_for_on_ice": 'td[data-stat="power_play_goals_for"]',
     "total_goals_against_on_ice": 'td[data-stat="total_goals_against"]',
-    "power_play_goals_against_on_ice": 'td[data-stat="power_play_goals_against"]',
+    "power_play_goals_against_on_ice":
+    'td[data-stat="power_play_goals_against"]',
     "offensive_point_shares": 'td[data-stat="ops"]',
     "defensive_point_shares": 'td[data-stat="dps"]',
     "point_shares": 'td[data-stat="ps"]',
@@ -201,7 +202,8 @@ PLAYER_SCHEME = {
     "really_bad_starts": 'td[data-stat="really_bad_starts_goalie"]',
     "goal_against_percentage_relative": 'td[data-stat="ga_pct_minus"]',
     "goals_saved_above_average": 'td[data-stat="gs_above_avg"]',
-    "adjusted_goals_against_average": 'td[data-stat="goals_against_avg_adjusted"]',
+    "adjusted_goals_against_average":
+    'td[data-stat="goals_against_avg_adjusted"]',
     "goalie_point_shares": 'td[data-stat="gps"]',
     "even_strength_shots_faced": 'td[data-stat="shots_against_ev"]',
     "even_strength_goals_allowed": 'td[data-stat="goals_against_ev"]',
@@ -234,7 +236,8 @@ SCHEDULE_URL = "https://www.hockey-reference.com/teams/%s/%s_gamelog.html"
 BOXSCORE_URL = "https://www.hockey-reference.com/boxscores/%s.html"
 
 BOXSCORES_URL = (
-    "https://www.hockey-reference.com/boxscores/index.fcgi?" "month=%s&day=%s&year=%s"
+    "https://www.hockey-reference.com/boxscores/index.fcgi?"
+    "month=%s&day=%s&year=%s"
 )
 PLAYER_URL = "https://www.hockey-reference.com/players/%s/%s.html"
 ROSTER_URL = "https://www.hockey-reference.com/teams/%s/%s.html"

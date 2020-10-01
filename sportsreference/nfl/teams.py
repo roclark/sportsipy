@@ -156,7 +156,9 @@ class Team:
             # instantiation.
             if field == "_rank" or field == "_year":
                 continue
-            value = utils._parse_field(PARSING_SCHEME, team_data, str(field)[1:])
+            value = utils._parse_field(
+                PARSING_SCHEME, team_data, str(field)[1:]
+            )
             setattr(self, field, value)
 
     @property
@@ -168,7 +170,8 @@ class Team:
         """
         fields_to_include = {
             "abbreviation": self.abbreviation,
-            "defensive_simple_rating_system": self.defensive_simple_rating_system,
+            "defensive_simple_rating_system":
+            self.defensive_simple_rating_system,
             "first_downs": self.first_downs,
             "first_downs_from_penalties": self.first_downs_from_penalties,
             "fumbles": self.fumbles,
@@ -177,7 +180,8 @@ class Team:
             "losses": self.losses,
             "margin_of_victory": self.margin_of_victory,
             "name": self.name,
-            "offensive_simple_rating_system": self.offensive_simple_rating_system,
+            "offensive_simple_rating_system":
+            self.offensive_simple_rating_system,
             "pass_attempts": self.pass_attempts,
             "pass_completions": self.pass_completions,
             "pass_first_downs": self.pass_first_downs,
@@ -186,10 +190,12 @@ class Team:
             "pass_yards": self.pass_yards,
             "penalties": self.penalties,
             "percent_drives_with_points": self.percent_drives_with_points,
-            "percent_drives_with_turnovers": self.percent_drives_with_turnovers,
+            "percent_drives_with_turnovers":
+            self.percent_drives_with_turnovers,
             "plays": self.plays,
             "points_against": self.points_against,
-            "points_contributed_by_offense": self.points_contributed_by_offense,
+            "points_contributed_by_offense":
+            self.points_contributed_by_offense,
             "points_difference": self.points_difference,
             "points_for": self.points_for,
             "post_season_result": self.post_season_result,
@@ -634,7 +640,10 @@ class Teams:
         """
         Return the string representation of the class.
         """
-        teams = [f"{team.name} ({team.abbreviation})".strip() for team in self._teams]
+        teams = [
+            f"{team.name} ({team.abbreviation})".strip()
+            for team in self._teams
+        ]
         return "\n".join(teams)
 
     def __repr__(self):
@@ -670,7 +679,9 @@ class Teams:
         if not team_data_dict:
             return
         for team_data in team_data_dict.values():
-            team = Team(team_data=team_data["data"], rank=team_data["rank"], year=year)
+            team = Team(
+                team_data=team_data["data"], rank=team_data["rank"], year=year
+            )
             self._teams.append(team)
 
     @property

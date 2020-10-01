@@ -690,7 +690,9 @@ class TestNHLPlayer:
 class TestNHLRoster:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_roster_class_pulls_all_player_stats(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("DET")
 
         assert len(roster.players) == 2
@@ -718,7 +720,9 @@ class TestNHLRoster:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_roster_class_with_slim_parameter(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("DET", slim=True)
 
         assert len(roster.players) == 2
@@ -729,8 +733,12 @@ class TestNHLRoster:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_request)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2019)
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2019
+        )
 
         roster = Roster("DET")
 
@@ -744,7 +752,9 @@ class TestNHLRoster:
         expected = """Jimmy Howard (howarja02)
 Henrik Zetterberg (zettehe01)"""
 
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("DET")
 
         assert roster.__repr__() == expected

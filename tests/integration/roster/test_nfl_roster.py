@@ -973,7 +973,9 @@ class TestNFLPlayer:
             assert getattr(player, attribute) == value
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
-    def test_nfl_qb_returns_requested_player_season_stats(self, *args, **kwargs):
+    def test_nfl_qb_returns_requested_player_season_stats(
+        self, *args, **kwargs
+    ):
         # Request the 2017 stats
         player = Player("BreeDr00")
         player = player("2017")
@@ -1382,14 +1384,18 @@ class TestNFLPlayer:
         df1 = pd.concat(frames).drop_duplicates(keep=False)
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
-    def test_nfl_fake_404_page_returns_none_with_no_errors(self, *args, **kwargs):
+    def test_nfl_fake_404_page_returns_none_with_no_errors(
+        self, *args, **kwargs
+    ):
         player = Player("404")
 
         assert player.name is None
         assert player.dataframe is None
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
-    def test_nfl_fake_404_page_returns_none_for_different_season(self, *args, **kwargs):
+    def test_nfl_fake_404_page_returns_none_for_different_season(
+        self, *args, **kwargs
+    ):
         player = Player("404")
         player = player("2017")
 
@@ -1397,7 +1403,9 @@ class TestNFLPlayer:
         assert player.dataframe is None
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
-    def test_nfl_player_with_no_career_stats_handled_properly(self, *args, **kwargs):
+    def test_nfl_player_with_no_career_stats_handled_properly(
+        self, *args, **kwargs
+    ):
         player = Player("HatfDo00")
 
         assert player.name == "Dominique Hatfield"
@@ -1412,7 +1420,9 @@ class TestNFLPlayer:
 class TestNFLRoster:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_roster_class_pulls_all_player_stats(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("NOR")
 
         assert len(roster.players) == 5
@@ -1452,7 +1462,9 @@ class TestNFLRoster:
 
     @mock.patch("requests.get", side_effect=mock_pyquery)
     def test_roster_class_with_slim_parameter(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("NOR", slim=True)
 
         assert len(roster.players) == 5
@@ -1466,8 +1478,12 @@ class TestNFLRoster:
 
     @mock.patch("requests.head", side_effect=mock_request)
     @mock.patch("requests.get", side_effect=mock_pyquery)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2019)
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2019
+        )
 
         roster = Roster("NOR")
 
@@ -1490,7 +1506,9 @@ Tommylee Lewis (LewiTo00)
 Wil Lutz (LutzWi00)
 Thomas Morstead (MorsTh00)"""
 
-        flexmock(utils).should_receive("_find_year_for_season").and_return("2018")
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            "2018"
+        )
         roster = Roster("NOR")
 
         assert roster.__repr__() == expected

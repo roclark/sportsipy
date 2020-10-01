@@ -31,7 +31,9 @@ def mock_httperror(url):
 class TestFBRoster:
     def setup_method(self):
         flexmock(Roster).should_receive("__init__").and_return(None)
-        flexmock(SquadPlayer).should_receive("_parse_player_stats").and_return(None)
+        flexmock(SquadPlayer).should_receive("_parse_player_stats").and_return(
+            None
+        )
         self.roster = Roster(None)
         self.player = SquadPlayer(None, None)
 

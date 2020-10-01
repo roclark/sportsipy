@@ -360,7 +360,9 @@ class Player(AbstractPlayer):
             "appearances",
             "pitching_standard",
         ]:
-            table_items = utils._get_stats_table(player_info, "table#%s" % table_id)
+            table_items = utils._get_stats_table(
+                player_info, "table#%s" % table_id
+            )
             career_items = utils._get_stats_table(
                 player_info, "table#%s" % table_id, footer=True
             )
@@ -601,8 +603,10 @@ class Player(AbstractPlayer):
             "birth_date": self.birth_date,
             "complete_games": self.complete_games,
             "defensive_chances": self.defensive_chances,
-            "defensive_runs_saved_above_average": self.defensive_runs_saved_above_average,
-            "defensive_runs_saved_above_average_per_innings": self.defensive_runs_saved_above_average_per_innings,
+            "defensive_runs_saved_above_average":
+            self.defensive_runs_saved_above_average,
+            "defensive_runs_saved_above_average_per_innings":
+            self.defensive_runs_saved_above_average_per_innings,
             "double_plays_turned": self.double_plays_turned,
             "doubles": self.doubles,
             "errors": self.errors,
@@ -632,18 +636,22 @@ class Player(AbstractPlayer):
             "intentional_bases_on_balls": self.intentional_bases_on_balls,
             "league_fielding_percentage": self.league_fielding_percentage,
             "league_range_factor_per_game": self.league_range_factor_per_game,
-            "league_range_factor_per_nine_innings": self.league_range_factor_per_nine_innings,
+            "league_range_factor_per_nine_innings":
+            self.league_range_factor_per_nine_innings,
             "name": self.name,
             "nationality": self.nationality,
             "on_base_percentage": self.on_base_percentage,
-            "on_base_plus_slugging_percentage": self.on_base_plus_slugging_percentage,
-            "on_base_plus_slugging_percentage_plus": self.on_base_plus_slugging_percentage_plus,
+            "on_base_plus_slugging_percentage":
+            self.on_base_plus_slugging_percentage,
+            "on_base_plus_slugging_percentage_plus":
+            self.on_base_plus_slugging_percentage_plus,
             "plate_appearances": self.plate_appearances,
             "player_id": self.player_id,
             "position": self.position,
             "putouts": self.putouts,
             "range_factor_per_game": self.range_factor_per_game,
-            "range_factor_per_nine_innings": self.range_factor_per_nine_innings,
+            "range_factor_per_nine_innings":
+            self.range_factor_per_nine_innings,
             "runs": self.runs,
             "runs_batted_in": self.runs_batted_in,
             "sacrifice_flies": self.sacrifice_flies,
@@ -656,26 +664,34 @@ class Player(AbstractPlayer):
             "times_hit_by_pitch": self.times_hit_by_pitch,
             "times_struck_out": self.times_struck_out,
             "total_bases": self.total_bases,
-            "total_fielding_runs_above_average": self.total_fielding_runs_above_average,
-            "total_fielding_runs_above_average_per_innings": self.total_fielding_runs_above_average_per_innings,
+            "total_fielding_runs_above_average":
+            self.total_fielding_runs_above_average,
+            "total_fielding_runs_above_average_per_innings":
+            self.total_fielding_runs_above_average_per_innings,
             "triples": self.triples,
             "weight": self.weight,
             # Properties specific to pitchers
             "balks": self.balks,
             "bases_on_balls_given": self.bases_on_balls_given,
-            "bases_on_balls_given_per_nine_innings": self.bases_on_balls_given_per_nine_innings,
+            "bases_on_balls_given_per_nine_innings":
+            self.bases_on_balls_given_per_nine_innings,
             "batters_faced": self.batters_faced,
-            "batters_struckout_per_nine_innings": self.batters_struckout_per_nine_innings,
+            "batters_struckout_per_nine_innings":
+            self.batters_struckout_per_nine_innings,
             "earned_runs_allowed": self.earned_runs_allowed,
             "era": self.era,
             "era_plus": self.era_plus,
-            "fielding_independent_pitching": self.fielding_independent_pitching,
+            "fielding_independent_pitching":
+            self.fielding_independent_pitching,
             "games_finished": self.games_finished,
-            "hits_against_per_nine_innings": self.hits_against_per_nine_innings,
+            "hits_against_per_nine_innings":
+            self.hits_against_per_nine_innings,
             "hits_allowed": self.hits_allowed,
-            "home_runs_against_per_nine_innings": self.home_runs_against_per_nine_innings,
+            "home_runs_against_per_nine_innings":
+            self.home_runs_against_per_nine_innings,
             "home_runs_allowed": self.home_runs_allowed,
-            "intentional_bases_on_balls_given": self.intentional_bases_on_balls_given,
+            "intentional_bases_on_balls_given":
+            self.intentional_bases_on_balls_given,
             "losses": self.losses,
             "runs_allowed": self.runs_allowed,
             "saves": self.saves,
@@ -1455,7 +1471,8 @@ class Roster:
         Return the string representation of the class.
         """
         players = [
-            f"{player.name} ({player.player_id})".strip() for player in self._players
+            f"{player.name} ({player.player_id})".strip()
+            for player in self._players
         ]
         return "\n".join(players)
 
@@ -1571,9 +1588,9 @@ class Roster:
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(self._create_url(year)) and utils._url_exists(
-                self._create_url(str(int(year) - 1))
-            ):
+            if not utils._url_exists(
+                self._create_url(year)
+            ) and utils._url_exists(self._create_url(str(int(year) - 1))):
                 year = str(int(year) - 1)
         url = self._create_url(year)
         page = self._pull_team_page(url)

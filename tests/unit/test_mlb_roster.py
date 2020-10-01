@@ -1,7 +1,8 @@
+from sportsreference.mlb.roster import _cleanup, Player
 from flexmock import flexmock
 from mock import patch, PropertyMock
-from sportsreference.mlb.player import AbstractPlayer, _cleanup as _cleanup_player
-from sportsreference.mlb.roster import _cleanup, Player
+from sportsreference.mlb.player import AbstractPlayer, \
+    _cleanup as _cleanup_player
 
 
 def mock_pyquery(url):
@@ -19,7 +20,8 @@ def mock_pyquery(url):
 
 class TestMLBPlayer:
     def setup_method(self):
-        flexmock(AbstractPlayer).should_receive("_parse_player_data").and_return(None)
+        flexmock(AbstractPlayer).should_receive(
+            "_parse_player_data").and_return(None)
         flexmock(Player).should_receive("_pull_player_data").and_return(None)
         flexmock(Player).should_receive("_find_initial_index").and_return(None)
 

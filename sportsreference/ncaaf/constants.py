@@ -20,7 +20,8 @@ PARSING_SCHEME = {
     "pass_attempts": 'td[data-stat="pass_att"]:first',
     "opponents_pass_attempts": 'td[data-stat="opp_pass_att"]:first',
     "pass_completion_percentage": 'td[data-stat="pass_cmp_pct"]:first',
-    "opponents_pass_completion_percentage": 'td[data-stat="opp_pass_cmp_pct"]:first',
+    "opponents_pass_completion_percentage":
+    'td[data-stat="opp_pass_cmp_pct"]:first',
     "pass_yards": 'td[data-stat="pass_yds"]:first',
     "opponents_pass_yards": 'td[data-stat="opp_pass_yds"]:first',
     "interceptions": 'td[data-stat="pass_int"]:first',
@@ -32,7 +33,8 @@ PARSING_SCHEME = {
     "rush_yards": 'td[data-stat="rush_yds"]:first',
     "opponents_rush_yards": 'td[data-stat="opp_rush_yds"]:first',
     "rush_yards_per_attempt": 'td[data-stat="rush_yds_per_att"]:first',
-    "opponents_rush_yards_per_attempt": 'td[data-stat="opp_rush_yds_per_att"]:first',
+    "opponents_rush_yards_per_attempt":
+    'td[data-stat="opp_rush_yds_per_att"]:first',
     "rush_touchdowns": 'td[data-stat="rush_td"]:first',
     "opponents_rush_touchdowns": 'td[data-stat="opp_rush_td"]:first',
     "plays": 'td[data-stat="tot_plays"]:first',
@@ -50,7 +52,8 @@ PARSING_SCHEME = {
     "rush_first_downs": 'td[data-stat="first_down_rush"]:first',
     "opponents_rush_first_downs": 'td[data-stat="opp_first_down_rush"]:first',
     "first_downs_from_penalties": 'td[data-stat="first_down_penalty"]:first',
-    "opponents_first_downs_from_penalties": 'td[data-stat="opp_first_down_penalty"]:first',
+    "opponents_first_downs_from_penalties":
+    'td[data-stat="opp_first_down_penalty"]:first',
     "first_downs": 'td[data-stat="first_down"]:first',
     "opponents_first_downs": 'td[data-stat="opp_first_down"]:first',
     "penalties": 'td[data-stat="penalty"]:first',
@@ -336,7 +339,9 @@ DEFENSIVE_STATS_URL = (
     "https://www.sports-reference.com/cfb/years/" "%s-team-defense.html"
 )
 
-SCHEDULE_URL = "https://www.sports-reference.com/cfb/schools/%s/" "%s-schedule.html"
+SCHEDULE_URL = (
+    "https://www.sports-reference.com/cfb/schools/%s/" "%s-schedule.html"
+)
 
 BOXSCORE_URL = "https://www.sports-reference.com/cfb/boxscores/%s.html"
 

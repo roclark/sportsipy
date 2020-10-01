@@ -313,7 +313,9 @@ class Player(AbstractPlayer):
             "stats_misc_plus_nhl",
             "stats_goalie_situational",
         ]:
-            table_items = utils._get_stats_table(player_info, "table#%s" % table_id)
+            table_items = utils._get_stats_table(
+                player_info, "table#%s" % table_id
+            )
             career_items = utils._get_stats_table(
                 player_info, "table#%s" % table_id, footer=True
             )
@@ -426,7 +428,8 @@ class Player(AbstractPlayer):
         fields_to_include = {
             "adjusted_assists": self.adjusted_assists,
             "adjusted_goals": self.adjusted_goals,
-            "adjusted_goals_against_average": self.adjusted_goals_against_average,
+            "adjusted_goals_against_average":
+            self.adjusted_goals_against_average,
             "adjusted_goals_created": self.adjusted_goals_created,
             "adjusted_points": self.adjusted_points,
             "age": self.age,
@@ -437,11 +440,13 @@ class Player(AbstractPlayer):
             "corsi_for": self.corsi_for,
             "corsi_for_percentage": self.corsi_for_percentage,
             "defensive_point_shares": self.defensive_point_shares,
-            "defensive_zone_start_percentage": self.defensive_zone_start_percentage,
+            "defensive_zone_start_percentage":
+            self.defensive_zone_start_percentage,
             "even_strength_assists": self.even_strength_assists,
             "even_strength_goals": self.even_strength_goals,
             "even_strength_goals_allowed": self.even_strength_goals_allowed,
-            "even_strength_save_percentage": self.even_strength_save_percentage,
+            "even_strength_save_percentage":
+            self.even_strength_save_percentage,
             "even_strength_shots_faced": self.even_strength_shots_faced,
             "faceoff_losses": self.faceoff_losses,
             "faceoff_percentage": self.faceoff_percentage,
@@ -452,7 +457,8 @@ class Player(AbstractPlayer):
             "game_winning_goals": self.game_winning_goals,
             "games_played": self.games_played,
             "giveaways": self.giveaways,
-            "goal_against_percentage_relative": self.goal_against_percentage_relative,
+            "goal_against_percentage_relative":
+            self.goal_against_percentage_relative,
             "goalie_point_shares": self.goalie_point_shares,
             "goals": self.goals,
             "goals_against": self.goals_against,
@@ -468,7 +474,8 @@ class Player(AbstractPlayer):
             "minutes": self.minutes,
             "name": self.name,
             "offensive_point_shares": self.offensive_point_shares,
-            "offensive_zone_start_percentage": self.offensive_zone_start_percentage,
+            "offensive_zone_start_percentage":
+            self.offensive_zone_start_percentage,
             "pdo": self.pdo,
             "penalties_in_minutes": self.penalties_in_minutes,
             "player_id": self.player_id,
@@ -477,7 +484,8 @@ class Player(AbstractPlayer):
             "points": self.points,
             "power_play_assists": self.power_play_assists,
             "power_play_goals": self.power_play_goals,
-            "power_play_goals_against_on_ice": self.power_play_goals_against_on_ice,
+            "power_play_goals_against_on_ice":
+            self.power_play_goals_against_on_ice,
             "power_play_goals_allowed": self.power_play_goals_allowed,
             "power_play_goals_for_on_ice": self.power_play_goals_for_on_ice,
             "power_play_save_percentage": self.power_play_save_percentage,
@@ -485,8 +493,10 @@ class Player(AbstractPlayer):
             "quality_start_percentage": self.quality_start_percentage,
             "quality_starts": self.quality_starts,
             "really_bad_starts": self.really_bad_starts,
-            "relative_corsi_for_percentage": self.relative_corsi_for_percentage,
-            "relative_fenwick_for_percentage": self.relative_fenwick_for_percentage,
+            "relative_corsi_for_percentage":
+            self.relative_corsi_for_percentage,
+            "relative_fenwick_for_percentage":
+            self.relative_fenwick_for_percentage,
             "save_percentage": self.save_percentage,
             "save_percentage_on_ice": self.save_percentage_on_ice,
             "saves": self.saves,
@@ -1115,7 +1125,8 @@ class Roster:
         Return the string representation of the class.
         """
         players = [
-            f"{player.name} ({player.player_id})".strip() for player in self._players
+            f"{player.name} ({player.player_id})".strip()
+            for player in self._players
         ]
         return "\n".join(players)
 
@@ -1229,9 +1240,9 @@ class Roster:
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
             # instead.
-            if not utils._url_exists(self._create_url(year)) and utils._url_exists(
-                self._create_url(str(int(year) - 1))
-            ):
+            if not utils._url_exists(
+                self._create_url(year)
+            ) and utils._url_exists(self._create_url(str(int(year) - 1))):
                 year = str(int(year) - 1)
         url = self._create_url(year)
         page = self._pull_team_page(url)

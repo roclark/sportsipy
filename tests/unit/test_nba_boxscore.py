@@ -90,7 +90,9 @@ class TestNBABoxscore:
     def test_winning_abbr_is_home(self):
         expected_name = "HOME"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_home_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -102,7 +104,9 @@ class TestNBABoxscore:
     def test_winning_abbr_is_away(self):
         expected_name = "AWAY"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_away_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -134,7 +138,9 @@ class TestNBABoxscore:
     def test_losing_abbr_is_home(self):
         expected_name = "HOME"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=AWAY)
         fake_home_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -146,7 +152,9 @@ class TestNBABoxscore:
     def test_losing_abbr_is_away(self):
         expected_name = "AWAY"
 
-        flexmock(utils).should_receive("_parse_abbreviation").and_return(expected_name)
+        flexmock(utils).should_receive("_parse_abbreviation").and_return(
+            expected_name
+        )
 
         fake_winner = PropertyMock(return_value=HOME)
         fake_away_abbr = PropertyMock(return_value=MockName(expected_name))
@@ -221,7 +229,9 @@ class TestNBABoxscore:
         type(self.boxscore)._away_field_goal_attempts = fake_int
         type(self.boxscore)._away_three_point_field_goal_attempts = fake_int
 
-        assert isinstance(self.boxscore.away_two_point_field_goal_attempts, int)
+        assert isinstance(
+            self.boxscore.away_two_point_field_goal_attempts, int
+        )
 
     def test_away_two_point_field_goal_percentage_calc(self):
         fake_none = PropertyMock(return_value=None)
@@ -243,7 +253,9 @@ class TestNBABoxscore:
         type(self.boxscore).away_two_point_field_goals = fake_int
         type(self.boxscore).away_two_point_field_goal_attempts = fake_int
 
-        assert isinstance(self.boxscore.away_two_point_field_goal_percentage, float)
+        assert isinstance(
+            self.boxscore.away_two_point_field_goal_percentage, float
+        )
 
     def test_home_to_point_field_goals_calc(self):
         fake_none = PropertyMock(return_value=None)
@@ -287,7 +299,9 @@ class TestNBABoxscore:
         type(self.boxscore)._home_field_goal_attempts = fake_int
         type(self.boxscore)._home_three_point_field_goal_attempts = fake_int
 
-        assert isinstance(self.boxscore.home_two_point_field_goal_attempts, int)
+        assert isinstance(
+            self.boxscore.home_two_point_field_goal_attempts, int
+        )
 
     def test_home_two_point_field_goal_percentage_calc(self):
         fake_none = PropertyMock(return_value=None)
@@ -309,7 +323,9 @@ class TestNBABoxscore:
         type(self.boxscore).home_two_point_field_goals = fake_int
         type(self.boxscore).home_two_point_field_goal_attempts = fake_int
 
-        assert isinstance(self.boxscore.home_two_point_field_goal_percentage, float)
+        assert isinstance(
+            self.boxscore.home_two_point_field_goal_percentage, float
+        )
 
     def test_game_summary_with_no_scores_returns_none(self):
         result = Boxscore(None)._parse_summary(

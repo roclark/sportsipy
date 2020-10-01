@@ -13,7 +13,11 @@ from .constants import (
     BOXSCORE_URL,
     BOXSCORES_URL,
 )
-from .player import AbstractPlayer, _float_property_decorator, _int_property_decorator
+from .player import (
+    AbstractPlayer,
+    _float_property_decorator,
+    _int_property_decorator,
+)
 from functools import wraps
 
 
@@ -116,8 +120,10 @@ class BoxscorePlayer(AbstractPlayer):
             "fumbles": self.fumbles,
             "fumbles_lost": self.fumbles_lost,
             "interceptions": self.interceptions,
-            "yards_returned_from_interception": self.yards_returned_from_interception,
-            "interceptions_returned_for_touchdown": self.interceptions_returned_for_touchdown,
+            "yards_returned_from_interception":
+            self.yards_returned_from_interception,
+            "interceptions_returned_for_touchdown":
+            self.interceptions_returned_for_touchdown,
             "longest_interception_return": self.longest_interception_return,
             "passes_defended": self.passes_defended,
             "sacks": self.sacks,
@@ -128,7 +134,8 @@ class BoxscorePlayer(AbstractPlayer):
             "quarterback_hits": self.quarterback_hits,
             "fumbles_recovered": self.fumbles_recovered,
             "yards_recovered_from_fumble": self.yards_recovered_from_fumble,
-            "fumbles_recovered_for_touchdown": self.fumbles_recovered_for_touchdown,
+            "fumbles_recovered_for_touchdown":
+            self.fumbles_recovered_for_touchdown,
             "fumbles_forced": self.fumbles_forced,
             "kickoff_returns": self.kickoff_returns,
             "kickoff_return_yards": self.kickoff_return_yards,
@@ -513,7 +520,12 @@ class Boxscore:
             represents a boxscore table.
         """
         tables = []
-        valid_tables = ["player_offense", "player_defense", "returns", "kicking"]
+        valid_tables = [
+            "player_offense",
+            "player_defense",
+            "returns",
+            "kicking",
+        ]
 
         for table in boxscore("table").items():
             if table.attr["id"] in valid_tables:
@@ -661,7 +673,9 @@ class Boxscore:
         home_players = []
         away_players = []
         for player_id, details in player_dict.items():
-            player = BoxscorePlayer(player_id, details["name"], details["data"])
+            player = BoxscorePlayer(
+                player_id, details["name"], details["data"]
+            )
             if details["team"] == HOME:
                 home_players.append(player)
             else:
@@ -756,7 +770,9 @@ class Boxscore:
             index = 0
             if short_field in BOXSCORE_ELEMENT_INDEX.keys():
                 index = BOXSCORE_ELEMENT_INDEX[short_field]
-            value = utils._parse_field(BOXSCORE_SCHEME, boxscore, short_field, index)
+            value = utils._parse_field(
+                BOXSCORE_SCHEME, boxscore, short_field, index
+            )
             setattr(self, field, value)
         self._parse_game_date_and_location(boxscore)
         self._parse_game_details(boxscore)
@@ -1643,7 +1659,14 @@ class Boxscores:
             home_score = self._get_score(scores[1])
         away_name, away_abbr = self._get_name(away)
         home_name, home_abbr = self._get_name(home)
-        return (away_name, away_abbr, away_score, home_name, home_abbr, home_score)
+        return (
+            away_name,
+            away_abbr,
+            away_score,
+            home_name,
+            home_abbr,
+            home_score,
+        )
 
     def _get_team_results(self, team_result_html):
         """
@@ -1696,7 +1719,14 @@ class Boxscores:
 
         for game in games:
             details = self._get_team_details(game)
-            away_name, away_abbr, away_score, home_name, home_abbr, home_score = details
+            (
+                away_name,
+                away_abbr,
+                away_score,
+                home_name,
+                home_abbr,
+                home_score,
+            ) = details
             boxscore_url = game('td[class="right gamelink"] a')
             boxscore_uri = self._get_boxscore_uri(boxscore_url)
             losers = [loser for loser in game('tr[class="loser"]').items()]

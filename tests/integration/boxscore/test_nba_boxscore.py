@@ -143,7 +143,9 @@ class TestNBABoxscore:
         }
 
     def test_invalid_url_yields_empty_class(self):
-        flexmock(Boxscore).should_receive("_retrieve_html_page").and_return(None)
+        flexmock(Boxscore).should_receive("_retrieve_html_page").and_return(
+            None
+        )
 
         boxscore = Boxscore(BOXSCORE)
 

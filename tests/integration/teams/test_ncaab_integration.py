@@ -38,7 +38,9 @@ def mock_pyquery(url):
             elif div == "table#adv_school_stats":
                 return read_file("%s-advanced-school-stats-table.html" % YEAR)
             else:
-                return read_file("%s-advanced-opponent-stats-table.html" % YEAR)
+                return read_file(
+                    "%s-advanced-opponent-stats-table.html" % YEAR
+                )
 
     basic_contents = read_file("%s-school-stats.html" % YEAR)
     opp_contents = read_file("%s-opponent-stats.html" % YEAR)
@@ -873,7 +875,9 @@ class TestNCAABIntegration:
             MockDateTime(YEAR, MONTH)
         )
 
-        flexmock(Conferences).should_receive("_find_conferences").and_return(None)
+        flexmock(Conferences).should_receive("_find_conferences").and_return(
+            None
+        )
         flexmock(Conferences).should_receive("team_conference").and_return(
             team_conference
         )
@@ -931,7 +935,9 @@ class TestNCAABIntegration:
             MockDateTime(YEAR, MONTH)
         )
         flexmock(Conferences).should_receive("team_conference").and_return({})
-        flexmock(Conferences).should_receive("_find_conferences").and_return(None)
+        flexmock(Conferences).should_receive("_find_conferences").and_return(
+            None
+        )
 
         teams = Teams()
 
@@ -1312,7 +1318,9 @@ Youngstown State (YOUNGSTOWN-STATE)"""
 class TestNCAABIntegrationInvalidYear:
     @mock.patch("requests.get", side_effect=mock_pyquery)
     @mock.patch("requests.head", side_effect=mock_pyquery)
-    def test_invalid_default_year_reverts_to_previous_year(self, *args, **kwargs):
+    def test_invalid_default_year_reverts_to_previous_year(
+        self, *args, **kwargs
+    ):
         team_conference = {
             "kansas": "big-12",
             "texas-tech": "big-12",
@@ -1666,8 +1674,12 @@ class TestNCAABIntegrationInvalidYear:
             "maryland-eastern-shore": "meac",
             "delaware-state": "meac",
         }
-        flexmock(utils).should_receive("_find_year_for_season").and_return(2019)
-        flexmock(Conferences).should_receive("_find_conferences").and_return(None)
+        flexmock(utils).should_receive("_find_year_for_season").and_return(
+            2019
+        )
+        flexmock(Conferences).should_receive("_find_conferences").and_return(
+            None
+        )
         flexmock(Conferences).should_receive("team_conference").and_return(
             team_conference
         )
