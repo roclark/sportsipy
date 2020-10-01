@@ -9,8 +9,10 @@ repos:
     rev: 3.8.3
     hooks:
       - id: flake8
-  - repo: https://github.com/ambv/black
-    rev: stable
+  - repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v1.5.4
     hooks:
-      - id: black
-        language_version: python3
+      - id: autopep8
+        args: ["-i"]
+        "types": [python]
+        language: python
