@@ -64,9 +64,9 @@ an abundance of metrics and information from all of the tracked leagues. The
 examples below are only a miniscule subset of the total number of statistics
 that can be pulled using sportsreference. Visit the documentation on
 `Read The Docs <http://sportsreference.readthedocs.io/en/latest/>`_ for a
-complete list of all information exposed by the API.You can also check the ML directory for a machine learning example which uses this module!
+complete list of all information exposed by the API.
 
-Get instances of all NHL teams for the 2018 season
+Get instances of all NHL teams for the 2020 season
 --------------------------------------------------
 
 .. code-block:: python
@@ -114,7 +114,7 @@ Print the number of interceptions by the away team in a NCAA Football game
 
     from sportsreference.ncaaf.boxscore import Boxscore
 
-    championship_game = Boxscore('2020-01-01-houston')
+    championship_game = Boxscore('2020-01-01-georgia')
     print(championship_game.away_interceptions)
 
 Get a Pandas DataFrame of all stats for a MLB game
