@@ -124,7 +124,7 @@ Get a Pandas DataFrame of all stats for a MLB game
 
     from sportsreference.mlb.boxscore import Boxscore
 
-    game = Boxscore('BOS201806070')
+    game = Boxscore('BOS202009070')
     df = game.dataframe
 
 Find the number of goals a football team has scored
