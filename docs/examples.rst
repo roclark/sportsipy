@@ -79,15 +79,12 @@ print their name and the win total.
 
 Predicting the Number of Wins By a Team In a Season
 ----------------------------------
-
-.. |br| raw:: html
-
 In order to predict the number of wins by a team, we are going to use a machine 
 learning model- linear regression. If you don't know what is linear regression
-here are a few links which will help you-<br/>
-(If you want to dig deep into the maths) - https://en.wikipedia.org/wiki/Linear_regression#:~:text=In%20statistics%2C%20linear%20regression%20is,is%20called%20simple%20linear%20regression <br />
-(If you just want to wet your legs! ) - https://www.khanacademy.org/math/statistics-probability/describing-relationships-quantitative-data/introduction-to-trend-lines/a/linear-regression-review <br />
-This model will be imported from another package- sklearn(https://scikit-learn.org/stable/) <br />
+here are a few links which will help you-
+| (If you want to dig deep into the maths) - https://en.wikipedia.org/wiki/Linear_regression#:~:text=In%20statistics%2C%20linear%20regression%20is,is%20called%20simple%20linear%20regression
+| (If you just want to wet your legs! ) - https://www.khanacademy.org/math/statistics-probability/describing-relationships-quantitative-data/introduction-to-trend-lines/a/linear-regression-review
+| This model will be imported from another package- sklearn(https://scikit-learn.org/stable/)
 We are going to iterate from 1970 to 2020 and store the number of wins each year
 for the team lions(DET). Then we will train our model with this data.
 
