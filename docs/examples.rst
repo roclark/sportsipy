@@ -76,3 +76,16 @@ print their name and the win total.
         for team in Teams(year):
             wins[team.name] = team.wins
         print_most_wins(year, wins)
+
+Predicting the Number of Wins By a Team In a Season
+----------------------------------
+In order to predict the number of wins by a team, we are going to use a machine 
+learning model- linear regression. If you don't know what is linear regression
+here are a few links which will help you-
+(If you want to dig deep into the maths) - https://en.wikipedia.org/wiki/Linear_regression#:~:text=In%20statistics%2C%20linear%20regression%20is,is%20called%20simple%20linear%20regression
+(If you just want to wet your legs! ) - https://www.khanacademy.org/math/statistics-probability/describing-relationships-quantitative-data/introduction-to-trend-lines/a/linear-regression-review
+This model will be imported from another package- sklearn(https://scikit-learn.org/stable/)
+We are going to iterate from 1970 to 2020 and store the number of wins each year
+for the team lions(DET). Then we will train our model with this data.
+
+.. code-block:: python
