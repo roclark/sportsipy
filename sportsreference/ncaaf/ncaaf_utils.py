@@ -43,7 +43,7 @@ def _add_stats_data(teams_list, team_data_dict):
     return team_data_dict
 
 
-def _retrieve_all_teams(year):
+def _retrieve_all_teams(year, season_page, offensive_stats, defensive_stats):
     """
     Find and create Team instances for all teams in the given season.
 
@@ -60,6 +60,12 @@ def _retrieve_all_teams(year):
     ----------
     year : string
         The requested year to pull stats from.
+    season_page : string (optional)
+        Link with filename to the local season stats page.
+    offensive_stats : string (optional)
+        Link with filename to the local offensive stats page.
+    defensive_stats : string (optional)
+        Link with filename to the local defensive stats page.
 
     Returns
     -------
@@ -78,11 +84,11 @@ def _retrieve_all_teams(year):
         if not utils._url_exists(SEASON_PAGE_URL % year) and \
            utils._url_exists(SEASON_PAGE_URL % str(int(year) - 1)):
             year = str(int(year) - 1)
-    doc = pq(SEASON_PAGE_URL % year)
+    doc = utils._pull_page(SEASON_PAGE_URL % year, season_page)
     teams_list = utils._get_stats_table(doc, 'div#div_standings')
-    offense_doc = pq(OFFENSIVE_STATS_URL % year)
+    offense_doc = utils._pull_page(OFFENSIVE_STATS_URL % year, offensive_stats)
     offense_list = utils._get_stats_table(offense_doc, 'table#offense')
-    defense_doc = pq(DEFENSIVE_STATS_URL % year)
+    defense_doc = utils._pull_page(DEFENSIVE_STATS_URL % year, defensive_stats)
     defense_list = utils._get_stats_table(defense_doc, 'table#defense')
     if not teams_list and not offense_list and not defense_list:
         utils._no_data_found()

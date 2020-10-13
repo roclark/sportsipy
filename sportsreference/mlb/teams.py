@@ -56,8 +56,17 @@ class Team:
         Teams class.
     year : string (optional)
         The requested year to pull stats from.
+    standings_file : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should be
+        of the Standings page for the designated year.
+    teams_file : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should be
+        of the League page for the designated year.
     """
-    def __init__(self, team_name=None, team_data=None, rank=None, year=None):
+    def __init__(self, team_name=None, team_data=None, rank=None, year=None,
+                 standings_file=None, teams_file=None):
         self._year = year
         self._rank = rank
         self._abbreviation = None
@@ -142,7 +151,8 @@ class Team:
         self._opposing_runners_left_on_base = None
 
         if team_name:
-            team_data = self._retrieve_team_data(year, team_name)
+            team_data = self._retrieve_team_data(year, team_name,
+                                                 standings_file, teams_file)
 
         self._parse_team_data(team_data)
 
@@ -158,7 +168,8 @@ class Team:
         """
         return self.__str__()
 
-    def _retrieve_team_data(self, year, team_name):
+    def _retrieve_team_data(self, year, team_name, standings_file=None,
+                            teams_file=None):
         """
         Pull all stats for a specific team.
 
@@ -173,6 +184,14 @@ class Team:
         team_name : string
             A ``string`` of the team's 3-letter abbreviation, such as 'HOU' for
             the Houston Astros.
+        standings_file : string (optional)
+            Optionally specify the filename of a local file to use to pull data
+            instead of downloading from sports-reference.com. This file should
+            be of the Standings page for the designated year.
+        teams_file : string (optional)
+            Optionally specify the filename of a local file to use to pull data
+            instead of downloading from sports-reference.com. This file should
+            be of the League page for the designated year.
 
         Returns
         -------
@@ -180,7 +199,8 @@ class Team:
             Returns a PyQuery object containing all stats and information for
             the specified team.
         """
-        team_data_dict, year = _retrieve_all_teams(year)
+        team_data_dict, year = _retrieve_all_teams(year, standings_file,
+                                                   teams_file)
         self._year = year
         team_data = team_data_dict[team_name]['data']
         self._rank = team_data_dict[team_name]['rank']
@@ -1203,11 +1223,20 @@ class Teams:
     ----------
     year : string (optional)
         The requested year to pull stats from.
+    standings_file : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should be
+        of the Standings page for the designated year.
+    teams_file : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should be
+        of the League page for the designated year.
     """
-    def __init__(self, year=None):
+    def __init__(self, year=None, standings_file=None, teams_file=None):
         self._teams = []
 
-        team_data_dict, year = _retrieve_all_teams(year)
+        team_data_dict, year = _retrieve_all_teams(year, standings_file,
+                                                   teams_file)
         self._instantiate_teams(team_data_dict, year)
 
     def __str__(self):

@@ -41,7 +41,7 @@ def _add_stats_data(teams_list, team_data_dict):
     return team_data_dict
 
 
-def _retrieve_all_teams(year):
+def _retrieve_all_teams(year, standings_file=None, teams_file=None):
     """
     Find and create Team instances for all teams in the given season.
 
@@ -54,6 +54,10 @@ def _retrieve_all_teams(year):
     ----------
     year : string
         The requested year to pull stats from.
+    standings_file : string (optional)
+        Link with filename to the local standings page.
+    teams_file : string (optional)
+        Link with filename to the local teams page.
 
     Returns
     -------
@@ -72,10 +76,10 @@ def _retrieve_all_teams(year):
         if not utils._url_exists(STANDINGS_URL % year) and \
            utils._url_exists(STANDINGS_URL % str(int(year) - 1)):
             year = str(int(year) - 1)
-    doc = pq(STANDINGS_URL % year)
+    doc = utils._pull_page(STANDINGS_URL % year, standings_file)
     div_prefix = 'div#all_expanded_standings_overall'
     standings = utils._get_stats_table(doc, div_prefix)
-    doc = pq(TEAM_STATS_URL % year)
+    doc = utils._pull_page(TEAM_STATS_URL % year, teams_file)
     div_prefix = 'div#all_teams_standard_%s'
     batting_stats = utils._get_stats_table(doc, div_prefix % 'batting')
     pitching_stats = utils._get_stats_table(doc, div_prefix % 'pitching')

@@ -1,3 +1,4 @@
+import pytest
 from mock import patch
 from flexmock import flexmock
 from sportsreference import utils
@@ -291,3 +292,12 @@ class TestUtils:
         response = utils._no_data_found()
 
         assert not response
+
+    def test_pulling_data_with_no_inputs(self, *args, **kwargs):
+        with pytest.raises(ValueError):
+            utils._pull_page()
+
+    def test_pulling_local_file(seld, *args, **kwargs):
+        output = utils._pull_page(local_file='VERSION')
+
+        assert output

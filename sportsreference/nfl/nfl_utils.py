@@ -40,7 +40,7 @@ def _add_stats_data(teams_list, team_data_dict):
     return team_data_dict
 
 
-def _retrieve_all_teams(year):
+def _retrieve_all_teams(year, season_page=None):
     """
     Find and create Team instances for all teams in the given season.
 
@@ -57,6 +57,8 @@ def _retrieve_all_teams(year):
     ----------
     year : string
         The requested year to pull stats from.
+    season_page : string (optional)
+        Link with filename to the local season page.
 
     Returns
     -------
@@ -75,7 +77,7 @@ def _retrieve_all_teams(year):
         if not utils._url_exists(SEASON_PAGE_URL % year) and \
            utils._url_exists(SEASON_PAGE_URL % str(int(year) - 1)):
             year = str(int(year) - 1)
-    doc = pq(SEASON_PAGE_URL % year)
+    doc = utils._pull_page(SEASON_PAGE_URL % year, season_page)
     teams_list = utils._get_stats_table(doc, 'div#all_team_stats')
     afc_list = utils._get_stats_table(doc, 'table#AFC')
     nfc_list = utils._get_stats_table(doc, 'table#NFC')

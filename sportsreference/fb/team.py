@@ -30,8 +30,12 @@ class Team:
         Hotspur', or the team's 8-digit squad ID, such as '361ca564' for
         Tottenham. If a team can't be found for the given name, a list of
         suggestions will be returned with corresponding squad IDs.
+    squad_page : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should be
+        of the Squad page for the designated year.
     """
-    def __init__(self, team_id):
+    def __init__(self, team_id, squad_page=None):
         self._squad_id = None
         self._name = None
         self._season = None
@@ -62,7 +66,7 @@ class Team:
         self._away_points = None
 
         self._squad_id = _lookup_team(team_id)
-        self._pull_team_page()
+        self._pull_team_page(squad_page)
 
     def __str__(self):
         """
@@ -285,16 +289,23 @@ class Team:
             elif 'gender' in line.lower():
                 self._gender = line.replace('Gender: ', '')
 
-    def _pull_team_page(self):
+    def _pull_team_page(self, squad_page=None):
         """
         Pull the team page and parse results.
 
         Using the requested squad ID, first pull the team page, then parse
         the header for relevant information on the team including records,
         goals, manager, league results, and more.
+
+        Parameters
+        ----------
+        squad_page : string (optional)
+            Optionally specify the filename of a local file to use to pull data
+            instead of downloading from sports-reference.com. This file should
+            be of the Squad page for the designated year.
         """
         try:
-            doc = pq(SQUAD_URL % self.squad_id)
+            doc = utils._pull_page(SQUAD_URL % self.squad_id, squad_page)
         except HTTPError:
             return
         self._doc = doc

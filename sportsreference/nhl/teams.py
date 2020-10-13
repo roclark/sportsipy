@@ -35,8 +35,13 @@ class Team:
     year : string (optional)
         The requested year to pull stats from. Is only used when called
         directly from the Teams class.
+    season_page : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should be
+        of the Season page for the designated year.
     """
-    def __init__(self, team_name=None, team_data=None, rank=None, year=None):
+    def __init__(self, team_name=None, team_data=None, rank=None, year=None,
+                 season_page=None):
         self._year = year
         self._rank = rank
         self._abbreviation = None
@@ -68,7 +73,7 @@ class Team:
         self._pdo_at_even_strength = None
 
         if team_name:
-            team_data = self._retrieve_team_data(year, team_name)
+            team_data = self._retrieve_team_data(year, team_name, season_page)
         self._parse_team_data(team_data)
 
     def __str__(self):
@@ -83,7 +88,7 @@ class Team:
         """
         return self.__str__()
 
-    def _retrieve_team_data(self, year, team_name):
+    def _retrieve_team_data(self, year, team_name, season_page):
         """
         Pull all stats for a specific team.
 
@@ -98,8 +103,12 @@ class Team:
         team_name : string
             A ``string`` of the team's 3-letter abbreviation, such as 'DET' for
             the Detroit Red Wings.
+        season_page : string (optional)
+            Optionally specify the filename of a local file to use to pull data
+            instead of downloading from sports-reference.com. This file should
+            be of the Season page for the designated year.
         """
-        teams_list, year = _retrieve_all_teams(year)
+        teams_list, year = _retrieve_all_teams(year, season_page)
         self._year = year
         # Teams are listed in terms of rank with the first team being #1
         rank = 1
@@ -438,11 +447,15 @@ class Teams:
     ----------
     year : string (optional)
         The requested year to pull stats from.
+    season_page : string (optional)
+        Optionally specify the filename of a local file to use to pull data
+        instead of downloading from sports-reference.com. This file should be
+        of the Season page for the designated year.
     """
-    def __init__(self, year=None):
+    def __init__(self, year=None, season_page=None):
         self._teams = []
 
-        teams_list, year = _retrieve_all_teams(year)
+        teams_list, year = _retrieve_all_teams(year, season_page)
         self._instantiate_teams(teams_list, year)
 
     def __getitem__(self, abbreviation):
