@@ -1438,9 +1438,15 @@ class Boxscores:
         # Grab the first <td...> tag for each <tr> row in the boxscore,
         # representing the name for each participating team.
         links = [g('td:first') for g in game('tr').items()]
-        # The away team is the second link in the boxscore
-        away = links[1]
-        # The home team is the last (3rd) link in the boxscore
+        # The date will be included periodically in the boxscore which adds a
+        # third table row to the boxscore. In this case, the away team is the
+        # second link (index 1). Othertimes, the date is not included, and the
+        # first link is the away team.
+        if len(links) == 2:
+            away = links[0]
+        else:
+            away = links[1]
+        # The home team is the last (2nd or 3rd) link in the boxscore
         home = links[-1]
         non_di = False
         scores = re.findall(r'<td class="right">\d+</td>', str(game))
