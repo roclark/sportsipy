@@ -24,10 +24,10 @@ def _int_property_decorator(func):
     def wrapper(*args):
         index = args[0]._index
         prop = func(*args)
-        value = _cleanup(prop[index])
         try:
+            value = _cleanup(prop[index])
             return int(value)
-        except ValueError:
+        except (TypeError, ValueError):
             # If there is no value, default to None
             return None
     return wrapper
@@ -39,10 +39,10 @@ def _float_property_decorator(func):
     def wrapper(*args):
         index = args[0]._index
         prop = func(*args)
-        value = _cleanup(prop[index])
         try:
+            value = _cleanup(prop[index])
             return float(value)
-        except ValueError:
+        except (TypeError, ValueError):
             # If there is no value, default to None
             return None
     return wrapper
@@ -119,6 +119,8 @@ class AbstractPlayer:
         self._usage_percentage = None
         self._box_plus_minus = None
 
+        if not player_data:
+            return
         self._parse_player_data(player_data)
 
     def _parse_value(self, stats, field):
