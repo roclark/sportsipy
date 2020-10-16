@@ -110,9 +110,7 @@ class TestNFLBoxscore:
             .and_return(expected_name)
 
         fake_winner = PropertyMock(return_value=HOME)
-        fake_home_abbr = PropertyMock(return_value=MockName(expected_name))
         type(self.boxscore).winner = fake_winner
-        type(self.boxscore)._home_abbr = fake_home_abbr
 
         assert self.boxscore.winning_abbr == expected_name
 
@@ -124,9 +122,7 @@ class TestNFLBoxscore:
             .and_return(expected_name)
 
         fake_winner = PropertyMock(return_value=AWAY)
-        fake_away_abbr = PropertyMock(return_value=MockName(expected_name))
         type(self.boxscore).winner = fake_winner
-        type(self.boxscore)._away_abbr = fake_away_abbr
 
         assert self.boxscore.winning_abbr == expected_name
 
@@ -158,9 +154,7 @@ class TestNFLBoxscore:
             .and_return(expected_name)
 
         fake_winner = PropertyMock(return_value=AWAY)
-        fake_home_abbr = PropertyMock(return_value=MockName(expected_name))
         type(self.boxscore).winner = fake_winner
-        type(self.boxscore)._home_abbr = fake_home_abbr
 
         assert self.boxscore.losing_abbr == expected_name
 
@@ -172,9 +166,7 @@ class TestNFLBoxscore:
             .and_return(expected_name)
 
         fake_winner = PropertyMock(return_value=HOME)
-        fake_away_abbr = PropertyMock(return_value=MockName(expected_name))
         type(self.boxscore).winner = fake_winner
-        type(self.boxscore)._away_abbr = fake_away_abbr
 
         assert self.boxscore.losing_abbr == expected_name
 
@@ -323,6 +315,26 @@ itemprop="name">New England Patriots</a>')
 
         for field, value in fields.items():
             assert getattr(self.boxscore, field) == value
+
+    def test_finding_home_team_with_no_abbrs(self):
+        mock_html = pq('<td data-stat="team">KAN</td>')
+        abbr = PropertyMock(return_value='KAN')
+        self.boxscore._home_abbr = None
+        self.boxscore._away_abbr = None
+        type(self.boxscore).home_abbreviation = abbr
+        team = self.boxscore._find_home_or_away(mock_html)
+
+        assert team == HOME
+
+    def test_finding_away_team_with_no_abbrs(self):
+        mock_html = pq('<td data-stat="team">HTX</td>')
+        abbr = PropertyMock(return_value='KAN')
+        self.boxscore._home_abbr = None
+        self.boxscore._away_abbr = None
+        type(self.boxscore).home_abbreviation = abbr
+        team = self.boxscore._find_home_or_away(mock_html)
+
+        assert team == AWAY
 
 
 class TestNFLBoxscores:

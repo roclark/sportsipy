@@ -582,6 +582,10 @@ class Boxscore:
             the home or away team.
         """
         name = row('td[data-stat="team"]').text().upper()
+        if self._home_abbr and name == self._home_abbr.upper():
+            return HOME
+        if self._away_abbr and name == self._away_abbr.upper():
+            return AWAY
         if name == self.home_abbreviation.upper():
             return HOME
         else:
@@ -698,6 +702,35 @@ class Boxscore:
         away_players, home_players = self._instantiate_players(player_dict)
         return away_players, home_players
 
+    def _alt_abbreviations(self, boxscore):
+        """
+        Find the alternative abbreviations for both teams.
+
+        The listed team abbreviations are occasionally different from the
+        abbreviations used on sports-reference.com to identify a team. In order
+        properly match a player to a specific team, the abbreviations must be
+        parsed directly from the page instead of the URI links.
+
+        Parameters
+        ----------
+        boxscore : PyQuery object
+            A PyQuery object containing all of the HTML data from the boxscore.
+
+        Returns
+        -------
+        tuple
+            Returns a ``tuple`` in the format (away_abbr, home_abbr)
+            where each element is a string of the away and home team's
+            abbreviations, respectively.
+        """
+        abbreviations = []
+        game_info = boxscore(BOXSCORE_SCHEME['team_stats'])
+
+        for column in game_info('th').items():
+            if column.text():
+                abbreviations.append(column.text())
+        return abbreviations
+
     def _parse_game_data(self, uri):
         """
         Parses a value for every attribute.
@@ -763,6 +796,7 @@ class Boxscore:
             setattr(self, field, value)
         self._parse_game_date_and_location(boxscore)
         self._parse_game_details(boxscore)
+        self._away_abbr, self._home_abbr = self._alt_abbreviations(boxscore)
         self._away_players, self._home_players = self._find_players(boxscore)
 
     @property
