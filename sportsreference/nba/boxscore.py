@@ -654,15 +654,18 @@ class Boxscore:
                 continue
             index = 0
             strip = False
+            secondary_index = None
             if short_field in BOXSCORE_ELEMENT_INDEX.keys():
                 index = BOXSCORE_ELEMENT_INDEX[short_field]
+                secondary_index = 1
             if short_field == 'home_record':
                 strip = True
             value = utils._parse_field(BOXSCORE_SCHEME,
                                        boxscore,
                                        short_field,
                                        index,
-                                       strip)
+                                       strip,
+                                       secondary_index)
             setattr(self, field, value)
         self._away_players, self._home_players = self._find_players(boxscore)
 

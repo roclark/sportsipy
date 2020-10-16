@@ -297,7 +297,40 @@ class TestUtils:
         with pytest.raises(ValueError):
             utils._pull_page()
 
-    def test_pulling_local_file(seld, *args, **kwargs):
+    def test_pulling_local_file(self, *args, **kwargs):
         output = utils._pull_page(local_file='VERSION')
 
         assert output
+
+    def test_secondary_index_pulling_values(self):
+        parsing_scheme = {'batters_used': 'td[data-stat="batters_used"]'}
+        html_string = '''<td class="right " data-stat="batters_used">32</td>
+<td class="right " data-stat="age_bat">29.1</td>
+<td class="right " data-stat="runs_per_game">4.10</td>
+<td class="right " data-stat="batters_used">31</td>
+<td class="right " data-stat="batters_used">34</td>'''
+        items = [32, 31, 34]
+        expected = 31
+
+        result = utils._parse_field(parsing_scheme,
+                                    MockHtml(html_string, items),
+                                    'batters_used',
+                                    index=3,
+                                    secondary_index=1)
+        assert result == expected
+
+    def test_secondary_index_pulling_values_bad_secondary(self):
+        parsing_scheme = {'batters_used': 'td[data-stat="batters_used"]'}
+        html_string = '''<td class="right " data-stat="batters_used">32</td>
+<td class="right " data-stat="age_bat">29.1</td>
+<td class="right " data-stat="runs_per_game">4.10</td>
+<td class="right " data-stat="batters_used">31</td>
+<td class="right " data-stat="batters_used">34</td>'''
+        items = [32, 31, 34]
+
+        result = utils._parse_field(parsing_scheme,
+                                    MockHtml(html_string, items),
+                                    'batters_used',
+                                    index=3,
+                                    secondary_index=4)
+        assert not result
