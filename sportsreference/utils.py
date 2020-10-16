@@ -148,7 +148,8 @@ def _parse_abbreviation(uri_link):
     return abbr.upper()
 
 
-def _parse_field(parsing_scheme, html_data, field, index=0, strip=False):
+def _parse_field(parsing_scheme, html_data, field, index=0, strip=False,
+                 secondary_index=None):
     """
     Parse an HTML table to find the requested field's value.
 
@@ -182,6 +183,12 @@ def _parse_field(parsing_scheme, html_data, field, index=0, strip=False):
         elements which might show up during list comprehensions. Specify True
         if the invalid elements should be removed from lists, which can help
         with reverse indexing.
+    secondary_index : int (optional)
+        An optional index if multiple fields have the same attribute, but the
+        original index specified above doesn't work. This happens if a page
+        doesn't have all of the intended information, and the requested index
+        isn't valid, causing the value to be None. Instead, a secondary index
+        could be checked prior to returning None.
 
     Returns
     -------
@@ -205,6 +212,11 @@ def _parse_field(parsing_scheme, html_data, field, index=0, strip=False):
     try:
         return items[index]
     except IndexError:
+        if secondary_index:
+            try:
+                return items[secondary_index]
+            except IndexError:
+                return None
         return None
 
 
