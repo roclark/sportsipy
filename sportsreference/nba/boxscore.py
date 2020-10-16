@@ -402,10 +402,13 @@ class Boxscore:
         summary = {'away': [], 'home': []}
         game_summary = boxscore(BOXSCORE_SCHEME['summary'])
         for ind, team_info in enumerate(game_summary('tr').items()):
+            scheme = 'td[class="center "]'
+            if team_info('td[class="center"]'):
+                scheme = 'td[class="center"]'
             # Only pull the first N-1 items as the last element is the final
             # score for each team which is already stored in an attribute, and
             # shouldn't be duplicated.
-            for quarter in list(team_info('td[class="center"]').items())[:-1]:
+            for quarter in list(team_info(scheme).items())[:-1]:
                 ind = ind % 2
                 try:
                     summary[team[ind]].append(int(quarter.text()))
