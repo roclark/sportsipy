@@ -28,10 +28,10 @@ def _int_property_decorator(func):
     def wrapper(*args):
         index = args[0]._index
         prop = func(*args)
-        value = _cleanup(prop[index])
         try:
+            value = _cleanup(prop[index])
             return int(value)
-        except ValueError:
+        except (TypeError, ValueError):
             # If there is no value, default to None
             return None
     return wrapper
@@ -43,10 +43,10 @@ def _int_property_decorator_default_zero(func):
     def wrapper(*args):
         index = args[0]._index
         prop = func(*args)
-        value = _cleanup(prop[index])
         try:
+            value = _cleanup(prop[index])
             return int(value)
-        except ValueError:
+        except (TypeError, ValueError):
             # If there is no value, default to 0
             return 0
     return wrapper
@@ -58,10 +58,10 @@ def _float_property_decorator(func):
     def wrapper(*args):
         index = args[0]._index
         prop = func(*args)
-        value = _cleanup(prop[index])
         try:
+            value = _cleanup(prop[index])
             return float(value)
-        except ValueError:
+        except (TypeError, ValueError):
             # If there is no value, default to None
             return None
     return wrapper
@@ -186,10 +186,10 @@ class Player(AbstractPlayer):
         self._points_per_poss = None
 
         player_data = self._pull_player_data()
+        AbstractPlayer.__init__(self, player_id, self._name, player_data)
         if not player_data:
             return
         self._find_initial_index()
-        AbstractPlayer.__init__(self, player_id, self._name, player_data)
 
     def __str__(self):
         """
