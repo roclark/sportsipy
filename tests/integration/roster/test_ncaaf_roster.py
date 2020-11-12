@@ -456,13 +456,17 @@ class TestNCAAFPlayer:
         frames = [df, player.dataframe]
         df1 = pd.concat(frames).drop_duplicates(keep=False)
 
-    def test_ncaaf_tight_end_skips_passing_without_errors(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_ncaaf_tight_end_skips_passing_without_errors(self, *args,
+                                                          **kwargs):
         player = Player('brycen-hopkins-1')
 
         assert player.name == 'Brycen Hopkins'
         assert player.dataframe is not None
 
-    def test_ncaaf_kicker_returns_expected_kicking_stats(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_ncaaf_kicker_returns_expected_kicking_stats(self, *args,
+                                                         **kwargs):
         stats = {
             'extra_points_made': 91,
             'extra_points_attempted': 92,
