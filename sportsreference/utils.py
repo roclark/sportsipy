@@ -61,7 +61,13 @@ def _url_exists(url):
     """
     try:
         response = requests.head(url)
-        if response.status_code < 400:
+        if response.status_code == 301:
+            response = requests.get(url)
+            if response.status_code < 400:
+                return True
+            else:
+                return False
+        elif response.status_code < 400:
             return True
         else:
             return False
