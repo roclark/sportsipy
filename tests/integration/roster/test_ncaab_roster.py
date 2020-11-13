@@ -445,3 +445,6 @@ Vince Edwards (vince-edwards-2)"""
         roster = Roster('PURDUE')
 
         assert roster.__repr__() == expected
+
+    def test_coach(self):
+        assert "Matt Painter" == Roster('PURDUE', year=YEAR).coach

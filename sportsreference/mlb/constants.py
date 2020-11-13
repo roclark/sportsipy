@@ -306,6 +306,7 @@ BOXSCORE_ELEMENT_INDEX = {
 }
 
 PLAYER_SCHEME = {
+    'summary': '[data-template="Partials/Teams/Summary"]',
     'season': 'th[data-stat="year_ID"]',
     'name': 'h1[itemprop="name"]',
     'team_abbreviation': 'td[data-stat="team_ID"]',

@@ -1496,3 +1496,6 @@ Thomas Morstead (MorsTh00)"""
         roster = Roster('NOR')
 
         assert roster.__repr__() == expected
+
+    def test_coach(self):
+        assert "Sean Payton" == Roster('NOR', year=YEAR).coach

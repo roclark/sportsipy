@@ -574,3 +574,6 @@ David Blough (rondale-moore-1)"""
         roster = Roster('PURDUE')
 
         assert roster.__repr__() == expected
+
+    def test_coach(self):
+        assert "Troy Calhoun" == Roster('air-force', year=YEAR).coach

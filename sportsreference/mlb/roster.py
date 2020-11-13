@@ -1450,12 +1450,13 @@ class Roster:
     def __init__(self, team, year=None, slim=False):
         self._team = team
         self._slim = slim
+        self._coach = None
         if slim:
             self._players = {}
         else:
             self._players = []
 
-        self._find_players(year)
+        self._find_players_with_coach(year)
 
     def __str__(self):
         """
@@ -1555,7 +1556,29 @@ class Roster:
         name_tag = player('td[data-stat="player"] a')
         return name_tag.text()
 
-    def _find_players(self, year):
+    def _parse_coach(self, page):
+        """
+        Parse the team's coach.
+
+        Given a copy of the team's roster page, find and parse the team's
+        coach from the team summary.
+
+        Parameters
+        ----------
+        page : PyQuery object
+            A PyQuery object representing the team's roster page.
+
+        Returns
+        -------
+        string
+            Returns a string of the coach's name.
+        """
+        for line in page(PLAYER_SCHEME['summary']).find('p').items():
+            strong = line.find('strong')
+            if hasattr(strong, 'text') and strong.text().strip() == 'Manager:':
+                return line.find('a').text()
+
+    def _find_players_with_coach(self, year):
         """
         Find all player IDs for the requested team.
 
@@ -1614,6 +1637,8 @@ class Roster:
                 player_instance = Player(player_id)
                 self._players.append(player_instance)
 
+        self._coach = self._parse_coach(page)
+
     @property
     def players(self):
         """
@@ -1624,3 +1649,10 @@ class Roster:
         first and last name as listed on the roster page.
         """
         return self._players
+
+    @property
+    def coach(self):
+        """
+        Returns a ``string`` of the coach's name, such as 'AJ Hinch'.
+        """
+        return self._coach
