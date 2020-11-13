@@ -729,6 +729,8 @@ class Boxscore:
         for column in game_info('th').items():
             if column.text():
                 abbreviations.append(column.text())
+        if not abbreviations:
+            return None, None
         return abbreviations
 
     def _parse_game_data(self, uri):
