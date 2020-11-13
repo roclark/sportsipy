@@ -336,6 +336,12 @@ itemprop="name">New England Patriots</a>')
 
         assert team == AWAY
 
+    def test_missing_abbreviations(self):
+        table = '<table id="team_stats"><thead></thead></table>'
+        output = self.boxscore._alt_abbreviations(pq(table))
+
+        assert output == (None, None)
+
 
 class TestNFLBoxscores:
     @patch('requests.get', side_effect=mock_pyquery)
