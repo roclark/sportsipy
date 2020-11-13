@@ -1340,7 +1340,7 @@ SQUAD_IDS = {
     'malmesbury victoria': 'd0710d5b',
     'maltby main': 'e5c50549',
     'malvern town': '6c4ff7a2',
-    'manchester city': '9ce68f8a',
+    'manchester city': 'b8fd03ef',
     'manchester city u23': 'e41e516f',
     'manchester city wfc': '9ce68f8a',
     'manchester united': '19538871',
