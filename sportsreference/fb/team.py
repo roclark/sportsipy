@@ -165,12 +165,15 @@ class Team:
         records = record_line.lower().replace('record: ', '')
         records_split = records.split(',')
         if len(records_split) != 3:
-            return None, None, None
+            return None, None, None, None
         record, points, position = records_split
         points = re.sub(' point.*', '', points).strip()
         position = re.sub(r'\(.*\)', '', position).strip()
         league = re.sub('.* in ', '', position).title()
-        position = re.findall(r'\d+', position)[0]
+        try:
+            position = re.findall(r'\d+', position)[0]
+        except IndexError:
+            position = None
         return record, points, position, league
 
     def _goals(self, goals_line):

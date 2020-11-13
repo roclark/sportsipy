@@ -52,7 +52,14 @@ class TestFBTeam:
 
         output = self.team._records(html)
 
-        assert output == (None, None, None)
+        assert output == (None, None, None, None)
+
+    def test_records_missing_position(self):
+        html = 'Record: 5-0-0, 15 points (3.0 per game),  Premier League'
+
+        output = self.team._records(html)
+
+        assert output == ('5-0-0', '15', None, 'Premier League')
 
     def test_goals_missing(self):
         html = 'Goals: 20 (2.5 per game), Goals Against: 11 (1.38 per game)'
