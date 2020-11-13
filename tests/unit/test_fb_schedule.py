@@ -2,13 +2,13 @@ import mock
 from datetime import datetime
 from flexmock import flexmock
 from pyquery import PyQuery as pq
-from sportsreference.constants import (AWAY,
-                                       DRAW,
-                                       HOME,
-                                       LOSS,
-                                       NEUTRAL,
-                                       WIN)
-from sportsreference.fb.schedule import Game, Schedule
+from sportsipy.constants import (AWAY,
+                                 DRAW,
+                                 HOME,
+                                 LOSS,
+                                 NEUTRAL,
+                                 WIN)
+from sportsipy.fb.schedule import Game, Schedule
 from urllib.error import HTTPError
 
 

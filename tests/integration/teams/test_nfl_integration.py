@@ -3,10 +3,10 @@ import os
 import pandas as pd
 import pytest
 from flexmock import flexmock
-from sportsreference import utils
-from sportsreference.constants import LOSS
-from sportsreference.nfl.constants import LOST_WILD_CARD, SEASON_PAGE_URL
-from sportsreference.nfl.teams import Team, Teams
+from sportsipy import utils
+from sportsipy.constants import LOSS
+from sportsipy.nfl.constants import LOST_WILD_CARD, SEASON_PAGE_URL
+from sportsipy.nfl.teams import Team, Teams
 
 
 MONTH = 9

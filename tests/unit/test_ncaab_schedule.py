@@ -2,20 +2,20 @@ from datetime import datetime
 from flexmock import flexmock
 from mock import PropertyMock
 from pyquery import PyQuery as pq
-from sportsreference import utils
-from sportsreference.constants import (AWAY,
-                                       CONFERENCE_TOURNAMENT,
-                                       HOME,
-                                       LOSS,
-                                       NEUTRAL,
-                                       NON_DI,
-                                       REGULAR_SEASON,
-                                       WIN)
-from sportsreference.ncaab.constants import (CBI_TOURNAMENT,
-                                             CIT_TOURNAMENT,
-                                             NCAA_TOURNAMENT,
-                                             NIT_TOURNAMENT)
-from sportsreference.ncaab.schedule import Game, Schedule
+from sportsipy import utils
+from sportsipy.constants import (AWAY,
+                                 CONFERENCE_TOURNAMENT,
+                                 HOME,
+                                 LOSS,
+                                 NEUTRAL,
+                                 NON_DI,
+                                 REGULAR_SEASON,
+                                 WIN)
+from sportsipy.ncaab.constants import (CBI_TOURNAMENT,
+                                       CIT_TOURNAMENT,
+                                       NCAA_TOURNAMENT,
+                                       NIT_TOURNAMENT)
+from sportsipy.ncaab.schedule import Game, Schedule
 
 
 class TestNCAABSchedule:

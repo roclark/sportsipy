@@ -2,10 +2,10 @@ import pytest
 from flexmock import flexmock
 from mock import patch, PropertyMock
 from pyquery import PyQuery as pq
-from sportsreference import utils
-from sportsreference.constants import AWAY, HOME
-from sportsreference.ncaaf.boxscore import Boxscore, Boxscores
-from sportsreference.ncaaf.player import AbstractPlayer
+from sportsipy import utils
+from sportsipy.constants import AWAY, HOME
+from sportsipy.ncaaf.boxscore import Boxscore, Boxscores
+from sportsipy.ncaaf.player import AbstractPlayer
 
 
 class MockField:

@@ -1,6 +1,6 @@
 from .constants import PARSING_SCHEME, STANDINGS_URL, TEAM_STATS_URL
 from pyquery import PyQuery as pq
-from sportsreference import utils
+from sportsipy import utils
 
 
 def _add_stats_data(teams_list, team_data_dict):

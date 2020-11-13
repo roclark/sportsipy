@@ -2,8 +2,8 @@ import mock
 import pytest
 from flexmock import flexmock
 from os.path import join, dirname
-from sportsreference import utils
-from sportsreference.ncaab.rankings import Rankings
+from sportsipy import utils
+from sportsipy.ncaab.rankings import Rankings
 
 
 YEAR = 2018

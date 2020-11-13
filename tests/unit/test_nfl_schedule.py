@@ -1,18 +1,18 @@
 from flexmock import flexmock
 from mock import PropertyMock
-from sportsreference.constants import (AWAY,
-                                       HOME,
-                                       LOSS,
-                                       TIE,
-                                       NEUTRAL,
-                                       POST_SEASON,
-                                       REGULAR_SEASON,
-                                       WIN)
-from sportsreference.nfl.constants import (CONF_CHAMPIONSHIP,
-                                           DIVISION,
-                                           SUPER_BOWL,
-                                           WILD_CARD)
-from sportsreference.nfl.schedule import Game, Schedule
+from sportsipy.constants import (AWAY,
+                                 HOME,
+                                 LOSS,
+                                 TIE,
+                                 NEUTRAL,
+                                 POST_SEASON,
+                                 REGULAR_SEASON,
+                                 WIN)
+from sportsipy.nfl.constants import (CONF_CHAMPIONSHIP,
+                                     DIVISION,
+                                     SUPER_BOWL,
+                                     WILD_CARD)
+from sportsipy.nfl.schedule import Game, Schedule
 
 
 YEAR = 2017

@@ -1,8 +1,8 @@
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(sys.path[0])))
-from sportsreference.ncaab.conferences import Conferences
-from sportsreference.ncaab.rankings import Rankings
-from sportsreference.ncaab.teams import Teams
+from sportsipy.ncaab.conferences import Conferences
+from sportsipy.ncaab.rankings import Rankings
+from sportsipy.ncaab.teams import Teams
 
 for team in Teams():
     print(team.name)

@@ -1,6 +1,6 @@
 from mock import patch
 from os import path
-from sportsreference.fb.team import Team
+from sportsipy.fb.team import Team
 
 
 def read_file(filename):

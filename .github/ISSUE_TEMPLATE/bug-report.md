@@ -22,7 +22,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS: [e.g. Ubuntu 18.04]
- - Sportsreference Version [e.g. 0.2.0 or commit hash if using code]
+ - Sportsipy Version: [e.g. 0.6.0 or commit hash if using code]
 
 **Additional context**
 Add any other context about the problem here. If applicable, also include links to any pages on www.sports-reference.com that are believed to be causing this issue.

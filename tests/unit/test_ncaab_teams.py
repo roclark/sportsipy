@@ -1,7 +1,7 @@
 from flexmock import flexmock
 from mock import PropertyMock
-from sportsreference.ncaab.schedule import Schedule
-from sportsreference.ncaab.teams import Team
+from sportsipy.ncaab.schedule import Schedule
+from sportsipy.ncaab.teams import Team
 
 
 class TestNCAABTeams:

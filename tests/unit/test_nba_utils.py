@@ -1,7 +1,7 @@
 import mock
 from flexmock import flexmock
-from sportsreference import utils
-from sportsreference.nba.nba_utils import _retrieve_all_teams
+from sportsipy import utils
+from sportsipy.nba.nba_utils import _retrieve_all_teams
 
 
 def mock_pyquery(url):

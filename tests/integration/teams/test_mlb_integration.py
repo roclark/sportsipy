@@ -3,9 +3,9 @@ import os
 import pandas as pd
 import pytest
 from flexmock import flexmock
-from sportsreference import utils
-from sportsreference.mlb.constants import STANDINGS_URL, TEAM_STATS_URL
-from sportsreference.mlb.teams import Team, Teams
+from sportsipy import utils
+from sportsipy.mlb.constants import STANDINGS_URL, TEAM_STATS_URL
+from sportsipy.mlb.teams import Team, Teams
 
 
 MONTH = 4

@@ -17,7 +17,7 @@ retrieving game-specific information).
 
 .. code-block:: python
 
-    from sportsreference.mlb.boxscore import Boxscore
+    from sportsipy.mlb.boxscore import Boxscore
 
     game_data = Boxscore('BOS/BOS201808020')
     print(game_data.home_runs)  # Prints 15
@@ -32,7 +32,7 @@ abbreviations for each matchup as well as the boxscore link if applicable.
 .. code-block:: python
 
     from datetime import datetime
-    from sportsreference.mlb.boxscore import Boxscores
+    from sportsipy.mlb.boxscore import Boxscores
 
     games_today = Boxscores(datetime.today())
     print(games_today.games)  # Prints a dictionary of all matchups for today
@@ -45,14 +45,14 @@ end date as the second parameter.
 .. code-block:: python
 
     from datetime import datetime
-    from sportsreference.mlb.boxscore import Boxscores
+    from sportsipy.mlb.boxscore import Boxscores
 
     # Pulls all games between and including July 17, 2017 and July 20, 2017
     games = Boxscores(datetime(2017, 7, 17), datetime(2017, 7, 20))
     # Prints a dictionary of all results from July 17, 2017 and July 20, 2017
     print(games.games)
 
-.. automodule:: sportsreference.mlb.boxscore
+.. automodule:: sportsipy.mlb.boxscore
     :members:
     :undoc-members:
     :show-inheritance:
@@ -66,7 +66,7 @@ modules, respectively. All of the properties that appear in the
 ``AbstractPlayer`` class can be read from either of the two child classes
 mentioned above.
 
-.. automodule:: sportsreference.mlb.player
+.. automodule:: sportsipy.mlb.player
     :members:
     :undoc-members:
     :show-inheritance:
@@ -82,7 +82,7 @@ career information for José Altuve.
 
 .. code-block:: python
 
-    from sportsreference.mlb.roster import Player
+    from sportsipy.mlb.roster import Player
 
     altuve = Player('altuvjo01')
     print(altuve.name)  # Prints 'José Altuve'
@@ -97,7 +97,7 @@ stats.
 
 .. code-block:: python
 
-    from sportsreference.mlb.roster import Player
+    from sportsipy.mlb.roster import Player
 
     altuve = Player('altuvjo01')  # Currently pulling career stats
     print(altuve.hits)  # Prints Altuve's CAREER hits total
@@ -111,7 +111,7 @@ by calling the class without arguments or with the 'Career' string passed.
 
 .. code-block:: python
 
-    from sportsreference.mlb.roster import Player
+    from sportsipy.mlb.roster import Player
 
     altuve = Player('altuvjo01')  # Currently pulling career stats
     # Prints Altuve's hits total only for the 2017 season
@@ -125,7 +125,7 @@ easily queried.
 
 .. code-block:: python
 
-    from sportsreference.mlb.roster import Roster
+    from sportsipy.mlb.roster import Roster
 
     astros = Roster('HOU')
     for player in astros.players:
@@ -133,7 +133,7 @@ easily queried.
         # recent season.
         print(player.name)
 
-.. automodule:: sportsreference.mlb.roster
+.. automodule:: sportsipy.mlb.roster
     :members:
     :undoc-members:
     :show-inheritance:
@@ -148,7 +148,7 @@ information on the game metrics.
 
 .. code-block:: python
 
-    from sportsreference.mlb.schedule import Schedule
+    from sportsipy.mlb.schedule import Schedule
 
     houston_schedule = Schedule('HOU')
     for game in houston_schedule:
@@ -157,7 +157,7 @@ information on the game metrics.
         # Creates an instance of the Boxscore class for the game.
         boxscore = game.boxscore
 
-.. automodule:: sportsreference.mlb.schedule
+.. automodule:: sportsipy.mlb.schedule
     :members:
     :undoc-members:
     :show-inheritance:
@@ -171,7 +171,7 @@ number of bases they've stolen, and much more.
 
 .. code-block:: python
 
-    from sportsreference.mlb.teams import Teams
+    from sportsipy.mlb.teams import Teams
 
     teams = Teams()
     for team in teams:
@@ -185,7 +185,7 @@ calling Team class.
 
 .. code-block:: python
 
-    from sportsreference.mlb.teams import Team
+    from sportsipy.mlb.teams import Team
 
     houston = Team('HOU')
 
@@ -195,7 +195,7 @@ queried to easily grab all stats for all games.
 
 .. code-block:: python
 
-    from sportsreference.mlb.teams import Teams
+    from sportsipy.mlb.teams import Teams
 
     teams = Teams()
     for team in teams:
@@ -210,14 +210,14 @@ contains detailed stats and information for each player on the team.
 
 .. code-block:: python
 
-    from sportsreference.mlb.teams import Teams
+    from sportsipy.mlb.teams import Teams
 
     for team in Teams():
         roster = team.roster  # Gets each team's roster
         for player in roster.players:
             print(player.name)  # Prints each players name on the roster
 
-.. automodule:: sportsreference.mlb.teams
+.. automodule:: sportsipy.mlb.teams
     :members:
     :undoc-members:
     :show-inheritance:

@@ -5,21 +5,21 @@ from .constants import (SCHEDULE_SCHEME,
                         SCHEDULE_URL)
 from datetime import datetime
 from pyquery import PyQuery as pq
-from sportsreference import utils
-from sportsreference.constants import (WIN,
-                                       LOSS,
-                                       TIE,
-                                       HOME,
-                                       AWAY,
-                                       NEUTRAL,
-                                       POST_SEASON,
-                                       REGULAR_SEASON,
-                                       CONFERENCE_TOURNAMENT)
-from sportsreference.nfl.boxscore import Boxscore
-from sportsreference.nfl.constants import (CONF_CHAMPIONSHIP,
-                                           DIVISION,
-                                           SUPER_BOWL,
-                                           WILD_CARD)
+from sportsipy import utils
+from sportsipy.constants import (WIN,
+                                 LOSS,
+                                 TIE,
+                                 HOME,
+                                 AWAY,
+                                 NEUTRAL,
+                                 POST_SEASON,
+                                 REGULAR_SEASON,
+                                 CONFERENCE_TOURNAMENT)
+from sportsipy.nfl.boxscore import Boxscore
+from sportsipy.nfl.constants import (CONF_CHAMPIONSHIP,
+                                     DIVISION,
+                                     SUPER_BOWL,
+                                     WILD_CARD)
 
 
 class Game:

@@ -1,5 +1,5 @@
 from pyquery import PyQuery as pq
-from sportsreference import utils
+from sportsipy import utils
 from .constants import (DEFENSIVE_STATS_URL,
                         OFFENSIVE_STATS_URL,
                         PARSING_SCHEME,

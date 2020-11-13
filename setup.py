@@ -7,17 +7,17 @@ with open('VERSION', 'r') as f:
     version = f.read()
 
 setup(
-    name='sportsreference',
+    name='sportsipy',
     version=version,
     author='Robert Clark',
     author_email='robdclark@outlook.com',
     description='A free sports API written for python',
     long_description=long_description,
     license='MIT',
-    url='https://github.com/roclark/sportsreference',
+    url='https://github.com/roclark/sportsipy',
     packages=find_packages(),
     python_requires='>=3.6',
-    keywords='stats sports api sportsreference machine learning',
+    keywords='stats sports api sportsipy machine learning',
     install_requires=[
         "pandas >= 0.24.1",
         "pyquery >= 1.4.0",

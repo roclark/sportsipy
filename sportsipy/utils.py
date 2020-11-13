@@ -327,7 +327,7 @@ def _no_data_found():
 
     Occasionally, such as right before the beginning of a season, a page will
     return a valid response but will have no data outside of the default
-    HTML and CSS template. With no data present on the page, sportsreference
+    HTML and CSS template. With no data present on the page, sportsipy
     can't parse any information and should indicate the lack of data and return
     safely.
     """

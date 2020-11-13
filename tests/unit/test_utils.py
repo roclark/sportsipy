@@ -1,7 +1,7 @@
 import pytest
 from mock import patch
 from flexmock import flexmock
-from sportsreference import utils
+from sportsipy import utils
 
 
 class SeasonStarts:
