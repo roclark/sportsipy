@@ -9,4 +9,4 @@ for team in list(set(SQUAD_IDS.values())):
     for game in squad.schedule:
         print(game.date)
     for player in squad.roster:
-        print(player.name)
+        print(player.name.encode('utf-8'))
