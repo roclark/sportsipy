@@ -8,7 +8,7 @@ idna==2.9
 lxml==4.5.0
 mock==3.0.5
 more-itertools==8.2.0
-numpy==1.18.2
+numpy==1.19.4
 pandas==0.25.3
 packaging==20.3
 pluggy==0.13.1
