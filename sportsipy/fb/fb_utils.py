@@ -59,7 +59,7 @@ def lookup_squad_id(name, quiet=False):
     to find the best alternatives for later use. The keys are the suggested
     names and values are the squad IDs. This allows direct usage of a squad ID
     in subsequent calls to various classes in the Football module in
-    sportsreference instead of attempting to lookup a name. As there can be
+    sportsipy instead of attempting to lookup a name. As there can be
     multiple return types, it is recommended to check the type of the returned
     value before further calculations. If the return is of type ``string``, it
     is the 8-digit squad ID. If it is of type ``dictionary``, it is a key-value

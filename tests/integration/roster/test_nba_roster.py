@@ -4,9 +4,9 @@ import pandas as pd
 import pytest
 from datetime import datetime
 from flexmock import flexmock
-from sportsreference import utils
-from sportsreference.nba.roster import Player, Roster
-from sportsreference.nba.teams import Team
+from sportsipy import utils
+from sportsipy.nba.roster import Player, Roster
+from sportsipy.nba.teams import Team
 
 
 YEAR = 2018
@@ -1328,4 +1328,4 @@ James Harden (hardeja01)"""
         assert roster.__repr__() == expected
 
     def test_coach(self):
-        assert "Mike D'Antoni" == Roster('HOU').coach
+        assert "Stephen Silas" == Roster('HOU').coach

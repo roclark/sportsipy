@@ -3,9 +3,9 @@ import os
 import pandas as pd
 import pytest
 from flexmock import flexmock
-from sportsreference import utils
-from sportsreference.nhl.roster import Player, Roster
-from sportsreference.nhl.teams import Team
+from sportsipy import utils
+from sportsipy.nhl.roster import Player, Roster
+from sportsipy.nhl.teams import Team
 
 
 YEAR = 2018

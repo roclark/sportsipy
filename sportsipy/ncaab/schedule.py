@@ -1,20 +1,24 @@
 import pandas as pd
 import re
-from ..decorators import float_property_decorator, int_property_decorator
+from ..decorators import int_property_decorator
 from .constants import (SCHEDULE_SCHEME,
-                        SCHEDULE_URL)
+                        SCHEDULE_URL,
+                        NCAA_TOURNAMENT,
+                        NIT_TOURNAMENT,
+                        CBI_TOURNAMENT,
+                        CIT_TOURNAMENT)
 from datetime import datetime
 from pyquery import PyQuery as pq
-from sportsreference import utils
-from sportsreference.constants import (WIN,
-                                       LOSS,
-                                       HOME,
-                                       AWAY,
-                                       NEUTRAL,
-                                       REGULAR_SEASON,
-                                       CONFERENCE_TOURNAMENT)
-from sportsreference.nba.boxscore import Boxscore
-from urllib.error import HTTPError
+from sportsipy import utils
+from sportsipy.constants import (WIN,
+                                 LOSS,
+                                 HOME,
+                                 AWAY,
+                                 NEUTRAL,
+                                 NON_DI,
+                                 REGULAR_SEASON,
+                                 CONFERENCE_TOURNAMENT)
+from sportsipy.ncaab.boxscore import Boxscore
 
 
 class Game:
@@ -29,22 +33,26 @@ class Game:
     game_data : string
         The row containing the specified game information.
     """
-    def __init__(self, game_data, playoffs=False):
+    def __init__(self, game_data):
         self._game = None
         self._date = None
-        self._time = None
         self._datetime = None
+        self._time = None
         self._boxscore = None
+        self._type = None
         self._location = None
         self._opponent_abbr = None
         self._opponent_name = None
+        self._opponent_rank = None
+        self._opponent_conference = None
         self._result = None
-        self._points_scored = None
-        self._points_allowed = None
-        self._wins = None
-        self._losses = None
+        self._points_for = None
+        self._points_against = None
+        self._overtimes = None
+        self._season_wins = None
+        self._season_losses = None
         self._streak = None
-        self._playoffs = playoffs
+        self._arena = None
 
         self._parse_game_data(game_data)
 
@@ -60,6 +68,29 @@ class Game:
         """
         return self.__str__()
 
+    def _parse_abbreviation(self, game_data):
+        """
+        Parses the opponent's abbreviation from their name.
+
+        The opponent's abbreviation is embedded within the HTML tag and needs
+        a special parsing scheme in order to be extracted. For non-DI schools,
+        the team's name should be used as the abbreviation.
+
+        Parameters
+        ----------
+        game_data : PyQuery object
+            A PyQuery object containing the information specific to a game.
+        """
+        name = game_data('td[data-stat="opp_name"]:first')
+        # Non-DI schools do not have abbreviations and should be handled
+        # differently by just using the team's name as the abbreviation.
+        if 'cbb/schools' not in str(name):
+            setattr(self, '_opponent_abbr', name.text())
+            return
+        name = re.sub(r'.*/cbb/schools/', '', str(name))
+        name = re.sub('/.*', '', name)
+        setattr(self, '_opponent_abbr', name)
+
     def _parse_boxscore(self, game_data):
         """
         Parses the boxscore URI for the game.
@@ -72,27 +103,14 @@ class Game:
         game_data : PyQuery object
             A PyQuery object containing the information specific to a game.
         """
-        boxscore = game_data('td[data-stat="box_score_text"]:first')
+        boxscore = game_data('td[data-stat="date_game"]:first')
+        # Happens if the game hasn't been played yet as there is no boxscore
+        # to display.
+        if boxscore('a').text() == '':
+            return
         boxscore = re.sub(r'.*/boxscores/', '', str(boxscore))
-        boxscore = re.sub(r'\.html.*', '', boxscore)
+        boxscore = re.sub(r'\.html.*', '', str(boxscore))
         setattr(self, '_boxscore', boxscore)
-
-    def _parse_opponent_abbr(self, game_data):
-        """
-        Parses the opponent's abbreviation for the game.
-
-        The opponent's 3-letter abbreviation is embedded within the HTML tag
-        and needs a special parsing scheme in order to be extracted.
-
-        Parameters
-        ----------
-        game_data : PyQuery object
-            A PyQuery object containing the information specific to a game.
-        """
-        opponent = game_data('td[data-stat="opp_name"]:first')
-        opponent = re.sub(r'.*/teams/', '', str(opponent))
-        opponent = re.sub(r'\/.*.html.*', '', opponent)
-        setattr(self, '_opponent_abbr', opponent)
 
     def _parse_game_data(self, game_data):
         """
@@ -115,13 +133,14 @@ class Game:
         for field in self.__dict__:
             # Remove the leading '_' from the name
             short_name = str(field)[1:]
-            if short_name == 'datetime' or short_name == 'playoffs':
+            if short_name == 'datetime' or \
+               short_name == 'opponent_rank':
+                continue
+            elif short_name == 'opponent_abbr':
+                self._parse_abbreviation(game_data)
                 continue
             elif short_name == 'boxscore':
                 self._parse_boxscore(game_data)
-                continue
-            elif short_name == 'opponent_abbr':
-                self._parse_opponent_abbr(game_data)
                 continue
             value = utils._parse_field(SCHEDULE_SCHEME, game_data, short_name)
             setattr(self, field, value)
@@ -132,24 +151,28 @@ class Game:
         Returns a pandas DataFrame containing all other class properties and
         values. The index for the DataFrame is the boxscore string.
         """
-        if self._points_allowed is None and self._points_scored is None:
+        if self._points_for is None and self._points_against is None:
             return None
         fields_to_include = {
+            'arena': self.arena,
             'boxscore_index': self.boxscore_index,
             'date': self.date,
             'datetime': self.datetime,
             'game': self.game,
             'location': self.location,
-            'losses': self.losses,
             'opponent_abbr': self.opponent_abbr,
+            'opponent_conference': self.opponent_conference,
             'opponent_name': self.opponent_name,
-            'playoffs': self.playoffs,
-            'points_allowed': self.points_allowed,
-            'points_scored': self.points_scored,
+            'opponent_rank': self.opponent_rank,
+            'overtimes': self.overtimes,
+            'points_against': self.points_against,
+            'points_for': self.points_for,
             'result': self.result,
+            'season_losses': self.season_losses,
+            'season_wins': self.season_wins,
             'streak': self.streak,
             'time': self.time,
-            'wins': self.wins
+            'type': self.type
         }
         return pd.DataFrame([fields_to_include], index=[self._boxscore])
 
@@ -161,39 +184,58 @@ class Game:
         but takes longer to process compared to the lighter 'dataframe'
         property. The index for the DataFrame is the boxscore string.
         """
+        if self._points_for is None and self._points_against is None:
+            return None
         return self.boxscore.dataframe
 
     @int_property_decorator
     def game(self):
         """
-        Returns an ``int`` to indicate which game in the season was requested.
-        The first game of the season returns 1.
+        Returns an ``int`` of the game's position in the season. The first game
+        of the season returns 1.
         """
         return self._game
 
     @property
     def date(self):
         """
-        Returns a ``string`` of the date the game took place at, such as 'Wed,
-        Oct 18, 2017'.
+        Returns a ``string`` of the game's date, such as 'Fri, Nov 10, 2017'.
         """
         return self._date
 
     @property
-    def time(self):
-        """
-        Returns a ``string`` of the time the game started in Eastern Time, such
-        as '8:01p'.
-        """
-        return self._time
-
-    @property
     def datetime(self):
         """
-        Returns a datetime object to indicate the month, day, and year the game
-        took place.
+        Returns a datetime object to indicate the month, day, year, and time
+        the requested game took place.
         """
-        return datetime.strptime(self._date, '%a, %b %d, %Y')
+        # Sometimes, the time isn't displayed on the game page. In this case,
+        # the time property will be empty, causing the time parsing to fail as
+        # it can't match the expected format. To prevent the issue, and since
+        # the time can't properly be parsed, a default start time of midnight
+        # should be used in this scenario, allowing users to decide if and how
+        # they want to handle the time being empty.
+        if not self._time or self._time.upper() == '':
+            time = '12:00A'
+        else:
+            time = self._time.upper()
+        date_string = '%s %s' % (self._date, time)
+        date_string = re.sub(r'/.*', '', date_string)
+        date_string = re.sub(r' ET', '', date_string)
+        date_string += 'M'
+        date_string = re.sub(r'PMM', 'PM', date_string, flags=re.IGNORECASE)
+        date_string = re.sub(r'AMM', 'AM', date_string, flags=re.IGNORECASE)
+        date_string = re.sub(r' PM', 'PM', date_string, flags=re.IGNORECASE)
+        date_string = re.sub(r' AM', 'AM', date_string, flags=re.IGNORECASE)
+        return datetime.strptime(date_string, '%a, %b %d, %Y %I:%M%p')
+
+    @property
+    def time(self):
+        """
+        Returns a ``string`` to indicate the time the game started, such as
+        '9:00 pm/est'.
+        """
+        return self._time
 
     @property
     def boxscore(self):
@@ -212,29 +254,76 @@ class Game:
         return self._boxscore
 
     @property
+    def type(self):
+        """
+        Returns a ``string`` constant to indicate whether the game was played
+        during the regular season or in the post season.
+        """
+        if self._type.lower() == 'reg':
+            return REGULAR_SEASON
+        if self._type.lower() == 'ctourn':
+            return CONFERENCE_TOURNAMENT
+        if self._type.lower() == 'ncaa':
+            return NCAA_TOURNAMENT
+        if self._type.lower() == 'nit':
+            return NIT_TOURNAMENT
+        if self._type.lower() == 'cbi':
+            return CBI_TOURNAMENT
+        if self._type.lower() == 'cit':
+            return CIT_TOURNAMENT
+
+    @property
     def location(self):
         """
         Returns a ``string`` constant to indicate whether the game was played
-        in the team's home arena or on the road.
+        at the team's home venue, the opponent's venue, or at a neutral site.
         """
-        if self._location.lower() == '@':
+        if self._location == '':
+            return HOME
+        if self._location == 'N':
+            return NEUTRAL
+        if self._location == '@':
             return AWAY
-        return HOME
 
     @property
     def opponent_abbr(self):
         """
-        Returns a ``string`` of the opponent's 3-letter abbreviation, such as
-        'CHI' for the Chicago Bulls.
+        Returns a ``string`` of the opponent's abbreviation, such as 'PURDUE'
+        for the Purdue Boilermakers.
         """
         return self._opponent_abbr
 
     @property
     def opponent_name(self):
         """
-        Returns a ``string`` of the opponent's name, such as 'Chicago Bulls'.
+        Returns a ``string`` of the opponent's name, such as the 'Purdue
+        Boilermakers'.
         """
-        return self._opponent_name
+        name = re.sub(r'\(\d+\)', '', self._opponent_name)
+        name = name.replace(u'\xa0', '')
+        return name
+
+    @property
+    def opponent_rank(self):
+        """
+        Returns a ``string`` of the opponent's rank when the game was played
+        and None if the team was unranked.
+        """
+        rank = re.findall(r'\d+', self._opponent_name)
+        if len(rank) > 0:
+            return int(rank[0])
+        return None
+
+    @property
+    def opponent_conference(self):
+        """
+        Returns a ``string`` of the opponent's conference, such as 'Big Ten'
+        for a team participating in the Big Ten Conference. If the team is not
+        a Division-I school, a string constant for non-majors is returned.
+        """
+        if self._opponent_conference == '':
+            return NON_DI
+        return self._opponent_conference
 
     @property
     def result(self):
@@ -242,58 +331,73 @@ class Game:
         Returns a ``string`` constant to indicate whether the team won or lost
         the game.
         """
-        if self._result.lower() == 'l':
-            return LOSS
-        return WIN
+        if self._result.lower() == 'w':
+            return WIN
+        return LOSS
 
     @int_property_decorator
-    def points_scored(self):
+    def points_for(self):
         """
         Returns an ``int`` of the number of points the team scored during the
         game.
         """
-        return self._points_scored
+        return self._points_for
 
     @int_property_decorator
-    def points_allowed(self):
+    def points_against(self):
         """
         Returns an ``int`` of the number of points the team allowed during the
         game.
         """
-        return self._points_allowed
+        return self._points_against
+
+    @property
+    def overtimes(self):
+        """
+        Returns an ``int`` of the number of overtimes that were played during
+        the game and 0 if the game finished at the end of regulation time.
+        """
+        if self._overtimes == '' or self._overtimes is None:
+            return 0
+        if self._overtimes.lower() == 'ot':
+            return 1
+        num_overtimes = re.findall(r'\d+', self._overtimes)
+        try:
+            return int(num_overtimes[0])
+        except (ValueError, IndexError):
+            return 0
 
     @int_property_decorator
-    def wins(self):
+    def season_wins(self):
         """
-        Returns an ``int`` of the number of wins the team has in the season
-        after the completion of the listed game.
+        Returns an ``int`` of the number of games the team has won after the
+        conclusion of the requested game.
         """
-        return self._wins
+        return self._season_wins
 
     @int_property_decorator
-    def losses(self):
+    def season_losses(self):
         """
-        Returns an ``int`` of the number of losses the team has in the season
-        after the completion of the listed game.
+        Returns an ``int`` of the number of games the team has lost after the
+        conclusion of the requested game.
         """
-        return self._losses
+        return self._season_losses
 
     @property
     def streak(self):
         """
-        Returns a ``string`` of the team's current streak after the conclusion
-        of the listed game, such as 'W 3' for a 3-game winning streak.
+        Returns a ``string`` of the team's win streak at the conclusion of the
+        requested game. Streak is in the format '[W|L] #' (ie. 'W 3' indicates
+        a 3-game winning streak while 'L 2' indicates a 2-game losing streak.
         """
         return self._streak
 
     @property
-    def playoffs(self):
+    def arena(self):
         """
-        Returns a ``boolean`` variable which evalutes to True when the game was
-        played in the playoffs and returns False if the game took place in the
-        regular season.
+        Returns a ``string`` of the name of the arena the game was played at.
         """
-        return self._playoffs
+        return self._arena
 
 
 class Schedule:
@@ -306,7 +410,7 @@ class Schedule:
     Parameters
     ----------
     abbreviation : string
-        A team's short name, such as 'PHO' for the Phoenix Suns.
+        A team's short name, such as 'PURDUE' for the Purdue Boilermakers.
     year : string (optional)
         The requested year to pull stats from.
     """
@@ -390,27 +494,6 @@ class Schedule:
         """Returns the number of scheduled games for the given team."""
         return len(self._games)
 
-    def _add_games_to_schedule(self, schedule, playoff=False):
-        """
-        Add game information to list of games.
-
-        Create a Game instance for the given game in the schedule and add it to
-        the list of games the team has or will play during the season.
-
-        Parameters
-        ----------
-        schedule : PyQuery object
-            A PyQuery object pertaining to a team's schedule table.
-        playoff : boolean
-            Evaluates to True if the game took place in the playoffs.
-        """
-        for item in schedule:
-            if 'class="thead"' in str(item) or \
-               'class="over_header thead"' in str(item):
-                continue  # pragma: no cover
-            game = Game(item, playoff)
-            self._games.append(game)
-
     def _pull_schedule(self, abbreviation, year):
         """
         Download and create objects for the team's schedule.
@@ -423,21 +506,12 @@ class Schedule:
         Parameters
         ----------
         abbreviation : string
-            A team's short name, such as 'DET' for the Detroit Pistons.
+            A team's short name, such as 'PURDUE' for the Purdue Boilermakers.
         year : string
             The requested year to pull stats from.
         """
         if not year:
-            year = utils._find_year_for_season('nba')
-            # Given the delays to the NBA season in 2020, the default season
-            # selection logic is no longer valid after the original season
-            # should have concluded. In this case, the previous season should
-            # be pulled instead.
-            if year == 2021:
-                try:
-                    doc = pq(SCHEDULE_URL % (abbreviation.lower(), year))
-                except HTTPError:
-                    year = str(int(year) - 1)
+            year = utils._find_year_for_season('ncaab')
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the
             # previous year's stats. If it exists, use the previous year
@@ -447,15 +521,17 @@ class Schedule:
                utils._url_exists(SCHEDULE_URL % (abbreviation.lower(),
                                                  str(int(year) - 1))):
                 year = str(int(year) - 1)
-        doc = pq(SCHEDULE_URL % (abbreviation, year))
-        schedule = utils._get_stats_table(doc, 'table#games')
+        doc = pq(SCHEDULE_URL % (abbreviation.lower(), year))
+        schedule = utils._get_stats_table(doc, 'table#schedule')
         if not schedule:
             utils._no_data_found()
             return
-        self._add_games_to_schedule(schedule)
-        if 'id="games_playoffs"' in str(doc):
-            playoffs = utils._get_stats_table(doc, 'table#games_playoffs')
-            self._add_games_to_schedule(playoffs, True)
+
+        for item in schedule:
+            if 'class="thead"' in str(item):
+                continue
+            game = Game(item)
+            self._games.append(game)
 
     @property
     def dataframe(self):

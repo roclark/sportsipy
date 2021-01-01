@@ -2,14 +2,14 @@ Examples
 ========
 
 Thanks to the broad range of metrics that are pulled from sports-reference.com,
-there are multiple ways you can use the `sportsreference` package. This page has
+there are multiple ways you can use the `sportsipy` package. This page has
 multiple examples beyond those listed on the home page to demonstrate some cool
 things you can do which leverage the tool. This page is by no means exhaustive
 and the examples aren't necessarily the most efficient in the hope of providing
 the most clarity.
 
 In general, most examples shown for a specific sport are applicable for all
-sports currently supported by `sportsreference`.
+sports currently supported by `sportsipy`.
 
 Finding Tallest Players
 -----------------------
@@ -18,7 +18,7 @@ and height in inches.
 
 .. code-block:: python
 
-    from sportsreference.nba.teams import Teams
+    from sportsipy.nba.teams import Teams
 
     def get_height_in_inches(height):
         feet, inches = height.split('-')
@@ -52,7 +52,7 @@ Save the combined stats for each team to both a CSV and Pickle file.
 
 .. code-block:: python
 
-    from sportsreference.ncaab.teams import Teams
+    from sportsipy.ncaab.teams import Teams
 
     for team in Teams():
         team.dataframe.to_csv('%s.csv' % team.abbreviation.lower())
@@ -65,7 +65,7 @@ print their name and the win total.
 
 .. code-block:: python
 
-    from sportsreference.mlb.teams import Teams
+    from sportsipy.mlb.teams import Teams
 
     def print_most_wins(year, wins):
         most_wins = max(wins, key=wins.get)

@@ -1,4 +1,4 @@
-name: Sportsreference push tests
+name: Sportsipy push tests
 
 on: [push, pull_request]
 
@@ -23,10 +23,10 @@ jobs:
         pip install -r requirements.txt
     - name: Run unit and integration tests with pytest
       run: |
-        py.test --cov=sportsreference --cov-report term-missing --cov-report xml tests/integration/ tests/unit/
+        py.test --cov=sportsipy --cov-report term-missing --cov-report xml tests/integration/ tests/unit/
     - name: Lint with pycodestyle
       run: |
-        pycodestyle sportsreference/ tests/integration/ tests/unit/
+        pycodestyle sportsipy/ tests/integration/ tests/unit/
     - name: Upload coverage to Codecov
       if: matrix.operating-system == 'ubuntu-latest' && matrix.python-version == '3.8'
       uses: codecov/codecov-action@v1.0.13

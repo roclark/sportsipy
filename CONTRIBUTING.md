@@ -1,5 +1,5 @@
 # Contributing
-`Sportsreference` is an open-source project created for the community where
+`Sportsipy` is an open-source project created for the community where
 contributions are encouraged. I ask that anyone who wishes to contribute to
 please read and follow the guidelines listed below. As the project grows and
 changes, so too will this document. If any items are no longer relevant or need
@@ -13,7 +13,7 @@ Code of Conduct should be reported to the project maintainers.
 ## How Can I Contribute?
 Contributions from the community make open-source projects awesome and
 developers, data scientists, hobbyists, and more are encouraged to contribute to
-`sportsreference`. The following are some examples on how to contribute to this
+`sportsipy`. The following are some examples on how to contribute to this
 project.
 
 ### Reporting bugs

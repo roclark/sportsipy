@@ -17,7 +17,7 @@ retrieving game-specific information).
 
 .. code-block:: python
 
-    from sportsreference.ncaaf.boxscore import Boxscore
+    from sportsipy.ncaaf.boxscore import Boxscore
 
     game_data = Boxscore('2018-01-08-georgia')
     print(game_data.home_points)  # Prints 23
@@ -32,7 +32,7 @@ abbreviations for each matchup as well as the boxscore link if applicable.
 .. code-block:: python
 
     from datetime import datetime
-    from sportsreference.ncaaf.boxscore import Boxscores
+    from sportsipy.ncaaf.boxscore import Boxscores
 
     games_today = Boxscores(datetime.today())
     print(games_today.games)  # Prints a dictionary of all matchups for today
@@ -45,7 +45,7 @@ end date as the second parameter.
 .. code-block:: python
 
     from datetime import datetime
-    from sportsreference.ncaaf.boxscore import Boxscores
+    from sportsipy.ncaaf.boxscore import Boxscores
 
     # Pulls all games between and including August 30, 2017 and August 31, 2017
     games = Boxscores(datetime(2017, 8, 30), datetime(2017, 8, 31))
@@ -53,7 +53,7 @@ end date as the second parameter.
     # 2017
     print(games.games)
 
-.. automodule:: sportsreference.ncaaf.boxscore
+.. automodule:: sportsipy.ncaaf.boxscore
     :members:
     :undoc-members:
     :show-inheritance:
@@ -69,7 +69,7 @@ information. To get a list of conference abbreviations for each team, query the
 
 .. code-block:: python
 
-    from sportsreference.ncaaf.conferences import Conferences
+    from sportsipy.ncaaf.conferences import Conferences
 
     conferences = Conferences()
     # Prints a dictionary of the team abbreviation as a key and conference
@@ -81,7 +81,7 @@ teams in every conference.
 
 .. code-block:: python
 
-    from sportsreference.ncaab.conferences import Conferences
+    from sportsipy.ncaab.conferences import Conferences
 
     conferences = Conferences()
     # Prints a dictionary where each key is the conference abbreviation and
@@ -90,7 +90,7 @@ teams in every conference.
     # abbreviation for each team.
     print(conferences.conferences)
 
-.. automodule:: sportsreference.ncaaf.conferences
+.. automodule:: sportsipy.ncaaf.conferences
     :members:
     :undoc-members:
     :show-inheritance:
@@ -104,7 +104,7 @@ modules, respectively. All of the properties that appear in the
 ``AbstractPlayer`` class can be read from either of the two child classes
 mentioned above.
 
-.. automodule:: sportsreference.ncaaf.player
+.. automodule:: sportsipy.ncaaf.player
     :members:
     :undoc-members:
     :show-inheritance:
@@ -122,7 +122,7 @@ week number, previous rank, and movement.
 
 .. code-block:: python
 
-    from sportsreference.ncaaf.rankings import Rankings
+    from sportsipy.ncaaf.rankings import Rankings
 
     rankings = Rankings()
     # Prints a dictionary of just the team abbreviation and rank for the current
@@ -135,7 +135,7 @@ week number, previous rank, and movement.
     # have been published for the requested season.
     print(rankings.complete)
 
-.. automodule:: sportsreference.ncaaf.rankings
+.. automodule:: sportsipy.ncaaf.rankings
     :members:
     :undoc-members:
     :show-inheritance:
@@ -151,7 +151,7 @@ career information for David Blough.
 
 .. code-block:: python
 
-    from sportsreference.ncaaf.roster import Player
+    from sportsipy.ncaaf.roster import Player
 
     blough = Player('david-blough-1')
     print(blough.name)  # Prints 'David Blough'
@@ -166,7 +166,7 @@ stats.
 
 .. code-block:: python
 
-    from sportsreference.ncaaf.roster import Player
+    from sportsipy.ncaaf.roster import Player
 
     blough = Player('david-blough-1')  # Currently pulling career stats
     print(blough.passing_yards)  # Prints Blough's CAREER passing yards total
@@ -180,7 +180,7 @@ by calling the class without arguments or with the 'Career' string passed.
 
 .. code-block:: python
 
-    from sportsreference.ncaaf.roster import Player
+    from sportsipy.ncaaf.roster import Player
 
     blough = Player('david-blough-1')  # Currently pulling career stats
     # Prints Blough's passing yards total only for the 2017 season
@@ -194,7 +194,7 @@ easily queried.
 
 .. code-block:: python
 
-    from sportsreference.ncaaf.roster import Roster
+    from sportsipy.ncaaf.roster import Roster
 
     boilermakers = Roster('PURDUE')
     for player in boilermakers.players:
@@ -202,7 +202,7 @@ easily queried.
         # in the most recent season.
         print(player.name)
 
-.. automodule:: sportsreference.ncaaf.roster
+.. automodule:: sportsipy.ncaaf.roster
     :members:
     :undoc-members:
     :show-inheritance:
@@ -217,7 +217,7 @@ information on the game metrics.
 
 .. code-block:: python
 
-    from sportsreference.ncaaf.schedule import Schedule
+    from sportsipy.ncaaf.schedule import Schedule
 
     purdue_schedule = Schedule('PURDUE')
     for game in purdue_schedule:
@@ -226,7 +226,7 @@ information on the game metrics.
         # Creates an instance of the Boxscore class for the game.
         boxscore = game.boxscore
 
-.. automodule:: sportsreference.ncaaf.schedule
+.. automodule:: sportsipy.ncaaf.schedule
     :members:
     :undoc-members:
     :show-inheritance:
@@ -240,7 +240,7 @@ number of pass yards, and much more.
 
 .. code-block:: python
 
-    from sportsreference.ncaaf.teams import Teams
+    from sportsipy.ncaaf.teams import Teams
 
     teams = Teams()
     for team in teams:
@@ -254,7 +254,7 @@ class.
 
 .. code-block:: python
 
-    from sportsreference.ncaaf.teams import Team
+    from sportsipy.ncaaf.teams import Team
 
     purdue = Team('PURDUE')
 
@@ -264,7 +264,7 @@ queried to easily grab all stats for all games.
 
 .. code-block:: python
 
-    from sportsreference.ncaaf.teams import Teams
+    from sportsipy.ncaaf.teams import Teams
 
     teams = Teams()
     for team in teams:
@@ -279,14 +279,14 @@ contains detailed stats and information for each player on the team.
 
 .. code-block:: python
 
-    from sportsreference.ncaaf.teams import Teams
+    from sportsipy.ncaaf.teams import Teams
 
     for team in Teams():
         roster = team.roster  # Gets each team's roster
         for player in roster.players:
                 print(player.name)  # Prints each players name on the roster
 
-.. automodule:: sportsreference.ncaaf.teams
+.. automodule:: sportsipy.ncaaf.teams
     :members:
     :undoc-members:
     :show-inheritance:

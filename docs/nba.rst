@@ -17,7 +17,7 @@ retrieving game-specific information).
 
 .. code-block:: python
 
-    from sportsreference.nba.boxscore import Boxscore
+    from sportsipy.nba.boxscore import Boxscore
 
     game_data = Boxscore('201806080CLE')
     print(game_data.away_points)  # Prints 108
@@ -32,7 +32,7 @@ abbreviations for each matchup as well as the boxscore link if applicable.
 .. code-block:: python
 
     from datetime import datetime
-    from sportsreference.nba.boxscore import Boxscores
+    from sportsipy.nba.boxscore import Boxscores
 
     games_today = Boxscores(datetime.today())
     print(games_today.games)  # Prints a dictionary of all matchups for today
@@ -45,7 +45,7 @@ end date as the second parameter.
 .. code-block:: python
 
     from datetime import datetime
-    from sportsreference.nba.boxscore import Boxscores
+    from sportsipy.nba.boxscore import Boxscores
 
     # Pulls all games between and including January 1, 2018 and January 5, 2018
     games = Boxscores(datetime(2018, 1, 1), datetime(2018, 1, 5))
@@ -53,7 +53,7 @@ end date as the second parameter.
     # 2018
     print(games.games)
 
-.. automodule:: sportsreference.nba.boxscore
+.. automodule:: sportsipy.nba.boxscore
     :members:
     :undoc-members:
     :show-inheritance:
@@ -67,7 +67,7 @@ modules, respectively. All of the properties that appear in the
 ``AbstractPlayer`` class can be read from either of the two child classes
 mentioned above.
 
-.. automodule:: sportsreference.nba.player
+.. automodule:: sportsipy.nba.player
     :members:
     :undoc-members:
     :show-inheritance:
@@ -83,7 +83,7 @@ career information for James Harden:
 
 .. code-block:: python
 
-    from sportsreference.nba.roster import Player
+    from sportsipy.nba.roster import Player
 
     james_harden = Player('hardeja01')
     print(james_harden.name)  # Prints 'James Harden'
@@ -100,7 +100,7 @@ stats.
 
 .. code-block:: python
 
-    from sportsreference.nba.roster import Player
+    from sportsipy.nba.roster import Player
 
     james_harden = Player('hardeja01')  # Currently pulling career stats
     print(james_harden.points)  # Prints Harden's CAREER points total
@@ -114,7 +114,7 @@ by calling the class without arguments or with the 'Career' string passed.
 
 .. code-block:: python
 
-    from sportsreference.nba.roster import Player
+    from sportsipy.nba.roster import Player
 
     james_harden = Player('hardeja01')  # Currently pulling career stats
     # Prints Harden's points total only for the 2017-18 season.
@@ -128,7 +128,7 @@ easily queried.
 
 .. code-block:: python
 
-    from sportsreference.nba.roster import Roster
+    from sportsipy.nba.roster import Roster
 
     houston = Roster('HOU')
     for player in houston.players:
@@ -136,7 +136,7 @@ easily queried.
         # recent season.
         print(player.name)
 
-.. automodule:: sportsreference.nba.roster
+.. automodule:: sportsipy.nba.roster
     :members:
     :undoc-members:
     :show-inheritance:
@@ -151,7 +151,7 @@ information on the game metrics.
 
 .. code-block:: python
 
-    from sportsreference.nba.schedule import Schedule
+    from sportsipy.nba.schedule import Schedule
 
     houston_schedule = Schedule('HOU')
     for game in houston_schedule:
@@ -160,7 +160,7 @@ information on the game metrics.
         # Creates an instance of the Boxscore class for the game.
         boxscore = game.boxscore
 
-.. automodule:: sportsreference.nba.schedule
+.. automodule:: sportsipy.nba.schedule
     :members:
     :undoc-members:
     :show-inheritance:
@@ -174,7 +174,7 @@ number of shots they've blocked, and much more.
 
 .. code-block:: python
 
-    from sportsreference.nba.teams import Teams
+    from sportsipy.nba.teams import Teams
 
     teams = Teams()
     for team in teams:
@@ -188,7 +188,7 @@ calling Team class.
 
 .. code-block:: python
 
-    from sportsreference.nba.teams import Team
+    from sportsipy.nba.teams import Team
 
     houston = Team('HOU')
 
@@ -198,7 +198,7 @@ queried to easily grab all stats for all games.
 
 .. code-block:: python
 
-    from sportsreference.nba.teams import Teams
+    from sportsipy.nba.teams import Teams
 
     teams = Teams()
     for team in teams:
@@ -213,7 +213,7 @@ contains detailed stats and information for each player on the team.
 
 .. code-block:: python
 
-    from sportsreference.nba.teams import Teams
+    from sportsipy.nba.teams import Teams
 
     teams = Teams()
     for team in teams:
@@ -222,7 +222,7 @@ contains detailed stats and information for each player on the team.
         for player in roster.players:
             print(player.name)  # Prints the name of each player on the team.
 
-.. automodule:: sportsreference.nba.teams
+.. automodule:: sportsipy.nba.teams
     :members:
     :undoc-members:
     :show-inheritance:

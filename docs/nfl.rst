@@ -17,7 +17,7 @@ information on retrieving game-specific information).
 
 .. code-block:: python
 
-    from sportsreference.nfl.boxscore import Boxscore
+    from sportsipy.nfl.boxscore import Boxscore
 
     game_data = Boxscore('201802040nwe')
     print(game_data.home_points)  # Prints 33
@@ -31,7 +31,7 @@ abbreviations for each matchup as well as the boxscore link if applicable.
 
 .. code-block:: python
 
-    from sportsreference.nfl.boxscore import Boxscores
+    from sportsipy.nfl.boxscore import Boxscores
 
     games_today = Boxscores(1, 2017)
     # Prints a dictionary of all matchups for week 1 of 2017
@@ -44,14 +44,14 @@ end date as the second parameter.
 
 .. code-block:: python
 
-    from sportsreference.nfl.boxscore import Boxscores
+    from sportsipy.nfl.boxscore import Boxscores
 
     # Pulls all games from weeks 7 and 8 in 2017
     games = Boxscores(7, 2017, 8)
     # Prints a dictionary of all games from weeks 7 and 8 in 2017
     print(games.games)
 
-.. automodule:: sportsreference.nfl.boxscore
+.. automodule:: sportsipy.nfl.boxscore
     :members:
     :undoc-members:
     :show-inheritance:
@@ -65,7 +65,7 @@ modules, respectively. All of the properties that appear in the
 ``AbstractPlayer`` class can be read from either of the two child classes
 mentioned above.
 
-.. automodule:: sportsreference.nfl.player
+.. automodule:: sportsipy.nfl.player
     :members:
     :undoc-members:
     :show-inheritance:
@@ -81,7 +81,7 @@ career information for Drew Brees.
 
 .. code-block:: python
 
-    from sportsreference.nfl.roster import Player
+    from sportsipy.nfl.roster import Player
 
     brees = Player('BreeDr00')
     print(brees.name)  # Prints 'Drew Brees'
@@ -96,7 +96,7 @@ stats.
 
 .. code-block:: python
 
-    from sportsreference.nfl.roster import Player
+    from sportsipy.nfl.roster import Player
 
     brees = Player('BreeDr00')  # Currently pulling career stats
     print(brees.passing_yards)  # Prints Brees' CAREER passing yards total
@@ -110,7 +110,7 @@ by calling the class without arguments or with the 'Career' string passed.
 
 .. code-block:: python
 
-    from sportsreference.nfl.roster import Player
+    from sportsipy.nfl.roster import Player
 
     brees = Player('BreeDr00')  # Currently pulling career stats
     # Prints Brees' passing yards total only for the 2017 season
@@ -124,7 +124,7 @@ easily queried.
 
 .. code-block:: python
 
-    from sportsreference.nfl.roster import Roster
+    from sportsipy.nfl.roster import Roster
 
     saints = Roster('NOR')
     for player in saints.players:
@@ -132,7 +132,7 @@ easily queried.
         # in the most recent season.
         print(player.name)
 
-.. automodule:: sportsreference.nfl.roster
+.. automodule:: sportsipy.nfl.roster
     :members:
     :undoc-members:
     :show-inheritance:
@@ -147,7 +147,7 @@ information on the game metrics.
 
 .. code-block:: python
 
-    from sportsreference.nfl.schedule import Schedule
+    from sportsipy.nfl.schedule import Schedule
 
     houston_schedule = Schedule('HTX')
     for game in houston_schedule:
@@ -156,7 +156,7 @@ information on the game metrics.
         # Creates an instance of the Boxscore class for the game.
         boxscore = game.boxscore
 
-.. automodule:: sportsreference.nfl.schedule
+.. automodule:: sportsipy.nfl.schedule
     :members:
     :undoc-members:
     :show-inheritance:
@@ -170,7 +170,7 @@ margin of victory, and much more.
 
 .. code-block:: python
 
-    from sportsreference.nfl.teams import Teams
+    from sportsipy.nfl.teams import Teams
 
     teams = Teams()
     for team in teams:
@@ -185,7 +185,7 @@ calling Team class.
 
 .. code-block:: python
 
-    from sportsreference.nfl.teams import Team
+    from sportsipy.nfl.teams import Team
 
     kansas = Team('KAN')
 
@@ -195,7 +195,7 @@ queried to easily grab all stats for all games.
 
 .. code-block:: python
 
-    from sportsreference.nfl.teams import Teams
+    from sportsipy.nfl.teams import Teams
 
     teams = Teams()
     for team in teams:
@@ -210,14 +210,14 @@ contains detailed stats and information for each player on the team.
 
 .. code-block:: python
 
-    from sportsreference.nfl.teams import Teams
+    from sportsipy.nfl.teams import Teams
 
     for team in Teams():
         roster = team.roster  # Gets each team's roster
         for player in roster.players:
                 print(player.name)  # Prints each players name on the roster
 
-.. automodule:: sportsreference.nfl.teams
+.. automodule:: sportsipy.nfl.teams
     :members:
     :undoc-members:
     :show-inheritance:

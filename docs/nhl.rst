@@ -17,7 +17,7 @@ retrieving game-specific information).
 
 .. code-block:: python
 
-    from sportsreference.nhl.boxscore import Boxscore
+    from sportsipy.nhl.boxscore import Boxscore
 
     game_data = Boxscore('201806070VEG')
     print(game_data.home_goals)  # Prints 3
@@ -32,7 +32,7 @@ abbreviations for each matchup as well as the boxscore link if applicable.
 .. code-block:: python
 
     from datetime import datetime
-    from sportsreference.nhl.boxscore import Boxscores
+    from sportsipy.nhl.boxscore import Boxscores
 
     games_today = Boxscores(datetime.today())
     print(games_today.games)  # Prints a dictionary of all matchups for today
@@ -45,7 +45,7 @@ end date as the second parameter.
 .. code-block:: python
 
     from datetime import datetime
-    from sportsreference.nhl.boxscore import Boxscores
+    from sportsipy.nhl.boxscore import Boxscores
 
     # Pulls all games between and including February 4, 2017 and February 5,
     # 2017
@@ -54,7 +54,7 @@ end date as the second parameter.
     # 2017
     print(games.games)
 
-.. automodule:: sportsreference.nhl.boxscore
+.. automodule:: sportsipy.nhl.boxscore
     :members:
     :undoc-members:
     :show-inheritance:
@@ -68,7 +68,7 @@ modules, respectively. All of the properties that appear in the
 ``AbstractPlayer`` class can be read from either of the two child classes
 mentioned above.
 
-.. automodule:: sportsreference.nhl.player
+.. automodule:: sportsipy.nhl.player
     :members:
     :undoc-members:
     :show-inheritance:
@@ -84,7 +84,7 @@ for Henrik Zetterberg:
 
 .. code-block:: python
 
-    from sportsreference.nhl.roster import Player
+    from sportsipy.nhl.roster import Player
 
     zetterberg = Player('zettehe01')
     print(zetterberg.name)  # Prints 'Henrik Zetterberg'
@@ -99,7 +99,7 @@ stats.
 
 .. code-block:: python
 
-    from sportsreference.nhl.roster import Player
+    from sportsipy.nhl.roster import Player
 
     zetterberg = Player('zettehe01')  # Currently pulling career stats
     print(zetterberg.points)  # Prints Zetterberg's CAREER points total
@@ -113,7 +113,7 @@ by calling the class without arguments or with the 'Career' string passed.
 
 .. code-block:: python
 
-    from sportsreference.nhl.roster import Player
+    from sportsipy.nhl.roster import Player
 
     zetterberg = Player('zettehe01')  # Currently pulling career stats
     # Prints Zetterberg's points total only for the 2017-18 season.
@@ -127,7 +127,7 @@ easily queried.
 
 .. code-block:: python
 
-    from sportsreference.nhl.roster import Roster
+    from sportsipy.nhl.roster import Roster
 
     detroit = Roster('DET')
     for player in detroit.players:
@@ -135,7 +135,7 @@ easily queried.
         # recent season.
         print(player.name)
 
-.. automodule:: sportsreference.nhl.roster
+.. automodule:: sportsipy.nhl.roster
     :members:
     :undoc-members:
     :show-inheritance:
@@ -150,7 +150,7 @@ information on the game metrics.
 
 .. code-block:: python
 
-    from sportsreference.nhl.schedule import Schedule
+    from sportsipy.nhl.schedule import Schedule
 
     detroit_schedule = Schedule('DET')
     for game in detroit_schedule:
@@ -159,7 +159,7 @@ information on the game metrics.
         # Creates an instance of the Boxscore class for the game.
         boxscore = game.boxscore
 
-.. automodule:: sportsreference.nhl.schedule
+.. automodule:: sportsipy.nhl.schedule
     :members:
     :undoc-members:
     :show-inheritance:
@@ -173,7 +173,7 @@ number of shots on goal, and much more.
 
 .. code-block:: python
 
-    from sportsreference.nhl.teams import Teams
+    from sportsipy.nhl.teams import Teams
 
     teams = Teams()
     for team in teams:
@@ -187,7 +187,7 @@ calling Team class.
 
 .. code-block:: python
 
-    from sportsreference.nhl.teams import Team
+    from sportsipy.nhl.teams import Team
 
     detroit = Team('DET')
 
@@ -197,7 +197,7 @@ queried to easily grab all stats for all games.
 
 .. code-block:: python
 
-    from sportsreference.nhl.teams import Teams
+    from sportsipy.nhl.teams import Teams
 
     teams = Teams()
     for team in teams:
@@ -212,7 +212,7 @@ contains detailed stats and information for each player on the team.
 
 .. code-block:: python
 
-    from sportsreference.nhl.teams import Teams
+    from sportsipy.nhl.teams import Teams
 
     teams = Teams()
     for team in teams:
@@ -221,7 +221,7 @@ contains detailed stats and information for each player on the team.
         for player in roster.players:
             print(player.name)  # Prints the name of each player on the team.
 
-.. automodule:: sportsreference.nhl.teams
+.. automodule:: sportsipy.nhl.teams
     :members:
     :undoc-members:
     :show-inheritance:

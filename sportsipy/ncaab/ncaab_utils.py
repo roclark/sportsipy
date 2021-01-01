@@ -4,7 +4,7 @@ from .constants import (ADVANCED_OPPONENT_STATS_URL,
                         BASIC_STATS_URL,
                         PARSING_SCHEME)
 from pyquery import PyQuery as pq
-from sportsreference import utils
+from sportsipy import utils
 
 
 def _add_stats_data(teams_list, team_data_dict):

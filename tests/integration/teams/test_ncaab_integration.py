@@ -3,13 +3,13 @@ import os
 import pandas as pd
 import pytest
 from flexmock import flexmock
-from sportsreference import utils
-from sportsreference.ncaab.conferences import Conferences
-from sportsreference.ncaab.constants import (ADVANCED_OPPONENT_STATS_URL,
-                                             ADVANCED_STATS_URL,
-                                             BASIC_OPPONENT_STATS_URL,
-                                             BASIC_STATS_URL)
-from sportsreference.ncaab.teams import Team, Teams
+from sportsipy import utils
+from sportsipy.ncaab.conferences import Conferences
+from sportsipy.ncaab.constants import (ADVANCED_OPPONENT_STATS_URL,
+                                       ADVANCED_STATS_URL,
+                                       BASIC_OPPONENT_STATS_URL,
+                                       BASIC_STATS_URL)
+from sportsipy.ncaab.teams import Team, Teams
 
 
 MONTH = 1

@@ -7,15 +7,15 @@ from .constants import (DAY,
                         SCHEDULE_URL)
 from datetime import datetime
 from pyquery import PyQuery as pq
-from sportsreference import utils
-from sportsreference.constants import (WIN,
-                                       LOSS,
-                                       HOME,
-                                       AWAY,
-                                       NEUTRAL,
-                                       REGULAR_SEASON,
-                                       CONFERENCE_TOURNAMENT)
-from sportsreference.mlb.boxscore import Boxscore
+from sportsipy import utils
+from sportsipy.constants import (WIN,
+                                 LOSS,
+                                 HOME,
+                                 AWAY,
+                                 NEUTRAL,
+                                 REGULAR_SEASON,
+                                 CONFERENCE_TOURNAMENT)
+from sportsipy.mlb.boxscore import Boxscore
 
 
 class Game:

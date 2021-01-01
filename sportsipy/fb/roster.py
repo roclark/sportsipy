@@ -5,9 +5,9 @@ from ..decorators import float_property_decorator, int_property_decorator
 from .fb_utils import _lookup_team
 from .league_ids import LEAGUE_IDS
 from pyquery import PyQuery as pq
-from sportsreference.utils import (_get_stats_table,
-                                   _parse_field,
-                                   _remove_html_comment_tags)
+from sportsipy.utils import (_get_stats_table,
+                             _parse_field,
+                             _remove_html_comment_tags)
 from urllib.error import HTTPError
 
 
