@@ -15,7 +15,7 @@ pluggy==0.13.1
 py==1.10.0
 pycodestyle==2.6.0
 pyparsing==2.4.7
-pyquery==1.4.0
+pyquery==1.4.3
 pytest==6.2.1
 pytest-cov==2.10.1
 python-dateutil==2.8.1
