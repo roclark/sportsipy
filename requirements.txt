@@ -19,7 +19,7 @@ pyquery==1.4.0
 pytest==6.2.1
 pytest-cov==2.10.1
 python-dateutil==2.8.1
-pytz==2020.5
+pytz==2021.1
 requests==2.25.1
 six==1.15.0
 urllib3==1.26.2
