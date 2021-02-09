@@ -20,12 +20,10 @@ def _parse_squad_name(team_id):
     string
         Returns a ``string`` of the parsed team's name.
     """
-    name = team_id.replace(' FC', '')
-    name = name.replace('FC ', '')
-    name = name.replace(' CF', '')
-    name = name.replace('CF ', '')
-    name = name.lower()
-    name = name.strip()
+    irrelevant = [' FC',' CF','FC ','CF ']
+    for val in irrelevant:
+        team_id = team_id.replace(val,'')
+    name = team_id.lower().strip()
     return name
 
 
