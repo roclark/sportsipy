@@ -95,6 +95,8 @@ class TestNCAABBoxscore:
             'away_turnover_percentage': 22.0,
             'away_offensive_rating': 97.0,
             'away_defensive_rating': 103.0,
+            'away_wins': 8,
+            'away_losses': 11,
             'home_ranking': 6,
             'home_win_percentage': .842,
             'home_wins': 16,
@@ -133,7 +135,9 @@ class TestNCAABBoxscore:
             'home_block_percentage': 9.7,
             'home_turnover_percentage': 12.8,
             'home_offensive_rating': 103.0,
-            'home_defensive_rating': 97.0
+            'home_defensive_rating': 97.0,
+            'home_wins': 16,
+            'home_losses': 3
         }
         flexmock(utils) \
             .should_receive('_todays_date') \
