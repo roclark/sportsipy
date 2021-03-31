@@ -841,7 +841,7 @@ SQUAD_IDS = {
     'ardley united': '336350ae',
     'arlesey town': '3625eed4',
     'armthorpe welfare': 'fc986573',
-    'arsenal': '411b1108',
+    'arsenal': '18bb7c10',
     'arsenal u23': 'ad0e69a2',
     'arsenal wfc': '411b1108',
     'arundel': '84241c78',
