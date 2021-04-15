@@ -311,26 +311,48 @@ class TestNCAABBoxscore:
         type(self.boxscore)._home_record = fake_record
 
         assert self.boxscore.home_losses == 0
-
     def test_game_summary_with_no_scores_returns_none(self):
         result = Boxscore(None)._parse_summary(pq(
             """<table id="line-score">
-    <tbody>
-        <tr>
-            <td class="right"></td>
-            <td class="right"></td>
-        </tr>
-        <tr>
-            <td class="right"></td>
-            <td class="right"></td>
-        </tr>
-    </tbody>
-</table>"""
+                <tbody>
+                    <tr>
+                        <td class="center"></td>
+                        <td class="center"></td>
+                        <td class="center"></td>
+                    </tr>
+                    <tr>
+                        <td class="center"></td>
+                        <td class="center"></td>
+                        <td class="center"></td>
+                    </tr>
+                </tbody>
+            </table>"""
         ))
-
         assert result == {
             'away': [None],
             'home': [None]
+        }
+
+    def test_game_summary_with_scores_returns_summary(self):
+        result = Boxscore(None)._parse_summary(pq(
+            """<table id="line-score">
+                <tbody>
+                    <tr>
+                        <td class="center">25</td>
+                        <td class="center">46</td>
+                        <td class="center">71</td>
+                    </tr>
+                    <tr>
+                        <td class="center">45</td>
+                        <td class="center">33</td>
+                        <td class="center">78</td>
+                    </tr>
+                </tbody>
+            </table>"""
+        ))
+        assert result == {
+            'away': [25, 46],
+            'home': [45, 33]
         }
 
     def test_invalid_url_returns_none(self):

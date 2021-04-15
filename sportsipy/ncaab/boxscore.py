@@ -616,7 +616,7 @@ class Boxscore:
             # Only pull the first N-1 items as the last element is the final
             # score for each team which is already stored in an attribute, and
             # shouldn't be duplicated.
-            for half in list(team_info('td[class="right"]').items())[:-1]:
+            for half in list(team_info('td[class*="center"]').items())[:-1]:
                 ind = ind % 2
                 try:
                     summary[team[ind]].append(int(half.text()))
