@@ -502,6 +502,8 @@ class Boxscore:
             if not player_id:
                 continue
             name = self._find_player_name(row)
+            # print(name)
+            # print(player_id)
             try:
                 player_dict[player_id]['data'] += str(row).strip()
             except KeyError:
@@ -536,6 +538,8 @@ class Boxscore:
             where each element is a list of player instances for the away and
             home teams, respectively.
         """
+        home_players_dict = {}
+        away_players_dict = {}
         home_players = []
         away_players = []
         for player_id, details in player_dict.items():
@@ -544,9 +548,11 @@ class Boxscore:
                                     details['data'])
             if details['team'] == HOME:
                 home_players.append(player)
+                home_players_dict[details['name']] = player
             else:
                 away_players.append(player)
-        return away_players, home_players
+                away_players_dict[details['name']] = player
+        return away_players, home_players, home_players_dict, away_players_dict
 
     def _find_players(self, boxscore):
         """
@@ -583,8 +589,8 @@ class Boxscore:
                                                      player_dict,
                                                      home_or_away)
             table_count += 1
-        away_players, home_players = self._instantiate_players(player_dict)
-        return away_players, home_players
+        away_players, home_players, home_players_dict, away_players_dict = self._instantiate_players(player_dict)
+        return away_players, home_players, home_players_dict, away_players_dict
 
     def _parse_summary(self, boxscore):
         """
@@ -694,7 +700,7 @@ class Boxscore:
                                        short_field,
                                        index)
             setattr(self, field, value)
-        self._away_players, self._home_players = self._find_players(boxscore)
+        self._away_players, self._home_players, self._home_players_dict, self._away_players_dict = self._find_players(boxscore)
 
     @property
     def dataframe(self):
@@ -831,12 +837,28 @@ class Boxscore:
         return self._away_players
 
     @property
+    def away_players_dict(self):
+        """
+        Returns a ``list`` of ``BoxscorePlayer`` class instances for each
+        player on the away team.
+        """
+        return self._away_players_dict
+
+    @property
     def home_players(self):
         """
         Returns a ``list`` of ``BoxscorePlayer`` class instances for each
         player on the home team.
         """
         return self._home_players
+
+    @property
+    def home_players_dict(self):
+        """
+        Returns a ``list`` of ``BoxscorePlayer`` class instances for each
+        player on the home team.
+        """
+        return self._home_players_dict
 
     @property
     def location(self):

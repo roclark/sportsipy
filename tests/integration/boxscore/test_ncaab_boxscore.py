@@ -187,6 +187,17 @@ class TestNCAABBoxscore:
         for player in boxscore.away_players:
             assert not player.dataframe.empty
 
+    def test_ncaab_boxscore_players_dict(self):
+        boxscore = Boxscore(BOXSCORE)
+
+        assert len(boxscore.home_players_dict) == 10
+        assert len(boxscore.away_players_dict) == 7
+        print(boxscore.away_players_dict)
+        for name, player in boxscore.home_players_dict.items():
+            assert not player.dataframe.empty
+        for name, player in boxscore.away_players_dict.items():
+            assert not player.dataframe.empty
+
     def test_ncaab_boxscore_string_representation(self):
         expected = ('Boxscore for Georgia Tech '
                     'at Louisville (January 22, 2020)')
