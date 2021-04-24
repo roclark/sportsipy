@@ -336,7 +336,7 @@ class Player(AbstractPlayer):
                          'playoffs_per_minute', 'playoffs_per_poss',
                          'playoffs_advanced', 'playoffs_shooting',
                          'playoffs_pbp', 'game_highs_po', 'all_star', 
-                         'all_college_stats', 'all_salaries']:
+                         'all_college_stats', 'all_salaries', 'advanced_pbp']:
             table_items = utils._get_stats_table(player_info,
                                                  'table#%s' % table_id)
             career_items = utils._get_stats_table(player_info,
