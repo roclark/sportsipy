@@ -385,9 +385,13 @@ class Boxscore:
         string
             A string of the team's record in the format 'Team Name (W-L)'.
         """
-        records = boxscore(BOXSCORE_SCHEME[field]).items()
-        records = [x.text() for x in records if x.text() != '']
-        return records[index]
+        records = boxscore(BOXSCORE_SCHEME[field])
+        records = [x.text for x in records if x.text != ''] 
+        
+        if len(records) > index:
+            return records[index]
+        else:
+            return ''
 
     def _find_boxscore_tables(self, boxscore):
         """
@@ -612,11 +616,13 @@ class Boxscore:
         team = ['away', 'home']
         summary = {'away': [], 'home': []}
         game_summary = boxscore(BOXSCORE_SCHEME['summary'])
+
         for ind, team_info in enumerate(game_summary('tr').items()):
             # Only pull the first N-1 items as the last element is the final
             # score for each team which is already stored in an attribute, and
             # shouldn't be duplicated.
-            for half in list(team_info('td[class="right"]').items())[:-1]:
+
+            for half in list(team_info('td[class*="center"]').items())[:-1]:
                 ind = ind % 2
                 try:
                     summary[team[ind]].append(int(half.text()))

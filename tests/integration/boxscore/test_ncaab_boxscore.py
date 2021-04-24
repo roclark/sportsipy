@@ -146,8 +146,8 @@ class TestNCAABBoxscore:
             assert getattr(self.boxscore, attribute) == value
         assert getattr(self.boxscore, 'summary') == {
             # Box score is not parsed correctly
-            'away': [],
-            'home': []
+            'away': [38, 26],
+            'home': [32, 36]
         }
 
     def test_invalid_url_yields_empty_class(self):
