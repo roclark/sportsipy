@@ -159,24 +159,43 @@ docstrings in the sportsipy package.
 Testing
 =======
 
-Sportsipy contains a testing suite which aims to test all major portions
-of code for proper functionality. To run the test suite against your
-environment, ensure all of the requirements are installed by running::
+Sportsipy contains a testing suite which aims to test all major 
+portions of code for proper functionality.To run the test suite 
+against your environment, follow the steps below.
 
-    pip install -r requirements.txt
+Clone the this repository using git::
 
-Next, start the tests by running py.test while optionally including coverage
-flags which identify the amount of production code covered by the testing
-framework::
+    Git clone https://github.com/roclark/sportsipy
+
+Enter the directory where you cloned project. Ensure you are in the root 
+directory of the project where the file “requirements.txt” is available.
+Once in this directory install all the package requirements 
+which the “requirements.txt” file contains using PIP::
+
+    pip install -r requirements.txt 
+
+Note, this is the same install as the “bleeding-edge”” version as described 
+in the ‘Installation’ section. 
+
+Once this installation is complete you can start the tests by running 
+py.test, while optionally including coverage flags which identify the 
+amount of production code covered by the testing framework::
 
     py.test --cov=sportsipy --cov-report term-missing tests/
 
-If the tests were successful, it will return a green line will show a message at
-the end of the output similar to the following::
+
+Once the tests execute you will be provided a detailed log of all the 
+tests that were executed as well as short test summary. 
+If the tests were successful, it will return a green line which will show a message
+at the end of the output similar to the following::
 
     ======================= 380 passed in 245.56 seconds =======================
 
-If a test failed, it will show the number of failed and what went wrong within
-the test output. If that's the case, ensure you have the latest version of code
-and are in a supported environment. Otherwise, create an issue on GitHub to
-attempt to get the issue resolved.
+If any tests failed, it will return a red line that will show how many tests 
+failed similar to the following::
+
+    ======================= 60 errors in 10.05s =======================
+
+The aforementioned detailed log will show descriptions for each error. If you receive any 
+errors, ensure you have the latest version of code and are in a supported environment.
+Otherwise, create an issue on GitHub to attempt to get the issue resolved.
