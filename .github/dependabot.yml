@@ -1,0 +1,27 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "11:00"
+  open-pull-requests-limit: 99
+  ignore:
+  - dependency-name: pandas
+    versions:
+    - 1.2.1
+    - 1.2.2
+    - 1.2.3
+  - dependency-name: numpy
+    versions:
+    - 1.20.0
+    - 1.20.1
+  - dependency-name: coverage
+    versions:
+    - "5.4"
+  - dependency-name: urllib3
+    versions:
+    - 1.26.3
+  - dependency-name: pytest
+    versions:
+    - 6.2.2
