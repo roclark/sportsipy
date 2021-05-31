@@ -4,7 +4,7 @@ chardet==4.0.0
 coverage==5.3.1
 cssselect==1.1.0
 flexmock==0.10.4
-idna==2.9
+idna==3.2
 lxml==4.6.2
 mock==4.0.3
 more-itertools==8.6.0
