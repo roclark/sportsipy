@@ -23,7 +23,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run unit and integration tests with pytest
       run: |
-        py.test --cov=sportsipy --cov-report term-missing --cov-report xml tests/integration/ tests/unit/
+        pytest -n 4 --cov=sportsipy --cov-report term-missing --cov-report xml tests/integration/ tests/unit/
     - name: Lint with pycodestyle
       run: |
         pycodestyle sportsipy/ tests/integration/ tests/unit/

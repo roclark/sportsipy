@@ -18,6 +18,7 @@ pyparsing==2.4.7
 pyquery==1.4.0
 pytest==6.2.1
 pytest-cov==2.10.1
+pytest-xdist==2.3.0
 python-dateutil==2.8.1
 pytz==2020.5
 requests==2.25.1
