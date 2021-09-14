@@ -279,14 +279,15 @@ class TestMLBIntegration:
 
         assert hou.__repr__() == 'Houston Astros (HOU) - 2021'
 
-    def test_mlb_teams_string_representation(self):
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_mlb_teams_string_representation(self, *args, **kwargs):
         expected = """San Francisco Giants (SFG)
 Los Angeles Dodgers (LAD)
 Tampa Bay Rays (TBR)
 Milwaukee Brewers (MIL)
 Houston Astros (HOU)
-New York Yankees (NYY)
 Chicago White Sox (CHW)
+New York Yankees (NYY)
 Oakland Athletics (OAK)
 Boston Red Sox (BOS)
 Atlanta Braves (ATL)
@@ -296,8 +297,8 @@ Seattle Mariners (SEA)
 Toronto Blue Jays (TOR)
 St. Louis Cardinals (STL)
 Philadelphia Phillies (PHI)
-Cleveland Indians (CLE)
 Los Angeles Angels (LAA)
+Cleveland Indians (CLE)
 New York Mets (NYM)
 Detroit Tigers (DET)
 Colorado Rockies (COL)
