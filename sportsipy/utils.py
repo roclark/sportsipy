@@ -3,6 +3,7 @@ import requests
 from datetime import datetime
 from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
+from sportsipy import session
 
 
 # {
@@ -317,7 +318,7 @@ def _pull_page(url=None, local_file=None):
         with open(local_file, 'r', encoding='utf8') as filehandle:
             return pq(filehandle.read())
     if url:
-        return pq(url)
+        return pq(url, session=session)
     raise ValueError('Expected either a URL or a local data file!')
 
 
