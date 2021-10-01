@@ -224,7 +224,7 @@ class Team:
             multiple tables are being referenced, this will be comprised of
             multiple rows in a single string.
         """
-        name = team_data('td[data-stat="team_ID"]:first')
+        name = team_data('a')[0].text
         name = re.sub(r'.*title="', '', str(name))
         name = re.sub(r'".*', '', name)
         setattr(self, '_name', name)

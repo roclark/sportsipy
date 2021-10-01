@@ -9,7 +9,7 @@ from sportsipy.nba.teams import Team, Teams
 
 
 MONTH = 1
-YEAR = 2017
+YEAR = 2021
 
 
 def read_file(filename):
@@ -38,7 +38,7 @@ def mock_pyquery(url):
             self.text = html_contents
 
         def __call__(self, div):
-            if div == 'div#all_team-stats-base':
+            if div == 'div#div_totals-team':
                 return read_file('%s_team.html' % YEAR)
             else:
                 return read_file('%s_opponent.html' % YEAR)
@@ -57,53 +57,53 @@ class TestNBAIntegration:
     @mock.patch('requests.get', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results = {
-            'rank': 26,
+            'rank': 27,
             'abbreviation': 'DET',
             'name': 'Detroit Pistons',
-            'games_played': 82,
-            'minutes_played': 19805,
-            'field_goals': 3269,
-            'field_goal_attempts': 7282,
-            'field_goal_percentage': .449,
-            'three_point_field_goals': 631,
-            'three_point_field_goal_attempts': 1915,
-            'three_point_field_goal_percentage': .330,
-            'two_point_field_goals': 2638,
-            'two_point_field_goal_attempts': 5367,
-            'two_point_field_goal_percentage': .492,
-            'free_throws': 1140,
-            'free_throw_attempts': 1586,
-            'free_throw_percentage': .719,
-            'offensive_rebounds': 908,
-            'defensive_rebounds': 2838,
-            'total_rebounds': 3746,
-            'assists': 1732,
-            'steals': 574,
-            'blocks': 310,
-            'turnovers': 973,
-            'personal_fouls': 1467,
-            'points': 8309,
-            'opp_field_goals': 3144,
-            'opp_field_goal_attempts': 6830,
-            'opp_field_goal_percentage': .460,
-            'opp_three_point_field_goals': 767,
-            'opp_three_point_field_goal_attempts': 2098,
-            'opp_three_point_field_goal_percentage': .366,
-            'opp_two_point_field_goals': 2377,
-            'opp_two_point_field_goal_attempts': 4732,
-            'opp_two_point_field_goal_percentage': .502,
-            'opp_free_throws': 1346,
-            'opp_free_throw_attempts': 1726,
-            'opp_free_throw_percentage': .780,
-            'opp_offensive_rebounds': 656,
-            'opp_defensive_rebounds': 2861,
-            'opp_total_rebounds': 3517,
-            'opp_assists': 1929,
-            'opp_steals': 551,
-            'opp_blocks': 339,
-            'opp_turnovers': 1046,
-            'opp_personal_fouls': 1434,
-            'opp_points': 8401
+            'games_played': 72,
+            'minutes_played': 17430,
+            'field_goals': 2783,
+            'field_goal_attempts': 6162,
+            'field_goal_percentage': .452,
+            'three_point_field_goals': 832,
+            'three_point_field_goal_attempts': 2370,
+            'three_point_field_goal_percentage': .351,
+            'two_point_field_goals': 1951,
+            'two_point_field_goal_attempts': 3792,
+            'two_point_field_goal_percentage': .515,
+            'free_throws': 1278,
+            'free_throw_attempts': 1683,
+            'free_throw_percentage': .759,
+            'offensive_rebounds': 694,
+            'defensive_rebounds': 2381,
+            'total_rebounds': 3075,
+            'assists': 1743,
+            'steals': 531,
+            'blocks': 371,
+            'turnovers': 1075,
+            'personal_fouls': 1477,
+            'points': 7676,
+            'opp_field_goals': 2980,
+            'opp_field_goal_attempts': 6260,
+            'opp_field_goal_percentage': .476,
+            'opp_three_point_field_goals': 817,
+            'opp_three_point_field_goal_attempts': 2260,
+            'opp_three_point_field_goal_percentage': .362,
+            'opp_two_point_field_goals': 2163,
+            'opp_two_point_field_goal_attempts': 4000,
+            'opp_two_point_field_goal_percentage': .541,
+            'opp_free_throws': 1221,
+            'opp_free_throw_attempts': 1607,
+            'opp_free_throw_percentage': .760,
+            'opp_offensive_rebounds': 717,
+            'opp_defensive_rebounds': 2475,
+            'opp_total_rebounds': 3192,
+            'opp_assists': 1785,
+            'opp_steals': 578,
+            'opp_blocks': 419,
+            'opp_turnovers': 1004,
+            'opp_personal_fouls': 1469,
+            'opp_points': 7998
         }
         self.abbreviations = [
             'BOS', 'CLE', 'TOR', 'WAS', 'ATL', 'MIL', 'IND', 'CHI', 'MIA',
@@ -176,39 +176,39 @@ class TestNBAIntegration:
     def test_team_string_representation(self):
         detroit = Team('DET')
 
-        assert detroit.__repr__() == 'Detroit Pistons (DET) - 2017'
+        assert detroit.__repr__() == 'Detroit Pistons (DET) - 2021'
 
     def test_teams_string_representation(self):
-        expected = """Golden State Warriors (GSW)
-Houston Rockets (HOU)
-Denver Nuggets (DEN)
-Cleveland Cavaliers (CLE)
-Washington Wizards (WAS)
-Los Angeles Clippers (LAC)
-Boston Celtics (BOS)
-Portland Trail Blazers (POR)
-Phoenix Suns (PHO)
-Toronto Raptors (TOR)
-Oklahoma City Thunder (OKC)
+        expected = """Milwaukee Bucks (MIL)
 Brooklyn Nets (BRK)
-Minnesota Timberwolves (MIN)
-San Antonio Spurs (SAS)
-Indiana Pacers (IND)
-Charlotte Hornets (CHO)
-Los Angeles Lakers (LAL)
-New Orleans Pelicans (NOP)
-New York Knicks (NYK)
-Milwaukee Bucks (MIL)
-Miami Heat (MIA)
-Atlanta Hawks (ATL)
-Chicago Bulls (CHI)
-Sacramento Kings (SAC)
-Philadelphia 76ers (PHI)
-Detroit Pistons (DET)
-Orlando Magic (ORL)
+Washington Wizards (WAS)
 Utah Jazz (UTA)
+Portland Trail Blazers (POR)
+Indiana Pacers (IND)
+Phoenix Suns (PHO)
+Denver Nuggets (DEN)
+New Orleans Pelicans (NOP)
+Los Angeles Clippers (LAC)
+Sacramento Kings (SAC)
+Golden State Warriors (GSW)
+Atlanta Hawks (ATL)
+Philadelphia 76ers (PHI)
 Memphis Grizzlies (MEM)
-Dallas Mavericks (DAL)"""
+Boston Celtics (BOS)
+Dallas Mavericks (DAL)
+Minnesota Timberwolves (MIN)
+Toronto Raptors (TOR)
+San Antonio Spurs (SAS)
+Chicago Bulls (CHI)
+Los Angeles Lakers (LAL)
+Charlotte Hornets (CHO)
+Houston Rockets (HOU)
+Miami Heat (MIA)
+New York Knicks (NYK)
+Detroit Pistons (DET)
+Oklahoma City Thunder (OKC)
+Orlando Magic (ORL)
+Cleveland Cavaliers (CLE)"""
 
         teams = Teams()
 
@@ -223,9 +223,9 @@ class TestNBAIntegrationInvalidDate:
                                                            **kwargs):
         flexmock(utils) \
             .should_receive('_find_year_for_season') \
-            .and_return(2018)
+            .and_return(2022)
 
         teams = Teams()
 
         for team in teams:
-            assert team._year == '2017'
+            assert team._year == '2021'

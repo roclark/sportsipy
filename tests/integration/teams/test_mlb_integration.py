@@ -9,7 +9,7 @@ from sportsipy.mlb.teams import Team, Teams
 
 
 MONTH = 4
-YEAR = 2017
+YEAR = 2021
 
 
 def read_file(filename):
@@ -64,109 +64,109 @@ class TestMLBIntegration:
     @mock.patch('requests.get', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results = {
-            'rank': 3,
+            'rank': 5,
             'abbreviation': 'HOU',
             'name': 'Houston Astros',
-            'league': 'AL',
-            'games': 162,
-            'wins': 101,
-            'losses': 61,
-            'win_percentage': .624,
-            'streak': None,
-            'runs': 5.5,
-            'runs_against': 4.3,
-            'run_difference': 1.2,
-            'strength_of_schedule': 0.0,
-            'simple_rating_system': 1.2,
-            'pythagorean_win_loss': '99-63',
-            'luck': 2,
-            'interleague_record': '15-5',
-            'home_record': '48-33',
-            'home_wins': 48,
-            'home_losses': 33,
-            'away_record': '53-28',
-            'away_wins': 53,
-            'away_losses': 28,
-            'extra_inning_record': '4-4',
-            'extra_inning_wins': 4,
-            'extra_inning_losses': 4,
-            'single_run_record': '19-13',
-            'single_run_wins': 19,
-            'single_run_losses': 13,
-            'record_vs_right_handed_pitchers': '80-37',
-            'wins_vs_right_handed_pitchers': 80,
-            'losses_vs_right_handed_pitchers': 37,
-            'record_vs_left_handed_pitchers': '21-24',
-            'wins_vs_left_handed_pitchers': 21,
-            'losses_vs_left_handed_pitchers': 24,
-            'record_vs_teams_over_500': '18-15',
-            'wins_vs_teams_over_500': 18,
-            'losses_vs_teams_over_500': 15,
-            'record_vs_teams_under_500': '83-46',
-            'wins_vs_teams_under_500': 83,
-            'losses_vs_teams_under_500': 46,
-            'last_ten_games_record': None,
-            'wins_last_ten_games': None,
-            'losses_last_ten_games': None,
-            'last_twenty_games_record': None,
-            'wins_last_twenty_games': None,
-            'losses_last_twenty_games': None,
-            'last_thirty_games_record': None,
-            'wins_last_thirty_games': None,
-            'losses_last_thirty_games': None,
-            'number_players_used': 46,
-            'average_batter_age': 28.8,
-            'plate_appearances': 6271,
-            'at_bats': 5611,
-            'total_runs': 896,
-            'hits': 1581,
-            'doubles': 346,
-            'triples': 20,
-            'home_runs': 238,
-            'runs_batted_in': 854,
-            'stolen_bases': 98,
-            'times_caught_stealing': 42,
-            'bases_on_balls': 509,
-            'times_struck_out': 1087,
-            'batting_average': .282,
-            'on_base_percentage': .346,
-            'slugging_percentage': .478,
-            'on_base_plus_slugging_percentage': .823,
-            'on_base_plus_slugging_percentage_plus': 127,
-            'total_bases': 2681,
-            'grounded_into_double_plays': 139,
-            'times_hit_by_pitch': 70,
-            'sacrifice_hits': 11,
-            'sacrifice_flies': 61,
-            'intentional_bases_on_balls': 27,
-            'runners_left_on_base': 1094,
-            'number_of_pitchers': 27,
-            'average_pitcher_age': 28.5,
-            'runs_allowed_per_game': 4.32,
-            'earned_runs_against': 4.12,
-            'games_finished': 161,
-            'complete_games': 1,
-            'shutouts': 9,
+            'league': None,
+            'games': 123,
+            'wins': 73,
+            'losses': 50,
+            'win_percentage': .594,
+            'streak': 'W 3',
+            'runs': 5.4,
+            'runs_against': 3.9,
+            'run_difference': 1.5,
+            'strength_of_schedule': -0.1,
+            'simple_rating_system': 1.5,
+            'pythagorean_win_loss': '79-44',
+            'luck': -6,
+            'interleague_record': '6-8',
+            'home_record': '39-23',
+            'home_wins': 39,
+            'home_losses': 23,
+            'away_record': '34-27',
+            'away_wins': 34,
+            'away_losses': 27,
+            'extra_inning_record': '5-6',
+            'extra_inning_wins': 5,
+            'extra_inning_losses': 6,
+            'single_run_record': '12-14',
+            'single_run_wins': 12,
+            'single_run_losses': 14,
+            'record_vs_right_handed_pitchers': '45-30',
+            'wins_vs_right_handed_pitchers': 45,
+            'losses_vs_right_handed_pitchers': 30,
+            'record_vs_left_handed_pitchers': '28-20',
+            'wins_vs_left_handed_pitchers': 28,
+            'losses_vs_left_handed_pitchers': 20,
+            'record_vs_teams_over_500': '39-25',
+            'wins_vs_teams_over_500': 39,
+            'losses_vs_teams_over_500': 25,
+            'record_vs_teams_under_500': '34-25',
+            'wins_vs_teams_under_500': 34,
+            'losses_vs_teams_under_500': 25,
+            'last_ten_games_record': '6-4',
+            'wins_last_ten_games': 6,
+            'losses_last_ten_games': 4,
+            'last_twenty_games_record': '10-10',
+            'wins_last_twenty_games': 10,
+            'losses_last_twenty_games': 10,
+            'last_thirty_games_record': '17-13',
+            'wins_last_thirty_games': 17,
+            'losses_last_thirty_games': 13,
+            'number_players_used': 48,
+            'average_batter_age': 29.0,
+            'plate_appearances': 4757,
+            'at_bats': 4220,
+            'total_runs': 669,
+            'hits': 1132,
+            'doubles': 233,
+            'triples': 10,
+            'home_runs': 163,
+            'runs_batted_in': 643,
+            'stolen_bases': 43,
+            'times_caught_stealing': 13,
+            'bases_on_balls': 433,
+            'times_struck_out': 929,
+            'batting_average': .268,
+            'on_base_percentage': .340,
+            'slugging_percentage': .444,
+            'on_base_plus_slugging_percentage': .784,
+            'on_base_plus_slugging_percentage_plus': 115,
+            'total_bases': 1874,
+            'grounded_into_double_plays': 107,
+            'times_hit_by_pitch': 49,
+            'sacrifice_hits': 6,
+            'sacrifice_flies': 48,
+            'intentional_bases_on_balls': 19,
+            'runners_left_on_base': 842,
+            'number_of_pitchers': 29,
+            'average_pitcher_age': 28.8,
+            'runs_allowed_per_game': 3.92,
+            'earned_runs_against': 3.61,
+            'games_finished': 121,
+            'complete_games': 2,
+            'shutouts': 6,
             'complete_game_shutouts': 0,
-            'saves': 45,
-            'innings_pitched': 1446.0,
-            'hits_allowed': 1314,
-            'home_runs_against': 192,
-            'bases_on_walks_given': 522,
-            'strikeouts': 1593,
-            'hit_pitcher': 70,
-            'balks': 4,
-            'wild_pitches': 86,
-            'batters_faced': 6111,
-            'earned_runs_against_plus': 96,
-            'fielding_independent_pitching': 3.91,
-            'whip': 1.270,
-            'hits_per_nine_innings': 8.2,
+            'saves': 26,
+            'innings_pitched': 1094.0,
+            'hits_allowed': 917,
+            'home_runs_against': 144,
+            'bases_on_walks_given': 404,
+            'strikeouts': 1121,
+            'hit_pitcher': 49,
+            'balks': 1,
+            'wild_pitches': 59,
+            'batters_faced': 4578,
+            'earned_runs_against_plus': 119,
+            'fielding_independent_pitching': 4.09,
+            'whip': 1.207,
+            'hits_per_nine_innings': 7.5,
             'home_runs_per_nine_innings': 1.2,
-            'bases_on_walks_given_per_nine_innings': 3.2,
-            'strikeouts_per_nine_innings': 9.9,
-            'strikeouts_per_base_on_balls': 3.05,
-            'opposing_runners_left_on_base': 1073
+            'bases_on_walks_given_per_nine_innings': 3.3,
+            'strikeouts_per_nine_innings': 9.2,
+            'strikeouts_per_base_on_balls': 2.77,
+            'opposing_runners_left_on_base': 814
         }
         self.abbreviations = [
             'NYY', 'BOS', 'ATL', 'LAA', 'HOU', 'MIL', 'PHI', 'ARI', 'STL',
@@ -255,12 +255,12 @@ class TestMLBIntegration:
                                                                **kwargs):
         flexmock(utils) \
             .should_receive('_find_year_for_season') \
-            .and_return(2018)
+            .and_return(2022)
 
         teams = Teams()
 
         for team in teams:
-            assert team._year == '2017'
+            assert team._year == '2021'
 
     def test_mlb_empty_page_returns_no_teams(self):
         flexmock(utils) \
@@ -277,39 +277,40 @@ class TestMLBIntegration:
     def test_mlb_team_string_representation(self):
         hou = Team('HOU')
 
-        assert hou.__repr__() == 'Houston Astros (HOU) - 2017'
+        assert hou.__repr__() == 'Houston Astros (HOU) - 2021'
 
-    def test_mlb_teams_string_representation(self):
-        expected = """Los Angeles Dodgers (LAD)
-Cleveland Indians (CLE)
-Houston Astros (HOU)
-Washington Nationals (WSN)
-Boston Red Sox (BOS)
-Arizona Diamondbacks (ARI)
-Chicago Cubs (CHC)
-New York Yankees (NYY)
-Colorado Rockies (COL)
-Milwaukee Brewers (MIL)
-Minnesota Twins (MIN)
-St. Louis Cardinals (STL)
-Los Angeles Angels (LAA)
+    @mock.patch('requests.get', side_effect=mock_pyquery)
+    def test_mlb_teams_string_representation(self, *args, **kwargs):
+        expected = """San Francisco Giants (SFG)
+Los Angeles Dodgers (LAD)
 Tampa Bay Rays (TBR)
-Kansas City Royals (KCR)
-Seattle Mariners (SEA)
-Texas Rangers (TEX)
-Miami Marlins (MIA)
-Toronto Blue Jays (TOR)
-Pittsburgh Pirates (PIT)
-Baltimore Orioles (BAL)
-Oakland Athletics (OAK)
-Atlanta Braves (ATL)
-San Diego Padres (SDP)
-New York Mets (NYM)
-Cincinnati Reds (CIN)
+Milwaukee Brewers (MIL)
+Houston Astros (HOU)
 Chicago White Sox (CHW)
+New York Yankees (NYY)
+Oakland Athletics (OAK)
+Boston Red Sox (BOS)
+Atlanta Braves (ATL)
+Cincinnati Reds (CIN)
+San Diego Padres (SDP)
+Seattle Mariners (SEA)
+Toronto Blue Jays (TOR)
+St. Louis Cardinals (STL)
 Philadelphia Phillies (PHI)
-San Francisco Giants (SFG)
-Detroit Tigers (DET)"""
+Los Angeles Angels (LAA)
+Cleveland Indians (CLE)
+New York Mets (NYM)
+Detroit Tigers (DET)
+Colorado Rockies (COL)
+Kansas City Royals (KCR)
+Minnesota Twins (MIN)
+Washington Nationals (WSN)
+Chicago Cubs (CHC)
+Miami Marlins (MIA)
+Pittsburgh Pirates (PIT)
+Texas Rangers (TEX)
+Arizona Diamondbacks (ARI)
+Baltimore Orioles (BAL)"""
 
         teams = Teams()
 

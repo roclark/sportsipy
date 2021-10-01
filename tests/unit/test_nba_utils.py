@@ -20,8 +20,8 @@ def mock_pyquery(url):
     if '2021' in url:
         return MockPQ('<div/>', status_code=404)
     else:
-        return MockPQ('<div id="all_team-stats-base"/>'
-                      '<div id="all_opponent-stats-base"/>')
+        return MockPQ('<div id="div_totals-team"/>'
+                      '<div id="div_totals-opponent"/>')
 
 
 class TestNBAUtils:
