@@ -1867,7 +1867,7 @@ class Roster:
             output = ("Can't pull requested team page. Ensure the following "
                       "URL exists: %s" % url)
             raise ValueError(output)
-        for player in page('table#games_played_team tbody tr').items():
+        for player in page('table#roster tbody tr').items():
             player_id = self._get_id(player)
             if self._slim:
                 name = self._get_name(player)
