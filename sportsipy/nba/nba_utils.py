@@ -85,8 +85,6 @@ def _retrieve_all_teams(year, season_file=None):
     teams_list = utils._get_stats_table(doc, 'div#totals-team')
     opp_teams_list = utils._get_stats_table(doc, 'div#totals-opponent')
 
-    print(teams_list)
-
     if not teams_list and not opp_teams_list:
         utils._no_data_found()
         return None, None
