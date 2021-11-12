@@ -7,7 +7,7 @@ to be adjusted, feel free to suggest changes in a Pull Request or Issue.
 
 ## Code of Conduct
 By using this repository, you are expected to abide by the rules listed in the
-[Code of Conduct](CODE_OF_CONDUCT.md). Any behavior that is not in-line with the
+[Code of address](CODE_OF_CONDUCT.md). Any behavior that is not in-line with the
 Code of Conduct should be reported to the project maintainers.
 
 ## How Can I Contribute?
