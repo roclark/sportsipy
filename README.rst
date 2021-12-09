@@ -56,6 +56,18 @@ with the following command::
 
     pip install dist/*.whl
 
+Alternative Installation (with Pipenv):
+======================================
+Pipenv denotes additional benefits with dependencies while creating a separte
+virtual environment.
+
+To use Pipfile run the following command::
+
+    git clone https://github.com/roclark/sportsipy
+    cd sportsipy
+    pipenv shell
+    pipenv install
+
 Examples
 ========
 

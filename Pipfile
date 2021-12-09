@@ -1,0 +1,40 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+attrs = "==20.3.0"
+certifi = "==2020.12.5"
+chardet = "==4.0.0"
+coverage = "==5.3.1"
+cssselect = "==1.1.0"
+flexmock = "==0.10.4"
+idna = "==2.9"
+lxml = "==4.6.3"
+mock = "==4.0.3"
+more-itertools = "==8.6.0"
+numpy = "==1.19.5"
+pandas = "==0.25.3"
+pluggy = "==0.13.1"
+py = "==1.10.0"
+pycodestyle = "==2.6.0"
+pyparsing = "==2.4.7"
+pyquery = "==1.4.0"
+pytest = "==6.2.1"
+pytest-cov = "==2.10.1"
+pytest-xdist = "==2.3.0"
+python-dateutil = "==2.8.1"
+pytz = "==2020.5"
+requests = "==2.25.1"
+six = "==1.15.0"
+urllib3 = "==1.26.5"
+wcwidth = "==0.2.5"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
+
+[pipenv]
+allow_prereleases = true
