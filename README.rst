@@ -1,4 +1,4 @@
-Sportsipy: A free sports API written for python
+Sportsipy: A free sports API written for Python
 ###############################################
 .. image:: https://github.com/roclark/sportsipy/workflows/Sportsipy%20push%20tests/badge.svg
     :target: https://github.com/roclark/sportsipy/actions
@@ -14,14 +14,7 @@ Sportsipy is a free python API that pulls the stats from
 www.sports-reference.com and allows them to be easily be used in python-based
 applications, especially ones involving data analytics and machine learning.
 
-Sportsipy exposes a plethora of sports information from major sports
-leagues in North America, such as the MLB, NBA, College Football and Basketball,
-NFL, and NHL. Sportsipy also now supports Professional Football (or
-Soccer) for thousands of teams from leagues around the world. Every sport has
-its own set of valid API queries ranging from the list of teams in a league, to
-the date and time of a game, to the total number of wins a team has secured
-during the season, and many, many more metrics that paint a more detailed
-picture of how a team has performed during a game or throughout a season.
+Sportsipy exposes a plethora of sports information from major sports leagues in North America, such as the MLB, NBA, College Football and Basketball, NFL, and NHL. Sportsipy also now supports Professional Football (or Soccer) for thousands of teams from leagues around the world. Every sport has its own set of valid API queries ranging from the list of teams in a league, to the date and time of a game, to the total number of wins a team has secured during the season, and many, many more metrics that paint a more detailed picture of how a team has performed during a game or throughout a season.
 
 Installation
 ============
@@ -55,6 +48,60 @@ This will create a `.whl` file in the `dist` directory which can be installed
 with the following command::
 
     pip install dist/*.whl
+
+Overview
+===========
+
+Sportsipy is currently available for Soccer, MLB, NBA, NFL, NHL, NCAAF, and NCAAB. This section serves as a brief overview of what Sportsipy has to offer. Almost any sport-related statistic for teams, leagues, and players can be found. You can use the search box in the 
+`readthedocs.org <http://sportsipy.readthedocs.io/en/latest>`_  to track down what you are looking for.
+
+Each module below is covered at a high level. Sportsipy makes heavy use of classes/modules and they are all interconnected. For example:
+
+* NCAAB Package
+    * Conference Module (Big 10)
+        * Team Module (Purdue Basketball, 2019 - 2020)
+            * Roster Module
+                * Player Module (Carsen Edwards)
+            * Schedule Module
+                * Boxscore Module (Purdue vs. Indiana 2/19/19)
+
+            
+At each stage/module, almost any statistic you can think of is accessible. With that in mind, more information is covered below!
+
+Team
+--------
+
+The Team module is used to grab high-level stats and information for a specific team such as record, ranking, games played, etc. Each Team instance can be used to access the Schedule and Roster classes.
+
+Schedule
+--------
+
+The Schedule module can be used to iterate over all games in a team's schedule to get high-level game information such as the date, score, result, and more. Each game in the schedule is part of the Boxscore class, which contains detailed statistics for a specific game.
+
+Roster
+--------
+
+The Roster module contains the players for a team, which you can use to access the Player module for each player to obtain player specific information.
+
+Boxscore
+--------
+
+The Boxscore module is used to retrieve information for any given game such as player statistics, score, winner/loser, location, date, etc. You also can directly access the Player module for each player in the game.
+
+Player
+--------
+
+The Player module contains player information and stats for all seasons. You can capture all relevant stats and information like name, team, height/weight, career stats, single-season stats, and much more.
+
+Conferences
+--------
+
+The Conference module allows conference information to be accessed for any season. Accessing the class properties allows you to find teams by conference as well as conference specific stats and information.
+
+Rankings
+--------
+
+The Rankings module is part of the NCAAF and NCAAB packages published by the Associated Press on a week-by-week basis. You can find things such as teams, current rank, week number, previous rank, and rankings movement.
 
 Examples
 ========
