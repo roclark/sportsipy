@@ -140,6 +140,18 @@ class AbstractPlayer:
         self._fumbles_recovered_for_touchdown = None
         self._sacks = None
         self._assists_on_tackles = None
+        # Defensive advanced stats
+        self._defensive_times_targeted = None
+        self._completions_allowed = None
+        self._completion_percentage_allowed = None
+        self._completion_yards_allowed = None
+        self._defensive_yards_per_completion = None
+        self._defensive_yards_per_target = None
+        self._touchdowns_allowed = None
+        self._passer_rating_allowed = None
+        self._defensive_depth_of_throw = None
+        self._air_yards_allowed = None
+        self._yards_after_catch_allowed = None
 
         self._parse_player_data(player_data)
 
@@ -570,3 +582,80 @@ class AbstractPlayer:
         Returns an ``int`` of the number of assist the player made on tackles.
         """
         return self._assists_on_tackles
+
+    @_int_property_decorator
+    def defensive_times_targeted(self):
+        """
+        Returns an ``int`` of the number of times targeted as a defender.
+        """
+        return self._defensive_times_targeted
+    
+    @_int_property_decorator
+    def completions_allowed(self):
+        """
+        Returns an ``int`` of the number of completions allowed as a defender.
+        """
+        return self._completions_allowed
+
+    @_int_property_decorator
+    def completion_percentage_allowed(self):
+        """
+        Returns a ``float`` of the completion percentage allowed when targeted
+        """
+        return self._completion_percentage_allowed
+
+    @_int_property_decorator
+    def completion_yards_allowed(self):
+        """
+        Returns an ``int`` of the number of yards allowed when targeted.
+        """
+        return self._completion_yards_allowed
+    
+    @_int_property_decorator
+    def defensive_yards_per_completion(self):
+        """
+        Returns a ``float`` of the number of yards allowed per completion when targeted.
+        """
+        return self._defensive_yards_per_completion
+    
+    @_int_property_decorator
+    def defensive_yards_per_target(self):
+        """
+        Returns a ``float`` of the number of yards allowed per target
+        """
+        return self._defensive_yards_per_target
+    
+    @_int_property_decorator
+    def touchdowns_allowed(self):
+        """
+        Returns an ``int`` of the number of touchdowns allowed when targeted.
+        """
+        return self._touchdowns_allowed
+    
+    @_int_property_decorator
+    def passer_rating_allowed(self):
+        """
+        Returns a ``float`` of the passer rating allowed when targeted.
+        """
+        return self._passer_rating_allowed
+
+    @_int_property_decorator
+    def defensive_depth_of_throw(self):
+        """
+        Returns a ``float`` of the depth of throw when targeted as a defender.
+        """
+        return self._defensive_depth_of_throw
+    
+    @_int_property_decorator
+    def air_yards_allowed(self):
+        """
+        Returns an ``int`` of the air yards allowed when targeted.
+        """
+        return self._air_yards_allowed
+
+    @_int_property_decorator
+    def yards_after_catch_allowed(self):
+        """
+        Returns an ``int`` of yards after the catch allowed as a defensive player.
+        """
+        return self._yards_after_catch_allowed

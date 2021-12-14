@@ -222,6 +222,18 @@ class Player(AbstractPlayer):
         self._tackles = None
         self._assists_on_tackles = None
         self._safeties = None
+        # Defensive advanced stats
+        self._defensive_times_targeted = None
+        self._completions_allowed = None
+        self._completion_percentage_allowed = None
+        self._completion_yards_allowed = None
+        self._defensive_yards_per_completion = None
+        self._defensive_yards_per_target = None
+        self._touchdowns_allowed = None
+        self._passer_rating_allowed = None
+        self._defensive_depth_of_throw = None
+        self._air_yards_allowed = None
+        self._yards_after_catch_allowed = None
 
         player_data = self._pull_player_data()
         if not player_data:
@@ -547,6 +559,7 @@ class Player(AbstractPlayer):
             'adjusted_yards_per_attempt': self.adjusted_yards_per_attempt,
             'adjusted_yards_per_attempt_index':
             self.adjusted_yards_per_attempt_index,
+            'air_yards_allowed': self.air_yards_allowed,
             'all_purpose_yards': self.all_purpose_yards,
             'approximate_value': self.approximate_value,
             'assists_on_tackles': self.assists_on_tackles,
@@ -555,7 +568,14 @@ class Player(AbstractPlayer):
             'blocked_punts': self.blocked_punts,
             'catch_percentage': self.catch_percentage,
             'completed_passes': self.completed_passes,
+            'completions_allowed': self.completions_allowed,
             'completion_percentage_index': self.completion_percentage_index,
+            'completion_percentage_allowed': self.completion_percentage_allowed,
+            'completion_yards_allowed': self.completion_yards_allowed,
+            'defensive_depth_of_throw': self.defensive_depth_of_throw,
+            'defensive_times_targeted': self.defensive_times_targeted,
+            'defensive_yards_per_completion': self.defensive_yards_per_completion,
+            'defensive_yards_per_target': self.defensive_yards_per_target,
             'drop_percentage': self.drop_percentage,
             'dropped_passes': self.dropped_passes,
             'espn_qbr': self.espn_qbr,
@@ -612,6 +632,7 @@ class Player(AbstractPlayer):
             'net_yards_per_pass_attempt': self.net_yards_per_pass_attempt,
             'passer_rating_index': self.passer_rating_index,
             'passes_defended': self.passes_defended,
+            'passer_rating_allowed': self.passer_rating_allowed,
             'passing_completion': self.passing_completion,
             'passing_touchdown_percentage': self.passing_touchdown_percentage,
             'passing_touchdowns': self.passing_touchdowns,
@@ -671,6 +692,7 @@ class Player(AbstractPlayer):
             'times_pass_target': self.times_pass_target,
             'times_sacked': self.times_sacked,
             'total_punt_yards': self.total_punt_yards,
+            'touchdowns_allowed': self.touchdowns_allowed,
             'touchdown_percentage_index': self.touchdown_percentage_index,
             'touches': self.touches,
             'twenty_to_twenty_nine_yard_field_goal_attempts':
@@ -678,6 +700,7 @@ class Player(AbstractPlayer):
             'twenty_to_twenty_nine_yard_field_goals_made':
             self.twenty_to_twenty_nine_yard_field_goals_made,
             'weight': self.weight,
+            'yards_after_catch_allowed': self.yards_after_catch_allowed,
             'yards_from_scrimmage': self.yards_from_scrimmage,
             'yards_lost_to_sacks': self.yards_lost_to_sacks,
             'yards_per_attempt_index': self.yards_per_attempt_index,

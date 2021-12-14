@@ -118,6 +118,8 @@ class AbstractPlayer:
         self._turnover_percentage = None
         self._usage_percentage = None
         self._box_plus_minus = None
+        self._offensive_rating = None
+        self._defensive_rating = None
 
         if not player_data:
             return
