@@ -5,7 +5,7 @@ coverage==5.3.1
 cssselect==1.1.0
 flexmock==0.10.4
 idna==2.9
-lxml==4.6.3
+lxml==4.7.1
 mock==4.0.3
 more-itertools==8.6.0
 numpy==1.19.5
