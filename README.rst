@@ -1,5 +1,9 @@
 Sportsipy: A free sports API written for python
 ###############################################
+**Development Status: This project is no longer undergoing active development. Please consider
+opening a pull request for any new features or bug fixes to be reviewed and
+merged.**
+
 .. image:: https://github.com/roclark/sportsipy/workflows/Sportsipy%20push%20tests/badge.svg
     :target: https://github.com/roclark/sportsipy/actions
 .. image:: https://readthedocs.org/projects/sportsipy/badge/?version=latest
