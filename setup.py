@@ -16,7 +16,7 @@ setup(
     license='MIT',
     url='https://github.com/roclark/sportsipy',
     packages=find_packages(),
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     keywords='stats sports api sportsipy machine learning',
     install_requires=[
         "pandas >= 0.24.1",
@@ -24,7 +24,6 @@ setup(
         "requests >= 2.18.4"
     ],
     classifiers=(
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'License :: OSI Approved :: MIT License',
