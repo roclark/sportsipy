@@ -21,6 +21,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install coverage flexmock mock pycodestyle pytest pytest-cov pytest-xdist
     - name: Run unit and integration tests with pytest
       run: |
         pytest -n 4 --cov=sportsipy --cov-report term-missing --cov-report xml tests/integration/ tests/unit/

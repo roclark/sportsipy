@@ -19,6 +19,7 @@ setup(
     python_requires='>=3.7',
     keywords='stats sports api sportsipy machine learning',
     install_requires=[
+        "numpy >= 1.19.5",
         "pandas >= 0.24.1",
         "pyquery >= 1.4.0",
         "requests >= 2.18.4"
