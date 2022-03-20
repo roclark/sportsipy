@@ -329,8 +329,14 @@ class Player(AbstractPlayer):
         """
         all_stats_dict = {}
 
-        for table_id in ['totals', 'per_poss', 'advanced', 'shooting',
-                         'advanced_pbp', 'all_salaries']:
+        # Missing because result in StopIteration: 'sim_thru', 'sim_career'
+        for table_id in ['per_game', 'totals', 'per_minute', 'per_poss',
+                         'advanced', 'adj_shooting', 'shooting', 'pbp',
+                         'game_highs', 'playoffs_per_game', 'playoffs_totals',
+                         'playoffs_per_minute', 'playoffs_per_poss',
+                         'playoffs_advanced', 'playoffs_shooting',
+                         'playoffs_pbp', 'game_highs_po', 'all_star', 
+                         'all_college_stats', 'all_salaries', 'advanced_pbp']:
             table_items = utils._get_stats_table(player_info,
                                                  'table#%s' % table_id)
             career_items = utils._get_stats_table(player_info,
