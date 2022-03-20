@@ -146,8 +146,8 @@ class TestNCAABBoxscore:
             assert getattr(self.boxscore, attribute) == value
         assert getattr(self.boxscore, 'summary') == {
             # Box score is not parsed correctly
-            'away': [],
-            'home': []
+            'away': [38, 26],
+            'home': [32, 36]
         }
 
     def test_invalid_url_yields_empty_class(self):
@@ -185,6 +185,17 @@ class TestNCAABBoxscore:
         for player in boxscore.home_players:
             assert not player.dataframe.empty
         for player in boxscore.away_players:
+            assert not player.dataframe.empty
+
+    def test_ncaab_boxscore_players_dict(self):
+        boxscore = Boxscore(BOXSCORE)
+
+        assert len(boxscore.home_players_dict) == 10
+        assert len(boxscore.away_players_dict) == 7
+        print(boxscore.away_players_dict)
+        for name, player in boxscore.home_players_dict.items():
+            assert not player.dataframe.empty
+        for name, player in boxscore.away_players_dict.items():
             assert not player.dataframe.empty
 
     def test_ncaab_boxscore_string_representation(self):

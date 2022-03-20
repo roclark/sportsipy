@@ -385,9 +385,13 @@ class Boxscore:
         string
             A string of the team's record in the format 'Team Name (W-L)'.
         """
-        records = boxscore(BOXSCORE_SCHEME[field]).items()
-        records = [x.text() for x in records if x.text() != '']
-        return records[index]
+        records = boxscore(BOXSCORE_SCHEME[field])
+        records = [x.text for x in records if x.text != ''] 
+        
+        if len(records) > index:
+            return records[index]
+        else:
+            return ''
 
     def _find_boxscore_tables(self, boxscore):
         """
@@ -498,6 +502,8 @@ class Boxscore:
             if not player_id:
                 continue
             name = self._find_player_name(row)
+            # print(name)
+            # print(player_id)
             try:
                 player_dict[player_id]['data'] += str(row).strip()
             except KeyError:
@@ -532,6 +538,8 @@ class Boxscore:
             where each element is a list of player instances for the away and
             home teams, respectively.
         """
+        home_players_dict = {}
+        away_players_dict = {}
         home_players = []
         away_players = []
         for player_id, details in player_dict.items():
@@ -540,9 +548,11 @@ class Boxscore:
                                     details['data'])
             if details['team'] == HOME:
                 home_players.append(player)
+                home_players_dict[details['name']] = player
             else:
                 away_players.append(player)
-        return away_players, home_players
+                away_players_dict[details['name']] = player
+        return away_players, home_players, home_players_dict, away_players_dict
 
     def _find_players(self, boxscore):
         """
@@ -579,8 +589,8 @@ class Boxscore:
                                                      player_dict,
                                                      home_or_away)
             table_count += 1
-        away_players, home_players = self._instantiate_players(player_dict)
-        return away_players, home_players
+        away_players, home_players, home_players_dict, away_players_dict = self._instantiate_players(player_dict)
+        return away_players, home_players, home_players_dict, away_players_dict
 
     def _parse_summary(self, boxscore):
         """
@@ -612,11 +622,13 @@ class Boxscore:
         team = ['away', 'home']
         summary = {'away': [], 'home': []}
         game_summary = boxscore(BOXSCORE_SCHEME['summary'])
+
         for ind, team_info in enumerate(game_summary('tr').items()):
             # Only pull the first N-1 items as the last element is the final
             # score for each team which is already stored in an attribute, and
             # shouldn't be duplicated.
-            for half in list(team_info('td[class="right"]').items())[:-1]:
+
+            for half in list(team_info('td[class*="center"]').items())[:-1]:
                 ind = ind % 2
                 try:
                     summary[team[ind]].append(int(half.text()))
@@ -688,7 +700,7 @@ class Boxscore:
                                        short_field,
                                        index)
             setattr(self, field, value)
-        self._away_players, self._home_players = self._find_players(boxscore)
+        self._away_players, self._home_players, self._home_players_dict, self._away_players_dict = self._find_players(boxscore)
 
     @property
     def dataframe(self):
@@ -825,12 +837,28 @@ class Boxscore:
         return self._away_players
 
     @property
+    def away_players_dict(self):
+        """
+        Returns a ``list`` of ``BoxscorePlayer`` class instances for each
+        player on the away team.
+        """
+        return self._away_players_dict
+
+    @property
     def home_players(self):
         """
         Returns a ``list`` of ``BoxscorePlayer`` class instances for each
         player on the home team.
         """
         return self._home_players
+
+    @property
+    def home_players_dict(self):
+        """
+        Returns a ``list`` of ``BoxscorePlayer`` class instances for each
+        player on the home team.
+        """
+        return self._home_players_dict
 
     @property
     def location(self):
