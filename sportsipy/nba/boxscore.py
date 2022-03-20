@@ -898,7 +898,13 @@ class Boxscore:
         conclusion of the game.
         """
         try:
-            wins, losses = re.findall(r'\d+', self._away_record)
+            # special consideration for the Philedelphia 76ers games.
+            # the 76 in the name matches the \d and results in inaccurate
+            # results. 
+            if "76ers" in self._away_record:
+                name, wins, losses = re.findall(r'\d+', self._away_record)
+            else:
+                wins, losses = re.findall(r'\d+', self._away_record)             
             return wins
         except ValueError:
             return 0
@@ -910,7 +916,13 @@ class Boxscore:
         conclusion of the game.
         """
         try:
-            wins, losses = re.findall(r'\d+', self._away_record)
+            # special consideration for the Philedelphia 76ers games.
+            # the 76 in the name matches the \d and results in inaccurate
+            # results. 
+             if "76ers" in self._away_record:
+                name, wins, losses = re.findall(r'\d+', self._away_record)
+            else:
+                wins, losses = re.findall(r'\d+', self._away_record) 
             return losses
         except ValueError:
             return 0
@@ -1216,7 +1228,13 @@ class Boxscore:
         conclusion of the game.
         """
         try:
-            wins, losses = re.findall(r'\d+', self._home_record)
+            # special consideration for the Philedelphia 76ers games.
+            # the 76 in the name matches the \d and results in inaccurate
+            # results. 
+            if "76ers" in self._home_record:
+                name, wins, losses = re.findall(r'\d+', self._home_record)
+            else:
+                wins, losses = re.findall(r'\d+', self._home_record)
             return wins
         except ValueError:
             return 0
@@ -1228,7 +1246,13 @@ class Boxscore:
         conclusion of the game.
         """
         try:
-            wins, losses = re.findall(r'\d+', self._home_record)
+            # special consideration for the Philedelphia 76ers games.
+            # the 76 in the name matches the \d and results in inaccurate
+            # results. 
+            if "76ers" in self._home_record:            
+                name, wins, losses = re.findall(r'\d+', self._home_record)
+            else:
+                wins, losses = re.findall(r'\d+', self._home_record)  
             return losses
         except ValueError:
             return 0
