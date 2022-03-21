@@ -174,7 +174,7 @@ BOXSCORE_ELEMENT_INDEX = {
     'home_blocks': 7,
     'home_turnovers': 7,
     'home_personal_fouls': 7,
-    'home_points': -1,
+    'home_points': 1,
     'home_true_shooting_percentage': 7,
     'home_effective_field_goal_percentage': 7,
     'home_three_point_attempt_rate': 7,
