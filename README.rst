@@ -70,14 +70,14 @@ that can be pulled using sportsipy. Visit the documentation on
 `Read The Docs <http://sportsipy.readthedocs.io/en/latest/>`_ for a
 complete list of all information exposed by the API.
 
-Get instances of all NHL teams for the 2018 season
+Get instances of all NHL teams for the 2020 season
 --------------------------------------------------
 
 .. code-block:: python
 
     from sportsipy.nhl.teams import Teams
 
-    teams = Teams(2018)
+    teams = Teams(2020)
 
 Print every NBA team's name and abbreviation
 --------------------------------------------
@@ -118,7 +118,7 @@ Print the number of interceptions by the away team in a NCAA Football game
 
     from sportsipy.ncaaf.boxscore import Boxscore
 
-    championship_game = Boxscore('2018-01-08-georgia')
+    championship_game = Boxscore('2020-01-01-georgia')
     print(championship_game.away_interceptions)
 
 Get a Pandas DataFrame of all stats for a MLB game
@@ -128,7 +128,7 @@ Get a Pandas DataFrame of all stats for a MLB game
 
     from sportsipy.mlb.boxscore import Boxscore
 
-    game = Boxscore('BOS201806070')
+    game = Boxscore('TEX/TEX202009270')
     df = game.dataframe
 
 Find the number of goals a football team has scored
