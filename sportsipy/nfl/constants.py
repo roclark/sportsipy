@@ -78,10 +78,10 @@ SCHEDULE_SCHEME = {
 BOXSCORE_SCHEME = {
     'game_info': 'div[class="scorebox_meta"]:first',
     'game_details': 'table#game_info tr',
-    'home_name': 'a[itemprop="name"]:first',
+    'home_name': 'div[class="linescore_wrap"] table tbody tr:last td:nth-child(2)',
     'summary': 'table[class="linescore nohover stats_table no_freeze"]:first',
     'team_stats': 'table#team_stats thead',
-    'away_name': 'a[itemprop="name"]:last',
+    'away_name': 'div[class="linescore_wrap"] table tbody tr:first td:nth-child(2)',
     'away_points': 'div[class="scorebox"] div[class="score"]',
     'away_first_downs': 'td[data-stat="vis_stat"]',
     'away_rush_attempts': 'td[data-stat="vis_stat"]',
