@@ -141,6 +141,21 @@ Find the number of goals a football team has scored
     tottenham = Team('Tottenham Hotspur')
     print(tottenham.goals_scored)
 
+For each team, find the position player with the highest batting average 
+------------------------------------------------------------------------
+
+.. code-block:: python
+
+    from sportsipy.mlb.teams import Teams
+
+    for team in Teams():
+        batting_averages = {}
+        for player in team.roster.players:
+            if player.position != 'P':
+                batting_averages[player.player_id] = player.batting_average
+        highest_batting_average = max(batting_averages, key=batting_averages.get)
+        print(team.abbreviation, highest_batting_average, batting_averages[highest_batting_average])
+
 Documentation
 =============
 
