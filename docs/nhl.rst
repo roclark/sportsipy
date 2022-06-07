@@ -47,11 +47,11 @@ end date as the second parameter.
     from datetime import datetime
     from sportsipy.nhl.boxscore import Boxscores
 
-    # Pulls all games between and including February 4, 2017 and February 5,
-    # 2017
-    games = Boxscores(datetime(2017, 2, 4), datetime(2017, 2, 5))
-    # Prints a dictionary of all results from February 4, 2017 and February 5,
-    # 2017
+    # Pulls all games between and including March 1, 2022 and March 2,
+    # 2022
+    games = Boxscores(datetime(2022, 3, 1), datetime(2022, 3, 2))
+    # Prints a dictionary of all results from March 1, 2022 and March 2,
+    # 2022
     print(games.games)
 
 .. automodule:: sportsipy.nhl.boxscore
@@ -80,17 +80,17 @@ The Roster module contains detailed player information, allowing each player to
 be queried by their player ID using the ``Player`` class which has detailed
 information ranging from career points totals to single-season stats and player
 height and weight. The following is an example on collecting career information
-for Henrik Zetterberg:
+for Nathan Mackinnon:
 
 .. code-block:: python
 
     from sportsipy.nhl.roster import Player
 
-    zetterberg = Player('zettehe01')
-    print(zetterberg.name)  # Prints 'Henrik Zetterberg'
-    print(zetterberg.points)  # Prints Zetterberg's career points total
-    # Prints a Pandas DataFrame of all relevant Zetterberg stats per season
-    print(zetterberg.dataframe)
+    mackinnon = Player('mackina01')
+    print(mackinnon.name)  # Prints 'Nathan Mackinnon'
+    print(mackinnon.points)  # Prints Mackinnon's career points total
+    # Prints a Pandas DataFrame of all relevant Mackinnon stats per season
+    print(mackinnon.dataframe)
 
 By default, the player's career stats are returned whenever a property is
 called. To get stats for a specific season, call the class instance with the
@@ -101,12 +101,12 @@ stats.
 
     from sportsipy.nhl.roster import Player
 
-    zetterberg = Player('zettehe01')  # Currently pulling career stats
-    print(zetterberg.points)  # Prints Zetterberg's CAREER points total
-    # Prints Zetterberg's points total only for the 2017-18 season.
-    print(zetterberg('2017-18').points)
-    # Prints the number of games Zetterberg played in the 2017-18 season.
-    print(zetterberg.games_played)
+    mackinnon = Player('mackina01')  # Currently pulling career stats
+    print(mackinnon.points)  # Prints Mackinnon's CAREER points total
+    # Prints Mackinnon's points total only for the 2021-22 season.
+    print(mackinnon('2021-22').points)
+    # Prints the number of games Mackinnon played in the 2021-22 season.
+    print(mackinnon.games_played)
 
 After requesting single-season stats, the career stats can be requested again
 by calling the class without arguments or with the 'Career' string passed.
@@ -115,10 +115,10 @@ by calling the class without arguments or with the 'Career' string passed.
 
     from sportsipy.nhl.roster import Player
 
-    zetterberg = Player('zettehe01')  # Currently pulling career stats
-    # Prints Zetterberg's points total only for the 2017-18 season.
-    print(zetterberg('2017-18').points)
-    print(zetterberg('Career').points) # Prints Zetterberg's career points total
+    mackinnon = Player('mackina01')  # Currently pulling career stats
+    # Prints Mackinnon's points total only for the 2017-18 season.
+    print(mackinnon('2021-22').points)
+    print(mackinnon('Career').points) # Prints Mackinnon's career points total
 
 In addition, the Roster module also contains the ``Roster`` class which can be
 used to pull all players on a team's roster during a given season and creates
@@ -129,9 +129,9 @@ easily queried.
 
     from sportsipy.nhl.roster import Roster
 
-    detroit = Roster('DET')
-    for player in detroit.players:
-        # Prints the name of all players who played for Houston in the most
+    colorado = Roster('COL')
+    for player in colorado.players:
+        # Prints the name of all players who played for the Colorado Avalanche in the most
         # recent season.
         print(player.name)
 
@@ -152,8 +152,8 @@ information on the game metrics.
 
     from sportsipy.nhl.schedule import Schedule
 
-    detroit_schedule = Schedule('DET')
-    for game in detroit_schedule:
+    colorado_schedule = Schedule('COL')
+    for game in colorado_schedule:
         print(game.date)  # Prints the date the game was played
         print(game.result)  # Prints whether the team won or lost
         # Creates an instance of the Boxscore class for the game.
@@ -189,7 +189,7 @@ calling Team class.
 
     from sportsipy.nhl.teams import Team
 
-    detroit = Team('DET')
+    colorado = Team('COL')
 
 Each Team instance contains a link to the ``Schedule`` class which enables easy
 iteration over all games for a particular team. A Pandas DataFrame can also be
