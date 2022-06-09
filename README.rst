@@ -140,6 +140,18 @@ Find the number of goals a football team has scored
 
     tottenham = Team('Tottenham Hotspur')
     print(tottenham.goals_scored)
+    
+--------------------------------------------------
+
+.. code-block:: python
+
+    from sportsipy.nba.roster import Player
+
+    luka = Player('doncilu01')
+    print(luka.assists)
+
+Print the number of assists Luka Doncic has made this season
+---------------------------------------------------
 
 Documentation
 =============
