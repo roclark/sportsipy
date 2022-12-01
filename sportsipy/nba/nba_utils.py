@@ -82,8 +82,8 @@ def _retrieve_all_teams(year, season_file=None):
            utils._url_exists(SEASON_PAGE_URL % str(int(year) - 1)):
             year = str(int(year) - 1)
     doc = utils._pull_page(SEASON_PAGE_URL % year, season_file)
-    teams_list = utils._get_stats_table(doc, 'div#div_totals-team')
-    opp_teams_list = utils._get_stats_table(doc, 'div#div_totals-opponent')
+    teams_list = utils._get_stats_table(doc, '#totals-team')
+    opp_teams_list = utils._get_stats_table(doc, '#totals-opponent')
 
     if not teams_list and not opp_teams_list:
         utils._no_data_found()
