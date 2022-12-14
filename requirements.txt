@@ -2,7 +2,7 @@ certifi==2020.12.5
 chardet==4.0.0
 cssselect==1.1.0
 idna==2.9
-lxml==4.8.0
+lxml==4.9.2
 numpy==1.21.5
 pandas==0.25.3
 pyquery==1.4.0
