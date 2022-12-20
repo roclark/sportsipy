@@ -3585,7 +3585,7 @@ SQUAD_IDS = {
     'atlético san luis': '5d274ee4',
     'atletico san luis': '5d274ee4',
     'cd guadalajara': '74bd7f76',
-    'guadalajara': '74bd7f76',
+    'guadalajara': 'c02b0f7a',
     'monterrey': 'dd5ca9bd',
     'pachuca': '1be8d2e3',
     'club américa': '18d3c3a3',
