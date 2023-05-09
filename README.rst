@@ -160,6 +160,25 @@ the documentation for a full list of all metrics and information exposed by
 sportsipy. The documentation is auto-generated using Sphinx based on the
 docstrings in the sportsipy package.
 
+How to get started contributing
+===============================
+
+Hello! Sportsipy is an open source project that welcomes contributors of all backgrounds and levels of experience. 
+
+If you wish to contribute, please consider forking this repo and opening a pull request. 
+A great guide on the process of contributing to an open source project on Github can be found
+`here <https://www.dataschool.io/how-to-contribute-on-github/>`_
+
+You can also open a new Issue and discuss potential contributions with other developers before working on them.
+More information on Github Issues can be found
+`here <https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues>`_ 
+If you already have a clear idea for an existing Issue, simply opening a pull request is also fine. 
+
+Please refer to the `CONTRIBUTING.md file <https://github.com/dannyothello/sportsipy/blob/master/CONTRIBUTING.md>`_ 
+for more detailed information for examples of welcome contributions and general good practices for code contributions.  
+
+For a more direct communication channel to project maintainers, please feel free to contact the team at robdclark@outlook.com
+
 Testing
 =======
 
