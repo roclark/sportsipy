@@ -167,11 +167,11 @@ Hello! Sportsipy is an open source project that welcomes contributors of all bac
 
 If you wish to contribute, please consider forking this repo and opening a pull request. 
 A great guide on the process of contributing to an open source project on Github can be found
-`here <https://www.dataschool.io/how-to-contribute-on-github/>`_
+`here <https://www.dataschool.io/how-to-contribute-on-github/>`_.
 
 You can also open a new Issue and discuss potential contributions with other developers before working on them.
 More information on Github Issues can be found
-`here <https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues>`_ 
+`here <https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues>`_. 
 If you already have a clear idea for an existing Issue, simply opening a pull request is also fine. 
 
 Please refer to the `CONTRIBUTING.md file <https://github.com/dannyothello/sportsipy/blob/master/CONTRIBUTING.md>`_ 
