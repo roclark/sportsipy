@@ -4,6 +4,13 @@ Sportsipy: A free sports API written for python
 opening a pull request for any new features or bug fixes to be reviewed and
 merged.**
 
+**IMPORTANT UPDATE(6/14/2023): As a result of this project having fallen out of active 
+maintenance for years, the current version of Sportsipy no longer works as intended. 
+Recent users have reported that python files will run but no data returns despite
+correctly installing Sportsipy and importing the modules. New users are recommended to visit
+https://github.com/davidjkrause/sportsipy/tree/pyquery2 for a working, updated version of Sportsipy
+until the original project maintainers agree to incorporate the fixes into this repository.**
+
 .. image:: https://github.com/roclark/sportsipy/workflows/Sportsipy%20push%20tests/badge.svg
     :target: https://github.com/roclark/sportsipy/actions
 .. image:: https://readthedocs.org/projects/sportsipy/badge/?version=latest
@@ -159,6 +166,25 @@ Complete documentation is hosted on
 the documentation for a full list of all metrics and information exposed by
 sportsipy. The documentation is auto-generated using Sphinx based on the
 docstrings in the sportsipy package.
+
+How to get started contributing
+===============================
+
+Hello! Sportsipy is an open source project that welcomes contributors of all backgrounds and levels of experience. 
+
+If you wish to contribute, please consider forking this repo and opening a pull request. 
+A great guide on the process of contributing to an open source project on Github can be found
+`here <https://www.dataschool.io/how-to-contribute-on-github/>`_.
+
+You can also open a new Issue and discuss potential contributions with other developers before working on them.
+More information on Github Issues can be found
+`here <https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues>`_. 
+If you already have a clear idea for an existing Issue, simply opening a pull request is also fine. 
+
+Please refer to the `CONTRIBUTING.md file <https://github.com/dannyothello/sportsipy/blob/master/CONTRIBUTING.md>`_ 
+for more detailed information for examples of welcome contributions and general good practices for code contributions.  
+
+For a more direct communication channel to project maintainers, please feel free to contact the team at robdclark@outlook.com
 
 Testing
 =======
