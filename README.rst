@@ -3,6 +3,7 @@ Sportsipy: A free sports API written for python
 **Development Status: This project is no longer undergoing active development. Please consider
 opening a pull request for any new features or bug fixes to be reviewed and
 merged.**
+
 **IMPORTANT UPDATE(6/14/2023): As a result of this project having fallen out of active 
 maintenance for years, the current version of Sportsipy no longer works as intended. 
 Recent users have reported that python files will run but no data returns despite
