@@ -9,7 +9,7 @@ maintenance for years, the current version of Sportsipy no longer works as inten
 Recent users have reported that python files will run but no data returns despite
 correctly installing Sportsipy and importing the modules. New users are recommended to visit
 https://github.com/davidjkrause/sportsipy/tree/pyquery2 for a working, updated version of Sportsipy
-until the original project maintainers agree to incorporate the fixes into this repository**
+until the original project maintainers agree to incorporate the fixes into this repository.**
 
 .. image:: https://github.com/roclark/sportsipy/workflows/Sportsipy%20push%20tests/badge.svg
     :target: https://github.com/roclark/sportsipy/actions
