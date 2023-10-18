@@ -510,9 +510,9 @@ DOUBLE_HEADER_INDICES = {
     'duration': 'game duration'
 }
 
-STANDINGS_URL = ('https://www.baseball-reference.com/leagues/MLB/'
+STANDINGS_URL = ('https://www.baseball-reference.com/leagues/majors/'
                  '%s-standings.shtml')
-TEAM_STATS_URL = 'https://www.baseball-reference.com/leagues/MLB/%s.shtml'
+TEAM_STATS_URL = 'https://www.baseball-reference.com/leagues/majors/%s.shtml'
 
 SCHEDULE_URL = ('https://www.baseball-reference.com/teams/%s/'
                 '%s-schedule-scores.shtml')
