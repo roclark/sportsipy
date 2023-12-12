@@ -171,6 +171,7 @@ class SquadPlayer:
         self._dribblers_contested = None
         self._tackle_percentage = None
         self._times_dribbled_past = None
+        self._wage = None
 
         self._parse_player_stats(player_data)
 
@@ -402,7 +403,8 @@ class SquadPlayer:
             'dribblers_tackled': self.dribblers_tackled,
             'dribblers_contested': self.dribblers_contested,
             'tackle_percentage': self.tackle_percentage,
-            'times_dribbled_past': self.times_dribbled_past
+            'times_dribbled_past': self.times_dribbled_past,
+            'wage': self._wage
         }
         return pd.DataFrame([fields_to_include], index=[self.player_id])
 
@@ -1467,6 +1469,13 @@ class SquadPlayer:
         past.
         """
         return self._times_dribbled_past
+    
+    @int_property_decorator
+    def wage(self):
+        """
+        Returns an ``int`` of the player's wage in euros per week.
+        """
+        return self._wage
 
 
 class Roster:
