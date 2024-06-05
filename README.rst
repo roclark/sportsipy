@@ -70,14 +70,24 @@ that can be pulled using sportsipy. Visit the documentation on
 `Read The Docs <http://sportsipy.readthedocs.io/en/latest/>`_ for a
 complete list of all information exposed by the API.
 
-Get instances of all NHL teams for the 2018 season
---------------------------------------------------
+Get stats of a specified NHL player
+-----------------------------------
 
 .. code-block:: python
 
-    from sportsipy.nhl.teams import Teams
+    from sportsipy.nhl.roster import Player
 
-    teams = Teams(2018)
+    sidney_crosby = Player('crosbsi01')
+    print(f"Career games played = {sidney_crosby.games_played}")
+    print(f"Career goals scored = {sidney_crosby.goals}")
+    print(f"Career assists = {sidney_crosby.assists}")
+
+    """
+    Expected output:
+    Career games played = 1272
+    Career goals scored = 592
+    Career assists = 1004
+    """
 
 Print every NBA team's name and abbreviation
 --------------------------------------------
@@ -90,8 +100,42 @@ Print every NBA team's name and abbreviation
     for team in teams:
         print(team.name, team.abbreviation)
 
-Get a specific NFL team's season information
---------------------------------------------
+    """
+    Expected Output:
+    Indiana Pacers IND
+    Boston Celtics BOS
+    Oklahoma City Thunder OKC
+    Milwaukee Bucks MIL
+    Atlanta Hawks ATL
+    Los Angeles Lakers LAL
+    Dallas Mavericks DAL
+    Golden State Warriors GSW
+    Sacramento Kings SAC
+    Phoenix Suns PHO
+    Utah Jazz UTA
+    Los Angeles Clippers LAC
+    New Orleans Pelicans NOP
+    Denver Nuggets DEN
+    Philadelphia 76ers PHI
+    Houston Rockets HOU
+    Washington Wizards WAS
+    Minnesota Timberwolves MIN
+    New York Knicks NYK
+    Cleveland Cavaliers CLE
+    Toronto Raptors TOR
+    Chicago Bulls CHI
+    San Antonio Spurs SAS
+    Orlando Magic ORL
+    Brooklyn Nets BRK
+    Miami Heat MIA
+    Detroit Pistons DET
+    Charlotte Hornets CHO
+    Portland Trail Blazers POR
+    Memphis Grizzlies MEM
+    """
+
+Get a specific NFL team's wins and losses for the season
+--------------------------------------------------------
 
 .. code-block:: python
 
@@ -99,6 +143,13 @@ Get a specific NFL team's season information
 
     teams = Teams()
     lions = teams('DET')
+
+    print(f"The Detriot Lions had {lions.wins} wins and {lions.losses} losses during their most recent season.")
+
+    """
+    Expected Output:
+    The Detriot Lions had 12 wins and 5 losses during their most recent season.
+    """
 
 Print the date of every game for a NCAA Men's Basketball team
 -------------------------------------------------------------
@@ -111,6 +162,49 @@ Print the date of every game for a NCAA Men's Basketball team
     for game in purdue_schedule:
         print(game.date)
 
+    """
+    Expected Output:
+    Mon, Nov 6, 2023
+    Fri, Nov 10, 2023
+    Mon, Nov 13, 2023
+    Mon, Nov 20, 2023
+    Tue, Nov 21, 2023
+    Wed, Nov 22, 2023
+    Tue, Nov 28, 2023
+    Fri, Dec 1, 2023
+    Mon, Dec 4, 2023
+    Sat, Dec 9, 2023
+    Sat, Dec 16, 2023
+    Thu, Dec 21, 2023
+    Fri, Dec 29, 2023
+    Tue, Jan 2, 2024
+    Fri, Jan 5, 2024
+    Tue, Jan 9, 2024
+    Sat, Jan 13, 2024
+    Tue, Jan 16, 2024
+    Sat, Jan 20, 2024
+    Tue, Jan 23, 2024
+    Sun, Jan 28, 2024
+    Wed, Jan 31, 2024
+    Sun, Feb 4, 2024
+    Sat, Feb 10, 2024
+    Thu, Feb 15, 2024
+    Sun, Feb 18, 2024
+    Thu, Feb 22, 2024
+    Sun, Feb 25, 2024
+    Sat, Mar 2, 2024
+    Tue, Mar 5, 2024
+    Sun, Mar 10, 2024
+    Fri, Mar 15, 2024
+    Sat, Mar 16, 2024
+    Fri, Mar 22, 2024
+    Sun, Mar 24, 2024
+    Fri, Mar 29, 2024
+    Sun, Mar 31, 2024
+    Sat, Apr 6, 2024
+    Mon, Apr 8, 2024
+    """
+
 Print the number of interceptions by the away team in a NCAA Football game
 --------------------------------------------------------------------------
 
@@ -121,15 +215,55 @@ Print the number of interceptions by the away team in a NCAA Football game
     championship_game = Boxscore('2018-01-08-georgia')
     print(championship_game.away_interceptions)
 
-Get a Pandas DataFrame of all stats for a MLB game
---------------------------------------------------
+    """
+    Expected Output:
+    1
+    """
+
+Get the batting average and home run total for each MLB team
+------------------------------------------------------------
 
 .. code-block:: python
 
-    from sportsipy.mlb.boxscore import Boxscore
+    from sportsipy.mlb.teams import Teams
 
-    game = Boxscore('BOS201806070')
-    df = game.dataframe
+    teams = Teams()
+    for team in teams:
+        print(f"{team.name}, batting average: {team.batting_average}, home runs: {team.home_runs}")
+
+    """
+    Expected Output:
+    Atlanta Braves, batting average: 0.283, home runs: 28
+    Cleveland Guardians, batting average: 0.253, home runs: 25
+    Milwaukee Brewers, batting average: 0.264, home runs: 31
+    Baltimore Orioles, batting average: 0.26, home runs: 37
+    New York Yankees, batting average: 0.239, home runs: 27
+    Chicago Cubs, batting average: 0.245, home runs: 28
+    Philadelphia Phillies, batting average: 0.249, home runs: 28
+    Kansas City Royals, batting average: 0.237, home runs: 29
+    Los Angeles Dodgers, batting average: 0.269, home runs: 31
+    Cincinnati Reds, batting average: 0.222, home runs: 26
+    Detroit Tigers, batting average: 0.221, home runs: 20
+    New York Mets, batting average: 0.246, home runs: 26
+    Boston Red Sox, batting average: 0.236, home runs: 33
+    Seattle Mariners, batting average: 0.225, home runs: 24
+    Texas Rangers, batting average: 0.25, home runs: 26
+    San Diego Padres, batting average: 0.259, home runs: 28
+    Pittsburgh Pirates, batting average: 0.237, home runs: 21
+    Tampa Bay Rays, batting average: 0.244, home runs: 22
+    Toronto Blue Jays, batting average: 0.231, home runs: 22
+    Arizona Diamondbacks, batting average: 0.261, home runs: 26
+    San Francisco Giants, batting average: 0.247, home runs: 23
+    Minnesota Twins, batting average: 0.216, home runs: 26
+    St. Louis Cardinals, batting average: 0.221, home runs: 16
+    Washington Nationals, batting average: 0.231, home runs: 21
+    Los Angeles Angels, batting average: 0.239, home runs: 27
+    Oakland Athletics, batting average: 0.201, home runs: 28
+    Houston Astros, batting average: 0.26, home runs: 26
+    Colorado Rockies, batting average: 0.246, home runs: 21
+    Miami Marlins, batting average: 0.216, home runs: 20
+    Chicago White Sox, batting average: 0.192, home runs: 14
+    """
 
 Find the number of goals a football team has scored
 ---------------------------------------------------
@@ -140,6 +274,11 @@ Find the number of goals a football team has scored
 
     tottenham = Team('Tottenham Hotspur')
     print(tottenham.goals_scored)
+
+    """
+    Expected Output:
+    65
+    """
 
 Documentation
 =============
