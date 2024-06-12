@@ -141,6 +141,21 @@ Find the number of goals a football team has scored
     tottenham = Team('Tottenham Hotspur')
     print(tottenham.goals_scored)
 
+Retrieve and display basic statistics for an NBA player 
+---------------------------------------------------
+
+.. code-block:: python
+
+    from sportsipy.nba.roster import Player
+    
+    player = Player('lebroja01')
+    print(f"Player: {player.name}")
+    print(f"Team: {player.team_abbreviation}")
+    print(f"Games Played: {player.games_played}")
+    print(f"Points Per Game: {player.points_per_game}")
+    print(f"Assists Per Game: {player.assists_per_game}")
+    print(f"Rebounds Per Game: {player.total_rebounds_per_game}")
+
 Documentation
 =============
 
