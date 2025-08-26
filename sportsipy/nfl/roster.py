@@ -507,6 +507,10 @@ class Player(AbstractPlayer):
                 team_hist = [team.replace("LVR-OAK", "RAI") for team in team_hist]
             if "LVR" in team_hist:
                 team_hist = [team.replace("LVR", "RAI") for team in team_hist]
+            if "TEN" in team_hist:
+                team_hist = [team.replace("TEN", "OTI") for team in team_hist]
+            if "ARI" in team_hist:
+                team_hist = [team.replace("ARI", "CRD") for team in team_hist]
             initial_team = team_hist[0]
         else:
             initial_team = None

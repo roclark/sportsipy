@@ -266,9 +266,9 @@ def print_player_grudges_js():
 
 # START
 welcome()
-#update_roster('NFL', 'KAN')
-#sleep(60)
-#update_roster('NFL', 'SDG')
+update_roster('NFL', 'TAM')
+sleep(60)
+update_roster('NFL', 'ATL')
 #update_all_rosters('NFL')
 sport = ask("sport", sports)
 week = ask("week", [str(i) for i in range(1, 19)])
