@@ -110,15 +110,15 @@ SCHEDULE_SCHEME = {
 BOXSCORE_SCHEME = {
     'date': 'div[class="scorebox_meta"]',
     'location': 'div[class="scorebox_meta"]',
-    'away_name': 'a[itemprop="name"]:first',
-    'home_name': 'a[itemprop="name"]:last',
+    'away_name': 'div#sb_team_0 strong a',
+    'home_name': 'div#sb_team_1 strong a',
     'winning_name': '',
     'winning_abbr': '',
     'losing_name': '',
     'losing_abbr': '',
     'summary': 'table#line-score',
     'pace': 'td[data-stat="pace"]:first',
-    'away_record': 'div#boxes div[class="section_heading"] h2',
+    'away_record': 'div#boxes h2',
     'away_minutes_played': 'tfoot td[data-stat="mp"]',
     'away_field_goals': 'tfoot td[data-stat="fg"]',
     'away_field_goal_attempts': 'tfoot td[data-stat="fga"]',
@@ -154,8 +154,8 @@ BOXSCORE_SCHEME = {
     'away_turnover_percentage': 'tfoot td[data-stat="tov_pct"]',
     'away_offensive_rating': 'tfoot td[data-stat="off_rtg"]',
     'away_defensive_rating': 'tfoot td[data-stat="def_rtg"]',
-    'away_ranking': 'div[class="game_summary nohover current"] tr',
-    'home_record': 'div#boxes div[class="section_heading"] h2',
+    'away_ranking': 'div.game_summary.nohover.current tr',
+    'home_record': 'div#boxes h2',
     'home_minutes_played': 'tfoot td[data-stat="mp"]',
     'home_field_goals': 'tfoot td[data-stat="fg"]',
     'home_field_goal_attempts': 'tfoot td[data-stat="fga"]',
@@ -191,7 +191,7 @@ BOXSCORE_SCHEME = {
     'home_turnover_percentage': 'tfoot td[data-stat="tov_pct"]',
     'home_offensive_rating': 'tfoot td[data-stat="off_rtg"]',
     'home_defensive_rating': 'tfoot td[data-stat="def_rtg"]',
-    'home_ranking': 'div[class="game_summary nohover current"] tr'
+    'home_ranking': 'div.game_summary.nohover.current tr'
 }
 
 BOXSCORE_ELEMENT_INDEX = {
