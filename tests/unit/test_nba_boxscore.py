@@ -33,10 +33,15 @@ class MockBoxscoreData:
         return [self._fields]
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, **kwargs):
     class MockPQ:
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                import requests
+                raise requests.HTTPError(response=self)
+
         def __init__(self, html_contents):
-            self.status_code = 404
+            self.status_code = 200
             self.html_contents = html_contents
             self.text = html_contents
 
@@ -45,7 +50,7 @@ def mock_pyquery(url):
 
 
 class TestNBABoxscore:
-    @patch('requests.get', side_effect=mock_pyquery)
+    @patch('sportsipy._http._download', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         flexmock(Boxscore) \
             .should_receive('_parse_game_data') \
@@ -392,7 +397,7 @@ Logos via Sports Logos.net / About logos"""
 
 
 class TestNBABoxscores:
-    @patch('requests.get', side_effect=mock_pyquery)
+    @patch('sportsipy._http._download', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         flexmock(Boxscores) \
             .should_receive('_find_games') \

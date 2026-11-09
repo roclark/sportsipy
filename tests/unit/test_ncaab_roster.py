@@ -5,8 +5,13 @@ from sportsipy.ncaab.player import (AbstractPlayer,
 from sportsipy.ncaab.roster import _cleanup, Player
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, **kwargs):
     class MockPQ:
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                import requests
+                raise requests.HTTPError(response=self)
+
         def __init__(self, html_contents):
             self.url = url
             self.reason = 'Bad URL'  # Used when throwing HTTPErrors
@@ -74,7 +79,7 @@ class TestNCAABPlayer:
 
         assert result is None
 
-    @patch('requests.get', side_effect=mock_pyquery)
+    @patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_invalid_url_returns_none(self, *args, **kwargs):
         mock_id = PropertyMock(return_value='BAD')
         player = Player(None)

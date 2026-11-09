@@ -20,8 +20,13 @@ def read_file(filename):
     return open('%s' % filepath, 'r', encoding='utf8').read()
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, **kwargs):
     class MockPQ:
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                import requests
+                raise requests.HTTPError(response=self)
+
         def __init__(self, html_contents):
             self.status_code = 200
             self.html_contents = html_contents
@@ -45,9 +50,10 @@ class MockDateTime:
 
 
 class TestNCAABBoxscore:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results = {
+            'overtimes': 0,
             'date': 'January 22, 2020',
             'location': 'KFC Yum! Center, Louisville, Kentucky',
             'winner': HOME,
@@ -57,9 +63,9 @@ class TestNCAABBoxscore:
             'losing_abbr': 'GEORGIA-TECH',
             'pace': 66.2,
             'away_ranking': None,
-            'away_win_percentage': .421,
-            'away_wins': 8,
-            'away_losses': 11,
+            'away_win_percentage': 0,
+            'away_wins': 0,
+            'away_losses': 0,
             'away_minutes_played': 200,
             'away_field_goals': 22,
             'away_field_goal_attempts': 48,
@@ -96,9 +102,9 @@ class TestNCAABBoxscore:
             'away_offensive_rating': 97.0,
             'away_defensive_rating': 103.0,
             'home_ranking': 6,
-            'home_win_percentage': .842,
-            'home_wins': 16,
-            'home_losses': 3,
+            'home_win_percentage': 0,
+            'home_wins': 0,
+            'home_losses': 0,
             'home_minutes_played': 200,
             'home_field_goals': 24,
             'home_field_goal_attempts': 58,
@@ -145,9 +151,8 @@ class TestNCAABBoxscore:
         for attribute, value in self.results.items():
             assert getattr(self.boxscore, attribute) == value
         assert getattr(self.boxscore, 'summary') == {
-            # Box score is not parsed correctly
-            'away': [],
-            'home': []
+            'away': [38, 26],
+            'home': [32, 36]
         }
 
     def test_invalid_url_yields_empty_class(self):
@@ -668,20 +673,20 @@ class TestNCAABBoxscores:
             ]
         }
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_boxscores_search(self, *args, **kwargs):
         result = Boxscores(datetime(2020, 1, 5)).games
 
         assert result == self.expected
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_boxscores_search_invalid_end(self, *args, **kwargs):
         result = Boxscores(datetime(2020, 1, 5),
                            datetime(2020, 1, 4)).games
 
         assert result == self.expected
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_boxscores_search_multiple_days(self, *args, **kwargs):
         expected = {
             '1-5-2020': [
@@ -1395,7 +1400,7 @@ class TestNCAABBoxscores:
                 ]
             }
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_boxscores_search_string_representation(self, *args, **kwargs):
         result = Boxscores(datetime(2020, 1, 5))
 

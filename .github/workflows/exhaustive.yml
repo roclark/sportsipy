@@ -1,9 +1,8 @@
 name: Exhaustive Tests
 
 on:
-  schedule:
-  # Run every morning at 9AM UTC
-  - cron: 0 9 * * *
+  # Live requests are opt-in so CI cannot add daily load to the provider.
+  workflow_dispatch:
 
 jobs:
   test:
@@ -13,14 +12,14 @@ jobs:
       # Prevent the entire workflow from failing if a singular test fails.
       fail-fast: false
       matrix:
-        python-version: [3.7, 3.8]
+        python-version: ['3.12']
         operating-system: [ubuntu-latest, macOS-latest, windows-latest]
-        sport: ['FB', 'MLB', 'NBA', 'NCAAB', 'NCAAF', 'NFL', 'NHL']
+        sport: ['NBA', 'NCAAB']
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies

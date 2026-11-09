@@ -1,6 +1,6 @@
 from pyquery import PyQuery as pq
 import re
-from urllib.error import HTTPError
+from requests.exceptions import HTTPError
 from .. import utils
 from .constants import CONFERENCE_URL, CONFERENCES_URL
 
@@ -55,9 +55,13 @@ class Conference:
             A string of the requested year to pull conference information from.
         """
         try:
-            return utils._rate_limit_pq(CONFERENCE_URL % (conference_abbreviation, year))
-        except HTTPError:
-            return None
+            return utils._rate_limit_pq(
+                CONFERENCE_URL % (conference_abbreviation, year))
+        except HTTPError as error:
+            if (error.response is not None and
+                    error.response.status_code == 404):
+                return None
+            raise
 
     def _get_team_abbreviation(self, team):
         """
@@ -185,8 +189,11 @@ class Conferences:
         """
         try:
             return utils._rate_limit_pq(CONFERENCES_URL % year)
-        except HTTPError:
-            return None
+        except HTTPError as error:
+            if (error.response is not None and
+                    error.response.status_code == 404):
+                return None
+            raise
 
     def _get_conference_id(self, conference):
         """

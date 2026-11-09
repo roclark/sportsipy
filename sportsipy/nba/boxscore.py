@@ -2,8 +2,9 @@ import pandas as pd
 import re
 from datetime import timedelta
 from pyquery import PyQuery as pq
-from urllib.error import HTTPError
+from requests.exceptions import HTTPError
 from .. import utils
+from .._basketball import parse_line_score
 from ..constants import AWAY, HOME
 from ..decorators import float_property_decorator, int_property_decorator
 from .constants import (BOXSCORE_ELEMENT_INDEX,
@@ -210,6 +211,7 @@ class Boxscore:
         self._losing_abbr = None
         self._pace = None
         self._summary = None
+        self._overtimes = None
         self._away_record = None
         self._away_minutes_played = None
         self._away_field_goals = None
@@ -312,11 +314,16 @@ class Boxscore:
             The requested page is returned as a queriable PyQuery object with
             the comment tags removed.
         """
+        if not uri:
+            return None
         url = BOXSCORE_URL % uri
         try:
             url_data = utils._rate_limit_pq(url)
-        except HTTPError:
-            return None
+        except HTTPError as error:
+            if (error.response is not None and
+                    error.response.status_code == 404):
+                return None
+            raise
         return pq(utils._remove_html_comment_tags(url_data))
 
     def _parse_game_date_and_location(self, field, boxscore):
@@ -343,12 +350,19 @@ class Boxscore:
         """
         scheme = BOXSCORE_SCHEME[field]
         items = [i.text() for i in boxscore(scheme).items()]
-        game_info = items[0].split('\n')
-        if len(game_info) < 3 and field == 'location':
+        game_info = [line.strip() for line in items[0].split('\n')
+                     if line.strip()]
+        # Tournament metadata can precede the actual date. Locate the date
+        # rather than shifting indexes based on the number of newline chars.
+        date_index = next((i for i, line in enumerate(game_info)
+                           if re.search(r'[A-Za-z]+ \d{1,2}, \d{4}', line)), 0)
+        if field == 'date':
+            return game_info[date_index] if game_info else None
+        location_index = date_index + 1
+        if (location_index >= len(game_info) or
+                game_info[location_index].startswith('Logos via')):
             return None
-        if len(game_info) > 3:
-            return game_info[BOXSCORE_ELEMENT_INDEX[field]+1]
-        return game_info[BOXSCORE_ELEMENT_INDEX[field]]
+        return game_info[location_index]
 
     def _parse_name(self, field, boxscore):
         """
@@ -400,22 +414,8 @@ class Boxscore:
             Returns a ``dictionary`` representing the score for each team in
             each quarter of the game.
         """
-        team = ['away', 'home']
-        summary = {'away': [], 'home': []}
-        game_summary = boxscore(BOXSCORE_SCHEME['summary'])
-        for ind, team_info in enumerate(game_summary('tr').items()):
-            scheme = 'td[class="center "]'
-            if team_info('td[class="center"]'):
-                scheme = 'td[class="center"]'
-            # Only pull the first N-1 items as the last element is the final
-            # score for each team which is already stored in an attribute, and
-            # shouldn't be duplicated.
-            for quarter in list(team_info(scheme).items())[:-1]:
-                ind = ind % 2
-                try:
-                    summary[team[ind]].append(int(quarter.text()))
-                except ValueError:
-                    summary[team[ind]].append(None)
+        summary, _ = parse_line_score(
+            boxscore(BOXSCORE_SCHEME['summary']), 4)
         return summary
 
     def _find_boxscore_tables(self, boxscore):
@@ -653,9 +653,11 @@ class Boxscore:
                 value = self._parse_name(short_field, boxscore)
                 setattr(self, field, value)
                 continue
+            if short_field == 'overtimes':
+                continue
             if short_field == 'summary':
-                value = self._parse_summary(boxscore)
-                setattr(self, field,  value)
+                self._summary, self._overtimes = parse_line_score(
+                    boxscore(BOXSCORE_SCHEME['summary']), 4)
                 continue
             index = 0
             strip = False
@@ -788,6 +790,7 @@ class Boxscore:
             'winning_abbr': None,
             'winning_name': self.winning_name
         }
+        fields_to_include['overtimes'] = self.overtimes
         return pd.DataFrame([fields_to_include], index=[self._uri])
 
     @property
@@ -820,6 +823,11 @@ class Boxscore:
         played.
         """
         return self._location
+
+    @property
+    def overtimes(self):
+        """Overtime periods played: 0 in regulation, None if unknown."""
+        return self._overtimes
 
     @property
     def summary(self):

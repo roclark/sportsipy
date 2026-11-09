@@ -14,8 +14,13 @@ def read_file(filename):
     return open(filepath, 'r', encoding='utf8').read()
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, **kwargs):
     class MockPQ:
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                import requests
+                raise requests.HTTPError(response=self)
+
         def __init__(self, html_contents, status_code=200):
             self.url = url
             self.reason = 'Bad URL'  # Used when throwing HTTPErrors
@@ -105,7 +110,7 @@ class TestNCAABConferences:
         self.team_conference = team_conference
         self.conferences_result = conferences_result
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_conferences_integration(self, *args, **kwargs):
         flexmock(utils) \
             .should_receive('_find_year_for_season') \
@@ -116,17 +121,17 @@ class TestNCAABConferences:
         assert conferences.team_conference == self.team_conference
         assert conferences.conferences == self.conferences_result
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_conferences_integration_bad_url(self, *args, **kwargs):
         with pytest.raises(ValueError):
             conferences = Conferences('BAD')
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_conference_integration_bad_url(self, *args, **kwargs):
         with pytest.raises(ValueError):
             conference = Conference('BAD')
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_conference_with_no_names_is_empty(self, *args, **kwargs):
         flexmock(Conference) \
             .should_receive('_get_team_abbreviation') \
@@ -136,8 +141,9 @@ class TestNCAABConferences:
 
         assert len(conference._teams) == 0
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    @mock.patch('requests.head', side_effect=mock_request)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
+    @mock.patch('sportsipy.utils._url_exists',
+                side_effect=lambda url: str(YEAR) in url)
     def test_invalid_default_year_reverts_to_previous_year(self,
                                                            *args,
                                                            **kwargs):
@@ -150,8 +156,9 @@ class TestNCAABConferences:
         assert conferences.team_conference == self.team_conference
         assert conferences.conferences == self.conferences_result
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    @mock.patch('requests.head', side_effect=mock_request)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
+    @mock.patch('sportsipy.utils._url_exists',
+                side_effect=lambda url: str(YEAR) in url)
     def test_invalid_conference_year_reverts_to_previous_year(self,
                                                               *args,
                                                               **kwargs):
@@ -163,13 +170,13 @@ class TestNCAABConferences:
 
         assert len(conference._teams) == 10
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_conferences_string_representation(self, *args, **kwargs):
         conferences = Conferences()
 
         assert conferences.__repr__() == 'NCAAB Conferences'
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_conference_string_representation(self, *args, **kwargs):
         conference = Conference('big-12')
 

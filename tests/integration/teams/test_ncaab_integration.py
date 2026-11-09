@@ -21,8 +21,13 @@ def read_file(filename):
     return open('%s' % filepath, 'r', encoding='utf8').read()
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, **kwargs):
     class MockPQ:
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                import requests
+                raise requests.HTTPError(response=self)
+
         def __init__(self, html_contents):
             self.status_code = 200
             self.html_contents = html_contents
@@ -73,7 +78,7 @@ class MockDateTime:
 
 
 class TestNCAABIntegration:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results = {
             'conference': 'big-ten',
@@ -686,20 +691,20 @@ class TestNCAABIntegration:
 
         assert len(teams) == 0
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_pulling_team_directly(self, *args, **kwargs):
         purdue = Team('PURDUE')
 
         for attribute, value in self.results.items():
             assert getattr(purdue, attribute) == value
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_team_string_representation(self, *args, **kwargs):
         purdue = Team('PURDUE')
 
         assert purdue.__repr__() == 'Purdue (PURDUE) - 2018'
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_teams_string_representation(self, *args, **kwargs):
         expected = """Abilene Christian (ABILENE-CHRISTIAN)
 Air Force (AIR-FORCE)
@@ -1059,8 +1064,9 @@ Youngstown State (YOUNGSTOWN-STATE)"""
 
 
 class TestNCAABIntegrationInvalidYear:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    @mock.patch('requests.head', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
+    @mock.patch('sportsipy.utils._url_exists',
+                side_effect=lambda url: str(YEAR) in url)
     def test_invalid_default_year_reverts_to_previous_year(self,
                                                            *args,
                                                            **kwargs):

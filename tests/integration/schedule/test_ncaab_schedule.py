@@ -22,8 +22,13 @@ def read_file(filename):
     return open('%s' % filepath, 'r', encoding='utf8').read()
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, **kwargs):
     class MockPQ:
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                import requests
+                raise requests.HTTPError(response=self)
+
         def __init__(self, html_contents):
             self.status_code = 200
             self.html_contents = html_contents
@@ -56,7 +61,7 @@ class MockDateTime:
 
 
 class TestNCAABSchedule:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results = {
             'game': 2,
@@ -209,8 +214,9 @@ Sat, Mar 31, 2018 - villanova"""
 
 
 class TestNCAABScheduleInvalidYear:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    @mock.patch('requests.head', side_effect=mock_request)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
+    @mock.patch('sportsipy.utils._url_exists',
+                side_effect=lambda url: str(YEAR) in url)
     def test_invalid_default_year_reverts_to_previous_year(self,
                                                            *args,
                                                            **kwargs):

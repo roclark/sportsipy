@@ -17,8 +17,13 @@ def read_file(filename):
     return open('%s.html' % filepath, 'r', encoding='utf8').read()
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, **kwargs):
     class MockPQ:
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                import requests
+                raise requests.HTTPError(response=self)
+
         def __init__(self, html_contents, status=200):
             self.url = url
             self.reason = 'Bad URL'  # Used when throwing HTTPErrors
@@ -56,7 +61,7 @@ def mock_request(url):
 
 
 class TestNBAPlayer:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results_career = {
             'player_id': 'hardeja01',
@@ -1220,7 +1225,8 @@ class TestNBAPlayer:
         frames = [df, player.dataframe]
         df1 = pd.concat(frames).drop_duplicates(keep=False)
 
-    def test_nba_player_with_no_stats_handled_without_error(self):
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
+    def test_nba_player_with_no_stats_handled_without_error(self, *args):
         player = Player('youngtr01')
 
         assert player.name == 'Trae Young'
@@ -1233,7 +1239,7 @@ class TestNBAPlayer:
 
 
 class TestNBARoster:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_roster_class_pulls_all_player_stats(self, *args, **kwargs):
         flexmock(utils) \
             .should_receive('_find_year_for_season') \
@@ -1246,12 +1252,12 @@ class TestNBARoster:
             assert player.name in ['James Harden', 'Tarik Black',
                                    'Ryan Anderson', 'Trevor Ariza']
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_bad_url_raises_value_error(self, *args, **kwargs):
         with pytest.raises(ValueError):
             roster = Roster('BAD')
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_roster_from_team_class(self, *args, **kwargs):
         flexmock(Team) \
             .should_receive('_parse_team_data') \
@@ -1268,7 +1274,7 @@ class TestNBARoster:
 
         type(team)._abbreviation = None
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_roster_class_with_slim_parameter(self, *args, **kwargs):
         flexmock(utils) \
             .should_receive('_find_year_for_season') \
@@ -1283,8 +1289,9 @@ class TestNBARoster:
             'arizatr01': 'Trevor Ariza'
         }
 
-    @mock.patch('requests.head', side_effect=mock_request)
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy.utils._url_exists',
+                side_effect=lambda url: str(YEAR) in url)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_invalid_default_year_reverts_to_previous_year(self,
                                                            *args,
                                                            **kwargs):
@@ -1300,7 +1307,7 @@ class TestNBARoster:
             assert player.name in ['James Harden', 'Tarik Black',
                                    'Ryan Anderson', 'Trevor Ariza']
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_empty_rows_are_skipped(self, *args, **kwargs):
         flexmock(utils) \
             .should_receive('_find_year_for_season') \
@@ -1313,7 +1320,7 @@ class TestNBARoster:
 
         assert len(roster.players) == 0
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_roster_class_string_representation(self, *args, **kwargs):
         expected = """Ryan Anderson (anderry01)
 Trevor Ariza (arizatr01)
@@ -1327,5 +1334,6 @@ James Harden (hardeja01)"""
 
         assert roster.__repr__() == expected
 
-    def test_coach(self):
-        assert "Stephen Silas" == Roster('HOU').coach
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
+    def test_coach(self, *args):
+        assert "Mike D'Antoni" == Roster('HOU', year=YEAR).coach

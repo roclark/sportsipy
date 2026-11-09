@@ -3,7 +3,7 @@ import re
 from functools import wraps
 from lxml.etree import ParserError
 from pyquery import PyQuery as pq
-from urllib.error import HTTPError
+from requests.exceptions import HTTPError
 from .. import utils
 from .constants import PLAYER_SCHEME, PLAYER_URL, ROSTER_URL
 from .player import AbstractPlayer
@@ -146,7 +146,12 @@ class Player(AbstractPlayer):
         url = PLAYER_URL % self._player_id
         try:
             url_data = utils._rate_limit_pq(url)
-        except (HTTPError, ParserError):
+        except HTTPError as error:
+            if (error.response is not None and
+                    error.response.status_code == 404):
+                return None
+            raise
+        except ParserError:
             return None
         return pq(utils._remove_html_comment_tags(url_data))
 
@@ -696,8 +701,11 @@ class Roster:
         """
         try:
             return utils._rate_limit_pq(url)
-        except HTTPError:
-            return None
+        except HTTPError as error:
+            if (error.response is not None and
+                    error.response.status_code == 404):
+                return None
+            raise
 
     def _create_url(self, year):
         """
@@ -779,7 +787,8 @@ class Roster:
         string
             Returns a string of the coach's name.
         """
-        for line in page(PLAYER_SCHEME['summary']).find('p').items():
+        summary = page(PLAYER_SCHEME['summary'] + ', #meta')
+        for line in summary.find('p').items():
             strong = line.find('strong')
             if hasattr(strong, 'text') and strong.text().strip() == 'Coach:':
                 return line.find('a').text()

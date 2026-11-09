@@ -1,3 +1,12 @@
+Basketball fork updates
+=======================
+
+This fork maintains NCAA men's basketball and NBA ingestion on Python 3.12.
+Boxscore dataframe exports now include ``overtimes``. Read the
+`basketball upgrade and migration guide <docs/basketball-upgrade.md>`_ before
+updating an application database. Shared fetching preserves Cloudscraper and
+coordinates a minimum 10-second cooldown across local worker processes.
+
 Sportsipy: A free sports API written for python
 ###############################################
 **Development Status: This project is no longer undergoing active development. Please consider

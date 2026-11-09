@@ -1,6 +1,6 @@
 import re
 from pyquery import PyQuery as pq
-from urllib.error import HTTPError
+from requests.exceptions import HTTPError
 from .. import utils
 from .constants import RANKINGS_SCHEME, RANKINGS_URL
 
@@ -55,8 +55,11 @@ class Rankings:
         """
         try:
             return utils._rate_limit_pq(RANKINGS_URL % year)
-        except HTTPError:
-            return None
+        except HTTPError as error:
+            if (error.response is not None and
+                    error.response.status_code == 404):
+                return None
+            raise
 
     def _get_team(self, team):
         """

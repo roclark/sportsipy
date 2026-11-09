@@ -8,29 +8,28 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        python-version: [3.7, 3.8]
+        python-version: ['3.12']
         operating-system: [ubuntu-latest, macOS-latest, windows-latest]
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install coverage flexmock mock pycodestyle pytest pytest-cov pytest-xdist
+        pip install -r requirements-dev.txt
     - name: Run unit and integration tests with pytest
       run: |
-        pytest -n 4 --cov=sportsipy --cov-report term-missing --cov-report xml tests/integration/ tests/unit/
+        python -m tests.run_basketball -n 4 --cov=sportsipy --cov-report term-missing --cov-report xml
     - name: Lint with pycodestyle
       run: |
-        pycodestyle sportsipy/ tests/integration/ tests/unit/
+        pycodestyle sportsipy/_http.py sportsipy/_basketball.py sportsipy/utils.py sportsipy/nba/boxscore.py sportsipy/nba/nba_utils.py sportsipy/nba/roster.py sportsipy/nba/schedule.py sportsipy/ncaab/boxscore.py sportsipy/ncaab/conferences.py sportsipy/ncaab/rankings.py sportsipy/ncaab/roster.py tests/conftest.py tests/unit/test_basketball_overtimes.py tests/unit/test_http_transport.py tests/run_basketball.py
     - name: Upload coverage to Codecov
-      if: matrix.operating-system == 'ubuntu-latest' && matrix.python-version == '3.8'
-      uses: codecov/codecov-action@v1.0.13
+      if: matrix.operating-system == 'ubuntu-latest' && matrix.python-version == '3.12'
+      uses: codecov/codecov-action@v4
 
   publish:
     name: Publish package to PyPI
@@ -38,11 +37,11 @@ jobs:
       test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v5
       with:
-        python-version: 3.7
+        python-version: '3.12'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip

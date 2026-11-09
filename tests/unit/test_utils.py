@@ -270,23 +270,24 @@ class TestUtils:
 
         assert i == 2
 
-    @patch('requests.head', side_effect=mock_pyquery)
+    @patch('sportsipy.utils.fetch_html', return_value='valid html')
     def test_valid_url_returns_true(self, *args, **kwargs):
-        response = utils._url_exists('http://www.good_url.com/this/is/valid')
+        assert utils._url_exists('http://www.good_url.com/this/is/valid')
 
-        assert response
+    def test_404_url_returns_false(self):
+        import requests
+        response = requests.Response()
+        response.status_code = 404
+        error = requests.HTTPError(response=response)
+        with patch('sportsipy.utils.fetch_html', side_effect=error):
+            assert not utils._url_exists('http://www.404.com/doesnt/exist')
 
-    @patch('requests.head', side_effect=mock_pyquery)
-    def test_404_url_returns_false(self, *args, **kwargs):
-        response = utils._url_exists('http://www.404.com/doesnt/exist')
-
-        assert not response
-
-    @patch('requests.head', side_effect=mock_pyquery)
-    def test_invalid_url_exception_returns_false(self, *args, **kwargs):
-        response = utils._url_exists('http://www.exception.com')
-
-        assert not response
+    def test_transient_url_error_is_not_a_missing_season(self):
+        import requests
+        with patch('sportsipy.utils.fetch_html',
+                   side_effect=requests.Timeout):
+            with pytest.raises(requests.Timeout):
+                utils._url_exists('http://www.exception.com')
 
     def test_no_data_found_returns_safely(self, *args, **kwargs):
         response = utils._no_data_found()

@@ -22,8 +22,13 @@ def read_file(filename):
     return open('%s' % filepath, 'r', encoding='utf8').read()
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, **kwargs):
     class MockPQ:
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                import requests
+                raise requests.HTTPError(response=self)
+
         def __init__(self, html_contents, status_code=200):
             self.status_code = status_code
             self.html_contents = html_contents
@@ -66,7 +71,7 @@ class MockDateTime:
 
 
 class TestNBASchedule:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results = {
             'game': 2,
@@ -274,8 +279,9 @@ Mon, Jun 12, 2017 - CLE"""
 
 
 class TestNBAScheduleInvalidError:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    @mock.patch('requests.head', side_effect=mock_request)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
+    @mock.patch('sportsipy.utils._url_exists',
+                side_effect=lambda url: str(YEAR) in url)
     def test_invalid_default_year_reverts_to_previous_year(self,
                                                            *args,
                                                            **kwargs):
@@ -310,8 +316,9 @@ class TestNBAScheduleInvalidError:
         for attribute, value in results.items():
             assert getattr(schedule[1], attribute) == value
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    @mock.patch('requests.head', side_effect=mock_request)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
+    @mock.patch('sportsipy.utils._url_exists',
+                side_effect=lambda url: str(YEAR) in url)
     def test_invalid_2020_default_reverts_to_previous_year(self,
                                                            *args,
                                                            **kwargs):

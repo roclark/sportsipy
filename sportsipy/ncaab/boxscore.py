@@ -2,8 +2,9 @@ import pandas as pd
 import re
 from datetime import timedelta
 from pyquery import PyQuery as pq
-from urllib.error import HTTPError
+from requests.exceptions import HTTPError
 from .. import utils
+from .._basketball import parse_line_score
 from ..constants import AWAY, HOME
 from ..decorators import float_property_decorator, int_property_decorator
 from .constants import (BOXSCORE_ELEMENT_INDEX,
@@ -147,6 +148,7 @@ class Boxscore:
         self._losing_abbr = None
         self._pace = None
         self._summary = None
+        self._overtimes = None
         self._away_ranking = None
         self._away_record = None
         self._away_minutes_played = None
@@ -257,11 +259,16 @@ class Boxscore:
             The requested page is returned as a queriable PyQuery object with
             the comment tags removed.
         """
+        if not uri:
+            return None
         url = BOXSCORE_URL % uri
         try:
             url_data = utils._rate_limit_pq(url)
-        except HTTPError:
-            return None
+        except HTTPError as error:
+            if (error.response is not None and
+                    error.response.status_code == 404):
+                return None
+            raise
         return pq(utils._remove_html_comment_tags(url_data))
 
     def _parse_game_date_and_location(self, field, boxscore):
@@ -609,19 +616,8 @@ class Boxscore:
             Returns a ``dictionary`` representing the score for each team in
             each quarter of the game.
         """
-        team = ['away', 'home']
-        summary = {'away': [], 'home': []}
-        game_summary = boxscore(BOXSCORE_SCHEME['summary'])
-        for ind, team_info in enumerate(game_summary('tr').items()):
-            # Only pull the first N-1 items as the last element is the final
-            # score for each team which is already stored in an attribute, and
-            # shouldn't be duplicated.
-            for half in list(team_info('td[class="right"]').items())[:-1]:
-                ind = ind % 2
-                try:
-                    summary[team[ind]].append(int(half.text()))
-                except ValueError:
-                    summary[team[ind]].append(None)
+        summary, _ = parse_line_score(
+            boxscore(BOXSCORE_SCHEME['summary']), 2)
         return summary
 
     def _parse_game_data(self, uri):
@@ -671,16 +667,17 @@ class Boxscore:
                 value = self._parse_ranking(short_field, boxscore)
                 setattr(self, field, value)
                 continue
+            if short_field == 'overtimes':
+                continue
             if short_field == 'summary':
-                value = self._parse_summary(boxscore)
-                setattr(self, field, value)
+                self._summary, self._overtimes = parse_line_score(
+                    boxscore(BOXSCORE_SCHEME['summary']), 2)
                 continue
             index = 0
             if short_field in BOXSCORE_ELEMENT_INDEX.keys():
                 index = BOXSCORE_ELEMENT_INDEX[short_field]
             if short_field == 'away_record' or \
                short_field == 'home_record':
-                #value = self._parse_record(short_field, boxscore, index)
                 value = '0-0'
                 setattr(self, field, value)
                 continue
@@ -808,6 +805,7 @@ class Boxscore:
             'winning_abbr': self.winning_abbr,
             'winning_name': self.winning_name
         }
+        fields_to_include['overtimes'] = self.overtimes
         return pd.DataFrame([fields_to_include], index=[self._uri])
 
     @property
@@ -840,6 +838,11 @@ class Boxscore:
         played.
         """
         return self._location
+
+    @property
+    def overtimes(self):
+        """Overtime periods played: 0 in regulation, None if unknown."""
+        return self._overtimes
 
     @property
     def summary(self):

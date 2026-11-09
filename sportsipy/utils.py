@@ -3,8 +3,7 @@ import requests
 from datetime import datetime
 from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
-import time
-import cloudscraper
+from ._http import fetch_html
 
 
 # {
@@ -28,14 +27,12 @@ SEASON_START_MONTH = {
 
 def _rate_limit_pq(pq_input, sleep=10):
     """
-    Implement a rate limit on pq requests to get around sportsreference's bot
-    traffic.
+    Fetch HTML through the shared cooldown, retries, and short-lived cache.
+
+    ``sleep`` remains accepted as the requested cooldown (minimum 10 seconds).
+    See docs/basketball-upgrade.md for transport configuration.
     """
-    scraper = cloudscraper.create_scraper()
-    response = scraper.get(pq_input)
-    ret = pq(response.text)
-    time.sleep(sleep)
-    return ret
+    return pq(fetch_html(pq_input, interval=sleep))
 
 
 def _todays_date():
@@ -71,22 +68,15 @@ def _url_exists(url):
     -------
     bool
         Evaluates to True when the URL exists and is valid, otherwise returns
-        False.
+        False for HTTP 404. Other HTTP and transport errors propagate.
     """
     try:
-        response = requests.head(url)
-        if response.status_code == 301:
-            response = requests.get(url)
-            if response.status_code < 400:
-                return True
-            else:
-                return False
-        elif response.status_code < 400:
-            return True
-        else:
+        fetch_html(url)
+        return True
+    except requests.HTTPError as error:
+        if error.response is not None and error.response.status_code == 404:
             return False
-    except Exception:
-        return False
+        raise
 
 
 def _find_year_for_season(league):

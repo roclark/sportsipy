@@ -20,8 +20,13 @@ def read_file(filename):
     return open('%s' % filepath, 'r', encoding='utf8').read()
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, **kwargs):
     class MockPQ:
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                import requests
+                raise requests.HTTPError(response=self)
+
         def __init__(self, html_contents):
             self.status_code = 200
             self.html_contents = html_contents
@@ -42,9 +47,10 @@ class MockDateTime:
 
 
 class TestNBABoxscore:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def setup_method(self, *args, **kwargs):
         self.results = {
+            'overtimes': 0,
             'date': '9:00 PM, February 22, 2020',
             'location': 'Vivint Smart Home Arena, Salt Lake City, Utah',
             'winner': AWAY,
@@ -155,7 +161,8 @@ class TestNBABoxscore:
             assert value is None
 
     def test_nba_boxscore_dataframe_returns_dataframe_of_all_values(self):
-        df = pd.DataFrame([self.results], index=[BOXSCORE])
+        expected = dict(self.results, winning_abbr=None, losing_abbr=None)
+        df = pd.DataFrame([expected], index=[BOXSCORE])
 
         # Pandas doesn't natively allow comparisons of DataFrames.
         # Concatenating the two DataFrames (the one generated during the test
@@ -276,19 +283,19 @@ class TestNBABoxscores:
             ]
         }
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_boxscores_search(self, *args, **kwargs):
         result = Boxscores(datetime(2020, 2, 22)).games
 
         assert result == self.expected
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_boxscores_search_invalid_end(self, *args, **kwargs):
         result = Boxscores(datetime(2020, 2, 22), datetime(2020, 2, 21)).games
 
         assert result == self.expected
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_boxscores_search_multiple_days(self, *args, **kwargs):
         expected = {
             '2-22-2020': [
@@ -454,7 +461,7 @@ class TestNBABoxscores:
 
         assert result == expected
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_boxscores_search_string_representation(self, *args, **kwargs):
         result = Boxscores(datetime(2020, 2, 22))
 

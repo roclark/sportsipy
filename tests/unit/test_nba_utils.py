@@ -4,8 +4,13 @@ from sportsipy import utils
 from sportsipy.nba.nba_utils import _retrieve_all_teams
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, **kwargs):
     class MockPQ:
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                import requests
+                raise requests.HTTPError(response=self)
+
         def __init__(self, html_contents, status_code=200):
             self.status_code = status_code
             self.html_contents = html_contents
@@ -25,7 +30,7 @@ def mock_pyquery(url):
 
 
 class TestNBAUtils:
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_nba_2020_season_default_to_previous(self, *args, **kwargs):
         flexmock(utils) \
             .should_receive('_find_year_for_season') \

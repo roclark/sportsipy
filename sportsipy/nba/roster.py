@@ -4,7 +4,7 @@ from datetime import datetime
 from functools import wraps
 from lxml.etree import ParserError, XMLSyntaxError
 from pyquery import PyQuery as pq
-from urllib.error import HTTPError
+from requests.exceptions import HTTPError
 from .. import utils
 from .constants import NATIONALITY, PLAYER_SCHEME, PLAYER_URL, ROSTER_URL
 from .player import AbstractPlayer
@@ -236,7 +236,12 @@ class Player(AbstractPlayer):
         url = self._build_url()
         try:
             url_data = utils._rate_limit_pq(url)
-        except (HTTPError, ParserError):
+        except HTTPError as error:
+            if (error.response is not None and
+                    error.response.status_code == 404):
+                return None
+            raise
+        except ParserError:
             return None
         return pq(utils._remove_html_comment_tags(url_data))
 
@@ -301,10 +306,13 @@ class Player(AbstractPlayer):
         self._most_recent_season = most_recent_season
         if not career_stats:
             return all_stats_dict
-        try:
-            all_stats_dict['Career']['data'] += str(next(career_stats))
-        except KeyError:
-            all_stats_dict['Career'] = {'data': str(next(career_stats))}
+        career_row = next(career_stats, None)
+        if career_row is None:
+            return all_stats_dict
+        if 'Career' in all_stats_dict:
+            all_stats_dict['Career']['data'] += str(career_row)
+        else:
+            all_stats_dict['Career'] = {'data': str(career_row)}
         return all_stats_dict
 
     def _combine_all_stats(self, player_info):
@@ -1423,8 +1431,11 @@ class Roster:
         """
         try:
             return utils._rate_limit_pq(url)
-        except HTTPError:
-            return None
+        except HTTPError as error:
+            if (error.response is not None and
+                    error.response.status_code == 404):
+                return None
+            raise
 
     def _create_url(self, year):
         """
@@ -1506,7 +1517,8 @@ class Roster:
         string
             Returns a string of the coach's name.
         """
-        for line in page(PLAYER_SCHEME['summary']).find('p').items():
+        summary = page(PLAYER_SCHEME['summary'] + ', #meta')
+        for line in summary.find('p').items():
             strong = line.find('strong')
             if hasattr(strong, 'text') and strong.text().strip() == 'Coach:':
                 return line.find('a').text()
@@ -1536,7 +1548,10 @@ class Roster:
             if year == 2021:
                 try:
                     doc = utils._rate_limit_pq(self._create_url(year))
-                except HTTPError:
+                except HTTPError as error:
+                    if (error.response is None or
+                            error.response.status_code != 404):
+                        raise
                     year = str(int(year) - 1)
             # If stats for the requested season do not exist yet (as is the
             # case right before a new season begins), attempt to pull the

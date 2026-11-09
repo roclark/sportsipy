@@ -14,8 +14,13 @@ def read_file(filename):
     return open(filepath, 'r', encoding='utf8').read()
 
 
-def mock_pyquery(url):
+def mock_pyquery(url, **kwargs):
     class MockPQ:
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                import requests
+                raise requests.HTTPError(response=self)
+
         def __init__(self, html_contents, status_code=200):
             self.url = url
             self.reason = 'Bad URL'  # Used when throwing HTTPErrors
@@ -660,7 +665,7 @@ class TestNCAABRankings:
         self.results = results
         self.results_complete = results_complete
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_rankings_integration(self, *args, **kwargs):
         flexmock(utils) \
             .should_receive('_find_year_for_season') \
@@ -672,13 +677,14 @@ class TestNCAABRankings:
         assert rankings.current == self.results
         assert rankings.complete == self.results_complete
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_rankings_integration_bad_url(self, *args, **kwargs):
         with pytest.raises(ValueError):
             rankings = Rankings('BAD')
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
-    @mock.patch('requests.head', side_effect=mock_request)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
+    @mock.patch('sportsipy.utils._url_exists',
+                side_effect=lambda url: str(YEAR) in url)
     def test_invalid_default_year_reverts_to_previous_year(self,
                                                            *args,
                                                            **kwargs):
@@ -692,7 +698,7 @@ class TestNCAABRankings:
         assert rankings.current == self.results
         assert rankings.complete == self.results_complete
 
-    @mock.patch('requests.get', side_effect=mock_pyquery)
+    @mock.patch('sportsipy._http._download', side_effect=mock_pyquery)
     def test_rankings_string_representation(self, *args, **kwargs):
         rankings = Rankings()
 
